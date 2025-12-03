@@ -4,7 +4,7 @@
 
 ## Overview
 
-The RotorDream camera system provides flexible networking capabilities supporting wired Ethernet, wireless connectivity, and advanced network services for integration into various environments.
+The C Pro camera system provides flexible networking capabilities supporting wired Ethernet, wireless connectivity, and advanced network services for integration into various environments.
 
 ```mermaid
 graph TB
@@ -296,7 +296,7 @@ rtsp://admin:password@192.168.1.100:554/stream0
 
 **Service Discovery Client**:
 ```bash
-# Discover RotorDream cameras on network
+# Discover C Pro cameras on network
 avahi-browse _http._tcp --resolve
 
 # Discover RTSP services

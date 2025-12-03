@@ -4,7 +4,7 @@
 
 ## Overview
 
-This guide provides systematic approaches to optimize RotorDream camera system performance across all components for maximum efficiency and reliability.
+This guide provides systematic approaches to optimize C Pro camera system performance across all components for maximum efficiency and reliability.
 
 ```mermaid
 graph TB

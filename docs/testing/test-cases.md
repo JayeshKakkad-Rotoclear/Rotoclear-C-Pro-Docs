@@ -1,6 +1,6 @@
 # Test Cases
 
-**Comprehensive test case specifications for functional, non-functional, and edge case testing of the RotorDream camera system.**
+**Comprehensive test case specifications for functional, non-functional, and edge case testing of the C Pro camera system.**
 
 ## Overview
 
@@ -834,7 +834,7 @@ graph TB
 ### Test Case Template
 
 ```nim
-# Test case template for RotorDream
+# Test case template for C Pro
 import unittest2, asynctest, json
 import ../config
 

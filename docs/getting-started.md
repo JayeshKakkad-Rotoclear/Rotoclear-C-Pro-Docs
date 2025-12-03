@@ -1,10 +1,10 @@
-# Getting Started with RotorDream Camera Server
+# Getting Started with C Pro Camera Server
 
-**Quick start guide to get your RotorDream camera system up and running.**
+**Quick start guide to get your C Pro camera system up and running.**
 
 ## Overview
 
-This guide will help you set up, configure, and start using the RotorDream camera server for the first time, whether you're working with the embedded system or setting up a development environment.
+This guide will help you set up, configure, and start using the C Pro camera server for the first time, whether you're working with the embedded system or setting up a development environment.
 
 ## Prerequisites
 
@@ -14,19 +14,16 @@ This guide will help you set up, configure, and start using the RotorDream camer
 - x86_64 or ARM64 processor
 - 2GB RAM
 - 10GB disk space
-- USB camera (V4L2/UVC compatible)
 
 **Recommended for Production**:
 - ARM64 embedded platform (Cortex-A53+)
 - 4GB RAM
-- 64GB+ storage (SD card or SSD)
-- Industrial V4L2 camera
-- Ethernet or WiFi connectivity
+- Ethernet
 
 ### Software Requirements
 
 **Linux System**:
-- Ubuntu 20.04+ / Debian 11+ / Embedded Linux
+- Ubuntu 20.04+ 
 - Kernel 4.9+ (for V4L2 support)
 
 **Runtime Dependencies**:
@@ -49,8 +46,8 @@ If you received a pre-configured embedded device, follow these steps:
 
 ```bash
 # Connect hardware components
-1. Connect camera(s) to USB ports
-2. Connect Ethernet cable or configure WiFi
+1. Connect camera(s) to camera ports
+2. Connect Ethernet cable
 3. Connect power supply
 4. Wait 30-60 seconds for boot
 ```
@@ -615,7 +612,7 @@ A: Via web interface (System → Update) or manually. See [Build and Deploy](ope
 
 ---
 
-**Congratulations!** You're now ready to start using the RotorDream camera system. Explore the documentation for advanced features and configuration options.
+**Congratulations!** You're now ready to start using the C Pro camera system. Explore the documentation for advanced features and configuration options.
 
 ---
 

@@ -10,7 +10,7 @@ The live documentation is available at: **https://jayeshkakkad-rotoclear.github.
 
 ## Quick Start
 
-This documentation is built using [MkDocs](https://www.mkdocs.org/) with the [Material theme](https://squidfunk.github.io/mkdocs-material/).
+This documentation is built using a custom static site generator that converts Markdown files to HTML with navigation and styling.
 
 ### Local Development
 
@@ -19,19 +19,25 @@ This documentation is built using [MkDocs](https://www.mkdocs.org/) with the [Ma
    pip install -r requirements.txt
    ```
 
-2. **Serve documentation locally:**
+2. **Build the documentation:**
    ```bash
-   mkdocs serve
+   python build.py
    ```
 
-3. **Open your browser to:** `http://127.0.0.1:8000`
+3. **Serve locally (using Python):**
+   ```bash
+   cd site
+   python -m http.server 8000
+   ```
+
+4. **Open your browser to:** `http://localhost:8000`
 
 ### Building Documentation
 
-To build the documentation locally:
+To build the documentation:
 
 ```bash
-mkdocs build
+python build.py
 ```
 
 The generated site will be in the `site/` directory.
@@ -56,22 +62,24 @@ docs/
 
 Documentation is automatically deployed to GitHub Pages when changes are pushed to the `main` or `master` branch using GitHub Actions.
 
+The build process:
+1. Converts all Markdown files to HTML
+2. Applies custom styling and navigation
+3. Deploys to GitHub Pages
+
 ## Contributing
 
 To contribute to the documentation:
 
-1. Make your changes in the `docs/` directory
-2. Test locally with `mkdocs serve`
+1. Edit Markdown files in the `docs/` directory
+2. Test locally with `python build.py && cd site && python -m http.server 8000`
 3. Commit and push to the repository
-4. GitHub Actions will automatically deploy your changes
-
-## License
-
-Copyright © 2025 Rotoclear
+4. GitHub Actions will automatically build and deploy your changes
 
 ## Tech Stack
 
-- **MkDocs** - Static site generator
-- **Material for MkDocs** - Theme
+- **Python & Markdown** - Content format
+- **Custom Build Script** - Static site generation
+- **HTML/CSS/JavaScript** - Front-end
 - **GitHub Pages** - Hosting
 - **GitHub Actions** - CI/CD automation

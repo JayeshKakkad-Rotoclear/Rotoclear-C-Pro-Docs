@@ -4,7 +4,7 @@
 
 ## Overview
 
-The RotorDream storage system manages video recordings, snapshots, logs, and configuration data with automated backup capabilities and intelligent space management.
+The C Pro storage system manages video recordings, snapshots, logs, and configuration data with automated backup capabilities and intelligent space management.
 
 ```mermaid
 graph TB

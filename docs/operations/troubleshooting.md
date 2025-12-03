@@ -4,7 +4,7 @@
 
 ## Overview
 
-This guide provides systematic approaches to diagnose and resolve common problems in the RotorDream camera system, from basic connectivity issues to complex performance problems.
+This guide provides systematic approaches to diagnose and resolve common problems in the C Pro camera system, from basic connectivity issues to complex performance problems.
 
 ```mermaid
 graph TB

@@ -1,14 +1,14 @@
 # Glossary
 
-**Comprehensive glossary of terms, acronyms, and technical definitions used in the RotorDream camera system documentation and implementation.**
+**Comprehensive glossary of terms, acronyms, and technical definitions used in the C Pro camera system documentation and implementation.**
 
 ## A
 
 **API (Application Programming Interface)**  
-A set of protocols, routines, and tools for building software applications. RotorDream provides REST APIs, WebSocket APIs, and ONVIF APIs for system integration.
+A set of protocols, routines, and tools for building software applications. C Pro provides REST APIs, WebSocket APIs, and ONVIF APIs for system integration.
 
 **AES (Advanced Encryption Standard)**  
-A symmetric encryption algorithm used to secure data transmission and storage in the RotorDream system.
+A symmetric encryption algorithm used to secure data transmission and storage in the C Pro system.
 
 **Authentication**  
 The process of verifying the identity of a user or system component before granting access to resources.
@@ -50,7 +50,7 @@ The four basic operations that can be performed on data storage systems.
 ## D
 
 **Database**  
-A structured collection of data stored electronically in a computer system, used by RotorDream to store configuration, user data, and recording metadata.
+A structured collection of data stored electronically in a computer system, used by C Pro to store configuration, user data, and recording metadata.
 
 **Docker**  
 A containerization platform that packages applications and their dependencies into portable containers.
@@ -89,7 +89,7 @@ A network security system that monitors and controls incoming and outgoing netwo
 ## G
 
 **GStreamer**  
-An open-source multimedia framework that allows construction of graphs of media-handling components, used extensively in RotorDream for video processing.
+An open-source multimedia framework that allows construction of graphs of media-handling components, used extensively in C Pro for video processing.
 
 **GPU (Graphics Processing Unit)**  
 A specialized processor designed to accelerate graphics rendering and parallel processing tasks.
@@ -106,7 +106,7 @@ A video compression standard that provides high-quality video at lower bitrates 
 A video compression standard that offers improved compression efficiency over H.264.
 
 **HTTP (Hypertext Transfer Protocol)**  
-The foundation of data communication on the World Wide Web, used for RotorDream's REST API.
+The foundation of data communication on the World Wide Web, used for C Pro's REST API.
 
 **HTTPS (HTTP Secure)**  
 An extension of HTTP that uses encryption to secure communication between client and server.
@@ -134,7 +134,7 @@ An international standard-setting body that develops and publishes technical sta
 A lightweight data-interchange format that is easy for humans to read and write.
 
 **JWT (JSON Web Token)**  
-A compact, URL-safe means of representing claims to be transferred between two parties, used for authentication in RotorDream.
+A compact, URL-safe means of representing claims to be transferred between two parties, used for authentication in C Pro.
 
 **JPEG (Joint Photographic Experts Group)**  
 A lossy compression method for digital images, commonly used for snapshot images.
@@ -184,7 +184,7 @@ A lightweight messaging protocol designed for small sensors and mobile devices o
 A method of remapping IP address space by modifying network address information in packet headers.
 
 **Nim**  
-A systems programming language that combines successful concepts from mature languages like Python, Ada and Modula, used to implement RotorDream.
+A systems programming language that combines successful concepts from mature languages like Python, Ada and Modula, used to implement C Pro.
 
 **NTP (Network Time Protocol)**  
 A networking protocol for clock synchronization between computer systems over packet-switched networks.
@@ -237,7 +237,7 @@ A data structure that follows the first-in, first-out (FIFO) principle for manag
 ## R
 
 **REST (Representational State Transfer)**  
-An architectural style for designing networked applications, used extensively in RotorDream's API design.
+An architectural style for designing networked applications, used extensively in C Pro's API design.
 
 **RTSP (Real Time Streaming Protocol)**  
 A network control protocol designed for use in entertainment and communications systems to control streaming media servers.
@@ -438,7 +438,7 @@ The ability to magnify a portion of the video image, either optically (optical z
 ## Status Codes Reference
 
 ### HTTP Status Codes
-| Code | Meaning | Usage in RotorDream |
+| Code | Meaning | Usage in C Pro |
 |------|---------|-------------------|
 | 200 | OK | Successful request |
 | 201 | Created | Resource created successfully |
@@ -476,4 +476,4 @@ The ability to magnify a portion of the video image, either optically (optical z
 
 ---
 
-*Comprehensive glossary providing definitions and context for all technical terms used in the RotorDream system*
+*Comprehensive glossary providing definitions and context for all technical terms used in the C Pro system*

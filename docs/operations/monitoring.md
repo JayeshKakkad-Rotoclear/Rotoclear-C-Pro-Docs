@@ -4,7 +4,7 @@
 
 ## Overview
 
-RotorDream monitoring provides real-time system metrics, performance analytics, and proactive alerting to ensure optimal camera system operation.
+C Pro monitoring provides real-time system metrics, performance analytics, and proactive alerting to ensure optimal camera system operation.
 
 ```mermaid
 graph TB
@@ -580,7 +580,7 @@ curl -X PUT "http://192.168.1.100:8080/api/monitoring/alerts/webhooks" \
            "body_template": {
              "text": "Alert: {{.AlertName}} - {{.Description}}",
              "channel": "#monitoring",
-             "username": "RotorDream"
+             "username": "C Pro"
            },
            "enabled": true
          }
@@ -720,7 +720,7 @@ volumes:
 # grafana/datasources/rotordream.yml
 apiVersion: 1
 datasources:
-  - name: RotorDream
+  - name: C Pro
     type: prometheus
     url: http://192.168.1.100:8080/api/monitoring/prometheus
     access: proxy

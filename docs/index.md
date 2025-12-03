@@ -1,10 +1,10 @@
-# RotoClear Camera Server Documentation
+# Rotoclear C Pro Server Documentation
 
-Welcome to the comprehensive documentation for the RotoClear camera server system - an industrial-grade camera control and streaming platform for medical, surgical, and industrial imaging applications.
+Welcome to the comprehensive documentation for the Rotoclear C Pro server system - an industrial-grade camera control and streaming platform for industrial imaging applications.
 
 ## Overview
 
-RotoClear is a high-performance camera server built with the Nim programming language, providing:
+C Pro is a high-performance camera server built with the Nim programming language, providing:
 
 - **Real-time video streaming** via RTSP, WebRTC, and ONVIF protocols
 - **High-quality recording** with multiple formats and metadata tagging
@@ -152,9 +152,6 @@ Component-based architecture:
 
 ## Recent Updates
 
-### Issue #150 Fixed: Categories Preserved Across Factory Reset
-Tag categories are now preserved during factory reset operations, ensuring user-created organizational structures remain intact.
-
 ### Comprehensive Documentation Release
 Complete architectural documentation covering all system components, configuration options, security model, and operational procedures.
 
@@ -165,5 +162,4 @@ See [License Configuration](configuration/license-config.md) for licensing infor
 ---
 
 **Version**: 1.0.0  
-**Last Updated**: December 2025  
-**Status**: Production Ready
+**Last Updated**: December 2025

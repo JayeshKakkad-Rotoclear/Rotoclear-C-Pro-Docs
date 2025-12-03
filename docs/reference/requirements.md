@@ -1,10 +1,10 @@
 # Requirements
 
-**Comprehensive system requirements specification for the RotorDream camera system, covering functional, non-functional, technical, and business requirements.**
+**Comprehensive system requirements specification for the C Pro camera system, covering functional, non-functional, technical, and business requirements.**
 
 ## Overview
 
-This document defines all requirements for the RotorDream camera system, providing a complete specification for system capabilities, constraints, and quality attributes.
+This document defines all requirements for the C Pro camera system, providing a complete specification for system capabilities, constraints, and quality attributes.
 
 ```mermaid
 graph TB
@@ -729,4 +729,4 @@ Each requirement must meet the following acceptance criteria:
 
 ---
 
-*Comprehensive requirements specification defining all aspects of the RotorDream camera system functionality, quality, and constraints*
+*Comprehensive requirements specification defining all aspects of the C Pro camera system functionality, quality, and constraints*

@@ -1,14 +1,8 @@
-# Documentation Python Requirements
+# Documentation Build Requirements
 # Install with: pip install -r requirements.txt
 
-# Core MkDocs
-mkdocs>=1.5.0
-mkdocs-material>=9.4.0
+# Markdown to HTML conversion
+markdown>=3.5.0
 
-# Plugins
-mkdocs-git-revision-date-localized-plugin>=1.2.0
-mkdocs-minify-plugin>=0.7.0
-mkdocs-static-i18n>=1.2.0
-
-# Code highlighting
-pymdown-extensions>=10.3.0
+# Code highlighting support
+pygments>=2.17.0

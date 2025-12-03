@@ -1,10 +1,10 @@
 # Architecture Overview
 
-**Comprehensive system architecture documentation covering the RotorDream camera server design, components, interactions, and lifecycle.**
+**Comprehensive system architecture documentation covering the C Pro camera server design, components, interactions, and lifecycle.**
 
 ## System Overview
 
-The RotorDream camera server is a high-performance, embedded-first camera management system built with the Nim programming language. It provides real-time video streaming, recording, hardware control, and remote management through multiple API protocols.
+The C Pro camera server is a high-performance, embedded-first camera management system built with the Nim programming language. It provides real-time video streaming, recording, hardware control, and remote management through multiple API protocols.
 
 ```mermaid
 graph TB

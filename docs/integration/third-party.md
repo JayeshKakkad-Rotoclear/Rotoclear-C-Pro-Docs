@@ -1,14 +1,14 @@
 # Third-Party Integrations
 
-**Comprehensive integration guide for connecting RotorDream with external systems, services, and platforms.**
+**Comprehensive integration guide for connecting C Pro with external systems, services, and platforms.**
 
 ## Overview
 
-RotorDream provides extensive integration capabilities with third-party systems including video management systems, analytics platforms, cloud services, and enterprise applications.
+C Pro provides extensive integration capabilities with third-party systems including video management systems, analytics platforms, cloud services, and enterprise applications.
 
 ```mermaid
 graph TB
-    A[RotorDream System] --> B{Integration Layer}
+    A[C Pro System] --> B{Integration Layer}
     
     B -->|Video Management| C[VMS Integration]
     B -->|Cloud Platforms| D[Cloud Services]
@@ -51,8 +51,8 @@ curl -X PUT "http://192.168.1.100:8080/api/integrations/milestone" \
      -d '{
        "enabled": true,
        "integration_type": "onvif",
-       "device_name": "RotorDream Camera 001",
-       "manufacturer": "RotorDream",
+       "device_name": "C Pro Camera 001",
+       "manufacturer": "Rotoclear",
        "model": "RD-CAM-001",
        "onvif_endpoints": {
          "device_service": "http://192.168.1.100:8080/onvif/device_service",
@@ -115,7 +115,7 @@ curl -X PUT "http://192.168.1.100:8080/api/integrations/genetec" \
          "domain": "COMPANY"
        },
        "camera_configuration": {
-         "entity_name": "RotorDream Camera 001",
+         "entity_name": "C Pro Camera 001",
          "entity_type": "Camera",
          "archiver": "Main Archiver",
          "partition": "Default Partition"
@@ -211,7 +211,7 @@ def configure_milestone_xprotect():
     vms = VMSIntegration("192.168.1.100", api_key="your_api_key")
     
     milestone_config = {
-        "manufacturer": "RotorDream",
+        "manufacturer": "Rotoclear",
         "model": "RD-CAM-001",
         "driver_name": "ONVIF",
         "connection_method": "ONVIF",
@@ -231,7 +231,7 @@ def configure_genetec_security_center():
     
     genetec_config = {
         "entity_type": "Camera",
-        "manufacturer": "RotorDream",
+        "manufacturer": "Rotoclear",
         "model": "RD-CAM-001",
         "connection_type": "IP",
         "video_format": "H264",
@@ -270,7 +270,7 @@ curl -X PUT "http://192.168.1.100:8080/api/integrations/aws/s3" \
      -d '{
        "enabled": true,
        "region": "us-east-1",
-       "bucket_name": "rotordream-camera-storage",
+       "bucket_name": "C Pro-camera-storage",
        "access_key_id": "AKIAIOSFODNN7EXAMPLE",
        "secret_access_key": "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
        "encryption": {
@@ -808,8 +808,8 @@ scrape_configs:
 ```json
 {
   "dashboard": {
-    "title": "RotorDream Camera Monitoring",
-    "tags": ["rotordream", "camera", "monitoring"],
+    "title": "C Pro Camera Monitoring",
+    "tags": ["C Pro", "camera", "monitoring"],
     "timezone": "UTC",
     "panels": [
       {
@@ -911,7 +911,7 @@ curl -X PUT "http://192.168.1.100:8080/api/integrations/webhooks" \
            "body_template": {
              "text": "Camera Alert: {{event_type}} - {{description}}",
              "channel": "#security-alerts",
-             "username": "RotorDream Camera"
+             "username": "C Pro Camera"
            },
            "retry_config": {
              "max_retries": 3,
@@ -1118,7 +1118,7 @@ class IntegrationTestSuite(unittest.TestCase):
         vms_config = {
             "vms_type": "milestone",
             "configuration": {
-                "manufacturer": "RotorDream",
+                "manufacturer": "Rotoclear",
                 "model": "RD-CAM-001"
             }
         }

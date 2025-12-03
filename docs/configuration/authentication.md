@@ -4,7 +4,7 @@
 
 ## Overview
 
-RotorDream implements multi-layered security with role-based access control, secure communication protocols, and comprehensive audit logging.
+C Pro implements multi-layered security with role-based access control, secure communication protocols, and comprehensive audit logging.
 
 ```mermaid
 graph TB

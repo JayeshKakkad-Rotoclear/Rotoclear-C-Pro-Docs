@@ -4,7 +4,7 @@
 
 ## Overview
 
-RotorDream implements ONVIF standards for seamless integration with third-party cameras, NVRs, and video management systems, providing standardized device discovery, configuration, and streaming capabilities.
+C Pro implements ONVIF standards for seamless integration with third-party cameras, NVRs, and video management systems, providing standardized device discovery, configuration, and streaming capabilities.
 
 ```mermaid
 graph TB
@@ -63,7 +63,7 @@ curl -X POST "http://192.168.1.100:8080/onvif/device_service" \
 <soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope">
   <soap:Body>
     <tds:GetDeviceInformationResponse>
-      <tds:Manufacturer>RotorDream</tds:Manufacturer>
+      <tds:Manufacturer>C Pro</tds:Manufacturer>
       <tds:Model>RD-CAM-001</tds:Model>
       <tds:FirmwareVersion>1.0.0</tds:FirmwareVersion>
       <tds:SerialNumber>RD001234567890</tds:SerialNumber>
@@ -436,7 +436,7 @@ echo '<?xml version="1.0" encoding="UTF-8"?>
           <wsa:Address>urn:uuid:device-12345678-1234-1234-1234-123456789012</wsa:Address>
         </wsa:EndpointReference>
         <wsd:Types>tdn:NetworkVideoTransmitter</wsd:Types>
-        <wsd:Scopes>onvif://www.onvif.org/type/Network_Video_Transmitter onvif://www.onvif.org/hardware/RD-CAM-001 onvif://www.onvif.org/name/RotorDream_Camera onvif://www.onvif.org/location/Building_A</wsd:Scopes>
+        <wsd:Scopes>onvif://www.onvif.org/type/Network_Video_Transmitter onvif://www.onvif.org/hardware/RD-CAM-001 onvif://www.onvif.org/name/Cpro_Camera onvif://www.onvif.org/location/Building_A</wsd:Scopes>
         <wsd:XAddrs>http://192.168.1.100:8080/onvif/device_service</wsd:XAddrs>
         <wsd:MetadataVersion>1</wsd:MetadataVersion>
       </wsd:ProbeMatch>
@@ -458,13 +458,13 @@ curl -X PUT "http://192.168.1.100:8080/api/onvif/discovery/config" \
        "multicast_address": "239.255.255.250",
        "multicast_port": 3702,
        "device_uuid": "12345678-1234-1234-1234-123456789012",
-       "device_name": "RotorDream Camera",
+       "device_name": "C Pro Camera",
        "hardware_id": "RD-CAM-001",
        "location": "Building A",
        "scopes": [
          "onvif://www.onvif.org/type/Network_Video_Transmitter",
          "onvif://www.onvif.org/hardware/RD-CAM-001",
-         "onvif://www.onvif.org/name/RotorDream_Camera",
+         "onvif://www.onvif.org/name/Cpro_Camera",
          "onvif://www.onvif.org/location/Building_A"
        ]
      }'

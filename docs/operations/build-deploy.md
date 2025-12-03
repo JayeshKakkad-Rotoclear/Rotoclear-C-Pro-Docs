@@ -1,6 +1,6 @@
 # Build and Deployment Guide
 
-**Comprehensive guide for building, testing, and deploying RotorDream camera system.**
+**Comprehensive guide for building, testing, and deploying C Pro camera system.**
 
 ## Overview
 
@@ -196,7 +196,7 @@ BUILD_TYPE=${1:-release}
 TARGET_ARCH=${2:-x86_64}
 OUTPUT_DIR="build/${TARGET_ARCH}"
 
-echo "Building RotorDream (${BUILD_TYPE}) for ${TARGET_ARCH}"
+echo "Building C Pro (${BUILD_TYPE}) for ${TARGET_ARCH}"
 
 # Create output directory
 mkdir -p ${OUTPUT_DIR}
@@ -427,9 +427,9 @@ Section: video
 Priority: optional
 Architecture: amd64
 Depends: libv4l-0, libgstreamer1.0-0, libssl1.1
-Maintainer: RotorDream Team <support@rotordream.com>
+Maintainer: Rotoclear Team <support@rotordream.com>
 Description: Professional camera management system
- RotorDream provides comprehensive camera control, streaming,
+ C Pro provides comprehensive camera control, streaming,
  and recording capabilities for professional applications.
 ```
 
@@ -463,7 +463,7 @@ Section: video
 Priority: optional
 Architecture: ${ARCH}
 Depends: libv4l-0, libgstreamer1.0-0, libssl1.1
-Maintainer: RotorDream Team <support@rotordream.com>
+Maintainer: Rotoclear Team <support@rotordream.com>
 Description: Professional camera management system
 EOF
 
@@ -596,7 +596,7 @@ CONFIG_DIR="/etc/rotordream"
 DATA_DIR="/var/lib/rotordream"
 LOG_DIR="/var/log/rotordream"
 
-echo "Installing RotorDream ${VERSION}..."
+echo "Installing C Pro ${VERSION}..."
 
 # Create directories
 sudo mkdir -p ${INSTALL_DIR} ${CONFIG_DIR} ${DATA_DIR} ${LOG_DIR}
@@ -630,7 +630,7 @@ echo "Logs: ${LOG_DIR}/"
 ```ini
 # /etc/systemd/system/rotordream.service
 [Unit]
-Description=RotorDream Camera System
+Description=C Pro Camera System
 After=network.target
 Wants=network-online.target
 
@@ -951,7 +951,7 @@ ENVIRONMENT=${1:-staging}
 VERSION=${2:-latest}
 CONFIG_FILE="config/${ENVIRONMENT}.env"
 
-echo "Deploying RotorDream ${VERSION} to ${ENVIRONMENT}"
+echo "Deploying C Pro ${VERSION} to ${ENVIRONMENT}"
 
 # Load environment configuration
 if [ -f "$CONFIG_FILE" ]; then
@@ -1049,7 +1049,7 @@ kubectl top nodes
 ENVIRONMENT=${1:-staging}
 TARGET_VERSION=${2:-previous}
 
-echo "Rolling back RotorDream in ${ENVIRONMENT} to ${TARGET_VERSION}"
+echo "Rolling back C Pro in ${ENVIRONMENT} to ${TARGET_VERSION}"
 
 case "$TARGET_VERSION" in
     "previous")

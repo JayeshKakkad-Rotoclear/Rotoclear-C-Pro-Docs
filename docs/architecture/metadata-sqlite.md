@@ -4,7 +4,7 @@
 
 ## Overview
 
-The RotorDream camera system uses SQLite for structured metadata storage separate from the video files themselves. This provides fast querying, relational integrity, and efficient search capabilities for recordings, tags, and categories.
+The C Pro camera system uses SQLite for structured metadata storage separate from the video files themselves. This provides fast querying, relational integrity, and efficient search capabilities for recordings, tags, and categories.
 
 ```mermaid
 graph TB

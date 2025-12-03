@@ -4,7 +4,7 @@
 
 ## Overview
 
-The RotorDream camera system supports various camera hardware configurations with V4L2 integration, providing flexible control over capture parameters, image processing, and streaming capabilities.
+The C Pro camera system supports various camera hardware configurations with V4L2 integration, providing flexible control over capture parameters, image processing, and streaming capabilities.
 
 ```mermaid
 graph TB
