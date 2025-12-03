@@ -12,6 +12,11 @@ from markdown.extensions.fenced_code import FencedCodeExtension
 from markdown.extensions.tables import TableExtension
 from markdown.extensions.toc import TocExtension
 
+# GitHub Pages base URL (change if using custom domain)
+# For GitHub Pages: /repository-name/
+# For custom domain or local: /
+BASE_URL = os.environ.get('BASE_URL', '/Rotoclear-C-Pro-Docs/')
+
 # Navigation structure based on mkdocs.yml
 NAV_STRUCTURE = [
     {"title": "Home", "path": "index.md"},
@@ -124,7 +129,7 @@ NAV_STRUCTURE = [
 ]
 
 
-def generate_nav_html(nav_items, current_path="", depth=0, base_path=""):
+def generate_nav_html(nav_items, current_path="", depth=0):
     """Generate HTML navigation from navigation structure"""
     html = []
     for item in nav_items:
@@ -133,7 +138,7 @@ def generate_nav_html(nav_items, current_path="", depth=0, base_path=""):
             html.append(f'<li class="nav-folder depth-{depth}">')
             html.append(f'<span class="folder-title">{item["title"]}</span>')
             html.append('<ul class="nav-submenu">')
-            html.append(generate_nav_html(item["children"], current_path, depth + 1, base_path))
+            html.append(generate_nav_html(item["children"], current_path, depth + 1))
             html.append('</ul>')
             html.append('</li>')
         else:
@@ -143,7 +148,7 @@ def generate_nav_html(nav_items, current_path="", depth=0, base_path=""):
             is_active = (html_path == current_path)
             active_class = " active" if is_active else ""
             html.append(f'<li class="nav-item depth-{depth}{active_class}">')
-            html.append(f'<a href="{base_path}{html_path}">{item["title"]}</a>')
+            html.append(f'<a href="{BASE_URL}{html_path}">{item["title"]}</a>')
             html.append('</li>')
     return "\n".join(html)
 
@@ -154,9 +159,9 @@ def get_html_template():
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{TITLE}} - C Pro Camera Server Documentation</title>
-    <link rel="stylesheet" href="{{BASE_PATH}}assets/style.css">
+    <link rel="stylesheet" href="{{BASE_URL}}assets/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
     <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
 </head>
@@ -164,7 +169,7 @@ def get_html_template():
     <div class="container">
         <aside class="sidebar">
             <div class="sidebar-header">
-                <h1><a href="{{BASE_PATH}}index.html">C Pro Docs</a></h1>
+                <h1><a href="{{BASE_URL}}index.html">C Pro Docs</a></h1>
                 <p>Camera Server Documentation</p>
             </div>
             <nav class="sidebar-nav">
@@ -179,11 +184,11 @@ def get_html_template():
                 {{CONTENT}}
             </div>
             <footer class="content-footer">
-                <p>Copyright © 2025 Rotoclear</p>
+                <p>Copyright &copy; 2025 Rotoclear</p>
             </footer>
         </main>
         
-        <button class="mobile-menu-toggle" id="menuToggle" aria-label="Toggle menu">☰</button>
+        <button class="mobile-menu-toggle" id="menuToggle" aria-label="Toggle menu">&#9776;</button>
     </div>
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
@@ -298,10 +303,6 @@ def build_site():
         """Process a single markdown file"""
         print(f"Processing: {md_path} -> {html_path}")
         
-        # Calculate relative path depth for base_path
-        depth = html_path.count('/')
-        base_path = '../' * depth if depth > 0 else './'
-        
         # Read markdown
         with open(md_path, 'r', encoding='utf-8') as f:
             md_content = f.read()
@@ -310,11 +311,11 @@ def build_site():
         html_content = convert_md_to_html(md_content)
         
         # Generate navigation
-        nav_html = generate_nav_html(NAV_STRUCTURE, html_path, base_path=base_path)
+        nav_html = generate_nav_html(NAV_STRUCTURE, html_path)
         
         # Fill template
         page_html = template.replace("{{TITLE}}", title)
-        page_html = page_html.replace("{{BASE_PATH}}", base_path)
+        page_html = page_html.replace("{{BASE_URL}}", BASE_URL)
         page_html = page_html.replace("{{NAVIGATION}}", nav_html)
         page_html = page_html.replace("{{CONTENT}}", html_content)
         
