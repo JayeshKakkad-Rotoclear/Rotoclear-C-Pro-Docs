@@ -1,0 +1,445 @@
+/* RotoClear Documentation Styles */
+
+:root {
+    --primary-color: #123345;
+    --primary-dark: #0a1f2b;
+    --accent-color: #ff5722;
+    --text-color: #333;
+    --text-light: #666;
+    --border-color: #e0e0e0;
+    --bg-color: #ffffff;
+    --bg-secondary: #f5f5f5;
+    --sidebar-width: 280px;
+    --code-bg: #1e1e1e;
+    --link-color: #1976d2;
+    --shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background: var(--bg-secondary);
+}
+
+.container {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Sidebar Navigation */
+.sidebar {
+    width: var(--sidebar-width);
+    background: var(--primary-color);
+    color: white;
+    position: fixed;
+    height: 100vh;
+    overflow-y: auto;
+    z-index: 1000;
+    box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+}
+
+.sidebar-header {
+    padding: 2rem 1.5rem;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    background: var(--primary-dark);
+}
+
+.sidebar-header h1 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.sidebar-header h1 a {
+    color: white;
+    text-decoration: none;
+}
+
+.sidebar-header h1 a:hover {
+    color: var(--accent-color);
+}
+
+.sidebar-header p {
+    font-size: 0.9rem;
+    color: rgba(255,255,255,0.7);
+}
+
+.sidebar-nav {
+    padding: 1rem 0;
+}
+
+.nav-menu {
+    list-style: none;
+}
+
+.nav-item, .nav-folder {
+    list-style: none;
+}
+
+.nav-item a {
+    display: block;
+    padding: 0.6rem 1.5rem;
+    color: rgba(255,255,255,0.85);
+    text-decoration: none;
+    transition: all 0.2s;
+    font-size: 0.95rem;
+}
+
+.nav-item a:hover {
+    background: rgba(255,255,255,0.1);
+    color: white;
+    padding-left: 2rem;
+}
+
+.nav-item.active a {
+    background: var(--accent-color);
+    color: white;
+    font-weight: 500;
+    border-left: 4px solid white;
+}
+
+.folder-title {
+    display: block;
+    padding: 0.8rem 1.5rem;
+    color: white;
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 1rem;
+    cursor: pointer;
+}
+
+.nav-submenu {
+    list-style: none;
+}
+
+.nav-submenu .nav-item a {
+    padding-left: 2.5rem;
+    font-size: 0.9rem;
+}
+
+.nav-submenu .nav-submenu .nav-item a {
+    padding-left: 3.5rem;
+    font-size: 0.85rem;
+}
+
+.nav-submenu .nav-item a:hover {
+    padding-left: 3rem;
+}
+
+.nav-submenu .nav-submenu .nav-item a:hover {
+    padding-left: 4rem;
+}
+
+/* Main Content */
+.content {
+    margin-left: var(--sidebar-width);
+    flex: 1;
+    background: var(--bg-color);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.content-wrapper {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 3rem 2rem;
+    flex: 1;
+}
+
+/* Typography */
+.content-wrapper h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+    color: var(--primary-color);
+    border-bottom: 3px solid var(--accent-color);
+    padding-bottom: 0.5rem;
+}
+
+.content-wrapper h2 {
+    font-size: 2rem;
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+    color: var(--primary-color);
+}
+
+.content-wrapper h3 {
+    font-size: 1.5rem;
+    margin-top: 2rem;
+    margin-bottom: 0.8rem;
+    color: var(--primary-color);
+}
+
+.content-wrapper h4 {
+    font-size: 1.25rem;
+    margin-top: 1.5rem;
+    margin-bottom: 0.6rem;
+    color: var(--text-color);
+}
+
+.content-wrapper p {
+    margin-bottom: 1rem;
+    color: var(--text-color);
+}
+
+.content-wrapper a {
+    color: var(--link-color);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s;
+}
+
+.content-wrapper a:hover {
+    border-bottom-color: var(--link-color);
+}
+
+/* Lists */
+.content-wrapper ul,
+.content-wrapper ol {
+    margin-bottom: 1rem;
+    padding-left: 2rem;
+}
+
+.content-wrapper li {
+    margin-bottom: 0.5rem;
+}
+
+/* Code Blocks */
+.content-wrapper code {
+    background: #f4f4f4;
+    padding: 0.2rem 0.4rem;
+    border-radius: 3px;
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    font-size: 0.9em;
+    color: #e83e8c;
+}
+
+.content-wrapper pre {
+    background: var(--code-bg);
+    color: #f8f8f2;
+    padding: 1.5rem;
+    border-radius: 6px;
+    overflow-x: auto;
+    margin-bottom: 1.5rem;
+    box-shadow: var(--shadow);
+}
+
+.content-wrapper pre code {
+    background: transparent;
+    color: inherit;
+    padding: 0;
+    font-size: 0.9rem;
+}
+
+/* Tables */
+.content-wrapper table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1.5rem;
+    box-shadow: var(--shadow);
+}
+
+.content-wrapper th,
+.content-wrapper td {
+    padding: 0.75rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.content-wrapper th {
+    background: var(--primary-color);
+    color: white;
+    font-weight: 600;
+}
+
+.content-wrapper tr:hover {
+    background: var(--bg-secondary);
+}
+
+/* Blockquotes */
+.content-wrapper blockquote {
+    border-left: 4px solid var(--accent-color);
+    padding-left: 1.5rem;
+    margin: 1.5rem 0;
+    color: var(--text-light);
+    font-style: italic;
+}
+
+/* Images */
+.content-wrapper img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 6px;
+    box-shadow: var(--shadow);
+    margin: 1.5rem 0;
+}
+
+/* Mermaid Diagrams */
+.content-wrapper .mermaid {
+    background: var(--bg-color);
+    padding: 2rem;
+    margin: 2rem 0;
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow-x: auto;
+}
+
+.content-wrapper .mermaid svg {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Horizontal Rule */
+.content-wrapper hr {
+    border: none;
+    border-top: 2px solid var(--border-color);
+    margin: 2rem 0;
+}
+
+/* Footer */
+.content-footer {
+    padding: 2rem;
+    text-align: center;
+    border-top: 1px solid var(--border-color);
+    color: var(--text-light);
+    background: var(--bg-secondary);
+}
+
+/* Mobile Menu Toggle */
+.mobile-menu-toggle {
+    display: none;
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    z-index: 1001;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 0.75rem 1rem;
+    border-radius: 6px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    box-shadow: var(--shadow);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .sidebar {
+        transform: translateX(-100%);
+    }
+    
+    .sidebar.active {
+        transform: translateX(0);
+    }
+    
+    .content {
+        margin-left: 0;
+    }
+    
+    .content-wrapper {
+        padding: 2rem 1rem;
+    }
+    
+    .mobile-menu-toggle {
+        display: block;
+    }
+    
+    .content-wrapper h1 {
+        font-size: 2rem;
+        margin-top: 3rem;
+    }
+    
+    .content-wrapper h2 {
+        font-size: 1.5rem;
+    }
+}
+
+/* Scrollbar Styling */
+.sidebar::-webkit-scrollbar {
+    width: 8px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+    background: var(--primary-dark);
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,0.3);
+    border-radius: 4px;
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+    background: rgba(255,255,255,0.5);
+}
+
+/* Admonitions/Alerts */
+.content-wrapper .admonition {
+    padding: 1rem 1.5rem;
+    margin-bottom: 1.5rem;
+    border-left: 4px solid;
+    border-radius: 4px;
+    background: var(--bg-secondary);
+}
+
+.content-wrapper .admonition.note {
+    border-left-color: #2196f3;
+}
+
+.content-wrapper .admonition.warning {
+    border-left-color: #ff9800;
+}
+
+.content-wrapper .admonition.danger {
+    border-left-color: #f44336;
+}
+
+.content-wrapper .admonition.success {
+    border-left-color: #4caf50;
+}
+
+/* Table of Contents */
+.toc {
+    background: var(--bg-secondary);
+    padding: 1.5rem;
+    border-radius: 6px;
+    margin-bottom: 2rem;
+}
+
+.toc ul {
+    list-style: none;
+    padding-left: 1rem;
+}
+
+.toc > ul {
+    padding-left: 0;
+}
+
+/* Print Styles */
+@media print {
+    .sidebar,
+    .mobile-menu-toggle,
+    .content-footer {
+        display: none;
+    }
+    
+    .content {
+        margin-left: 0;
+    }
+    
+    .content-wrapper {
+        max-width: 100%;
+    }
+}
