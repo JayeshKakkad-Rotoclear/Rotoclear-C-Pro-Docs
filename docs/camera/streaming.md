@@ -2,7 +2,7 @@
 
 ## Overview
 
-The RotoClear camera system provides real-time video streaming through multiple protocols including RTSP, WebRTC, and ONVIF. The streaming subsystem delivers low-latency video to multiple concurrent clients.
+The C Pro camera system provides real-time video streaming through multiple protocols including RTSP, WebRTC, and ONVIF. The streaming subsystem delivers low-latency video to multiple concurrent clients.
 
 ## Streaming Architecture
 
@@ -365,7 +365,7 @@ vlc rtsp://rotoclear.local:8554/stream1 \
 # View stream
 ffmpeg -rtsp_transport tcp \
   -i rtsp://rotoclear.local:8554/stream1 \
-  -f sdl "RotoClear Stream"
+  -f sdl "C Pro Stream"
 
 # Save stream to file
 ffmpeg -rtsp_transport tcp \
@@ -404,7 +404,7 @@ while True:
         break
     
     # Display frame
-    cv2.imshow('RotoClear Stream', frame)
+    cv2.imshow('C Pro Stream', frame)
     
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break

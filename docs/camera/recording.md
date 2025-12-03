@@ -2,7 +2,7 @@
 
 ## Overview
 
-The RotoClear recording system captures video from camera sources and stores it to local or network storage. It supports multiple recording modes, formats, and metadata tagging for efficient organization and retrieval.
+The C Pro recording system captures video from camera sources and stores it to local or network storage. It supports multiple recording modes, formats, and metadata tagging for efficient organization and retrieval.
 
 ## Recording Architecture
 

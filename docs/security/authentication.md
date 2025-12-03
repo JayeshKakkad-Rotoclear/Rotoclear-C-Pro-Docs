@@ -2,7 +2,7 @@
 
 ## Overview
 
-The RotoClear camera system implements a multi-layered authentication system to secure access to device functionality, video streams, and configuration. Authentication is required for web interface, API endpoints, ONVIF services, and RTSP streams.
+The C Pro camera system implements a multi-layered authentication system to secure access to device functionality, video streams, and configuration. Authentication is required for web interface, API endpoints, ONVIF services, and RTSP streams.
 
 ## Authentication Architecture
 
@@ -189,7 +189,7 @@ proc validateDigestAuth*(authHeader: string, method: string, uri: string): Optio
   let params = parseDigestParams(authHeader)
   
   let username = params.getOrDefault("username", "")
-  let realm = params.getOrDefault("realm", "RotoClear")
+  let realm = params.getOrDefault("realm", "C Pro")
   let nonce = params.getOrDefault("nonce", "")
   let response = params.getOrDefault("response", "")
   

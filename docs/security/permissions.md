@@ -2,7 +2,7 @@
 
 ## Overview
 
-The RotoClear permission system implements fine-grained access control for all system observables and API endpoints. Permissions are assigned to users based on their roles and control read/write access to device functionality.
+The C Pro permission system implements fine-grained access control for all system observables and API endpoints. Permissions are assigned to users based on their roles and control read/write access to device functionality.
 
 ## Permission Model
 

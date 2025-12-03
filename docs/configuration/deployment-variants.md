@@ -2,7 +2,7 @@
 
 ## Overview
 
-RotoClear camera systems support multiple deployment variants to accommodate different use cases, environments, and customer requirements. Each variant is a distinct build configuration with specific features, branding, and operational parameters.
+C Pro camera systems support multiple deployment variants to accommodate different use cases, environments, and customer requirements. Each variant is a distinct build configuration with specific features, branding, and operational parameters.
 
 ## Variant Architecture
 
@@ -51,7 +51,7 @@ Each variant consists of:
 **Configuration**:
 ```json
 {
-  "systemName": "RotoClear Camera",
+  "systemName": "C Pro Camera",
   "modelNumber": "RC-STD",
   "features": {
     "recording": true,
@@ -86,7 +86,7 @@ Each variant consists of:
 **Configuration**:
 ```json
 {
-  "systemName": "RotoClear DEMO",
+  "systemName": "C Pro DEMO",
   "licenseType": "demo",
   "validity": {
     "durationDays": 30,
@@ -124,7 +124,7 @@ Each variant consists of:
 **Configuration**:
 ```json
 {
-  "systemName": "RotoClear DEV",
+  "systemName": "C Pro DEV",
   "debug": {
     "enableSimulator": true,
     "verboseLogging": true,
@@ -162,7 +162,7 @@ Each variant consists of:
 **Configuration**:
 ```json
 {
-  "systemName": "RotoClear Educational",
+  "systemName": "C Pro Educational",
   "modelNumber": "RC-EDU",
   "licenseType": "educational",
   "features": {
@@ -180,7 +180,7 @@ Each variant consists of:
 
 ### rc_DMG
 
-**Purpose**: RotoClear DMG product line
+**Purpose**: C Pro DMG product line
 
 **Characteristics**:
 - Dual camera head support
@@ -209,7 +209,7 @@ Each variant consists of:
 **Configuration**:
 ```json
 {
-  "systemName": "RotoClear DMG",
+  "systemName": "C Pro DMG",
   "modelNumber": "RC-DMG-4K",
   "hardware": {
     "cameraHeads": 2,
@@ -266,7 +266,7 @@ Create/modify key configuration files:
 **factory_config.json**:
 ```json
 {
-  "systemName": "RotoClear New Variant",
+  "systemName": "C Pro New Variant",
   "modelNumber": "RC-NV-001",
   "features": {
     "recording": true,
@@ -432,7 +432,7 @@ import ../src/state/factory_config
 suite "Variant Configuration":
   test "DEFAULT variant loads":
     let config = loadFactoryConfig("DEFAULT")
-    check config.systemName == "RotoClear Camera"
+    check config.systemName == "C Pro Camera"
   
   test "DEMO variant has watermark":
     let config = loadFactoryConfig("DEMO")

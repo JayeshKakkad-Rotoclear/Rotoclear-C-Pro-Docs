@@ -60,7 +60,7 @@ This changelog follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) 
 
 ### Supported Platforms
 - **Development**: Ubuntu/Debian Linux, Windows with WSL2
-- **Production**: ARM64 embedded Linux (RotoClear hardware)
+- **Production**: ARM64 embedded Linux (C Pro hardware)
 
 ## Version History Template
 

@@ -6,7 +6,7 @@
 
 ## Context
 
-The RotoClear camera server requires handling multiple concurrent operations:
+The C Pro camera server requires handling multiple concurrent operations:
 
 - Real-time WebSocket connections (10+ simultaneous clients)
 - HTTP API requests and file transfers
@@ -23,7 +23,7 @@ We needed an async framework that provides:
 
 ## Decision
 
-We selected **Corun** as the async runtime framework for the RotoClear camera server.
+We selected **Corun** as the async runtime framework for the C Pro camera server.
 
 ## Rationale
 

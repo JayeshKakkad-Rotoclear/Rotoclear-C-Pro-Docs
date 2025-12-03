@@ -6,7 +6,7 @@
 
 ## Context
 
-The RotoClear camera server needs to synchronize state between:
+The C Pro camera server needs to synchronize state between:
 
 - Multiple WebSocket clients (web interfaces, mobile apps)
 - Internal system components (camera, recording, network)

@@ -2,7 +2,7 @@
 
 ## Overview
 
-The RotoClear camera system interfaces with various hardware components including camera sensors, rotation motors, lighting systems, and I/O controls. This document describes the hardware abstraction layer and device interfaces.
+The C Pro camera system interfaces with various hardware components including camera sensors, rotation motors, lighting systems, and I/O controls. This document describes the hardware abstraction layer and device interfaces.
 
 ## Architecture
 

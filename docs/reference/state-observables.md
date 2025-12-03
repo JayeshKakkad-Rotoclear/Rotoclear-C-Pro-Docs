@@ -2,7 +2,7 @@
 
 ## Overview
 
-This document provides a comprehensive reference of all state observables in the RotoClear camera system. Observables are the core state management mechanism, providing reactive updates and persistent storage.
+This document provides a comprehensive reference of all state observables in the C Pro camera system. Observables are the core state management mechanism, providing reactive updates and persistent storage.
 
 ## Observable System
 

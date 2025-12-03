@@ -4,7 +4,7 @@
 
 ## Overview
 
-The RotoClear camera server implements a centralized observable state management system that enables real-time synchronization between the server and all connected clients.
+The C Pro camera server implements a centralized observable state management system that enables real-time synchronization between the server and all connected clients.
 
 ```mermaid
 graph TB

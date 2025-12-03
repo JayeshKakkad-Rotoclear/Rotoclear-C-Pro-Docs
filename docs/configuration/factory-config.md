@@ -2,7 +2,7 @@
 
 ## Overview
 
-The factory configuration system provides a flexible mechanism to customize RotoClear camera behavior for different deployment scenarios, customers, and use cases. Configuration files are embedded during the build process and control system behavior at runtime.
+The factory configuration system provides a flexible mechanism to customize C Pro camera behavior for different deployment scenarios, customers, and use cases. Configuration files are embedded during the build process and control system behavior at runtime.
 
 ## Configuration Structure
 
@@ -14,7 +14,7 @@ rsc_config/
 ├── config_DEMO/        # Demo/trial version settings
 ├── config_DEV/         # Development environment
 ├── config_EDU/         # Educational institutions
-├── config_rc_DMG/      # RotoClear DMG variant
+├── config_rc_DMG/      # C Pro DMG variant
 └── config_VB/          # VB customer variant
 ```
 
@@ -34,7 +34,7 @@ Each configuration directory can contain:
 
 ```json
 {
-  "systemName": "RotoClear DMG",
+  "systemName": "C Pro DMG",
   "modelNumber": "RC-DMG-4K",
   "features": {
     "recording": true,
@@ -237,7 +237,7 @@ Minimal configuration for basic functionality. Used when no specific variant is 
 - Reduced cost tier
 
 ### config_rc_DMG
-- RotoClear DMG product line
+- C Pro DMG product line
 - Dual camera head support
 - Integrated rotation control
 - Medical-grade recording quality

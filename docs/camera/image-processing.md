@@ -2,7 +2,7 @@
 
 ## Overview
 
-The RotoClear camera system includes advanced image processing capabilities for enhancing video quality, adding overlays, and performing real-time transformations. Processing is performed using a combination of CPU, GPU, and FPGA acceleration.
+The C Pro camera system includes advanced image processing capabilities for enhancing video quality, adding overlays, and performing real-time transformations. Processing is performed using a combination of CPU, GPU, and FPGA acceleration.
 
 ## Image Processing Pipeline
 

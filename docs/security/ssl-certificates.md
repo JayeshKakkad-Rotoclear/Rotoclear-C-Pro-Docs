@@ -2,7 +2,7 @@
 
 ## Overview
 
-The RotoClear camera system supports SSL/TLS encryption for secure communication. SSL certificates protect web interface access, API calls, and streaming protocols from eavesdropping and man-in-the-middle attacks.
+The C Pro camera system supports SSL/TLS encryption for secure communication. SSL certificates protect web interface access, API calls, and streaming protocols from eavesdropping and man-in-the-middle attacks.
 
 ## Certificate Management
 
@@ -78,7 +78,7 @@ certbot certonly --standalone \
 
 # Certificates stored in /etc/letsencrypt/live/rotoclear.example.com/
 
-# Copy to RotoClear device
+# Copy to C Pro device
 scp /etc/letsencrypt/live/rotoclear.example.com/fullchain.pem root@rotoclear:/config/server.crt
 scp /etc/letsencrypt/live/rotoclear.example.com/privkey.pem root@rotoclear:/config/server.key
 

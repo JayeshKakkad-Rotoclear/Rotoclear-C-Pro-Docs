@@ -2,7 +2,7 @@
 
 ## Overview
 
-The license configuration system controls feature availability, usage limits, and commercial terms for RotoClear camera deployments. It supports various licensing models from perpetual to subscription-based.
+The license configuration system controls feature availability, usage limits, and commercial terms for C Pro camera deployments. It supports various licensing models from perpetual to subscription-based.
 
 ## License Types
 

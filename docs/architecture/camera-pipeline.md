@@ -4,7 +4,7 @@
 
 ## Overview
 
-The RotoClear camera pipeline provides real-time video capture, processing, and streaming for industrial/medical imaging applications using V4L2 drivers and GStreamer multimedia framework.
+The C Pro camera pipeline provides real-time video capture, processing, and streaming for industrial/medical imaging applications using V4L2 drivers and GStreamer multimedia framework.
 
 ```mermaid
 graph LR

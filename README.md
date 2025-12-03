@@ -1,8 +1,8 @@
-# RotoClear Camera Server Documentation
+# C Pro Camera Server Documentation
 
 [![Deploy Docs](https://github.com/JayeshKakkad-Rotoclear/Rotoclear-C-Pro-Docs/actions/workflows/deploy-docs.yml/badge.svg)](https://github.com/JayeshKakkad-Rotoclear/Rotoclear-C-Pro-Docs/actions/workflows/deploy-docs.yml)
 
-Comprehensive documentation for the RotoClear Camera Server - an industrial camera server for real-time streaming and control.
+Comprehensive documentation for the C Pro Camera Server - an industrial camera server for real-time streaming and control.
 
 ## View Documentation
 

@@ -1,6 +1,6 @@
 # Build and Deploy
 
-**Complete guide for building and deploying the RotoClear Camera Server.**
+**Complete guide for building and deploying the C Pro Camera Server.**
 
 ## Build System Overview
 

@@ -6,7 +6,7 @@
 
 ## Context
 
-We needed to select a programming language for the RotoClear embedded camera server that would provide:
+We needed to select a programming language for the C Pro embedded camera server that would provide:
 
 - Low-level hardware access (V4L2, GPIO, I2C)
 - High performance for real-time video processing
@@ -16,7 +16,7 @@ We needed to select a programming language for the RotoClear embedded camera ser
 
 ## Decision
 
-We chose **Nim** as the primary programming language for the RotoClear camera server.
+We chose **Nim** as the primary programming language for the C Pro camera server.
 
 ## Rationale
 
