@@ -1,12 +1,12 @@
 # RotoClear Camera Server Documentation
 
-[![Deploy Docs](https://github.com/YOUR_USERNAME/YOUR_REPO_NAME/actions/workflows/deploy-docs.yml/badge.svg)](https://github.com/YOUR_USERNAME/YOUR_REPO_NAME/actions/workflows/deploy-docs.yml)
+[![Deploy Docs](https://github.com/JayeshKakkad-Rotoclear/Rotoclear-C-Pro-Docs/actions/workflows/deploy-docs.yml/badge.svg)](https://github.com/JayeshKakkad-Rotoclear/Rotoclear-C-Pro-Docs/actions/workflows/deploy-docs.yml)
 
 Comprehensive documentation for the RotoClear Camera Server - an industrial camera server for real-time streaming and control.
 
 ## 📖 View Documentation
 
-The live documentation is available at: **https://YOUR_USERNAME.github.io/YOUR_REPO_NAME/**
+The live documentation is available at: **https://jayeshkakkad-rotoclear.github.io/Rotoclear-C-Pro-Docs/**
 
 ## 🚀 Quick Start
 
