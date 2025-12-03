@@ -266,6 +266,9 @@ def build_site():
     output_dir.mkdir(exist_ok=True)
     (output_dir / "assets").mkdir(exist_ok=True)
     
+    # Create .nojekyll file to prevent GitHub Pages from ignoring files starting with underscore
+    (output_dir / ".nojekyll").touch()
+    
     # Copy assets
     assets_src = docs_dir / "assets"
     assets_dst = output_dir / "assets"
