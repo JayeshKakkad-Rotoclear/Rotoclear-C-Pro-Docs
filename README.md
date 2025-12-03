@@ -4,11 +4,11 @@
 
 Comprehensive documentation for the RotoClear Camera Server - an industrial camera server for real-time streaming and control.
 
-## 📖 View Documentation
+## View Documentation
 
 The live documentation is available at: **https://jayeshkakkad-rotoclear.github.io/Rotoclear-C-Pro-Docs/**
 
-## 🚀 Quick Start
+## Quick Start
 
 This documentation is built using [MkDocs](https://www.mkdocs.org/) with the [Material theme](https://squidfunk.github.io/mkdocs-material/).
 
@@ -36,7 +36,7 @@ mkdocs build
 
 The generated site will be in the `site/` directory.
 
-## 📁 Documentation Structure
+## Documentation Structure
 
 ```
 docs/
@@ -52,11 +52,11 @@ docs/
 └── reference/                  # Technical reference
 ```
 
-## 🔄 Deployment
+## Deployment
 
 Documentation is automatically deployed to GitHub Pages when changes are pushed to the `main` or `master` branch using GitHub Actions.
 
-## 📝 Contributing
+## Contributing
 
 To contribute to the documentation:
 
@@ -65,11 +65,11 @@ To contribute to the documentation:
 3. Commit and push to the repository
 4. GitHub Actions will automatically deploy your changes
 
-## 📄 License
+## License
 
 Copyright © 2025 Rotoclear
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 - **MkDocs** - Static site generator
 - **Material for MkDocs** - Theme
