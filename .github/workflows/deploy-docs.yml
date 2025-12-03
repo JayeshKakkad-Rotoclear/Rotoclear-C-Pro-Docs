@@ -32,9 +32,17 @@ jobs:
       - name: Build documentation
         run: python build.py
 
+      - name: Verify build output
+        run: |
+          echo "Listing site directory contents:"
+          ls -la site/
+          echo "Checking for index.html:"
+          ls -la site/index.html
+
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./site
+          force_orphan: true
           cname: ''
