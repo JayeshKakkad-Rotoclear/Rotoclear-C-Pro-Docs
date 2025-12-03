@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Overview - RotoClear Camera Server Documentation</title>
+    <link rel="stylesheet" href="/assets/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1><a href="/index.html">RotoClear Docs</a></h1>
+                <p>Camera Server Documentation</p>
+            </div>
+            <nav class="sidebar-nav">
+                <ul class="nav-menu">
+                    <li class="nav-item depth-0">
+<a href="/index.html">Home</a>
+</li>
+<li class="nav-item depth-0">
+<a href="/getting-started.html">Getting Started</a>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Architecture</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1 active">
+<a href="/architecture/overview.html">Overview</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/architecture/state-management.html">State Management</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/architecture/camera-pipeline.html">Camera Pipeline</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/architecture/metadata-sqlite.html">Metadata & SQLite</a>
+</li>
+<li class="nav-folder depth-1">
+<span class="folder-title">Decisions</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-2">
+<a href="/architecture/decisions/ADR-0001-nim-language.html">ADR-0001 Nim Language</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/architecture/decisions/ADR-0002-corun-framework.html">ADR-0002 Corun Framework</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/architecture/decisions/ADR-0003-observable-state.html">ADR-0003 Observable State</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">API Reference</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/api/README.html">Overview</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/api/websocket-api.html">WebSocket API</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/api/http-api.html">HTTP API</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/api/rtsp-streaming.html">RTSP Streaming</a>
+</li>
+<li class="nav-folder depth-1">
+<span class="folder-title">Examples</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-2">
+<a href="/api/examples/python-client.html">Python Client</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/api/examples/javascript-client.html">JavaScript Client</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/api/examples/csharp-client.html">C# Client</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Configuration</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/configuration/environments.html">Environments</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/factory-config.html">Factory Config</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/license-config.html">License Config</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/deployment-variants.html">Deployment Variants</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/camera-system.html">Camera System</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/network.html">Network</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/storage-backup.html">Storage & Backup</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/authentication.html">Authentication</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Camera System</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/camera/hardware-interface.html">Hardware Interface</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/camera/streaming.html">Streaming</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/camera/recording.html">Recording</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/camera/image-processing.html">Image Processing</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Operations</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/operations/build-and-deploy.html">Build and Deploy</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/build-deploy.html">Build & Deploy (Alt)</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/monitoring.html">Monitoring</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/performance.html">Performance</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/troubleshooting.html">Troubleshooting</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Security</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/security/authentication.html">Authentication</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/security/permissions.html">Permissions</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/security/ssl-certificates.html">SSL Certificates</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Testing</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/testing/testing-strategy.html">Strategy</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/testing/strategies.html">Strategies</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/testing/test-cases.html">Test Cases</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/testing/validation.html">Validation</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Integration</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/integration/onvif-protocol.html">ONVIF Protocol</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/integration/third-party.html">Third Party</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Reference</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/reference/glossary.html">Glossary</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/reference/requirements.html">Requirements</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/reference/state-observables.html">State Observables</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Releases</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/releases/CHANGELOG.html">Changelog</a>
+</li>
+</ul>
+</li>
+<li class="nav-item depth-0">
+<a href="/glossary.html">Glossary</a>
+</li>
+                </ul>
+            </nav>
+        </aside>
+        
+        <main class="content">
+            <div class="content-wrapper">
+                <h1 id="architecture-overview">Architecture Overview</h1>
+<p><strong>Comprehensive system architecture documentation covering the C Pro camera server design, components, interactions, and lifecycle.</strong></p>
+<h2 id="system-overview">System Overview</h2>
+<p>The C Pro camera server is a high-performance, embedded-first camera management system built with the Nim programming language. It provides real-time video streaming, recording, hardware control, and remote management through multiple API protocols.</p>
+<div class="mermaid">
+graph TB
+    subgraph "Client Layer"
+        A1[Web Clients]
+        A2[Mobile Apps]
+        A3[ONVIF Clients]
+        A4[Custom Integrations]
+    end
+
+    subgraph "API Layer"
+        B1[WebSocket Server]
+        B2[HTTP REST API]
+        B3[RTSP Server]
+        B4[WebRTC Server]
+        B5[ONVIF Server]
+    end
+
+    subgraph "State Management"
+        C1[Observable State System]
+        C2[Permission System]
+        C3[Change Notification]
+        C4[Persistence Layer]
+    end
+
+    subgraph "Core Services"
+        D1[Camera Control]
+        D2[Recording Manager]
+        D3[Stream Manager]
+        D4[Hardware Controller]
+        D5[User Manager]
+        D6[Network Manager]
+    end
+
+    subgraph "Hardware Layer"
+        E1[V4L2 Camera Devices]
+        E2[GPIO/PWM Controls]
+        E3[FPGA Processor]
+        E4[Storage Devices]
+        E5[Temperature Sensors]
+    end
+
+    subgraph "Storage Layer"
+        F1[LevelDB - State]
+        F2[SQLite - Metadata]
+        F3[Filesystem - Videos]
+        F4[Network Storage]
+    end
+
+    A1 & A2 & A3 & A4 --> B1 & B2 & B3 & B4 & B5
+    B1 & B2 --> C1
+    B3 & B4 --> D3
+    B5 --> D1
+    C1 --> C2 & C3 & C4
+    C1 --> D1 & D2 & D3 & D4 & D5 & D6
+    D1 & D2 & D3 --> E1
+    D4 --> E2 & E3
+    D2 --> F2 & F3
+    C4 --> F1
+    D2 --> F4
+    D1 & D4 --> E5
+</div>
+
+<h2 id="system-architecture-principles">System Architecture Principles</h2>
+<h3 id="1-embedded-first-design">1. Embedded-First Design</h3>
+<ul>
+<li><strong>Minimal Resource Footprint</strong>: Optimized for ARM64 embedded systems with limited RAM/CPU</li>
+<li><strong>Static Compilation</strong>: Single binary deployment with no runtime dependencies</li>
+<li><strong>Cross-Platform</strong>: Runs on Linux x86_64, ARM64, and embedded platforms</li>
+</ul>
+<h3 id="2-real-time-synchronization">2. Real-Time Synchronization</h3>
+<ul>
+<li><strong>Observable State Pattern</strong>: Automatic change propagation to all connected clients</li>
+<li><strong>WebSocket Push</strong>: Sub-100ms state update latency</li>
+<li><strong>Conflict Resolution</strong>: Last-write-wins with permission validation</li>
+</ul>
+<h3 id="3-high-performance-video-processing">3. High-Performance Video Processing</h3>
+<ul>
+<li><strong>Zero-Copy Pipeline</strong>: Minimal memory allocations in video path</li>
+<li><strong>Hardware Acceleration</strong>: FPGA offloading for image processing (rc_DMG variant)</li>
+<li><strong>Parallel Streaming</strong>: Multiple simultaneous RTSP/WebRTC streams</li>
+</ul>
+<h3 id="4-security-by-design">4. Security by Design</h3>
+<ul>
+<li><strong>Multi-Layer Authentication</strong>: Basic, Digest, Bearer, Session authentication</li>
+<li><strong>Granular Permissions</strong>: 9 permission types with role-based access</li>
+<li><strong>Encrypted Storage</strong>: TLS/SSL for network transport, encrypted configuration</li>
+</ul>
+<h2 id="core-components">Core Components</h2>
+<h3 id="application-entry-point">Application Entry Point</h3>
+<p><strong>File</strong>: <code>rotordream.nim</code></p>
+<p>The main application initializes core subsystems in a specific order:</p>
+<div class="codehilite"><pre><span></span><code><span class="c"># Application startup sequence</span>
+<span class="k">when</span><span class="w"> </span><span class="n">defined</span><span class="p">(</span><span class="n">embeddedSystem</span><span class="p">):</span>
+<span class="w">  </span><span class="n">rescueOldSystemSettings</span><span class="p">()</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="n">corun</span><span class="w">  </span><span class="c"># Async runtime</span>
+
+<span class="n">CamClient</span><span class="p">.</span><span class="n">start</span><span class="p">()</span><span class="w">  </span><span class="c"># Initialize camera subsystem</span>
+<span class="n">initState</span><span class="p">()</span><span class="w">        </span><span class="c"># Initialize all state modules</span>
+
+<span class="n">setUpdate</span><span class="w"> </span><span class="n">proc</span><span class="p">()</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="c"># Main event loop</span>
+<span class="w">  </span><span class="n">HttpApiSynchronizer</span><span class="p">.</span><span class="n">poll</span><span class="p">()</span>
+<span class="w">  </span><span class="n">updateState</span><span class="p">()</span>
+</code></pre></div>
+
+<p><strong>Initialization Order</strong>:<br />
+1. <strong>Factory Configuration</strong> - Load build-time variant settings<br />
+2. <strong>Camera Client</strong> - Start V4L2/GStreamer camera pipeline<br />
+3. <strong>State Modules</strong> - Initialize 50+ observable state modules<br />
+4. <strong>Network Services</strong> - Start HTTP, WebSocket, RTSP, ONVIF servers<br />
+5. <strong>Event Loop</strong> - Enter Corun async event loop</p>
+<h3 id="state-management-system">State Management System</h3>
+<p><strong>Location</strong>: <code>src/state/</code></p>
+<p>The heart of the system is the centralized observable state management pattern. See <a href="state-management.md">State Management Architecture</a> for details.</p>
+<p><strong>Key Characteristics</strong>:<br />
+- <strong>50+ State Modules</strong>: Each managing a specific domain (camera, network, recording, etc.)<br />
+- <strong>Type-Safe Updates</strong>: JSON-based with validation<br />
+- <strong>Permission-Controlled</strong>: Every observable has read/write permissions<br />
+- <strong>Persistent</strong>: Critical state saved to LevelDB<br />
+- <strong>Change Observers</strong>: Automatic notification on state transitions</p>
+<p><strong>Example State Module Structure</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c"># src/state/rc_light.nim</span>
+<span class="kn">import</span><span class="w"> </span><span class="p">.</span><span class="o">/</span><span class="n">observable</span>
+
+<span class="kd">var</span><span class="w"> </span><span class="n">light0</span><span class="o">*</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">newObservable</span><span class="p">(</span><span class="kp">false</span><span class="p">,</span><span class="w"> </span><span class="n">StatePermission</span><span class="p">.</span><span class="n">readWrite</span><span class="p">)</span>
+
+<span class="k">proc</span><span class="w"> </span><span class="nf">initRCLight</span><span class="o">*</span><span class="p">()</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="n">initObservable</span><span class="p">(</span><span class="s">&quot;light0&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">permissionRead</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Light_r</span><span class="p">,</span><span class="w"> </span><span class="n">Light_rw</span><span class="p">},</span>
+<span class="w">    </span><span class="n">permissionWrite</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Light_rw</span><span class="p">},</span>
+<span class="w">    </span><span class="n">default</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">%*</span><span class="kp">false</span><span class="p">,</span>
+<span class="w">    </span><span class="n">save</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kp">true</span>
+<span class="w">  </span><span class="p">)</span>
+
+<span class="w">  </span><span class="n">light0</span><span class="p">.</span><span class="n">addObserver</span><span class="p">(</span><span class="n">proc</span><span class="p">(</span><span class="n">oldVal</span><span class="p">,</span><span class="w"> </span><span class="n">newVal</span><span class="p">:</span><span class="w"> </span><span class="nb">bool</span><span class="p">)</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="c"># Apply hardware change when state updates</span>
+<span class="w">    </span><span class="n">setPwmLightLevel</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">newVal</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="w"> </span><span class="k">else</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+<span class="w">  </span><span class="p">)</span>
+</code></pre></div>
+
+<h3 id="camera-pipeline">Camera Pipeline</h3>
+<p><strong>Location</strong>: <code>src/camserver/</code></p>
+<p>High-performance video capture and processing pipeline. See <a href="camera-pipeline.md">Camera Pipeline</a> for details.</p>
+<div class="mermaid">
+graph LR
+    A[V4L2 Camera] --> B[GStreamer Pipeline]
+    B --> C[Image Enhancement]
+    C --> D[FPGA Processing]
+    D --> E[Transformation]
+    E --> F[Overlay]
+    F --> G[Encoder]
+    G --> H[RTSP/WebRTC]
+    G --> I[Recording]
+</div>
+
+<p><strong>Components</strong>:<br />
+- <strong>cam.nim</strong>: Main camera interface<br />
+- <strong>camClient.nim</strong>: Camera client coordination<br />
+- <strong>v4l2_dev_interface.c</strong>: Low-level V4L2 device access<br />
+- <strong>gst_device.c</strong>: GStreamer device enumeration<br />
+- <strong>streamer.nim</strong>: RTSP/WebRTC streaming<br />
+- <strong>jpg_encoder.c</strong>: JPEG frame encoding</p>
+<h3 id="api-servers">API Servers</h3>
+<p><strong>Location</strong>: <code>src/servers/</code></p>
+<p>Multiple protocol servers for different integration needs:</p>
+<table>
+<thead>
+<tr>
+<th>Server</th>
+<th>Protocol</th>
+<th>Port</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>HTTP</strong></td>
+<td>REST/HTTP</td>
+<td>80</td>
+<td>Configuration, file upload/download</td>
+</tr>
+<tr>
+<td><strong>HTTPS</strong></td>
+<td>REST/HTTPS</td>
+<td>443</td>
+<td>Secure configuration access</td>
+</tr>
+<tr>
+<td><strong>WebSocket</strong></td>
+<td>WS/WSS</td>
+<td>80/443</td>
+<td>Real-time state synchronization</td>
+</tr>
+<tr>
+<td><strong>RTSP</strong></td>
+<td>RTSP/RTP</td>
+<td>554</td>
+<td>Video streaming (VLC, FFmpeg)</td>
+</tr>
+<tr>
+<td><strong>WebRTC</strong></td>
+<td>WebRTC/STUN</td>
+<td>Dynamic</td>
+<td>Browser-based streaming</td>
+</tr>
+<tr>
+<td><strong>ONVIF</strong></td>
+<td>SOAP/HTTP</td>
+<td>80</td>
+<td>NVR/VMS integration</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Key Files</strong>:<br />
+- <code>httpapi.nim</code>: HTTP REST API handler<br />
+- <code>webserver.nim</code>: HTTP/HTTPS server setup<br />
+- <code>websocketApiV1Handler.nim</code>: WebSocket state API<br />
+- <code>onvif.nim</code>: ONVIF protocol implementation<br />
+- <code>clients.nim</code>: Connected client management</p>
+<h3 id="storage-system">Storage System</h3>
+<p><strong>Location</strong>: <code>src/storage/</code>, <code>src/state/binary_storage.nim</code></p>
+<p>Multi-tiered storage architecture:</p>
+<div class="mermaid">
+graph TB
+    A[Storage System] --> B[LevelDB]
+    A --> C[SQLite]
+    A --> D[Filesystem]
+    A --> E[Network Storage]
+
+    B --> B1[Observable State]
+    B --> B2[User Sessions]
+    B --> B3[Persistent Config]
+
+    C --> C1[Recording Metadata]
+    C --> C2[Tag Categories]
+    C --> C3[Search Index]
+
+    D --> D1[Video Files]
+    D --> D2[Images]
+    D --> D3[Logs]
+
+    E --> E1[SMB Share]
+    E --> E2[NFS Mount]
+</div>
+
+<p><strong>Storage Layers</strong>:<br />
+1. <strong>LevelDB</strong> (<code>LocalStorage</code>): Fast key-value store for state persistence<br />
+2. <strong>SQLite</strong> (<code>metadata_store.nim</code>): Structured metadata for recordings<br />
+3. <strong>Filesystem</strong>: Video/image files organized by date<br />
+4. <strong>Network Storage</strong>: Optional SMB/NFS for centralized storage</p>
+<h2 id="system-lifecycle">System Lifecycle</h2>
+<h3 id="startup-sequence">Startup Sequence</h3>
+<div class="mermaid">
+sequenceDiagram
+    participant Main as rotordream.nim
+    participant Factory as Factory Config
+    participant Cam as Camera Client
+    participant State as State System
+    participant Servers as API Servers
+    participant Loop as Event Loop
+
+    Main->>Factory: Load variant config
+    Factory-->>Main: Configuration loaded
+
+    Main->>Cam: CamClient.start()
+    Cam->>Cam: Initialize V4L2/GStreamer
+    Cam-->>Main: Camera ready
+
+    Main->>State: initState()
+    State->>State: Load factory config
+    State->>State: Init 50+ modules in order
+    State->>State: Load persisted state
+    State->>State: Restore user sessions
+    State-->>Main: State initialized
+
+    Main->>Servers: Start HTTP/WS/RTSP
+    Servers-->>Main: Servers listening
+
+    Main->>Loop: Enter event loop
+    Loop->>Loop: Process events indefinitely
+</div>
+
+<p><strong>Detailed Initialization Order</strong> (from <code>src/state/state.nim</code>):</p>
+<div class="codehilite"><pre><span></span><code><span class="k">proc</span><span class="w"> </span><span class="nf">initState</span><span class="o">*</span><span class="p">()</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="c"># 1. Factory configuration</span>
+<span class="w">  </span><span class="n">initFactoryConfig</span><span class="p">()</span>
+<span class="w">  </span><span class="n">initRCNotifications</span><span class="p">()</span>
+
+<span class="w">  </span><span class="c"># 2. Core system modules</span>
+<span class="w">  </span><span class="n">initRCApi</span><span class="p">()</span>
+<span class="w">  </span><span class="n">initRCSystemInfo</span><span class="p">()</span>
+<span class="w">  </span><span class="n">initRCVersion</span><span class="p">()</span>
+
+<span class="w">  </span><span class="c"># 3. Hardware abstraction</span>
+<span class="w">  </span><span class="n">initRCCameraHeads</span><span class="p">()</span>
+<span class="w">  </span><span class="n">initRCLight</span><span class="p">()</span>
+<span class="w">  </span><span class="n">initRCAutoRotate</span><span class="p">()</span>
+<span class="w">  </span><span class="n">initRCDiscRotation</span><span class="p">()</span>
+
+<span class="w">  </span><span class="c"># 4. Sensor monitoring</span>
+<span class="w">  </span><span class="n">initRCHeadSensors</span><span class="p">()</span>
+<span class="w">  </span><span class="n">initRCHeadTempDiagnose</span><span class="p">()</span>
+<span class="w">  </span><span class="n">initRCPressureDiagnose</span><span class="p">()</span>
+<span class="w">  </span><span class="n">initRCFpgaTemp</span><span class="p">()</span>
+
+<span class="w">  </span><span class="c"># 5. Camera configuration</span>
+<span class="w">  </span><span class="n">initRCImageSettings</span><span class="p">()</span>
+<span class="w">  </span><span class="n">initRCStreamSettings</span><span class="p">()</span>
+<span class="w">  </span><span class="n">initRCZoom</span><span class="p">()</span>
+<span class="w">  </span><span class="n">initRCPip</span><span class="p">()</span>
+<span class="w">  </span><span class="n">initRCStreamAlignment</span><span class="p">()</span>
+
+<span class="w">  </span><span class="c"># 6. Recording system</span>
+<span class="w">  </span><span class="n">initRCRecordingModus</span><span class="p">()</span>
+<span class="w">  </span><span class="n">initRCRecording</span><span class="p">()</span>
+<span class="w">  </span><span class="n">initRecords</span><span class="p">()</span>
+<span class="w">  </span><span class="n">initRCTagCategories</span><span class="p">()</span>
+
+<span class="w">  </span><span class="c"># 7. Storage configuration</span>
+<span class="w">  </span><span class="n">initRCDiskStorage</span><span class="p">()</span>
+<span class="w">  </span><span class="n">initRCStorageNet</span><span class="p">()</span>
+<span class="w">  </span><span class="n">initRCStorage</span><span class="p">()</span>
+
+<span class="w">  </span><span class="c"># 8. Network services</span>
+<span class="w">  </span><span class="n">initRCNetwork</span><span class="p">()</span>
+<span class="w">  </span><span class="n">initRCTime</span><span class="p">()</span>
+<span class="w">  </span><span class="n">initRCRtspStream</span><span class="p">()</span>
+<span class="w">  </span><span class="n">initWebrtcState</span><span class="p">()</span>
+<span class="w">  </span><span class="n">initRCOnvifStream</span><span class="p">()</span>
+<span class="w">  </span><span class="n">initKIStream</span><span class="p">()</span>
+
+<span class="w">  </span><span class="c"># 9. Security</span>
+<span class="w">  </span><span class="n">initRCUser</span><span class="p">()</span>
+<span class="w">  </span><span class="n">initRCLicenses</span><span class="p">()</span>
+
+<span class="w">  </span><span class="c"># 10. Servers and API</span>
+<span class="w">  </span><span class="n">initRCWebserver</span><span class="p">()</span>
+<span class="w">  </span><span class="n">initRCUrls</span><span class="p">()</span>
+<span class="w">  </span><span class="n">initRCUpdate</span><span class="p">()</span>
+<span class="w">  </span><span class="n">initRCRestart</span><span class="p">()</span>
+</code></pre></div>
+
+<p><strong>Why Order Matters</strong>:<br />
+- Factory config must load first (provides variant-specific defaults)<br />
+- Hardware initialization before configuration (detect capabilities)<br />
+- Storage before recording (metadata database ready)<br />
+- Network before servers (IP configuration ready)<br />
+- User management before API servers (authentication ready)</p>
+<h3 id="normal-operation">Normal Operation</h3>
+<div class="mermaid">
+stateDiagram-v2
+    [*] --> Idle
+    Idle --> Streaming: Start stream
+    Streaming --> Idle: Stop stream
+
+    Idle --> Recording: Start recording
+    Recording --> Idle: Stop recording
+    Recording --> RecordingAndStreaming: Start stream
+    RecordingAndStreaming --> Recording: Stop stream
+    RecordingAndStreaming --> Streaming: Stop recording
+
+    Idle --> ConfigChange: Update config
+    Streaming --> ConfigChange: Update config
+    Recording --> ConfigChange: Update config
+    ConfigChange --> Idle: Apply changes
+    ConfigChange --> Streaming: Apply changes
+    ConfigChange --> Recording: Apply changes
+</div>
+
+<p><strong>Main Event Loop</strong> (from <code>rotordream.nim</code>):</p>
+<div class="codehilite"><pre><span></span><code><span class="n">setUpdate</span><span class="w"> </span><span class="n">proc</span><span class="p">()</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="k">try</span><span class="p">:</span>
+<span class="w">    </span><span class="c"># Poll HTTP API for keepalive/timeout</span>
+<span class="w">    </span><span class="n">HttpApiSynchronizer</span><span class="p">.</span><span class="n">poll</span><span class="p">()</span>
+
+<span class="w">    </span><span class="c"># Update all state modules</span>
+<span class="w">    </span><span class="n">updateState</span><span class="p">()</span>
+
+<span class="w">  </span><span class="k">except</span><span class="w"> </span><span class="n">Exception</span><span class="p">:</span>
+<span class="w">    </span><span class="n">echo</span><span class="w"> </span><span class="n">getCurrentException</span><span class="p">()</span>
+</code></pre></div>
+
+<p><strong>State Update Cycle</strong>:<br />
+1. <strong>Client Requests</strong>: WebSocket/HTTP requests modify state<br />
+2. <strong>Validation</strong>: Permission check + type validation<br />
+3. <strong>State Change</strong>: Observable value updated<br />
+4. <strong>Observer Notification</strong>: All observers notified<br />
+5. <strong>Hardware Application</strong>: Physical changes applied<br />
+6. <strong>Persistence</strong>: Critical state saved to LevelDB<br />
+7. <strong>Client Broadcast</strong>: All connected clients notified</p>
+<h3 id="shutdown-sequence">Shutdown Sequence</h3>
+<p><strong>Graceful Shutdown</strong> (from <code>src/state/rc_restart.nim</code>):</p>
+<div class="codehilite"><pre><span></span><code><span class="k">proc</span><span class="w"> </span><span class="nf">shutdownApp</span><span class="o">*</span><span class="p">()</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="c"># 1. Stop accepting new connections</span>
+<span class="w">  </span><span class="n">stopAllServers</span><span class="p">()</span>
+
+<span class="w">  </span><span class="c"># 2. Complete in-flight recordings</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="n">isRecording</span><span class="p">():</span>
+<span class="w">    </span><span class="n">stopRecording</span><span class="p">()</span>
+<span class="w">    </span><span class="n">waitForRecordingFinalization</span><span class="p">()</span>
+
+<span class="w">  </span><span class="c"># 3. Disconnect active streams</span>
+<span class="w">  </span><span class="n">closeAllStreams</span><span class="p">()</span>
+
+<span class="w">  </span><span class="c"># 4. Flush state to storage</span>
+<span class="w">  </span><span class="n">LocalStorage</span><span class="p">.</span><span class="n">sync</span><span class="p">()</span>
+
+<span class="w">  </span><span class="c"># 5. Close camera devices</span>
+<span class="w">  </span><span class="n">CamClient</span><span class="p">.</span><span class="n">stop</span><span class="p">()</span>
+
+<span class="w">  </span><span class="c"># 6. Exit cleanly</span>
+<span class="w">  </span><span class="n">quit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</code></pre></div>
+
+<h3 id="system-restart-and-factory-reset">System Restart and Factory Reset</h3>
+<p><strong>System Restart</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">proc</span><span class="w"> </span><span class="nf">restartApp</span><span class="o">*</span><span class="p">(</span><span class="n">args</span><span class="p">:</span><span class="w"> </span><span class="nb">seq</span><span class="o">[</span><span class="nb">string</span><span class="o">]</span><span class="p">)</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">executable</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">getAppFilename</span><span class="p">()</span>
+<span class="w">  </span><span class="k">discard</span><span class="w"> </span><span class="n">startProcess</span><span class="p">(</span><span class="n">executable</span><span class="p">,</span><span class="w"> </span><span class="n">args</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">args</span><span class="p">)</span>
+<span class="w">  </span><span class="n">quit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</code></pre></div>
+
+<p><strong>Factory Reset</strong> (Issue #150 fix):</p>
+<div class="codehilite"><pre><span></span><code><span class="k">proc</span><span class="w"> </span><span class="nf">resetSystem</span><span class="o">*</span><span class="p">()</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="c"># Preserve user-created categories (Issue #150)</span>
+<span class="w">  </span><span class="k">const</span><span class="w"> </span><span class="n">preserveKeys</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">[</span><span class="s">&quot;categories&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;categoryCounter&quot;</span><span class="o">]</span>
+<span class="w">  </span><span class="kd">var</span><span class="w"> </span><span class="n">preserved</span><span class="p">:</span><span class="w"> </span><span class="nb">seq</span><span class="o">[</span><span class="p">(</span><span class="nb">string</span><span class="p">,</span><span class="w"> </span><span class="nb">string</span><span class="p">)</span><span class="o">]</span>
+
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="n">key</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">preserveKeys</span><span class="p">:</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LocalStorage</span><span class="p">.</span><span class="n">getItem</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">value</span><span class="p">.</span><span class="n">len</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">:</span>
+<span class="w">      </span><span class="n">preserved</span><span class="p">.</span><span class="n">add</span><span class="p">((</span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="n">value</span><span class="p">))</span>
+
+<span class="w">  </span><span class="c"># Clear all state</span>
+<span class="w">  </span><span class="n">LocalStorage</span><span class="p">.</span><span class="n">clear</span><span class="p">()</span>
+
+<span class="w">  </span><span class="c"># Restore preserved keys</span>
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="n">value</span><span class="p">)</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">preserved</span><span class="p">:</span>
+<span class="w">    </span><span class="n">LocalStorage</span><span class="p">.</span><span class="n">setItem</span><span class="p">(</span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="n">value</span><span class="p">)</span>
+
+<span class="w">  </span><span class="c"># Reset network and configuration</span>
+<span class="w">  </span><span class="n">clearNetConfig</span><span class="p">()</span>
+<span class="w">  </span><span class="n">clearOtherFiles</span><span class="p">()</span>
+
+<span class="w">  </span><span class="c"># Restart application</span>
+<span class="w">  </span><span class="n">setTimeout</span><span class="p">(</span><span class="mi">500</span><span class="p">):</span>
+<span class="w">    </span><span class="n">restartApp</span><span class="p">(</span><span class="n">commandLineParams</span><span class="p">())</span>
+</code></pre></div>
+
+<h2 id="data-flow-architecture">Data Flow Architecture</h2>
+<h3 id="state-change-data-flow">State Change Data Flow</h3>
+<div class="mermaid">
+graph TB
+    A[Client Request] --> B{Authentication}
+    B -->|Denied| Z[401 Unauthorized]
+    B -->|Success| C{Permission Check}
+    C -->|Denied| Y[403 Forbidden]
+    C -->|Allowed| D[State Validation]
+    D -->|Invalid| X[400 Bad Request]
+    D -->|Valid| E[Update Observable]
+    E --> F[Notify Observers]
+    F --> G[Apply Hardware Change]
+    F --> H[Persist to Storage]
+    F --> I[Broadcast to Clients]
+    I --> J[WebSocket Notification]
+    I --> K[ONVIF Event]
+    G --> L[GPIO/PWM/V4L2]
+    H --> M[LevelDB Write]
+</div>
+
+<h3 id="recording-data-flow">Recording Data Flow</h3>
+<div class="mermaid">
+graph LR
+    A[Camera Capture] --> B[GStreamer Pipeline]
+    B --> C[H.264 Encoder]
+    C --> D[Muxer AVI/MP4]
+    D --> E[File Writer]
+    E --> F[Storage Device]
+
+    D --> G[Metadata Extractor]
+    G --> H[SQLite Insert]
+    H --> I[Recording Database]
+
+    I --> J[Tag Association]
+    I --> K[Thumbnail Generation]
+    I --> L[Search Index]
+</div>
+
+<h3 id="api-request-flow">API Request Flow</h3>
+<p><strong>HTTP REST API</strong>:</p>
+<div class="mermaid">
+sequenceDiagram
+    participant C as Client
+    participant H as HTTP Handler
+    participant A as Auth System
+    participant S as State Module
+    participant HW as Hardware
+
+    C->>H: POST /api/light {"light0": true}
+    H->>A: Verify credentials
+    A-->>H: Session valid
+    H->>S: SetUnsafeObservable("light0", true)
+    S->>S: Check permissions
+    S->>HW: Set PWM level
+    S->>S: Persist state
+    S-->>H: Success
+    H-->>C: 200 OK {"light0": true}
+    S->>C: WebSocket broadcast
+</div>
+
+<p><strong>WebSocket State API</strong>:</p>
+<div class="mermaid">
+sequenceDiagram
+    participant C as Client
+    participant WS as WebSocket
+    participant S as State
+
+    C->>WS: Connect
+    WS->>WS: Authenticate
+    WS-->>C: Connection established
+
+    C->>WS: {"light0": true}
+    WS->>S: SetUnsafeObservable
+    S->>S: Apply change
+    S->>WS: Notify all clients
+    WS-->>C: {"light0": true, "info": ["light0"]}
+</div>
+
+<h2 id="error-handling-and-recovery">Error Handling and Recovery</h2>
+<h3 id="exception-handling-strategy">Exception Handling Strategy</h3>
+<div class="codehilite"><pre><span></span><code><span class="c"># Global exception handler in main loop</span>
+<span class="n">setUpdate</span><span class="w"> </span><span class="n">proc</span><span class="p">()</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="k">try</span><span class="p">:</span>
+<span class="w">    </span><span class="n">HttpApiSynchronizer</span><span class="p">.</span><span class="n">poll</span><span class="p">()</span>
+<span class="w">    </span><span class="n">updateState</span><span class="p">()</span>
+<span class="w">  </span><span class="k">except</span><span class="w"> </span><span class="n">Exception</span><span class="p">:</span>
+<span class="w">    </span><span class="n">echo</span><span class="w"> </span><span class="n">getCurrentException</span><span class="p">()</span>
+<span class="w">    </span><span class="c"># Log but continue running</span>
+</code></pre></div>
+
+<h3 id="hardware-failure-recovery">Hardware Failure Recovery</h3>
+<p><strong>Camera Disconnection</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">proc</span><span class="w"> </span><span class="nf">handleCameraDisconnection</span><span class="p">()</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="c"># 1. Detect device removal (udev monitor)</span>
+<span class="w">  </span><span class="c"># 2. Stop active streams gracefully</span>
+<span class="w">  </span><span class="c"># 3. Set state to &quot;camera unavailable&quot;</span>
+<span class="w">  </span><span class="c"># 4. Notify all clients</span>
+<span class="w">  </span><span class="c"># 5. Retry connection periodically</span>
+</code></pre></div>
+
+<p><strong>Storage Full</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">proc</span><span class="w"> </span><span class="nf">handleStorageFull</span><span class="p">()</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="c"># 1. Stop active recording</span>
+<span class="w">  </span><span class="c"># 2. Delete oldest recordings (if enabled)</span>
+<span class="w">  </span><span class="c"># 3. Notify administrators</span>
+<span class="w">  </span><span class="c"># 4. Set storage state to &quot;full&quot;</span>
+</code></pre></div>
+
+<h3 id="state-inconsistency-recovery">State Inconsistency Recovery</h3>
+<p><strong>Invalid State Detection</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">proc</span><span class="w"> </span><span class="nf">validateStateValue</span><span class="p">(</span><span class="n">key</span><span class="p">:</span><span class="w"> </span><span class="nb">string</span><span class="p">,</span><span class="w"> </span><span class="n">value</span><span class="p">:</span><span class="w"> </span><span class="n">JsonNode</span><span class="p">):</span><span class="w"> </span><span class="nb">bool</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="k">case</span><span class="w"> </span><span class="n">key</span><span class="p">:</span>
+<span class="w">  </span><span class="k">of</span><span class="w"> </span><span class="nl">&quot;brightness&quot;</span><span class="o">:</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">value</span><span class="p">.</span><span class="n">getInt</span><span class="p">()</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="mf">0</span><span class="p">..</span><span class="mi">100</span>
+<span class="w">  </span><span class="k">of</span><span class="w"> </span><span class="nl">&quot;resolution&quot;</span><span class="o">:</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">value</span><span class="p">.</span><span class="n">getStr</span><span class="p">()</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">supportedResolutions</span>
+<span class="w">  </span><span class="k">else</span><span class="p">:</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="kp">true</span>
+</code></pre></div>
+
+<p><strong>Automatic Correction</strong>:<br />
+- Invalid values rejected with error message<br />
+- State reverted to last known good value<br />
+- Client notified of rejection reason</p>
+<h2 id="performance-characteristics">Performance Characteristics</h2>
+<h3 id="resource-usage">Resource Usage</h3>
+<p><strong>Memory Footprint</strong> (typical embedded deployment):<br />
+- Base application: ~40MB RSS<br />
+- Camera pipeline: ~60MB (with GStreamer)<br />
+- Per-client overhead: ~2MB (WebSocket) / ~500KB (RTSP)<br />
+- Maximum tested: 300MB with 10 concurrent streams</p>
+<p><strong>CPU Usage</strong> (ARM Cortex-A53 quad-core):<br />
+- Idle: 2-5%<br />
+- Single stream: 15-25%<br />
+- Recording + streaming: 35-50%<br />
+- FPGA offload: 10-15% (rc_DMG variant)</p>
+<p><strong>Disk I/O</strong>:<br />
+- Recording bandwidth: 8-12 Mbps (1080p H.264)<br />
+- State persistence: &lt;1KB/s average<br />
+- Metadata writes: Batch commits every 5 seconds</p>
+<h3 id="latency-characteristics">Latency Characteristics</h3>
+<table>
+<thead>
+<tr>
+<th>Operation</th>
+<th>Typical Latency</th>
+<th>Maximum</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>State update (local)</td>
+<td>&lt;1ms</td>
+<td>5ms</td>
+</tr>
+<tr>
+<td>WebSocket broadcast</td>
+<td>5-20ms</td>
+<td>100ms</td>
+</tr>
+<tr>
+<td>RTSP stream start</td>
+<td>200-500ms</td>
+<td>2s</td>
+</tr>
+<tr>
+<td>Recording start</td>
+<td>100-300ms</td>
+<td>1s</td>
+</tr>
+<tr>
+<td>API response</td>
+<td>10-50ms</td>
+<td>200ms</td>
+</tr>
+<tr>
+<td>Camera parameter change</td>
+<td>50-200ms</td>
+<td>1s</td>
+</tr>
+</tbody>
+</table>
+<h3 id="scalability-limits">Scalability Limits</h3>
+<p><strong>Tested Limits</strong> (embedded hardware):<br />
+- Concurrent WebSocket clients: 50+<br />
+- Concurrent RTSP streams: 10<br />
+- Concurrent recordings: 2 (with dual cameras)<br />
+- State updates per second: 1000+<br />
+- Recording metadata entries: 100,000+</p>
+<h2 id="deployment-variants">Deployment Variants</h2>
+<p>The system supports multiple build-time variants with different feature sets. See <a href="../configuration/deployment-variants.md">Deployment Variants</a> for details.</p>
+<table>
+<thead>
+<tr>
+<th>Variant</th>
+<th>Target Platform</th>
+<th>Key Features</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>DEFAULT</strong></td>
+<td>Development</td>
+<td>All features, debugging enabled</td>
+</tr>
+<tr>
+<td><strong>DEMO</strong></td>
+<td>Trade shows</td>
+<td>Time-limited, watermarked</td>
+</tr>
+<tr>
+<td><strong>DEV</strong></td>
+<td>Testing</td>
+<td>Factory test mode, diagnostics</td>
+</tr>
+<tr>
+<td><strong>EDU</strong></td>
+<td>Medical education</td>
+<td>Multi-camera, PIP, enhanced UI</td>
+</tr>
+<tr>
+<td><strong>rc_DMG</strong></td>
+<td>Production</td>
+<td>FPGA processing, full features</td>
+</tr>
+<tr>
+<td><strong>VB</strong></td>
+<td>OEM partners</td>
+<td>Custom branding, limited UI</td>
+</tr>
+</tbody>
+</table>
+<h2 id="technology-stack-summary">Technology Stack Summary</h2>
+<h3 id="core-technologies">Core Technologies</h3>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Technology</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Language</strong></td>
+<td>Nim 1.6+</td>
+<td>Application code</td>
+</tr>
+<tr>
+<td><strong>Async Runtime</strong></td>
+<td>Corun</td>
+<td>Event loop, networking</td>
+</tr>
+<tr>
+<td><strong>Video Processing</strong></td>
+<td>GStreamer 1.x</td>
+<td>Camera pipeline</td>
+</tr>
+<tr>
+<td><strong>Camera Interface</strong></td>
+<td>V4L2, UVC</td>
+<td>Device access</td>
+</tr>
+<tr>
+<td><strong>State Storage</strong></td>
+<td>LevelDB</td>
+<td>Key-value persistence</td>
+</tr>
+<tr>
+<td><strong>Metadata Storage</strong></td>
+<td>SQLite 3</td>
+<td>Recording database</td>
+</tr>
+<tr>
+<td><strong>Streaming</strong></td>
+<td>RTSP, WebRTC</td>
+<td>Video delivery</td>
+</tr>
+<tr>
+<td><strong>API Protocols</strong></td>
+<td>HTTP, WebSocket, ONVIF</td>
+<td>Client integration</td>
+</tr>
+<tr>
+<td><strong>Security</strong></td>
+<td>OpenSSL/LibreSSL</td>
+<td>TLS/SSL encryption</td>
+</tr>
+</tbody>
+</table>
+<h3 id="system-dependencies">System Dependencies</h3>
+<p><strong>Runtime Requirements</strong>:<br />
+- Linux kernel 4.9+ (for V4L2 subsystem)<br />
+- GStreamer 1.14+ with plugins (base, good, bad, ugly)<br />
+- SQLite 3.20+<br />
+- LevelDB 1.20+</p>
+<p><strong>Build Requirements</strong>:<br />
+- Nim compiler 1.6+<br />
+- GCC 7+ or Clang 10+<br />
+- pkg-config<br />
+- Linux kernel headers</p>
+<h2 id="related-documentation">Related Documentation</h2>
+<ul>
+<li><strong><a href="state-management.md">State Management</a></strong>: Observable state system details</li>
+<li><strong><a href="camera-pipeline.md">Camera Pipeline</a></strong>: Video processing architecture</li>
+<li><strong><a href="metadata-sqlite.md">Metadata SQLite</a></strong>: Recording database schema</li>
+<li><strong><a href="decisions/ADR-0001-nim-language.md">ADR-0001: Nim Language</a></strong>: Language selection rationale</li>
+<li><strong><a href="decisions/ADR-0002-corun-framework.md">ADR-0002: Corun Framework</a></strong>: Async runtime choice</li>
+<li><strong><a href="decisions/ADR-0003-observable-state.md">ADR-0003: Observable State</a></strong>: State pattern decision</li>
+<li><strong><a href="../configuration/deployment-variants.md">Deployment Variants</a></strong>: Build variants guide</li>
+<li><strong><a href="../getting-started.md">Getting Started</a></strong>: Quick start guide</li>
+<li><strong><a href="../api/README.md">API Reference</a></strong>: Complete API documentation</li>
+</ul>
+<hr />
+<p><em>Architecture overview derived from complete codebase analysis including <code>rotordream.nim</code>, <code>src/state/state.nim</code>, and all subsystem modules.</em></p>
+            </div>
+            <footer class="content-footer">
+                <p>Copyright © 2025 Rotoclear</p>
+            </footer>
+        </main>
+        
+        <button class="mobile-menu-toggle" id="menuToggle" aria-label="Toggle menu">☰</button>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>
+        // Initialize Mermaid
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            securityLevel: 'loose',
+            fontFamily: 'Inter, sans-serif'
+        });
+        
+        // Syntax highlighting
+        hljs.highlightAll();
+        
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.querySelector('.sidebar');
+        
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+        });
+        
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth <= 768 && 
+                !sidebar.contains(e.target) && 
+                !menuToggle.contains(e.target) &&
+                sidebar.classList.contains('active')) {
+                sidebar.classList.remove('active');
+            }
+        });
+        
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Strategy - RotoClear Camera Server Documentation</title>
+    <link rel="stylesheet" href="/assets/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1><a href="/index.html">RotoClear Docs</a></h1>
+                <p>Camera Server Documentation</p>
+            </div>
+            <nav class="sidebar-nav">
+                <ul class="nav-menu">
+                    <li class="nav-item depth-0">
+<a href="/index.html">Home</a>
+</li>
+<li class="nav-item depth-0">
+<a href="/getting-started.html">Getting Started</a>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Architecture</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/architecture/overview.html">Overview</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/architecture/state-management.html">State Management</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/architecture/camera-pipeline.html">Camera Pipeline</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/architecture/metadata-sqlite.html">Metadata & SQLite</a>
+</li>
+<li class="nav-folder depth-1">
+<span class="folder-title">Decisions</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-2">
+<a href="/architecture/decisions/ADR-0001-nim-language.html">ADR-0001 Nim Language</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/architecture/decisions/ADR-0002-corun-framework.html">ADR-0002 Corun Framework</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/architecture/decisions/ADR-0003-observable-state.html">ADR-0003 Observable State</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">API Reference</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/api/README.html">Overview</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/api/websocket-api.html">WebSocket API</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/api/http-api.html">HTTP API</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/api/rtsp-streaming.html">RTSP Streaming</a>
+</li>
+<li class="nav-folder depth-1">
+<span class="folder-title">Examples</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-2">
+<a href="/api/examples/python-client.html">Python Client</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/api/examples/javascript-client.html">JavaScript Client</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/api/examples/csharp-client.html">C# Client</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Configuration</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/configuration/environments.html">Environments</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/factory-config.html">Factory Config</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/license-config.html">License Config</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/deployment-variants.html">Deployment Variants</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/camera-system.html">Camera System</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/network.html">Network</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/storage-backup.html">Storage & Backup</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/authentication.html">Authentication</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Camera System</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/camera/hardware-interface.html">Hardware Interface</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/camera/streaming.html">Streaming</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/camera/recording.html">Recording</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/camera/image-processing.html">Image Processing</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Operations</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/operations/build-and-deploy.html">Build and Deploy</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/build-deploy.html">Build & Deploy (Alt)</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/monitoring.html">Monitoring</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/performance.html">Performance</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/troubleshooting.html">Troubleshooting</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Security</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/security/authentication.html">Authentication</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/security/permissions.html">Permissions</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/security/ssl-certificates.html">SSL Certificates</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Testing</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1 active">
+<a href="/testing/testing-strategy.html">Strategy</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/testing/strategies.html">Strategies</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/testing/test-cases.html">Test Cases</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/testing/validation.html">Validation</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Integration</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/integration/onvif-protocol.html">ONVIF Protocol</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/integration/third-party.html">Third Party</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Reference</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/reference/glossary.html">Glossary</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/reference/requirements.html">Requirements</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/reference/state-observables.html">State Observables</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Releases</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/releases/CHANGELOG.html">Changelog</a>
+</li>
+</ul>
+</li>
+<li class="nav-item depth-0">
+<a href="/glossary.html">Glossary</a>
+</li>
+                </ul>
+            </nav>
+        </aside>
+        
+        <main class="content">
+            <div class="content-wrapper">
+                <h1 id="testing-strategy">Testing Strategy</h1>
+<p><strong>Comprehensive testing approach for the Rotoclear Camera Server.</strong></p>
+<h2 id="testing-overview">Testing Overview</h2>
+<p>The testing strategy covers unit testing, integration testing, and manual verification across multiple components including camera hardware, API endpoints, and system integration.</p>
+<h2 id="test-structure">Test Structure</h2>
+<h3 id="test-directory-organization">Test Directory Organization</h3>
+<div class="codehilite"><pre><span></span><code><span class="nx">tests</span><span class="o">/</span>
+<span class="err">├──</span><span class="w"> </span><span class="nx">test_api</span><span class="p">.</span><span class="nx">nim</span><span class="w">           </span><span class="err">#</span><span class="w"> </span><span class="nx">API</span><span class="w"> </span><span class="nx">endpoint</span><span class="w"> </span><span class="nx">testing</span>
+<span class="err">├──</span><span class="w"> </span><span class="nx">test_websocket</span><span class="p">.</span><span class="nx">nim</span><span class="w">     </span><span class="err">#</span><span class="w"> </span><span class="nx">WebSocket</span><span class="w"> </span><span class="nx">communication</span>
+<span class="err">├──</span><span class="w"> </span><span class="nx">test_hostname</span><span class="p">.</span><span class="nx">nim</span><span class="w">      </span><span class="err">#</span><span class="w"> </span><span class="nx">Network</span><span class="w"> </span><span class="nx">configuration</span>
+<span class="err">├──</span><span class="w"> </span><span class="nx">test_ntp</span><span class="p">.</span><span class="nx">nim</span><span class="w">          </span><span class="err">#</span><span class="w"> </span><span class="nx">Time</span><span class="w"> </span><span class="nx">synchronization</span>
+<span class="err">├──</span><span class="w"> </span><span class="nx">test_observer</span><span class="p">.</span><span class="nx">nim</span><span class="w">     </span><span class="err">#</span><span class="w"> </span><span class="nx">Observable</span><span class="w"> </span><span class="nx">pattern</span>
+<span class="err">├──</span><span class="w"> </span><span class="nx">test_smb_connection</span><span class="p">.</span><span class="nx">nim</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="nx">Network</span><span class="w"> </span><span class="nx">storage</span>
+<span class="err">├──</span><span class="w"> </span><span class="nx">testAvi</span><span class="p">.</span><span class="nx">nim</span><span class="w">           </span><span class="err">#</span><span class="w"> </span><span class="nx">Video</span><span class="w"> </span><span class="nx">recording</span>
+<span class="err">├──</span><span class="w"> </span><span class="nx">testJpeg</span><span class="p">.</span><span class="nx">nim</span><span class="w">          </span><span class="err">#</span><span class="w"> </span><span class="nx">Image</span><span class="w"> </span><span class="nx">capture</span>
+<span class="err">└──</span><span class="w"> </span><span class="nx">onvifC2</span><span class="o">/</span><span class="w">              </span><span class="err">#</span><span class="w"> </span><span class="nx">ONVIF</span><span class="w"> </span><span class="nx">protocol</span><span class="w"> </span><span class="nx">tests</span>
+</code></pre></div>
+
+<h2 id="unit-testing">Unit Testing</h2>
+<h3 id="test-execution">Test Execution</h3>
+<p><strong>Run All Tests:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Execute test suite</span>
+find<span class="w"> </span>tests/<span class="w"> </span>-name<span class="w"> </span><span class="s2">&quot;test_*.nim&quot;</span><span class="w"> </span>-exec<span class="w"> </span>nim<span class="w"> </span>c<span class="w"> </span>-r<span class="w"> </span><span class="o">{}</span><span class="w"> </span><span class="se">\;</span>
+</code></pre></div>
+
+<p><strong>Run Specific Tests:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># API tests</span>
+nim<span class="w"> </span>c<span class="w"> </span>-r<span class="w"> </span>tests/test_api.nim
+
+<span class="c1"># WebSocket tests  </span>
+nim<span class="w"> </span>c<span class="w"> </span>-r<span class="w"> </span>tests/test_websocket.nim
+
+<span class="c1"># Camera tests</span>
+nim<span class="w"> </span>c<span class="w"> </span>-r<span class="w"> </span>tests/testJpeg.nim
+nim<span class="w"> </span>c<span class="w"> </span>-r<span class="w"> </span>tests/testAvi.nim
+</code></pre></div>
+
+<h3 id="api-testing-from-teststest_apinim">API Testing (from <code>tests/test_api.nim</code>)</h3>
+<p><strong>WebSocket API Test:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="n">corun</span><span class="o">/</span><span class="n">net</span><span class="o">/</span><span class="n">websocket</span>
+
+<span class="k">const</span>
+<span class="w">  </span><span class="n">rotoclearIp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;127.0.0.1&quot;</span><span class="w"> </span>
+<span class="w">  </span><span class="n">rotoclearApiPort</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;3000&quot;</span><span class="w"> </span>
+<span class="w">  </span><span class="n">apiToken</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;1a2B3c4D5e6f7G8h&quot;</span>
+<span class="w">  </span><span class="n">wsUrlWithAuth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fmt</span><span class="p">(</span><span class="s">&quot;ws://{rotoclearIp}:{rotoclearApiPort}/api?token={apiToken}&quot;</span><span class="p">)</span>
+
+<span class="k">let</span><span class="w"> </span><span class="n">ws</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">newWebSocket</span><span class="p">(</span><span class="n">wsUrlWithAuth</span><span class="p">)</span>
+
+<span class="n">ws</span><span class="p">.</span><span class="n">onopen</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">proc</span><span class="p">()</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="n">echo</span><span class="p">(</span><span class="s">&quot;Websocket opened&quot;</span><span class="p">)</span>
+<span class="w">  </span><span class="n">ws</span><span class="p">.</span><span class="n">send</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span><span class="s">{</span>
+<span class="s">    &quot;light0&quot;: true,</span>
+<span class="s">    &quot;changePostName&quot;: &quot;test_recording&quot;,</span>
+<span class="s">    &quot;record&quot;: &quot;start&quot;</span>
+<span class="s">  }</span><span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<p><strong>Test Configuration:</strong><br />
+- <strong>Local Testing</strong>: <code>127.0.0.1:3000</code><br />
+- <strong>Remote Testing</strong>: <code>rotoclear-cam.fritz.box:80</code><br />
+- <strong>Authentication</strong>: API token <code>1a2B3c4D5e6f7G8h</code></p>
+<h3 id="observable-pattern-testing-from-teststest_observernim">Observable Pattern Testing (from <code>tests/test_observer.nim</code>)</h3>
+<p>Tests the core state management system:</p>
+<div class="codehilite"><pre><span></span><code><span class="c"># Test observable state changes</span>
+<span class="c"># Test notification system</span>
+<span class="c"># Test state persistence</span>
+<span class="c"># Test concurrent access</span>
+</code></pre></div>
+
+<blockquote>
+<p>TODO: Document specific observable test cases</p>
+</blockquote>
+<h3 id="network-testing">Network Testing</h3>
+<p><strong>SMB Connection Testing</strong> (<code>tests/test_smb_connection.nim</code>):</p>
+<ul>
+<li>Network storage connectivity</li>
+<li>Authentication verification</li>
+<li>File transfer operations</li>
+</ul>
+<p><strong>Hostname Testing</strong> (<code>tests/test_hostname.nim</code>):</p>
+<ul>
+<li>Network configuration validation</li>
+<li>DNS resolution testing</li>
+<li>Network interface verification</li>
+</ul>
+<p><strong>NTP Testing</strong> (<code>tests/test_ntp.nim</code>):</p>
+<ul>
+<li>Time synchronization verification</li>
+<li>NTP server connectivity</li>
+<li>Clock accuracy testing</li>
+</ul>
+<h2 id="integration-testing">Integration Testing</h2>
+<h3 id="camera-hardware-testing">Camera Hardware Testing</h3>
+<p><strong>JPEG Capture Testing</strong> (<code>tests/testJpeg.nim</code>):</p>
+<div class="codehilite"><pre><span></span><code>nim<span class="w"> </span>c<span class="w"> </span>-r<span class="w"> </span>tests/testJpeg.nim
+</code></pre></div>
+
+<p><strong>Video Recording Testing</strong> (<code>tests/testAvi.nim</code>):</p>
+<div class="codehilite"><pre><span></span><code>nim<span class="w"> </span>c<span class="w"> </span>-r<span class="w"> </span>tests/testAvi.nim
+</code></pre></div>
+
+<p><strong>Test Scenarios:</strong></p>
+<ul>
+<li>Camera detection and initialization</li>
+<li>Image capture with various settings</li>
+<li>Video recording start/stop</li>
+<li>Quality setting validation</li>
+<li>Error handling for missing hardware</li>
+</ul>
+<h3 id="protocol-testing">Protocol Testing</h3>
+<p><strong>ONVIF Protocol Testing</strong> (<code>tests/onvifC2/</code>):</p>
+<ul>
+<li>ONVIF service discovery</li>
+<li>Camera control via ONVIF</li>
+<li>Standards compliance verification</li>
+</ul>
+<p><strong>WebSocket Protocol Testing</strong> (<code>tests/test_websocket.nim</code>):</p>
+<ul>
+<li>Connection establishment</li>
+<li>Message exchange</li>
+<li>Authentication flow</li>
+<li>Error handling</li>
+<li>Connection recovery</li>
+</ul>
+<h2 id="manual-testing">Manual Testing</h2>
+<h3 id="api-client-testing">API Client Testing</h3>
+<p><strong>Python Client Testing:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>apiClients/
+python3<span class="w"> </span>example.py
+python3<span class="w"> </span>example2.py
+</code></pre></div>
+
+<p><strong>JavaScript Client Testing:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>apiClients/
+node<span class="w"> </span>exampleInfo.js
+node<span class="w"> </span>nodejsExample.js
+</code></pre></div>
+
+<p><strong>C# Client Testing:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>apiClients/csharpExample/
+dotnet<span class="w"> </span>run
+</code></pre></div>
+
+<h3 id="browser-testing">Browser Testing</h3>
+<p><strong>WebSocket Browser Testing:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c1">// Browser DevTools Console</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">ws</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">WebSocket</span><span class="p">(</span><span class="s2">&quot;ws://localhost:3000/api?token=1a2B3c4D5e6f7G8h&quot;</span><span class="p">);</span>
+<span class="nx">ws</span><span class="p">.</span><span class="nx">onmessage</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="nx">e</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nb">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">data</span><span class="p">));</span>
+<span class="nx">ws</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="nb">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">({</span><span class="s2">&quot;light0&quot;</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span><span class="p">}));</span>
+</code></pre></div>
+
+<p><strong>HTTP Endpoint Testing:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Image capture</span>
+curl<span class="w"> </span><span class="s2">&quot;http://localhost:3000/camera.jpeg?token=1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span>-o<span class="w"> </span>test.jpg
+
+<span class="c1"># System status</span>
+curl<span class="w"> </span><span class="s2">&quot;http://localhost:3000/status?token=1a2B3c4D5e6f7G8h&quot;</span>
+</code></pre></div>
+
+<h2 id="test-environments">Test Environments</h2>
+<h3 id="local-development-testing">Local Development Testing</h3>
+<p><strong>Configuration:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;httpOn&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;httpsOn&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;httpPort&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">3000</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;httpsPort&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">3001</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;discRotation&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Test Commands:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Start test server</span>
+nim<span class="w"> </span>c<span class="w"> </span>-r<span class="w"> </span>rotordream.nim
+
+<span class="c1"># Run API tests</span>
+nim<span class="w"> </span>c<span class="w"> </span>-r<span class="w"> </span>tests/test_api.nim
+
+<span class="c1"># Test camera functionality (requires hardware)</span>
+nim<span class="w"> </span>c<span class="w"> </span>-r<span class="w"> </span>tests/testJpeg.nim
+</code></pre></div>
+
+<h3 id="remote-device-testing">Remote Device Testing</h3>
+<p><strong>Remote Test Execution:</strong></p>
+<div class="codehilite"><pre><span></span><code>nim<span class="w"> </span>c<span class="w"> </span>-r<span class="w"> </span>tools/remoteTest.nim
+</code></pre></div>
+
+<p><strong>Manual Remote Testing:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># SSH to device</span>
+ssh<span class="w"> </span>root@<span class="nv">$C3_BOX_IP</span>
+
+<span class="c1"># Check service status</span>
+systemctl<span class="w"> </span>status<span class="w"> </span>rotoclear_server
+
+<span class="c1"># View logs</span>
+tail<span class="w"> </span>-f<span class="w"> </span>/media/data/logs/rotoclear.log
+
+<span class="c1"># Test API</span>
+curl<span class="w"> </span><span class="s2">&quot;http://localhost/api/status&quot;</span>
+</code></pre></div>
+
+<h2 id="test-data-and-fixtures">Test Data and Fixtures</h2>
+<h3 id="test-media">Test Media</h3>
+<p><strong>Sample Images:</strong></p>
+<ul>
+<li><code>simulator_data/c-basic-start.jpg</code> - Test image for camera simulation</li>
+<li><code>apiClients/currentImage.jpeg</code> - Reference image for comparison</li>
+</ul>
+<p><strong>Test Videos:</strong></p>
+<ul>
+<li><code>simulator_data/Video_18_Nov_2021_11-29-04.avi</code> - Sample recording for playback testing</li>
+</ul>
+<h3 id="test-configuration">Test Configuration</h3>
+<p><strong>Test Environment Variables:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">ROTOCLEAR_TEST_MODE</span><span class="o">=</span><span class="nb">true</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">ROTOCLEAR_MOCK_CAMERA</span><span class="o">=</span><span class="nb">true</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">ROTOCLEAR_TEST_API_TOKEN</span><span class="o">=</span><span class="s2">&quot;test_token_123&quot;</span>
+</code></pre></div>
+
+<h2 id="performance-testing">Performance Testing</h2>
+<h3 id="load-testing">Load Testing</h3>
+<p><strong>WebSocket Connection Load:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Multiple concurrent connections</span>
+<span class="k">for</span><span class="w"> </span>i<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="o">{</span><span class="m">1</span>..10<span class="o">}</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<span class="w">  </span>wscat<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;ws://localhost:3000/api?token=1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="k">done</span>
+</code></pre></div>
+
+<p><strong>HTTP Endpoint Load:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Concurrent image requests</span>
+<span class="k">for</span><span class="w"> </span>i<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="o">{</span><span class="m">1</span>..20<span class="o">}</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<span class="w">  </span>curl<span class="w"> </span><span class="s2">&quot;http://localhost:3000/camera.jpeg?token=1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span>-o<span class="w"> </span><span class="s2">&quot;test_</span><span class="nv">$i</span><span class="s2">.jpg&quot;</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="k">done</span>
+</code></pre></div>
+
+<h3 id="memory-testing">Memory Testing</h3>
+<p><strong>Memory Leak Detection:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Run with memory profiling</span>
+nim<span class="w"> </span>c<span class="w"> </span>-r<span class="w"> </span>-d:memProfiler<span class="w"> </span>rotordream.nim
+
+<span class="c1"># Monitor memory usage</span>
+valgrind<span class="w"> </span>--tool<span class="o">=</span>memcheck<span class="w"> </span>./rotordream
+</code></pre></div>
+
+<h3 id="stress-testing">Stress Testing</h3>
+<p><strong>Rapid Command Testing:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Rapid WebSocket commands</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">websocket</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+
+<span class="n">ws</span> <span class="o">=</span> <span class="n">websocket</span><span class="o">.</span><span class="n">create_connection</span><span class="p">(</span><span class="s2">&quot;ws://localhost:3000/api?token=1a2B3c4D5e6f7G8h&quot;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1000</span><span class="p">):</span>
+    <span class="n">ws</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">({</span><span class="s2">&quot;light0&quot;</span><span class="p">:</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">}))</span>
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.01</span><span class="p">)</span>
+</code></pre></div>
+
+<h2 id="hardware-in-the-loop-testing">Hardware-in-the-Loop Testing</h2>
+<h3 id="camera-testing">Camera Testing</h3>
+<p><strong>Required Hardware:</strong></p>
+<ul>
+<li>V4L2 compatible cameras</li>
+<li>Multiple camera heads</li>
+<li>LED lighting systems</li>
+<li>Rotation motors (if applicable)</li>
+</ul>
+<p><strong>Test Scenarios:</strong></p>
+<ol>
+<li><strong>Camera Detection</strong>: Verify all connected cameras are detected</li>
+<li><strong>Image Capture</strong>: Test various resolutions and quality settings</li>
+<li><strong>Video Recording</strong>: Test different codecs and frame rates</li>
+<li><strong>Light Control</strong>: Verify LED control functionality</li>
+<li><strong>Sensor Selection</strong>: Test camera head sensor switching</li>
+</ol>
+<h3 id="environmental-testing">Environmental Testing</h3>
+<p><strong>Network Conditions:</strong></p>
+<ul>
+<li>Test with various network latencies</li>
+<li>Verify behavior with network interruptions</li>
+<li>Test bandwidth limitations</li>
+</ul>
+<p><strong>Storage Testing:</strong></p>
+<ul>
+<li>Local storage capacity limits</li>
+<li>Network storage connectivity</li>
+<li>Storage failover scenarios</li>
+</ul>
+<h2 id="automated-testing">Automated Testing</h2>
+<h3 id="vs-code-integration">VS Code Integration</h3>
+<p>Use VS Code tasks for common test scenarios:</p>
+<p><strong>Test Tasks:</strong></p>
+<ul>
+<li><code>test-api</code>: Run API test suite</li>
+<li><code>test-camera</code>: Run camera hardware tests</li>
+<li><code>test-remote</code>: Execute remote device tests</li>
+</ul>
+<h2 id="test-coverage">Test Coverage</h2>
+<h3 id="coverage-analysis">Coverage Analysis</h3>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Generate coverage report</span>
+nim<span class="w"> </span>c<span class="w"> </span>-r<span class="w"> </span>--coverage<span class="w"> </span>tests/test_all.nim
+</code></pre></div>
+
+<h3 id="coverage-targets">Coverage Targets</h3>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Target Coverage</th>
+<th>Current</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>API Layer</td>
+<td>90%</td>
+<td>&gt; TODO</td>
+</tr>
+<tr>
+<td>State Management</td>
+<td>85%</td>
+<td>&gt; TODO</td>
+</tr>
+<tr>
+<td>Camera Interface</td>
+<td>70%</td>
+<td>&gt; TODO</td>
+</tr>
+<tr>
+<td>Network Layer</td>
+<td>80%</td>
+<td>&gt; TODO</td>
+</tr>
+</tbody>
+</table>
+<h2 id="debugging-and-diagnostics">Debugging and Diagnostics</h2>
+<h3 id="debug-mode-testing">Debug Mode Testing</h3>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Enable debug logging</span>
+nim<span class="w"> </span>c<span class="w"> </span>-r<span class="w"> </span>-d:RuntimeCallDebug<span class="o">=</span><span class="nb">true</span><span class="w"> </span>rotordream.nim
+
+<span class="c1"># Verbose compilation</span>
+nim<span class="w"> </span>c<span class="w"> </span>-r<span class="w"> </span>--verbosity:3<span class="w"> </span>tests/test_api.nim
+</code></pre></div>
+
+<h3 id="log-analysis">Log Analysis</h3>
+<p><strong>Test Logs Location:</strong></p>
+<ul>
+<li>Development: <code>./logs/</code></li>
+<li>Production: <code>/media/data/logs/</code></li>
+</ul>
+<p><strong>Log Levels:</strong></p>
+<ul>
+<li><code>Debug</code>: Detailed execution flow</li>
+<li><code>Info</code>: General information</li>
+<li><code>Warn</code>: Potential issues</li>
+<li><code>Error</code>: Error conditions</li>
+</ul>
+<h2 id="best-practices">Best Practices</h2>
+<h3 id="test-development">Test Development</h3>
+<ol>
+<li><strong>Isolated Tests</strong>: Each test should be independent</li>
+<li><strong>Mock Hardware</strong>: Use mocks for hardware-dependent tests</li>
+<li><strong>Clear Assertions</strong>: Use descriptive test assertions</li>
+<li><strong>Cleanup</strong>: Ensure tests clean up resources</li>
+<li><strong>Documentation</strong>: Document test purpose and expected behavior</li>
+</ol>
+<h3 id="test-execution_1">Test Execution</h3>
+<ol>
+<li><strong>Pre-commit Testing</strong>: Run critical tests before commits</li>
+<li><strong>Environment Consistency</strong>: Use consistent test environments</li>
+<li><strong>Test Data Management</strong>: Maintain clean test data sets</li>
+<li><strong>Error Reporting</strong>: Capture and report test failures clearly</li>
+</ol>
+<h3 id="hardware-testing">Hardware Testing</h3>
+<ol>
+<li><strong>Safety First</strong>: Ensure safe camera operation during tests</li>
+<li><strong>Hardware State</strong>: Reset hardware to known state before tests</li>
+<li><strong>Error Recovery</strong>: Test error recovery scenarios</li>
+<li><strong>Performance Limits</strong>: Test within hardware performance limits</li>
+</ol>
+<h2 id="troubleshooting-test-issues">Troubleshooting Test Issues</h2>
+<h3 id="common-test-failures">Common Test Failures</h3>
+<p><strong>WebSocket Connection Failed:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Check if server is running</span>
+netstat<span class="w"> </span>-tlnp<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>:3000
+
+<span class="c1"># Verify API token</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64
+</code></pre></div>
+
+<p><strong>Camera Tests Fail:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Check camera permissions</span>
+ls<span class="w"> </span>-l<span class="w"> </span>/dev/video*
+groups<span class="w"> </span><span class="nv">$USER</span>
+
+<span class="c1"># Verify V4L2 support</span>
+v4l2-ctl<span class="w"> </span>--list-devices
+</code></pre></div>
+
+<p><strong>Network Tests Fail:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Check network connectivity</span>
+ping<span class="w"> </span>rotoclear-cam.local
+
+<span class="c1"># Verify DNS resolution</span>
+nslookup<span class="w"> </span>rotoclear-cam.local
+</code></pre></div>
+
+<h2 id="related-documentation">Related Documentation</h2>
+<ul>
+<li><a href="../api/README.md">API Reference</a> - API testing details</li>
+<li><a href="../getting-started.md">Getting Started</a> - Development setup</li>
+<li><a href="../operations/build-and-deploy.md">Build and Deploy</a> - Deployment testing</li>
+</ul>
+<hr />
+<p><em>Testing documentation derived from <code>tests/</code> directory analysis and <code>apiClients/</code> examples</em></p>
+            </div>
+            <footer class="content-footer">
+                <p>Copyright © 2025 Rotoclear</p>
+            </footer>
+        </main>
+        
+        <button class="mobile-menu-toggle" id="menuToggle" aria-label="Toggle menu">☰</button>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>
+        // Initialize Mermaid
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            securityLevel: 'loose',
+            fontFamily: 'Inter, sans-serif'
+        });
+        
+        // Syntax highlighting
+        hljs.highlightAll();
+        
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.querySelector('.sidebar');
+        
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+        });
+        
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth <= 768 && 
+                !sidebar.contains(e.target) && 
+                !menuToggle.contains(e.target) &&
+                sidebar.classList.contains('active')) {
+                sidebar.classList.remove('active');
+            }
+        });
+        
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

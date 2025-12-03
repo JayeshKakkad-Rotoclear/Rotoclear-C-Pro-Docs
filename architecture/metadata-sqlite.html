@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Metadata & SQLite - RotoClear Camera Server Documentation</title>
+    <link rel="stylesheet" href="/assets/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1><a href="/index.html">RotoClear Docs</a></h1>
+                <p>Camera Server Documentation</p>
+            </div>
+            <nav class="sidebar-nav">
+                <ul class="nav-menu">
+                    <li class="nav-item depth-0">
+<a href="/index.html">Home</a>
+</li>
+<li class="nav-item depth-0">
+<a href="/getting-started.html">Getting Started</a>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Architecture</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/architecture/overview.html">Overview</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/architecture/state-management.html">State Management</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/architecture/camera-pipeline.html">Camera Pipeline</a>
+</li>
+<li class="nav-item depth-1 active">
+<a href="/architecture/metadata-sqlite.html">Metadata & SQLite</a>
+</li>
+<li class="nav-folder depth-1">
+<span class="folder-title">Decisions</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-2">
+<a href="/architecture/decisions/ADR-0001-nim-language.html">ADR-0001 Nim Language</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/architecture/decisions/ADR-0002-corun-framework.html">ADR-0002 Corun Framework</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/architecture/decisions/ADR-0003-observable-state.html">ADR-0003 Observable State</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">API Reference</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/api/README.html">Overview</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/api/websocket-api.html">WebSocket API</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/api/http-api.html">HTTP API</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/api/rtsp-streaming.html">RTSP Streaming</a>
+</li>
+<li class="nav-folder depth-1">
+<span class="folder-title">Examples</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-2">
+<a href="/api/examples/python-client.html">Python Client</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/api/examples/javascript-client.html">JavaScript Client</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/api/examples/csharp-client.html">C# Client</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Configuration</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/configuration/environments.html">Environments</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/factory-config.html">Factory Config</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/license-config.html">License Config</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/deployment-variants.html">Deployment Variants</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/camera-system.html">Camera System</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/network.html">Network</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/storage-backup.html">Storage & Backup</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/authentication.html">Authentication</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Camera System</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/camera/hardware-interface.html">Hardware Interface</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/camera/streaming.html">Streaming</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/camera/recording.html">Recording</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/camera/image-processing.html">Image Processing</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Operations</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/operations/build-and-deploy.html">Build and Deploy</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/build-deploy.html">Build & Deploy (Alt)</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/monitoring.html">Monitoring</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/performance.html">Performance</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/troubleshooting.html">Troubleshooting</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Security</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/security/authentication.html">Authentication</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/security/permissions.html">Permissions</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/security/ssl-certificates.html">SSL Certificates</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Testing</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/testing/testing-strategy.html">Strategy</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/testing/strategies.html">Strategies</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/testing/test-cases.html">Test Cases</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/testing/validation.html">Validation</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Integration</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/integration/onvif-protocol.html">ONVIF Protocol</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/integration/third-party.html">Third Party</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Reference</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/reference/glossary.html">Glossary</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/reference/requirements.html">Requirements</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/reference/state-observables.html">State Observables</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Releases</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/releases/CHANGELOG.html">Changelog</a>
+</li>
+</ul>
+</li>
+<li class="nav-item depth-0">
+<a href="/glossary.html">Glossary</a>
+</li>
+                </ul>
+            </nav>
+        </aside>
+        
+        <main class="content">
+            <div class="content-wrapper">
+                <h1 id="metadata-sqlite-database-architecture">Metadata SQLite Database Architecture</h1>
+<p><strong>SQLite-based metadata storage system for recording management, tag organization, and search functionality.</strong></p>
+<h2 id="overview">Overview</h2>
+<p>The C Pro camera system uses SQLite for structured metadata storage separate from the video files themselves. This provides fast querying, relational integrity, and efficient search capabilities for recordings, tags, and categories.</p>
+<div class="mermaid">
+graph TB
+    A[Recording System] --> B[Metadata Store]
+    C[Tag System] --> B
+    D[Category Management] --> B
+
+    B --> E[SQLite Database]
+    E --> F[categories Table]
+    E --> G[tags Table]
+    E --> H[records Table]
+    E --> I[migrations Table]
+
+    J[File System] --> K[Video Files]
+    J --> L[Image Files]
+
+    B -.References.-> K
+    B -.References.-> L
+</div>
+
+<p><strong>Key Characteristics</strong>:<br />
+- <strong>Separate from Video Data</strong>: Metadata in SQLite, media files on filesystem<br />
+- <strong>Relational Integrity</strong>: Foreign keys ensure data consistency<br />
+- <strong>Fast Queries</strong>: Indexed searches on timestamps, categories, filenames<br />
+- <strong>Transactional</strong>: ACID guarantees for metadata operations<br />
+- <strong>Dual Storage</strong>: SQLite for metadata, filesystem for actual media</p>
+<h2 id="database-location">Database Location</h2>
+<p><strong>File</strong>: <code>src/storage/metadata_store.nim</code></p>
+<div class="codehilite"><pre><span></span><code><span class="k">const</span>
+<span class="w">  </span><span class="n">dbFileEmbedded</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;/media/data/metadata.db&quot;</span>
+<span class="w">  </span><span class="n">dbFileDesktop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;metadata.db&quot;</span>
+
+<span class="k">proc</span><span class="w"> </span><span class="nf">metadataDbPath</span><span class="o">*</span><span class="p">():</span><span class="w"> </span><span class="nb">string</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="k">when</span><span class="w"> </span><span class="n">defined</span><span class="p">(</span><span class="n">embeddedSystem</span><span class="p">):</span><span class="w"> </span>
+<span class="w">    </span><span class="n">dbFileEmbedded</span><span class="w"> </span>
+<span class="w">  </span><span class="k">else</span><span class="p">:</span><span class="w"> </span>
+<span class="w">    </span><span class="n">getCurrentDir</span><span class="p">()</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">dbFileDesktop</span>
+</code></pre></div>
+
+<p><strong>Storage Paths</strong>:<br />
+- <strong>Embedded Systems</strong>: <code>/media/data/metadata.db</code> (persistent storage partition)<br />
+- <strong>Desktop/Development</strong>: <code>./metadata.db</code> (current working directory)</p>
+<h2 id="database-schema">Database Schema</h2>
+<h3 id="tables-overview">Tables Overview</h3>
+<table>
+<thead>
+<tr>
+<th>Table</th>
+<th>Purpose</th>
+<th>Row Count (Typical)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>migrations</strong></td>
+<td>Schema version tracking</td>
+<td>1-10</td>
+</tr>
+<tr>
+<td><strong>categories</strong></td>
+<td>Tag categories (user-defined)</td>
+<td>5-50</td>
+</tr>
+<tr>
+<td><strong>tags</strong></td>
+<td>Recording markers/annotations</td>
+<td>100-10,000</td>
+</tr>
+<tr>
+<td><strong>records</strong></td>
+<td>Video/image metadata</td>
+<td>500-100,000</td>
+</tr>
+</tbody>
+</table>
+<h3 id="migrations-table">migrations Table</h3>
+<p>Tracks database schema versions for migration management.</p>
+<div class="codehilite"><pre><span></span><code><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="k">IF</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">EXISTS</span><span class="w"> </span><span class="n">migrations</span><span class="w"> </span><span class="p">(</span>
+<span class="w">  </span><span class="k">version</span><span class="w"> </span><span class="nb">INTEGER</span><span class="w"> </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="p">,</span>
+<span class="w">  </span><span class="n">applied_at</span><span class="w"> </span><span class="nb">INTEGER</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="w">  </span><span class="c1">-- Unix timestamp in milliseconds</span>
+<span class="p">);</span>
+</code></pre></div>
+
+<p><strong>Columns</strong>:<br />
+- <code>version</code>: Schema version number (incremental)<br />
+- <code>applied_at</code>: Timestamp when migration was applied</p>
+<p><strong>Purpose</strong>: Enables safe schema evolution without data loss.</p>
+<p><strong>Example Data</strong>:</p>
+<div class="codehilite"><pre><span></span><code>version | applied_at
+--------|-------------
+1       | 1704067200000
+2       | 1706745600000
+</code></pre></div>
+
+<h3 id="categories-table">categories Table</h3>
+<p>User-defined categories for organizing recording tags.</p>
+<div class="codehilite"><pre><span></span><code><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="k">IF</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">EXISTS</span><span class="w"> </span><span class="n">categories</span><span class="w"> </span><span class="p">(</span>
+<span class="w">  </span><span class="n">id</span><span class="w"> </span><span class="nb">INTEGER</span><span class="w"> </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="p">,</span>
+<span class="w">  </span><span class="n">name</span><span class="w"> </span><span class="nb">TEXT</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="k">UNIQUE</span><span class="p">,</span>
+<span class="w">  </span><span class="n">color</span><span class="w"> </span><span class="nb">TEXT</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<span class="w">  </span><span class="n">created_at</span><span class="w"> </span><span class="nb">INTEGER</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="w">  </span><span class="c1">-- Unix timestamp in milliseconds</span>
+<span class="p">);</span>
+</code></pre></div>
+
+<p><strong>Columns</strong>:<br />
+- <code>id</code>: Unique category identifier (user-assigned, not auto-increment)<br />
+- <code>name</code>: Category name (e.g., "Procedure Start", "Complication", "Device Placement")<br />
+- <code>color</code>: Hex color code for UI display (e.g., "#FF5733")<br />
+- <code>created_at</code>: Creation timestamp in milliseconds</p>
+<p><strong>Constraints</strong>:<br />
+- <code>UNIQUE(name)</code>: Prevents duplicate category names</p>
+<p><strong>Example Data</strong>:</p>
+<div class="codehilite"><pre><span></span><code>id | name              | color    | created_at
+---|-------------------|----------|-------------
+1  | Procedure Start   | #4CAF50  | 1704067200000
+2  | Important Event   | #FF9800  | 1704070800000
+3  | Complication      | #F44336  | 1704074400000
+</code></pre></div>
+
+<p><strong>Nim Type</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">type</span><span class="w"> </span><span class="n">SqlCategory</span><span class="o">*</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">object</span>
+<span class="w">  </span><span class="n">id</span><span class="o">*</span><span class="p">:</span><span class="w"> </span><span class="nb">int</span>
+<span class="w">  </span><span class="n">name</span><span class="o">*</span><span class="p">:</span><span class="w"> </span><span class="nb">string</span>
+<span class="w">  </span><span class="n">color</span><span class="o">*</span><span class="p">:</span><span class="w"> </span><span class="nb">string</span>
+<span class="w">  </span><span class="n">createdAt</span><span class="o">*</span><span class="p">:</span><span class="w"> </span><span class="nb">int64</span>
+</code></pre></div>
+
+<h3 id="tags-table">tags Table</h3>
+<p>Recording markers/annotations associated with categories.</p>
+<div class="codehilite"><pre><span></span><code><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="k">IF</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">EXISTS</span><span class="w"> </span><span class="n">tags</span><span class="w"> </span><span class="p">(</span>
+<span class="w">  </span><span class="n">id</span><span class="w"> </span><span class="nb">INTEGER</span><span class="w"> </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="p">,</span>
+<span class="w">  </span><span class="n">category_id</span><span class="w"> </span><span class="nb">INTEGER</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<span class="w">  </span><span class="k">timestamp</span><span class="w"> </span><span class="nb">INTEGER</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span><span class="w">  </span><span class="c1">-- Unix timestamp in milliseconds</span>
+<span class="w">  </span><span class="n">title</span><span class="w"> </span><span class="nb">TEXT</span><span class="p">,</span>
+<span class="w">  </span><span class="n">note</span><span class="w"> </span><span class="nb">TEXT</span><span class="p">,</span>
+<span class="w">  </span><span class="n">created_by</span><span class="w"> </span><span class="nb">TEXT</span><span class="p">,</span>
+<span class="w">  </span><span class="n">deleted</span><span class="w"> </span><span class="nb">INTEGER</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">   </span><span class="c1">-- Soft delete flag (0=active, 1=deleted)</span>
+<span class="w">  </span><span class="k">FOREIGN</span><span class="w"> </span><span class="k">KEY</span><span class="p">(</span><span class="n">category_id</span><span class="p">)</span><span class="w"> </span><span class="k">REFERENCES</span><span class="w"> </span><span class="n">categories</span><span class="p">(</span><span class="n">id</span><span class="p">)</span>
+<span class="p">);</span>
+</code></pre></div>
+
+<p><strong>Columns</strong>:<br />
+- <code>id</code>: Auto-increment tag identifier<br />
+- <code>category_id</code>: Foreign key to categories table<br />
+- <code>timestamp</code>: When the tag was created (recording timestamp)<br />
+- <code>title</code>: Short tag title (optional)<br />
+- <code>note</code>: Detailed note/description (optional)<br />
+- <code>created_by</code>: Username who created the tag<br />
+- <code>deleted</code>: Soft delete flag (0=active, 1=deleted)</p>
+<p><strong>Constraints</strong>:<br />
+- <code>FOREIGN KEY(category_id)</code>: Ensures referential integrity with categories</p>
+<p><strong>Example Data</strong>:</p>
+<div class="codehilite"><pre><span></span><code>id | category_id | timestamp     | title           | note                    | created_by | deleted
+---|-------------|---------------|-----------------|-------------------------|------------|--------
+1  | 1           | 1704067215000 | Surgery Start   | Patient positioned      | Dr. Smith  | 0
+2  | 2           | 1704067890000 | Device Inserted | 5mm trocar, left side   | Dr. Smith  | 0
+3  | 3           | 1704068120000 | Minor Bleeding  | Controlled with cautery | Dr. Smith  | 0
+</code></pre></div>
+
+<p><strong>Nim Type</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">type</span><span class="w"> </span><span class="n">SqlTag</span><span class="o">*</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">object</span>
+<span class="w">  </span><span class="n">id</span><span class="o">*</span><span class="p">:</span><span class="w"> </span><span class="nb">int</span>
+<span class="w">  </span><span class="n">categoryId</span><span class="o">*</span><span class="p">:</span><span class="w"> </span><span class="nb">int</span>
+<span class="w">  </span><span class="n">timestamp</span><span class="o">*</span><span class="p">:</span><span class="w"> </span><span class="nb">int64</span>
+<span class="w">  </span><span class="n">title</span><span class="o">*</span><span class="p">:</span><span class="w"> </span><span class="nb">string</span>
+<span class="w">  </span><span class="n">note</span><span class="o">*</span><span class="p">:</span><span class="w"> </span><span class="nb">string</span>
+<span class="w">  </span><span class="n">createdBy</span><span class="o">*</span><span class="p">:</span><span class="w"> </span><span class="nb">string</span>
+<span class="w">  </span><span class="n">deleted</span><span class="o">*</span><span class="p">:</span><span class="w"> </span><span class="nb">bool</span>
+</code></pre></div>
+
+<h3 id="records-table">records Table</h3>
+<p>Video and image file metadata for recordings.</p>
+<div class="codehilite"><pre><span></span><code><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="k">IF</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">EXISTS</span><span class="w"> </span><span class="n">records</span><span class="w"> </span><span class="p">(</span>
+<span class="w">  </span><span class="n">id</span><span class="w"> </span><span class="nb">INTEGER</span><span class="w"> </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="p">,</span>
+<span class="w">  </span><span class="n">filename</span><span class="w"> </span><span class="nb">TEXT</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<span class="w">  </span><span class="n">media_type</span><span class="w"> </span><span class="nb">TEXT</span><span class="p">,</span><span class="w">              </span><span class="c1">-- &quot;video&quot;, &quot;timelapse&quot;, &quot;slowmotion&quot;, &quot;image&quot;, &quot;backup&quot;</span>
+<span class="w">  </span><span class="k">encoding</span><span class="w"> </span><span class="nb">TEXT</span><span class="p">,</span><span class="w">                </span><span class="c1">-- &quot;mp4&quot;, &quot;avi&quot;, &quot;jpg&quot;, &quot;jpeg&quot;, &quot;png&quot;</span>
+<span class="w">  </span><span class="n">timestamp_start</span><span class="w"> </span><span class="nb">INTEGER</span><span class="p">,</span><span class="w">      </span><span class="c1">-- Recording start time (milliseconds)</span>
+<span class="w">  </span><span class="n">timestamp_end</span><span class="w"> </span><span class="nb">INTEGER</span><span class="p">,</span><span class="w">        </span><span class="c1">-- Recording end time (milliseconds)</span>
+<span class="w">  </span><span class="n">duration</span><span class="w"> </span><span class="nb">INTEGER</span><span class="p">,</span><span class="w">             </span><span class="c1">-- Duration in milliseconds</span>
+<span class="w">  </span><span class="k">size</span><span class="w"> </span><span class="nb">INTEGER</span><span class="p">,</span><span class="w">                 </span><span class="c1">-- File size in bytes</span>
+<span class="w">  </span><span class="n">resolution</span><span class="w"> </span><span class="nb">TEXT</span><span class="p">,</span><span class="w">              </span><span class="c1">-- e.g., &quot;1920x1080&quot;</span>
+<span class="w">  </span><span class="n">fps</span><span class="w"> </span><span class="nb">REAL</span><span class="p">,</span><span class="w">                     </span><span class="c1">-- Frames per second</span>
+<span class="w">  </span><span class="k">state</span><span class="w"> </span><span class="nb">TEXT</span><span class="p">,</span><span class="w">                   </span><span class="c1">-- &quot;ready&quot;, &quot;recording&quot;, &quot;defect&quot;</span>
+<span class="w">  </span><span class="n">tag_markers</span><span class="w"> </span><span class="nb">INTEGER</span><span class="w">           </span><span class="c1">-- Count of associated tags</span>
+<span class="p">);</span>
+</code></pre></div>
+
+<p><strong>Columns</strong>:<br />
+- <code>id</code>: Auto-increment record identifier<br />
+- <code>filename</code>: Base filename (without path)<br />
+- <code>media_type</code>: Type of recording (video, timelapse, slowmotion, image, backup)<br />
+- <code>encoding</code>: File format (mp4, avi, jpg, jpeg, png)<br />
+- <code>timestamp_start</code>: Recording start timestamp (milliseconds)<br />
+- <code>timestamp_end</code>: Recording end timestamp (milliseconds)<br />
+- <code>duration</code>: Total duration in milliseconds<br />
+- <code>size</code>: File size in bytes<br />
+- <code>resolution</code>: Video resolution (e.g., "1920x1080")<br />
+- <code>fps</code>: Frame rate (e.g., 30.0, 60.0)<br />
+- <code>state</code>: Recording state (ready, recording, defect)<br />
+- <code>tag_markers</code>: Number of tags associated with this recording</p>
+<p><strong>Example Data</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="nx">id</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nx">filename</span><span class="w">                    </span><span class="o">|</span><span class="w"> </span><span class="nx">media_type</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nx">encoding</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nx">timestamp_start</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nx">timestamp_end</span><span class="w">  </span><span class="o">|</span><span class="w"> </span><span class="nx">duration</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nx">size</span><span class="w">      </span><span class="o">|</span><span class="w"> </span><span class="nx">resolution</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nx">fps</span><span class="w">  </span><span class="o">|</span><span class="w"> </span><span class="nx">state</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nx">tag_markers</span>
+<span class="o">---|----------------------------|------------|----------|-----------------|----------------|----------|-----------|------------|------|-------|------------</span>
+<span class="mi">1</span><span class="w">  </span><span class="o">|</span><span class="w"> </span><span class="nx">Video_03_Jan_2024_10</span><span class="o">-</span><span class="mi">30</span><span class="p">.</span><span class="nx">avi</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nx">video</span><span class="w">      </span><span class="o">|</span><span class="w"> </span><span class="nx">avi</span><span class="w">      </span><span class="o">|</span><span class="w"> </span><span class="mi">1704267000000</span><span class="w">   </span><span class="o">|</span><span class="w"> </span><span class="mi">1704270600000</span><span class="w">  </span><span class="o">|</span><span class="w"> </span><span class="mi">3600000</span><span class="w">  </span><span class="o">|</span><span class="w"> </span><span class="mi">524288000</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="mi">1920</span><span class="nx">x1080</span><span class="w">  </span><span class="o">|</span><span class="w"> </span><span class="m m-Double">30.0</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nx">ready</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="mi">5</span>
+<span class="mi">2</span><span class="w">  </span><span class="o">|</span><span class="w"> </span><span class="nx">Timelapse_03_Jan_10</span><span class="o">-</span><span class="mi">45</span><span class="p">.</span><span class="nx">mp4</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nx">timelapse</span><span class="w">  </span><span class="o">|</span><span class="w"> </span><span class="nx">mp4</span><span class="w">      </span><span class="o">|</span><span class="w"> </span><span class="mi">1704267900000</span><span class="w">   </span><span class="o">|</span><span class="w"> </span><span class="mi">1704271500000</span><span class="w">  </span><span class="o">|</span><span class="w"> </span><span class="mi">3600000</span><span class="w">  </span><span class="o">|</span><span class="w"> </span><span class="mi">104857600</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="mi">1920</span><span class="nx">x1080</span><span class="w">  </span><span class="o">|</span><span class="w"> </span><span class="m m-Double">5.0</span><span class="w">  </span><span class="o">|</span><span class="w"> </span><span class="nx">ready</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="mi">2</span>
+<span class="mi">3</span><span class="w">  </span><span class="o">|</span><span class="w"> </span><span class="nx">Image_03_Jan_11</span><span class="o">-</span><span class="mi">15</span><span class="p">.</span><span class="nx">jpg</span><span class="w">     </span><span class="o">|</span><span class="w"> </span><span class="nx">image</span><span class="w">      </span><span class="o">|</span><span class="w"> </span><span class="nx">jpg</span><span class="w">      </span><span class="o">|</span><span class="w"> </span><span class="mi">1704269700000</span><span class="w">   </span><span class="o">|</span><span class="w"> </span><span class="mi">1704269700000</span><span class="w">  </span><span class="o">|</span><span class="w"> </span><span class="mi">0</span><span class="w">        </span><span class="o">|</span><span class="w"> </span><span class="mi">2097152</span><span class="w">   </span><span class="o">|</span><span class="w"> </span><span class="mi">1920</span><span class="nx">x1080</span><span class="w">  </span><span class="o">|</span><span class="w"> </span><span class="m m-Double">0.0</span><span class="w">  </span><span class="o">|</span><span class="w"> </span><span class="nx">ready</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="mi">1</span>
+</code></pre></div>
+
+<p><strong>Nim Type</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">type</span><span class="w"> </span><span class="n">RecordMetadata</span><span class="o">*</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">object</span>
+<span class="w">  </span><span class="n">id</span><span class="o">*</span><span class="p">:</span><span class="w"> </span><span class="nb">int64</span>
+<span class="w">  </span><span class="n">mediaType</span><span class="o">*</span><span class="p">:</span><span class="w"> </span><span class="n">MetadataMediaType</span>
+<span class="w">  </span><span class="n">mediaEncoding</span><span class="o">*</span><span class="p">:</span><span class="w"> </span><span class="n">MetadataMediaEncoding</span>
+<span class="w">  </span><span class="n">timestampStartMs</span><span class="o">*</span><span class="p">:</span><span class="w"> </span><span class="nb">int64</span>
+<span class="w">  </span><span class="n">timestampEndMs</span><span class="o">*</span><span class="p">:</span><span class="w"> </span><span class="nb">int64</span>
+<span class="w">  </span><span class="n">durationMs</span><span class="o">*</span><span class="p">:</span><span class="w"> </span><span class="nb">int64</span>
+<span class="w">  </span><span class="n">size</span><span class="o">*</span><span class="p">:</span><span class="w"> </span><span class="nb">int64</span>
+<span class="w">  </span><span class="n">filename</span><span class="o">*</span><span class="p">:</span><span class="w"> </span><span class="nb">string</span>
+<span class="w">  </span><span class="n">resolution</span><span class="o">*</span><span class="p">:</span><span class="w"> </span><span class="nb">string</span>
+<span class="w">  </span><span class="n">fps</span><span class="o">*</span><span class="p">:</span><span class="w"> </span><span class="nb">float32</span>
+<span class="w">  </span><span class="n">state</span><span class="o">*</span><span class="p">:</span><span class="w"> </span><span class="n">RecordMediaState</span>
+<span class="w">  </span><span class="n">tagMarkers</span><span class="o">*</span><span class="p">:</span><span class="w"> </span><span class="n">uint32</span>
+</code></pre></div>
+
+<h2 id="database-operations">Database Operations</h2>
+<h3 id="initialization">Initialization</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">proc</span><span class="w"> </span><span class="nf">initMetadataStore</span><span class="o">*</span><span class="p">()</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">metadataDbPath</span><span class="p">()</span>
+<span class="w">  </span><span class="n">db</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">)</span>
+
+<span class="w">  </span><span class="c"># Create schema if not exists</span>
+<span class="w">  </span><span class="n">ensureSchema</span><span class="p">()</span>
+
+<span class="w">  </span><span class="c"># Integrity check</span>
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="n">row</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">db</span><span class="p">.</span><span class="n">fastRows</span><span class="p">(</span><span class="s">sql&quot;PRAGMA integrity_check;&quot;</span><span class="p">):</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">row</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="s">&quot;ok&quot;</span><span class="p">:</span>
+<span class="w">      </span><span class="k">raise</span><span class="w"> </span><span class="n">newException</span><span class="p">(</span><span class="n">IOError</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;SQLite integrity check failed: &quot;</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">row</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span><span class="p">)</span>
+
+<span class="w">  </span><span class="c"># Initialize migrations table</span>
+<span class="w">  </span><span class="kd">var</span><span class="w"> </span><span class="n">version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">  </span><span class="kd">var</span><span class="w"> </span><span class="n">found</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kp">false</span>
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="n">row</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">db</span><span class="p">.</span><span class="n">fastRows</span><span class="p">(</span><span class="s">sql&quot;SELECT version FROM migrations ORDER BY version DESC LIMIT 1&quot;</span><span class="p">):</span>
+<span class="w">    </span><span class="n">found</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kp">true</span>
+<span class="w">    </span><span class="n">version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">row</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span><span class="p">.</span><span class="n">parseInt</span>
+
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="n">found</span><span class="p">:</span>
+<span class="w">    </span><span class="n">db</span><span class="p">.</span><span class="n">exec</span><span class="p">(</span><span class="s">sql&quot;INSERT INTO migrations(version, applied_at) VALUES(?, ?)&quot;</span><span class="p">,</span><span class="w"> </span>
+<span class="w">            </span><span class="n">version</span><span class="p">,</span><span class="w"> </span><span class="o">$</span><span class="p">(</span><span class="n">epochTime</span><span class="p">().</span><span class="nb">int64</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">1000</span><span class="p">))</span>
+
+<span class="w">  </span><span class="n">StateLogger</span><span class="p">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;MetadataStore initialized at &quot;</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">path</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="s">&quot;, schema version &quot;</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="o">$</span><span class="n">version</span><span class="p">)</span>
+</code></pre></div>
+
+<p><strong>Startup Sequence</strong>:<br />
+1. Open database connection<br />
+2. Create tables if they don't exist (idempotent)<br />
+3. Run integrity check<br />
+4. Initialize migrations tracking<br />
+5. Log initialization success</p>
+<h3 id="category-operations">Category Operations</h3>
+<h4 id="read-all-categories">Read All Categories</h4>
+<div class="codehilite"><pre><span></span><code><span class="k">proc</span><span class="w"> </span><span class="nf">readAllCategories</span><span class="o">*</span><span class="p">():</span><span class="w"> </span><span class="nb">seq</span><span class="o">[</span><span class="n">SqlCategory</span><span class="o">]</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="n">row</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">db</span><span class="p">.</span><span class="n">fastRows</span><span class="p">(</span><span class="s">sql&quot;SELECT id, name, color, created_at FROM categories ORDER BY id&quot;</span><span class="p">):</span>
+<span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="n">c</span><span class="p">:</span><span class="w"> </span><span class="n">SqlCategory</span>
+<span class="w">    </span><span class="n">c</span><span class="p">.</span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">row</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span><span class="p">.</span><span class="n">parseInt</span>
+<span class="w">    </span><span class="n">c</span><span class="p">.</span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">row</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span>
+<span class="w">    </span><span class="n">c</span><span class="p">.</span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">row</span><span class="o">[</span><span class="mi">2</span><span class="o">]</span>
+<span class="w">    </span><span class="n">c</span><span class="p">.</span><span class="n">createdAt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">row</span><span class="o">[</span><span class="mi">3</span><span class="o">]</span><span class="p">.</span><span class="n">parseInt</span>
+<span class="w">    </span><span class="n">result</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+</code></pre></div>
+
+<h4 id="insert-category">Insert Category</h4>
+<div class="codehilite"><pre><span></span><code><span class="k">proc</span><span class="w"> </span><span class="nf">insertCategory</span><span class="o">*</span><span class="p">(</span><span class="n">id</span><span class="p">:</span><span class="w"> </span><span class="nb">int</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="p">:</span><span class="w"> </span><span class="nb">string</span><span class="p">):</span><span class="w"> </span><span class="nb">int</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">nowMs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">epochTime</span><span class="p">().</span><span class="nb">int64</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">1000</span><span class="p">)</span>
+<span class="w">  </span><span class="n">db</span><span class="p">.</span><span class="n">exec</span><span class="p">(</span><span class="s">sql&quot;INSERT INTO categories(id, name, color, created_at) VALUES(?,?,?,?)&quot;</span><span class="p">,</span><span class="w"> </span>
+<span class="w">          </span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="p">,</span><span class="w"> </span><span class="o">$</span><span class="n">nowMs</span><span class="p">)</span>
+<span class="w">  </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">id</span>
+</code></pre></div>
+
+<h4 id="update-category">Update Category</h4>
+<div class="codehilite"><pre><span></span><code><span class="k">proc</span><span class="w"> </span><span class="nf">updateCategory</span><span class="o">*</span><span class="p">(</span><span class="n">id</span><span class="p">:</span><span class="w"> </span><span class="nb">int</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="p">:</span><span class="w"> </span><span class="nb">string</span><span class="p">)</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="n">db</span><span class="p">.</span><span class="n">exec</span><span class="p">(</span><span class="s">sql&quot;UPDATE categories SET name = ?, color = ? WHERE id = ?&quot;</span><span class="p">,</span><span class="w"> </span>
+<span class="w">          </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="p">,</span><span class="w"> </span><span class="n">id</span><span class="p">)</span>
+</code></pre></div>
+
+<h4 id="delete-category">Delete Category</h4>
+<div class="codehilite"><pre><span></span><code><span class="k">proc</span><span class="w"> </span><span class="nf">deleteCategory</span><span class="o">*</span><span class="p">(</span><span class="n">id</span><span class="p">:</span><span class="w"> </span><span class="nb">int</span><span class="p">)</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="n">db</span><span class="p">.</span><span class="n">exec</span><span class="p">(</span><span class="s">sql&quot;DELETE FROM categories WHERE id = ?&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">id</span><span class="p">)</span>
+</code></pre></div>
+
+<p><strong>Note</strong>: Deleting a category with associated tags will fail due to foreign key constraint. Application must handle cascading deletes or prevent deletion.</p>
+<h3 id="tag-operations">Tag Operations</h3>
+<h4 id="insert-tag">Insert Tag</h4>
+<div class="codehilite"><pre><span></span><code><span class="k">proc</span><span class="w"> </span><span class="nf">insertTag</span><span class="o">*</span><span class="p">(</span><span class="n">categoryId</span><span class="p">:</span><span class="w"> </span><span class="nb">int</span><span class="p">,</span><span class="w"> </span><span class="n">timestamp</span><span class="p">:</span><span class="w"> </span><span class="nb">int64</span><span class="p">,</span><span class="w"> </span><span class="n">title</span><span class="p">,</span><span class="w"> </span><span class="n">note</span><span class="p">,</span><span class="w"> </span><span class="n">createdBy</span><span class="p">:</span><span class="w"> </span><span class="nb">string</span><span class="p">):</span><span class="w"> </span><span class="nb">int</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="n">db</span><span class="p">.</span><span class="n">exec</span><span class="p">(</span><span class="s">sql&quot;INSERT INTO tags(category_id, timestamp, title, note, created_by) VALUES(?,?,?,?,?)&quot;</span><span class="p">,</span><span class="w"> </span>
+<span class="w">          </span><span class="n">categoryId</span><span class="p">,</span><span class="w"> </span><span class="o">$</span><span class="n">timestamp</span><span class="p">,</span><span class="w"> </span><span class="n">title</span><span class="p">,</span><span class="w"> </span><span class="n">note</span><span class="p">,</span><span class="w"> </span><span class="n">createdBy</span><span class="p">)</span>
+
+<span class="w">  </span><span class="c"># Get auto-generated ID</span>
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="n">row</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">db</span><span class="p">.</span><span class="n">fastRows</span><span class="p">(</span><span class="s">sql&quot;SELECT last_insert_rowid()&quot;</span><span class="p">):</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">row</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span><span class="p">.</span><span class="n">parseInt</span>
+</code></pre></div>
+
+<h4 id="read-all-tags">Read All Tags</h4>
+<div class="codehilite"><pre><span></span><code><span class="k">proc</span><span class="w"> </span><span class="nf">readAllTags</span><span class="o">*</span><span class="p">():</span><span class="w"> </span><span class="nb">seq</span><span class="o">[</span><span class="n">SqlTag</span><span class="o">]</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="n">row</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">db</span><span class="p">.</span><span class="n">fastRows</span><span class="p">(</span><span class="s">sql&quot;SELECT id, category_id, timestamp, title, note, created_by, deleted FROM tags&quot;</span><span class="p">):</span>
+<span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="n">t</span><span class="p">:</span><span class="w"> </span><span class="n">SqlTag</span>
+<span class="w">    </span><span class="n">t</span><span class="p">.</span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">row</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span><span class="p">.</span><span class="n">parseInt</span>
+<span class="w">    </span><span class="n">t</span><span class="p">.</span><span class="n">categoryId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">row</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span><span class="p">.</span><span class="n">parseInt</span>
+<span class="w">    </span><span class="n">t</span><span class="p">.</span><span class="n">timestamp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">row</span><span class="o">[</span><span class="mi">2</span><span class="o">]</span><span class="p">.</span><span class="n">parseInt</span>
+<span class="w">    </span><span class="n">t</span><span class="p">.</span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">row</span><span class="o">[</span><span class="mi">3</span><span class="o">]</span>
+<span class="w">    </span><span class="n">t</span><span class="p">.</span><span class="n">note</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">row</span><span class="o">[</span><span class="mi">4</span><span class="o">]</span>
+<span class="w">    </span><span class="n">t</span><span class="p">.</span><span class="n">createdBy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">row</span><span class="o">[</span><span class="mi">5</span><span class="o">]</span>
+<span class="w">    </span><span class="n">t</span><span class="p">.</span><span class="n">deleted</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">row</span><span class="o">[</span><span class="mi">6</span><span class="o">]</span><span class="p">.</span><span class="n">parseInt</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="n">result</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+</code></pre></div>
+
+<p><strong>Soft Delete Pattern</strong>: Tags use <code>deleted</code> flag instead of actual deletion to preserve history.</p>
+<h3 id="record-operations">Record Operations</h3>
+<h4 id="insert-record">Insert Record</h4>
+<div class="codehilite"><pre><span></span><code><span class="k">proc</span><span class="w"> </span><span class="nf">insertRecord</span><span class="o">*</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span><span class="w"> </span><span class="n">mediaType</span><span class="p">,</span><span class="w"> </span><span class="n">encoding</span><span class="p">:</span><span class="w"> </span><span class="nb">string</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                   </span><span class="n">timestampStart</span><span class="p">,</span><span class="w"> </span><span class="n">timestampEnd</span><span class="p">,</span><span class="w"> </span><span class="n">duration</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="p">:</span><span class="w"> </span><span class="nb">int64</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                   </span><span class="n">resolution</span><span class="p">:</span><span class="w"> </span><span class="nb">string</span><span class="p">,</span><span class="w"> </span><span class="n">fps</span><span class="p">:</span><span class="w"> </span><span class="nb">float</span><span class="p">,</span><span class="w"> </span><span class="n">state</span><span class="p">:</span><span class="w"> </span><span class="nb">string</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                   </span><span class="n">tagMarkers</span><span class="p">:</span><span class="w"> </span><span class="nb">int</span><span class="p">):</span><span class="w"> </span><span class="nb">int</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="n">db</span><span class="p">.</span><span class="n">exec</span><span class="p">(</span><span class="s">sql&quot;INSERT INTO records(filename, media_type, encoding, timestamp_start, timestamp_end, duration, size, resolution, fps, state, tag_markers) VALUES(?,?,?,?,?,?,?,?,?,?,?)&quot;</span><span class="p">,</span><span class="w"> </span>
+<span class="w">          </span><span class="n">filename</span><span class="p">,</span><span class="w"> </span><span class="n">mediaType</span><span class="p">,</span><span class="w"> </span><span class="n">encoding</span><span class="p">,</span><span class="w"> </span><span class="o">$</span><span class="n">timestampStart</span><span class="p">,</span><span class="w"> </span><span class="o">$</span><span class="n">timestampEnd</span><span class="p">,</span><span class="w"> </span>
+<span class="w">          </span><span class="o">$</span><span class="n">duration</span><span class="p">,</span><span class="w"> </span><span class="o">$</span><span class="n">size</span><span class="p">,</span><span class="w"> </span><span class="n">resolution</span><span class="p">,</span><span class="w"> </span><span class="o">$</span><span class="n">fps</span><span class="p">,</span><span class="w"> </span><span class="n">state</span><span class="p">,</span><span class="w"> </span><span class="o">$</span><span class="n">tagMarkers</span><span class="p">)</span>
+
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="n">row</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">db</span><span class="p">.</span><span class="n">fastRows</span><span class="p">(</span><span class="s">sql&quot;SELECT last_insert_rowid()&quot;</span><span class="p">):</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">row</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span><span class="p">.</span><span class="n">parseInt</span>
+</code></pre></div>
+
+<h4 id="read-all-records">Read All Records</h4>
+<div class="codehilite"><pre><span></span><code><span class="k">proc</span><span class="w"> </span><span class="nf">readAllRecords</span><span class="o">*</span><span class="p">():</span><span class="w"> </span><span class="nb">seq</span><span class="o">[</span><span class="n">SqlRecord</span><span class="o">]</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="n">row</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">db</span><span class="p">.</span><span class="n">fastRows</span><span class="p">(</span><span class="s">sql&quot;SELECT id, filename, media_type, encoding, timestamp_start, timestamp_end, duration, size, resolution, fps, state, tag_markers FROM records&quot;</span><span class="p">):</span>
+<span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="n">r</span><span class="p">:</span><span class="w"> </span><span class="n">SqlRecord</span>
+<span class="w">    </span><span class="n">r</span><span class="p">.</span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">row</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span><span class="p">.</span><span class="n">parseInt</span>
+<span class="w">    </span><span class="n">r</span><span class="p">.</span><span class="n">filename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">row</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span>
+<span class="w">    </span><span class="n">r</span><span class="p">.</span><span class="n">mediaType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">row</span><span class="o">[</span><span class="mi">2</span><span class="o">]</span>
+<span class="w">    </span><span class="n">r</span><span class="p">.</span><span class="n">encoding</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">row</span><span class="o">[</span><span class="mi">3</span><span class="o">]</span>
+<span class="w">    </span><span class="n">r</span><span class="p">.</span><span class="n">timestampStart</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">row</span><span class="o">[</span><span class="mi">4</span><span class="o">]</span><span class="p">.</span><span class="n">parseInt</span>
+<span class="w">    </span><span class="n">r</span><span class="p">.</span><span class="n">timestampEnd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">row</span><span class="o">[</span><span class="mi">5</span><span class="o">]</span><span class="p">.</span><span class="n">parseInt</span>
+<span class="w">    </span><span class="n">r</span><span class="p">.</span><span class="n">duration</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">row</span><span class="o">[</span><span class="mi">6</span><span class="o">]</span><span class="p">.</span><span class="n">parseInt</span>
+<span class="w">    </span><span class="n">r</span><span class="p">.</span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">row</span><span class="o">[</span><span class="mi">7</span><span class="o">]</span><span class="p">.</span><span class="n">parseInt</span>
+<span class="w">    </span><span class="n">r</span><span class="p">.</span><span class="n">resolution</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">row</span><span class="o">[</span><span class="mi">8</span><span class="o">]</span>
+<span class="w">    </span><span class="n">r</span><span class="p">.</span><span class="n">fps</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">row</span><span class="o">[</span><span class="mi">9</span><span class="o">]</span><span class="p">.</span><span class="n">parseFloat</span>
+<span class="w">    </span><span class="n">r</span><span class="p">.</span><span class="n">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">row</span><span class="o">[</span><span class="mi">10</span><span class="o">]</span>
+<span class="w">    </span><span class="n">r</span><span class="p">.</span><span class="n">tagMarkers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">row</span><span class="o">[</span><span class="mi">11</span><span class="o">]</span><span class="p">.</span><span class="n">parseInt</span>
+<span class="w">    </span><span class="n">result</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+</code></pre></div>
+
+<h2 id="state-synchronization">State Synchronization</h2>
+<h3 id="observable-sqlite-sync">Observable-SQLite Sync</h3>
+<p>The system maintains categories in both <strong>LevelDB</strong> (via Observables) and <strong>SQLite</strong> (for structured queries). Synchronization ensures consistency.</p>
+<div class="mermaid">
+sequenceDiagram
+    participant O as Observable State
+    participant S as Sync Handler
+    participant DB as SQLite Database
+
+    Note over O,DB: Startup: Load from SQLite
+    DB->>S: readAllCategories()
+    S->>O: updateValue(categories)
+
+    Note over O,DB: Runtime: Update from Observable
+    O->>S: Category changed
+    S->>DB: insertCategory() / updateCategory()
+
+    Note over O,DB: Factory Reset: Preserve Categories
+    O->>S: Snapshot categories
+    O->>O: LocalStorage.clear()
+    S->>O: Restore categories
+    O->>DB: Resync to SQLite
+</div>
+
+<h3 id="bootstrap-categories">Bootstrap Categories</h3>
+<p>On first startup, categories are bootstrapped from Observable state to SQLite:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">proc</span><span class="w"> </span><span class="nf">bootstrapCategoriesFromObservable</span><span class="o">*</span><span class="p">()</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="c"># Only run if table empty</span>
+<span class="w">  </span><span class="kd">var</span><span class="w"> </span><span class="n">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="n">row</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">db</span><span class="p">.</span><span class="n">fastRows</span><span class="p">(</span><span class="s">sql&quot;SELECT COUNT(1) FROM categories&quot;</span><span class="p">):</span>
+<span class="w">    </span><span class="n">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">row</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span><span class="p">.</span><span class="n">parseInt</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="n">count</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">:</span><span class="w"> </span><span class="k">return</span>
+
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">categoriesState</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">State</span><span class="p">.</span><span class="n">getUnsafe</span><span class="p">(</span><span class="s">&quot;categories&quot;</span><span class="p">)</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="n">categoriesState</span><span class="p">.</span><span class="n">isNil</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="n">categoriesState</span><span class="p">.</span><span class="n">value</span><span class="p">.</span><span class="n">isNil</span><span class="p">:</span><span class="w"> </span><span class="k">return</span>
+
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="n">k</span><span class="p">,</span><span class="w"> </span><span class="n">v</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">categoriesState</span><span class="p">.</span><span class="n">value</span><span class="p">:</span>
+<span class="w">    </span><span class="k">try</span><span class="p">:</span>
+<span class="w">      </span><span class="k">let</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">k</span><span class="p">.</span><span class="n">parseInt</span>
+<span class="w">      </span><span class="k">let</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">v</span><span class="p">{</span><span class="s">&quot;name&quot;</span><span class="p">}.</span><span class="n">getStr</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">)</span>
+<span class="w">      </span><span class="k">let</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">v</span><span class="p">{</span><span class="s">&quot;color&quot;</span><span class="p">}.</span><span class="n">getStr</span><span class="p">(</span><span class="s">&quot;#FFFFFF&quot;</span><span class="p">)</span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="n">name</span><span class="p">.</span><span class="n">len</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">:</span>
+<span class="w">        </span><span class="n">insertCategory</span><span class="p">(</span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="p">)</span>
+<span class="w">    </span><span class="k">except</span><span class="w"> </span><span class="n">CatchableError</span><span class="p">:</span>
+<span class="w">      </span><span class="n">StateLogger</span><span class="p">.</span><span class="n">warn</span><span class="p">(</span><span class="s">&quot;Bootstrap category error: &quot;</span><span class="p">,</span><span class="w"> </span><span class="n">getCurrentExceptionMsg</span><span class="p">())</span>
+
+<span class="w">  </span><span class="n">StateLogger</span><span class="p">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;Bootstrapped categories into SQLite&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<h3 id="load-categories-into-observable">Load Categories into Observable</h3>
+<p>On startup, load categories from SQLite into Observable state:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">proc</span><span class="w"> </span><span class="nf">loadCategoriesIntoObservable</span><span class="o">*</span><span class="p">()</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">categoriesState</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">State</span><span class="p">.</span><span class="n">getUnsafe</span><span class="p">(</span><span class="s">&quot;categories&quot;</span><span class="p">)</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="n">categoriesState</span><span class="p">.</span><span class="n">isNil</span><span class="p">:</span><span class="w"> </span><span class="k">return</span>
+
+<span class="w">  </span><span class="kd">var</span><span class="w"> </span><span class="n">obj</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">newJObject</span><span class="p">()</span>
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">readAllCategories</span><span class="p">():</span>
+<span class="w">    </span><span class="n">obj</span><span class="o">[$</span><span class="n">c</span><span class="p">.</span><span class="n">id</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">%*</span><span class="p">{</span><span class="w"> </span>
+<span class="w">      </span><span class="s">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="n">c</span><span class="p">.</span><span class="n">id</span><span class="p">,</span><span class="w"> </span>
+<span class="w">      </span><span class="s">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="n">c</span><span class="p">.</span><span class="n">name</span><span class="p">,</span><span class="w"> </span>
+<span class="w">      </span><span class="s">&quot;color&quot;</span><span class="p">:</span><span class="w"> </span><span class="n">c</span><span class="p">.</span><span class="n">color</span><span class="w"> </span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">  </span><span class="n">categoriesState</span><span class="p">.</span><span class="n">updateValue</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span><span class="w"> </span><span class="n">force</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kp">true</span><span class="p">)</span>
+</code></pre></div>
+
+<h3 id="sync-operations">Sync Operations</h3>
+<p>Real-time synchronization from Observable changes to SQLite:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">proc</span><span class="w"> </span><span class="nf">syncCreateCategory</span><span class="o">*</span><span class="p">(</span><span class="n">id</span><span class="p">:</span><span class="w"> </span><span class="nb">int</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="p">:</span><span class="w"> </span><span class="nb">string</span><span class="p">)</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="n">insertCategory</span><span class="p">(</span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="p">)</span>
+
+<span class="k">proc</span><span class="w"> </span><span class="nf">syncUpdateCategory</span><span class="o">*</span><span class="p">(</span><span class="n">id</span><span class="p">:</span><span class="w"> </span><span class="nb">int</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="p">:</span><span class="w"> </span><span class="nb">string</span><span class="p">)</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="n">updateCategory</span><span class="p">(</span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="p">)</span>
+
+<span class="k">proc</span><span class="w"> </span><span class="nf">syncDeleteCategory</span><span class="o">*</span><span class="p">(</span><span class="n">id</span><span class="p">:</span><span class="w"> </span><span class="nb">int</span><span class="p">)</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="n">deleteCategory</span><span class="p">(</span><span class="n">id</span><span class="p">)</span>
+</code></pre></div>
+
+<p><strong>Trigger Points</strong>: Called from Observable observers when category state changes.</p>
+<h2 id="query-patterns">Query Patterns</h2>
+<h3 id="search-by-date-range">Search by Date Range</h3>
+<div class="codehilite"><pre><span></span><code><span class="c1">-- Find recordings in a specific date range</span>
+<span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">records</span><span class="w"> </span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">timestamp_start</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">timestamp_end</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="o">?</span>
+<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">timestamp_start</span><span class="w"> </span><span class="k">DESC</span><span class="p">;</span>
+</code></pre></div>
+
+<h3 id="find-tagged-recordings">Find Tagged Recordings</h3>
+<div class="codehilite"><pre><span></span><code><span class="c1">-- Find all recordings with tags in a specific category</span>
+<span class="k">SELECT</span><span class="w"> </span><span class="k">DISTINCT</span><span class="w"> </span><span class="n">r</span><span class="p">.</span><span class="o">*</span><span class="w"> </span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">records</span><span class="w"> </span><span class="n">r</span>
+<span class="k">JOIN</span><span class="w"> </span><span class="n">tags</span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">t</span><span class="p">.</span><span class="k">timestamp</span><span class="w"> </span><span class="k">BETWEEN</span><span class="w"> </span><span class="n">r</span><span class="p">.</span><span class="n">timestamp_start</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">r</span><span class="p">.</span><span class="n">timestamp_end</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">t</span><span class="p">.</span><span class="n">category_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">t</span><span class="p">.</span><span class="n">deleted</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">r</span><span class="p">.</span><span class="n">timestamp_start</span><span class="w"> </span><span class="k">DESC</span><span class="p">;</span>
+</code></pre></div>
+
+<h3 id="search-by-media-type">Search by Media Type</h3>
+<div class="codehilite"><pre><span></span><code><span class="c1">-- Find all timelapse recordings</span>
+<span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">records</span><span class="w"> </span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">media_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;timelapse&#39;</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="k">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;ready&#39;</span>
+<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">timestamp_start</span><span class="w"> </span><span class="k">DESC</span><span class="p">;</span>
+</code></pre></div>
+
+<h3 id="calculate-storage-statistics">Calculate Storage Statistics</h3>
+<div class="codehilite"><pre><span></span><code><span class="c1">-- Total storage by media type</span>
+<span class="k">SELECT</span><span class="w"> </span>
+<span class="w">  </span><span class="n">media_type</span><span class="p">,</span>
+<span class="w">  </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="k">count</span><span class="p">,</span>
+<span class="w">  </span><span class="k">SUM</span><span class="p">(</span><span class="k">size</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">total_bytes</span><span class="p">,</span>
+<span class="w">  </span><span class="k">SUM</span><span class="p">(</span><span class="n">duration</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">total_duration_ms</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">records</span><span class="w"> </span>
+<span class="k">WHERE</span><span class="w"> </span><span class="k">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;ready&#39;</span>
+<span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">media_type</span><span class="p">;</span>
+</code></pre></div>
+
+<h3 id="find-untagged-recordings">Find Untagged Recordings</h3>
+<div class="codehilite"><pre><span></span><code><span class="c1">-- Recordings without any tags</span>
+<span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">records</span><span class="w"> </span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">tag_markers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="k">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;ready&#39;</span>
+<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">timestamp_start</span><span class="w"> </span><span class="k">DESC</span><span class="p">;</span>
+</code></pre></div>
+
+<h2 id="performance-optimization">Performance Optimization</h2>
+<h3 id="indexes">Indexes</h3>
+<p><strong>Recommended Indexes</strong> (not currently in schema, but should be added):</p>
+<div class="codehilite"><pre><span></span><code><span class="c1">-- Improve date range queries</span>
+<span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="k">IF</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">EXISTS</span><span class="w"> </span><span class="n">idx_records_timestamp_start</span><span class="w"> </span>
+<span class="k">ON</span><span class="w"> </span><span class="n">records</span><span class="p">(</span><span class="n">timestamp_start</span><span class="p">);</span>
+
+<span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="k">IF</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">EXISTS</span><span class="w"> </span><span class="n">idx_records_timestamp_end</span><span class="w"> </span>
+<span class="k">ON</span><span class="w"> </span><span class="n">records</span><span class="p">(</span><span class="n">timestamp_end</span><span class="p">);</span>
+
+<span class="c1">-- Improve tag lookups</span>
+<span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="k">IF</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">EXISTS</span><span class="w"> </span><span class="n">idx_tags_category_id</span><span class="w"> </span>
+<span class="k">ON</span><span class="w"> </span><span class="n">tags</span><span class="p">(</span><span class="n">category_id</span><span class="p">);</span>
+
+<span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="k">IF</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">EXISTS</span><span class="w"> </span><span class="n">idx_tags_timestamp</span><span class="w"> </span>
+<span class="k">ON</span><span class="w"> </span><span class="n">tags</span><span class="p">(</span><span class="k">timestamp</span><span class="p">);</span>
+
+<span class="c1">-- Improve filename searches</span>
+<span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="k">IF</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">EXISTS</span><span class="w"> </span><span class="n">idx_records_filename</span><span class="w"> </span>
+<span class="k">ON</span><span class="w"> </span><span class="n">records</span><span class="p">(</span><span class="n">filename</span><span class="p">);</span>
+</code></pre></div>
+
+<h3 id="query-optimization">Query Optimization</h3>
+<div class="codehilite"><pre><span></span><code><span class="c"># Use prepared statements for repeated queries</span>
+<span class="k">let</span><span class="w"> </span><span class="n">stmt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">db</span><span class="p">.</span><span class="n">prepare</span><span class="p">(</span><span class="s">&quot;SELECT * FROM records WHERE timestamp_start &gt;= ? AND timestamp_end &lt;= ?&quot;</span><span class="p">)</span>
+<span class="k">defer</span><span class="p">:</span><span class="w"> </span><span class="n">stmt</span><span class="p">.</span><span class="n">finalize</span><span class="p">()</span>
+
+<span class="k">for</span><span class="w"> </span><span class="n">row</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">db</span><span class="p">.</span><span class="n">fastRows</span><span class="p">(</span><span class="n">stmt</span><span class="p">,</span><span class="w"> </span><span class="n">startTime</span><span class="p">,</span><span class="w"> </span><span class="n">endTime</span><span class="p">):</span>
+<span class="w">  </span><span class="c"># Process rows</span>
+</code></pre></div>
+
+<h3 id="batch-operations">Batch Operations</h3>
+<div class="codehilite"><pre><span></span><code><span class="c"># Batch inserts in transaction for better performance</span>
+<span class="n">db</span><span class="p">.</span><span class="n">exec</span><span class="p">(</span><span class="s">sql&quot;BEGIN TRANSACTION&quot;</span><span class="p">)</span>
+<span class="k">for</span><span class="w"> </span><span class="n">record</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">recordsBatch</span><span class="p">:</span>
+<span class="w">  </span><span class="n">insertRecord</span><span class="p">(</span><span class="n">record</span><span class="p">.</span><span class="n">filename</span><span class="p">,</span><span class="w"> </span><span class="n">record</span><span class="p">.</span><span class="n">mediaType</span><span class="p">,</span><span class="w"> </span><span class="p">...)</span>
+<span class="n">db</span><span class="p">.</span><span class="n">exec</span><span class="p">(</span><span class="s">sql&quot;COMMIT&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<h2 id="data-integrity">Data Integrity</h2>
+<h3 id="foreign-key-constraints">Foreign Key Constraints</h3>
+<div class="codehilite"><pre><span></span><code><span class="c1">-- Enforced by SQLite when enabled</span>
+<span class="n">PRAGMA</span><span class="w"> </span><span class="n">foreign_keys</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">ON</span><span class="p">;</span>
+</code></pre></div>
+
+<p><strong>Impact</strong>: Prevents orphaned tags when categories are deleted.</p>
+<h3 id="integrity-checks">Integrity Checks</h3>
+<p>Run on initialization and periodically:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">for</span><span class="w"> </span><span class="n">row</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">db</span><span class="p">.</span><span class="n">fastRows</span><span class="p">(</span><span class="s">sql&quot;PRAGMA integrity_check;&quot;</span><span class="p">):</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="n">row</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="s">&quot;ok&quot;</span><span class="p">:</span>
+<span class="w">    </span><span class="k">raise</span><span class="w"> </span><span class="n">newException</span><span class="p">(</span><span class="n">IOError</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;SQLite integrity check failed: &quot;</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">row</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span><span class="p">)</span>
+</code></pre></div>
+
+<h3 id="soft-deletes">Soft Deletes</h3>
+<p>Tags use soft delete pattern to preserve history:</p>
+<div class="codehilite"><pre><span></span><code><span class="c"># Don&#39;t actually delete</span>
+<span class="k">proc</span><span class="w"> </span><span class="nf">softDeleteTag</span><span class="o">*</span><span class="p">(</span><span class="n">id</span><span class="p">:</span><span class="w"> </span><span class="nb">int</span><span class="p">)</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="n">db</span><span class="p">.</span><span class="n">exec</span><span class="p">(</span><span class="s">sql&quot;UPDATE tags SET deleted = 1 WHERE id = ?&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">id</span><span class="p">)</span>
+
+<span class="c"># Query active tags only</span>
+<span class="k">proc</span><span class="w"> </span><span class="nf">readActiveTags</span><span class="o">*</span><span class="p">():</span><span class="w"> </span><span class="nb">seq</span><span class="o">[</span><span class="n">SqlTag</span><span class="o">]</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="n">row</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">db</span><span class="p">.</span><span class="n">fastRows</span><span class="p">(</span><span class="s">sql&quot;SELECT * FROM tags WHERE deleted = 0&quot;</span><span class="p">):</span>
+<span class="w">    </span><span class="c"># ...</span>
+</code></pre></div>
+
+<h2 id="backup-and-recovery">Backup and Recovery</h2>
+<h3 id="database-backup">Database Backup</h3>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Copy database file (ensure no active writes)</span>
+cp<span class="w"> </span>/media/data/metadata.db<span class="w"> </span>/backup/metadata_<span class="k">$(</span>date<span class="w"> </span>+%Y%m%d_%H%M%S<span class="k">)</span>.db
+</code></pre></div>
+
+<h3 id="sqlite-backup-command">SQLite Backup Command</h3>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Using SQLite CLI</span>
+sqlite3<span class="w"> </span>/media/data/metadata.db<span class="w"> </span><span class="s2">&quot;.backup /backup/metadata.db&quot;</span>
+</code></pre></div>
+
+<h3 id="export-to-sql">Export to SQL</h3>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Export schema and data</span>
+sqlite3<span class="w"> </span>/media/data/metadata.db<span class="w"> </span>.dump<span class="w"> </span>&gt;<span class="w"> </span>metadata_backup.sql
+</code></pre></div>
+
+<h3 id="restore-from-backup">Restore from Backup</h3>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Replace database file</span>
+cp<span class="w"> </span>/backup/metadata.db<span class="w"> </span>/media/data/metadata.db
+
+<span class="c1"># Or restore from SQL dump</span>
+sqlite3<span class="w"> </span>/media/data/metadata.db<span class="w"> </span>&lt;<span class="w"> </span>metadata_backup.sql
+</code></pre></div>
+
+<h2 id="migration-strategy">Migration Strategy</h2>
+<h3 id="schema-version-tracking">Schema Version Tracking</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">proc</span><span class="w"> </span><span class="nf">getCurrentSchemaVersion</span><span class="o">*</span><span class="p">():</span><span class="w"> </span><span class="nb">int</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="n">row</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">db</span><span class="p">.</span><span class="n">fastRows</span><span class="p">(</span><span class="s">sql&quot;SELECT MAX(version) FROM migrations&quot;</span><span class="p">):</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">row</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span><span class="p">.</span><span class="n">parseInt</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span>
+
+<span class="k">proc</span><span class="w"> </span><span class="nf">recordMigration</span><span class="o">*</span><span class="p">(</span><span class="n">version</span><span class="p">:</span><span class="w"> </span><span class="nb">int</span><span class="p">)</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">timestamp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">epochTime</span><span class="p">().</span><span class="nb">int64</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">1000</span>
+<span class="w">  </span><span class="n">db</span><span class="p">.</span><span class="n">exec</span><span class="p">(</span><span class="s">sql&quot;INSERT INTO migrations(version, applied_at) VALUES(?, ?)&quot;</span><span class="p">,</span><span class="w"> </span>
+<span class="w">          </span><span class="n">version</span><span class="p">,</span><span class="w"> </span><span class="o">$</span><span class="n">timestamp</span><span class="p">)</span>
+</code></pre></div>
+
+<h3 id="migration-example">Migration Example</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">proc</span><span class="w"> </span><span class="nf">migrateToVersion2</span><span class="o">*</span><span class="p">()</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">currentVersion</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">getCurrentSchemaVersion</span><span class="p">()</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="n">currentVersion</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">2</span><span class="p">:</span><span class="w"> </span><span class="k">return</span>
+
+<span class="w">  </span><span class="c"># Add new column</span>
+<span class="w">  </span><span class="n">db</span><span class="p">.</span><span class="n">exec</span><span class="p">(</span><span class="s">sql&quot;ALTER TABLE records ADD COLUMN thumbnail_path TEXT&quot;</span><span class="p">)</span>
+
+<span class="w">  </span><span class="c"># Record migration</span>
+<span class="w">  </span><span class="n">recordMigration</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="w">  </span><span class="n">StateLogger</span><span class="p">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;Migrated database to version 2&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<h2 id="troubleshooting">Troubleshooting</h2>
+<h3 id="database-locked">Database Locked</h3>
+<p><strong>Issue</strong>: <code>database is locked</code> error</p>
+<p><strong>Solution</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c"># Set busy timeout</span>
+<span class="n">db</span><span class="p">.</span><span class="n">exec</span><span class="p">(</span><span class="s">sql&quot;PRAGMA busy_timeout = 5000&quot;</span><span class="p">)</span><span class="w">  </span><span class="c"># Wait up to 5 seconds</span>
+</code></pre></div>
+
+<h3 id="corrupted-database">Corrupted Database</h3>
+<p><strong>Issue</strong>: Integrity check fails</p>
+<p><strong>Solution</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Dump and recreate</span>
+sqlite3<span class="w"> </span>/media/data/metadata.db<span class="w"> </span><span class="s2">&quot;.dump&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sqlite3<span class="w"> </span>/media/data/metadata_fixed.db
+mv<span class="w"> </span>/media/data/metadata_fixed.db<span class="w"> </span>/media/data/metadata.db
+</code></pre></div>
+
+<h3 id="missing-foreign-keys">Missing Foreign Keys</h3>
+<p><strong>Issue</strong>: Foreign key constraint violations</p>
+<p><strong>Check</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">PRAGMA</span><span class="w"> </span><span class="n">foreign_keys</span><span class="p">;</span><span class="w">        </span><span class="c1">-- Check if enabled</span>
+<span class="n">PRAGMA</span><span class="w"> </span><span class="n">foreign_key_check</span><span class="p">;</span><span class="w">   </span><span class="c1">-- Find violations</span>
+</code></pre></div>
+
+<h2 id="related-documentation">Related Documentation</h2>
+<ul>
+<li><strong><a href="../camera/recording.md">Recording System</a></strong>: How recordings interact with metadata</li>
+<li><strong><a href="state-management.md">State Management</a></strong>: Observable state synchronization</li>
+<li><strong><a href="../configuration/storage-backup.md">Storage Configuration</a></strong>: Storage setup</li>
+<li><strong><a href="../camera/recording.md#issue-150-factory-reset-preservation">Factory Reset Fix</a></strong>: Category preservation</li>
+<li><strong><a href="overview.md">Architecture Overview</a></strong>: System-wide architecture</li>
+</ul>
+<hr />
+<p><em>Metadata SQLite documentation derived from <code>src/storage/metadata_store.nim</code> and <code>src/state/record_data.nim</code></em></p>
+            </div>
+            <footer class="content-footer">
+                <p>Copyright © 2025 Rotoclear</p>
+            </footer>
+        </main>
+        
+        <button class="mobile-menu-toggle" id="menuToggle" aria-label="Toggle menu">☰</button>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>
+        // Initialize Mermaid
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            securityLevel: 'loose',
+            fontFamily: 'Inter, sans-serif'
+        });
+        
+        // Syntax highlighting
+        hljs.highlightAll();
+        
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.querySelector('.sidebar');
+        
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+        });
+        
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth <= 768 && 
+                !sidebar.contains(e.target) && 
+                !menuToggle.contains(e.target) &&
+                sidebar.classList.contains('active')) {
+                sidebar.classList.remove('active');
+            }
+        });
+        
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Processing - RotoClear Camera Server Documentation</title>
+    <link rel="stylesheet" href="/assets/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1><a href="/index.html">RotoClear Docs</a></h1>
+                <p>Camera Server Documentation</p>
+            </div>
+            <nav class="sidebar-nav">
+                <ul class="nav-menu">
+                    <li class="nav-item depth-0">
+<a href="/index.html">Home</a>
+</li>
+<li class="nav-item depth-0">
+<a href="/getting-started.html">Getting Started</a>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Architecture</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/architecture/overview.html">Overview</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/architecture/state-management.html">State Management</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/architecture/camera-pipeline.html">Camera Pipeline</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/architecture/metadata-sqlite.html">Metadata & SQLite</a>
+</li>
+<li class="nav-folder depth-1">
+<span class="folder-title">Decisions</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-2">
+<a href="/architecture/decisions/ADR-0001-nim-language.html">ADR-0001 Nim Language</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/architecture/decisions/ADR-0002-corun-framework.html">ADR-0002 Corun Framework</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/architecture/decisions/ADR-0003-observable-state.html">ADR-0003 Observable State</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">API Reference</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/api/README.html">Overview</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/api/websocket-api.html">WebSocket API</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/api/http-api.html">HTTP API</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/api/rtsp-streaming.html">RTSP Streaming</a>
+</li>
+<li class="nav-folder depth-1">
+<span class="folder-title">Examples</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-2">
+<a href="/api/examples/python-client.html">Python Client</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/api/examples/javascript-client.html">JavaScript Client</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/api/examples/csharp-client.html">C# Client</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Configuration</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/configuration/environments.html">Environments</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/factory-config.html">Factory Config</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/license-config.html">License Config</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/deployment-variants.html">Deployment Variants</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/camera-system.html">Camera System</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/network.html">Network</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/storage-backup.html">Storage & Backup</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/authentication.html">Authentication</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Camera System</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/camera/hardware-interface.html">Hardware Interface</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/camera/streaming.html">Streaming</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/camera/recording.html">Recording</a>
+</li>
+<li class="nav-item depth-1 active">
+<a href="/camera/image-processing.html">Image Processing</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Operations</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/operations/build-and-deploy.html">Build and Deploy</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/build-deploy.html">Build & Deploy (Alt)</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/monitoring.html">Monitoring</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/performance.html">Performance</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/troubleshooting.html">Troubleshooting</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Security</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/security/authentication.html">Authentication</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/security/permissions.html">Permissions</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/security/ssl-certificates.html">SSL Certificates</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Testing</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/testing/testing-strategy.html">Strategy</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/testing/strategies.html">Strategies</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/testing/test-cases.html">Test Cases</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/testing/validation.html">Validation</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Integration</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/integration/onvif-protocol.html">ONVIF Protocol</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/integration/third-party.html">Third Party</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Reference</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/reference/glossary.html">Glossary</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/reference/requirements.html">Requirements</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/reference/state-observables.html">State Observables</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Releases</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/releases/CHANGELOG.html">Changelog</a>
+</li>
+</ul>
+</li>
+<li class="nav-item depth-0">
+<a href="/glossary.html">Glossary</a>
+</li>
+                </ul>
+            </nav>
+        </aside>
+        
+        <main class="content">
+            <div class="content-wrapper">
+                <h1 id="image-processing">Image Processing</h1>
+<h2 id="overview">Overview</h2>
+<p>The RotoClear camera system includes advanced image processing capabilities for enhancing video quality, adding overlays, and performing real-time transformations. Processing is performed using a combination of CPU, GPU, and FPGA acceleration.</p>
+<h2 id="image-processing-pipeline">Image Processing Pipeline</h2>
+<div class="mermaid">
+graph LR
+    Camera[Camera Input] --> Capture[Frame Capture]
+    Capture --> Enhance[Enhancement]
+    Enhance --> Transform[Transformation]
+    Transform --> Overlay[Overlay Rendering]
+    Overlay --> Encode[Encoding]
+    Encode --> Output[Output Stream/File]
+
+    FPGA[FPGA Processor] -.->|Hardware Acceleration| Enhance
+    GPU[GPU] -.->|H.264 Encode| Encode
+
+    style FPGA fill:#f96,stroke:#333,stroke-width:2px
+    style GPU fill:#9cf,stroke:#333,stroke-width:2px
+</div>
+
+<h2 id="image-enhancement">Image Enhancement</h2>
+<h3 id="color-correction">Color Correction</h3>
+<div class="codehilite"><pre><span></span><code><span class="c"># src/state/rc_image_settings.nim</span>
+<span class="k">proc</span><span class="w"> </span><span class="nf">initImageSettings</span><span class="o">*</span><span class="p">()</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="n">initObservable</span><span class="p">(</span><span class="s">&quot;brightness&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">permissionRead</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Device_r</span><span class="p">,</span><span class="w"> </span><span class="n">Device_rw</span><span class="p">},</span>
+<span class="w">    </span><span class="n">permissionWrite</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Device_rw</span><span class="p">},</span>
+<span class="w">    </span><span class="n">default</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">%</span><span class="mi">50</span><span class="p">,</span><span class="w">  </span><span class="c"># 0-100</span>
+<span class="w">    </span><span class="n">validateType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Int</span>
+<span class="w">  </span><span class="p">)</span>
+
+<span class="w">  </span><span class="n">initObservable</span><span class="p">(</span><span class="s">&quot;contrast&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">permissionRead</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Device_r</span><span class="p">,</span><span class="w"> </span><span class="n">Device_rw</span><span class="p">},</span>
+<span class="w">    </span><span class="n">permissionWrite</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Device_rw</span><span class="p">},</span>
+<span class="w">    </span><span class="n">default</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">%</span><span class="mi">50</span><span class="p">,</span><span class="w">  </span><span class="c"># 0-100</span>
+<span class="w">    </span><span class="n">validateType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Int</span>
+<span class="w">  </span><span class="p">)</span>
+
+<span class="w">  </span><span class="n">initObservable</span><span class="p">(</span><span class="s">&quot;saturation&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">permissionRead</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Device_r</span><span class="p">,</span><span class="w"> </span><span class="n">Device_rw</span><span class="p">},</span>
+<span class="w">    </span><span class="n">permissionWrite</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Device_rw</span><span class="p">},</span>
+<span class="w">    </span><span class="n">default</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">%</span><span class="mi">50</span><span class="p">,</span><span class="w">  </span><span class="c"># 0-100</span>
+<span class="w">    </span><span class="n">validateType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Int</span>
+<span class="w">  </span><span class="p">)</span>
+
+<span class="w">  </span><span class="n">initObservable</span><span class="p">(</span><span class="s">&quot;hue&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">permissionRead</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Device_r</span><span class="p">,</span><span class="w"> </span><span class="n">Device_rw</span><span class="p">},</span>
+<span class="w">    </span><span class="n">permissionWrite</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Device_rw</span><span class="p">},</span>
+<span class="w">    </span><span class="n">default</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">%</span><span class="mi">0</span><span class="p">,</span><span class="w">  </span><span class="c"># -180 to +180</span>
+<span class="w">    </span><span class="n">validateType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Int</span>
+<span class="w">  </span><span class="p">)</span>
+</code></pre></div>
+
+<h3 id="v4l2-control-implementation">V4L2 Control Implementation</h3>
+<div class="codehilite"><pre><span></span><code><span class="c1">// src/camserver/v4l2_dev_interface.c</span>
+<span class="kt">int</span><span class="w"> </span><span class="nf">apply_image_settings</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">fd</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">image_settings</span><span class="o">*</span><span class="w"> </span><span class="n">settings</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">v4l2_control</span><span class="w"> </span><span class="n">ctrl</span><span class="p">;</span>
+
+<span class="w">    </span><span class="c1">// Brightness</span>
+<span class="w">    </span><span class="n">ctrl</span><span class="p">.</span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">V4L2_CID_BRIGHTNESS</span><span class="p">;</span>
+<span class="w">    </span><span class="n">ctrl</span><span class="p">.</span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">settings</span><span class="o">-&gt;</span><span class="n">brightness</span><span class="p">;</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">ioctl</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span><span class="w"> </span><span class="n">VIDIOC_S_CTRL</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">ctrl</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">perror</span><span class="p">(</span><span class="s">&quot;Failed to set brightness&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// Contrast</span>
+<span class="w">    </span><span class="n">ctrl</span><span class="p">.</span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">V4L2_CID_CONTRAST</span><span class="p">;</span>
+<span class="w">    </span><span class="n">ctrl</span><span class="p">.</span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">settings</span><span class="o">-&gt;</span><span class="n">contrast</span><span class="p">;</span>
+<span class="w">    </span><span class="n">ioctl</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span><span class="w"> </span><span class="n">VIDIOC_S_CTRL</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">ctrl</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// Saturation</span>
+<span class="w">    </span><span class="n">ctrl</span><span class="p">.</span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">V4L2_CID_SATURATION</span><span class="p">;</span>
+<span class="w">    </span><span class="n">ctrl</span><span class="p">.</span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">settings</span><span class="o">-&gt;</span><span class="n">saturation</span><span class="p">;</span>
+<span class="w">    </span><span class="n">ioctl</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span><span class="w"> </span><span class="n">VIDIOC_S_CTRL</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">ctrl</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// Hue</span>
+<span class="w">    </span><span class="n">ctrl</span><span class="p">.</span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">V4L2_CID_HUE</span><span class="p">;</span>
+<span class="w">    </span><span class="n">ctrl</span><span class="p">.</span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">settings</span><span class="o">-&gt;</span><span class="n">hue</span><span class="p">;</span>
+<span class="w">    </span><span class="n">ioctl</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span><span class="w"> </span><span class="n">VIDIOC_S_CTRL</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">ctrl</span><span class="p">);</span>
+
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="white-balance">White Balance</h3>
+<div class="codehilite"><pre><span></span><code><span class="n">initObservable</span><span class="p">(</span><span class="s">&quot;whiteBalance&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="n">permissionRead</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Device_r</span><span class="p">,</span><span class="w"> </span><span class="n">Device_rw</span><span class="p">},</span>
+<span class="w">  </span><span class="n">permissionWrite</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Device_rw</span><span class="p">},</span>
+<span class="w">  </span><span class="n">default</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">%</span><span class="p">{</span>
+<span class="w">    </span><span class="s">&quot;mode&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;auto&quot;</span><span class="p">,</span><span class="w">  </span><span class="c"># auto, manual, daylight, cloudy, tungsten, fluorescent</span>
+<span class="w">    </span><span class="s">&quot;temperature&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">5500</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">)</span>
+
+<span class="k">proc</span><span class="w"> </span><span class="nf">applyWhiteBalance</span><span class="o">*</span><span class="p">(</span><span class="n">mode</span><span class="p">:</span><span class="w"> </span><span class="nb">string</span><span class="p">,</span><span class="w"> </span><span class="n">temperature</span><span class="p">:</span><span class="w"> </span><span class="nb">int</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5500</span><span class="p">)</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="k">case</span><span class="w"> </span><span class="n">mode</span><span class="p">:</span>
+<span class="w">  </span><span class="k">of</span><span class="w"> </span><span class="nl">&quot;auto&quot;</span><span class="o">:</span>
+<span class="w">    </span><span class="n">enableAutoWhiteBalance</span><span class="p">()</span>
+<span class="w">  </span><span class="k">of</span><span class="w"> </span><span class="nl">&quot;manual&quot;</span><span class="o">:</span>
+<span class="w">    </span><span class="n">setColorTemperature</span><span class="p">(</span><span class="n">temperature</span><span class="p">)</span>
+<span class="w">  </span><span class="k">of</span><span class="w"> </span><span class="nl">&quot;daylight&quot;</span><span class="o">:</span>
+<span class="w">    </span><span class="n">setColorTemperature</span><span class="p">(</span><span class="mi">5500</span><span class="p">)</span>
+<span class="w">  </span><span class="k">of</span><span class="w"> </span><span class="nl">&quot;cloudy&quot;</span><span class="o">:</span>
+<span class="w">    </span><span class="n">setColorTemperature</span><span class="p">(</span><span class="mi">6500</span><span class="p">)</span>
+<span class="w">  </span><span class="k">of</span><span class="w"> </span><span class="nl">&quot;tungsten&quot;</span><span class="o">:</span>
+<span class="w">    </span><span class="n">setColorTemperature</span><span class="p">(</span><span class="mi">3200</span><span class="p">)</span>
+<span class="w">  </span><span class="k">of</span><span class="w"> </span><span class="nl">&quot;fluorescent&quot;</span><span class="o">:</span>
+<span class="w">    </span><span class="n">setColorTemperature</span><span class="p">(</span><span class="mi">4000</span><span class="p">)</span>
+</code></pre></div>
+
+<h2 id="image-transformations">Image Transformations</h2>
+<h3 id="zoom-and-pan">Zoom and Pan</h3>
+<div class="codehilite"><pre><span></span><code><span class="c"># src/state/rc_zoom.nim</span>
+<span class="k">proc</span><span class="w"> </span><span class="nf">initZoom</span><span class="o">*</span><span class="p">()</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="n">initObservable</span><span class="p">(</span><span class="s">&quot;digitalZoom&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">permissionRead</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Device_r</span><span class="p">,</span><span class="w"> </span><span class="n">Device_rw</span><span class="p">},</span>
+<span class="w">    </span><span class="n">permissionWrite</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Device_rw</span><span class="p">},</span>
+<span class="w">    </span><span class="n">default</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">%</span><span class="p">{</span>
+<span class="w">      </span><span class="s">&quot;enabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="kp">false</span><span class="p">,</span>
+<span class="w">      </span><span class="s">&quot;level&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">1.0</span><span class="p">,</span><span class="w">    </span><span class="c"># 1.0 - 10.0</span>
+<span class="w">      </span><span class="s">&quot;panX&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w">     </span><span class="c"># -1.0 to +1.0 (normalized)</span>
+<span class="w">      </span><span class="s">&quot;panY&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span><span class="w">      </span><span class="c"># -1.0 to +1.0 (normalized)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">)</span>
+</code></pre></div>
+
+<h3 id="gstreamer-zoom-implementation">GStreamer Zoom Implementation</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">proc</span><span class="w"> </span><span class="nf">applyDigitalZoom</span><span class="o">*</span><span class="p">(</span><span class="n">level</span><span class="p">:</span><span class="w"> </span><span class="nb">float</span><span class="p">,</span><span class="w"> </span><span class="n">panX</span><span class="p">:</span><span class="w"> </span><span class="nb">float</span><span class="p">,</span><span class="w"> </span><span class="n">panY</span><span class="p">:</span><span class="w"> </span><span class="nb">float</span><span class="p">)</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="c"># Calculate crop rectangle for zoom</span>
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1920</span>
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1080</span>
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">cropWidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">width</span><span class="p">.</span><span class="nb">float</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">level</span><span class="p">).</span><span class="nb">int</span>
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">cropHeight</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">height</span><span class="p">.</span><span class="nb">float</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">level</span><span class="p">).</span><span class="nb">int</span>
+
+<span class="w">  </span><span class="c"># Calculate pan offset</span>
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">maxPanX</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">width</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">cropWidth</span><span class="p">)</span><span class="w"> </span><span class="ow">div</span><span class="w"> </span><span class="mi">2</span>
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">maxPanY</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">height</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">cropHeight</span><span class="p">)</span><span class="w"> </span><span class="ow">div</span><span class="w"> </span><span class="mi">2</span>
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">offsetX</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">panX</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">maxPanX</span><span class="p">.</span><span class="nb">float</span><span class="p">).</span><span class="nb">int</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">maxPanX</span>
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">offsetY</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">panY</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">maxPanY</span><span class="p">.</span><span class="nb">float</span><span class="p">).</span><span class="nb">int</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">maxPanY</span>
+
+<span class="w">  </span><span class="c"># Apply crop filter</span>
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">pipeline</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">fmt&quot;</span><span class="se">&quot;&quot;</span>
+<span class="w">    </span><span class="n">videocrop</span><span class="w"> </span>
+<span class="w">      </span><span class="n">left</span><span class="o">=</span><span class="p">{</span><span class="n">offsetX</span><span class="p">}</span><span class="w"> </span>
+<span class="w">      </span><span class="n">right</span><span class="o">=</span><span class="p">{</span><span class="n">width</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">offsetX</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">cropWidth</span><span class="p">}</span>
+<span class="w">      </span><span class="n">top</span><span class="o">=</span><span class="p">{</span><span class="n">offsetY</span><span class="p">}</span>
+<span class="w">      </span><span class="n">bottom</span><span class="o">=</span><span class="p">{</span><span class="n">height</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">offsetY</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">cropHeight</span><span class="p">}</span><span class="w"> </span><span class="o">!</span>
+<span class="w">    </span><span class="n">videoscale</span><span class="w"> </span><span class="o">!</span><span class="w"> </span>
+<span class="w">    </span><span class="n">video</span><span class="o">/</span><span class="n">x</span><span class="o">-</span><span class="n">raw</span><span class="p">,</span><span class="n">width</span><span class="o">=</span><span class="p">{</span><span class="n">width</span><span class="p">},</span><span class="n">height</span><span class="o">=</span><span class="p">{</span><span class="n">height</span><span class="p">}</span>
+<span class="w">  </span><span class="s2">&quot;&quot;&quot;</span>
+
+<span class="s">  updatePipeline(pipeline)</span>
+</code></pre></div>
+
+<h3 id="rotation-and-flip">Rotation and Flip</h3>
+<div class="codehilite"><pre><span></span><code><span class="n">initObservable</span><span class="p">(</span><span class="s">&quot;videoRotation&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="n">permissionRead</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Device_r</span><span class="p">,</span><span class="w"> </span><span class="n">Device_rw</span><span class="p">},</span>
+<span class="w">  </span><span class="n">permissionWrite</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Device_rw</span><span class="p">},</span>
+<span class="w">  </span><span class="n">default</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">%</span><span class="mi">0</span><span class="p">,</span><span class="w">  </span><span class="c"># 0, 90, 180, 270 degrees</span>
+<span class="w">  </span><span class="n">validateType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Int</span>
+<span class="p">)</span>
+
+<span class="n">initObservable</span><span class="p">(</span><span class="s">&quot;videoFlip&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="n">permissionRead</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Device_r</span><span class="p">,</span><span class="w"> </span><span class="n">Device_rw</span><span class="p">},</span>
+<span class="w">  </span><span class="n">permissionWrite</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Device_rw</span><span class="p">},</span>
+<span class="w">  </span><span class="n">default</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">%</span><span class="p">{</span>
+<span class="w">    </span><span class="s">&quot;horizontal&quot;</span><span class="p">:</span><span class="w"> </span><span class="kp">false</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;vertical&quot;</span><span class="p">:</span><span class="w"> </span><span class="kp">false</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">)</span>
+
+<span class="c"># GStreamer video transform</span>
+<span class="k">proc</span><span class="w"> </span><span class="nf">applyTransform</span><span class="o">*</span><span class="p">(</span><span class="n">rotation</span><span class="p">:</span><span class="w"> </span><span class="nb">int</span><span class="p">,</span><span class="w"> </span><span class="n">flipH</span><span class="p">:</span><span class="w"> </span><span class="nb">bool</span><span class="p">,</span><span class="w"> </span><span class="n">flipV</span><span class="p">:</span><span class="w"> </span><span class="nb">bool</span><span class="p">)</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="kd">var</span><span class="w"> </span><span class="k">method</span><span class="w"> </span><span class="err">= </span><span class="nf">case</span><span class="w"> </span><span class="n">rotation</span><span class="p">:</span>
+<span class="w">    </span><span class="k">of</span><span class="w"> </span><span class="nl">90</span><span class="o">:</span><span class="w"> </span><span class="s">&quot;clockwise&quot;</span>
+<span class="w">    </span><span class="k">of</span><span class="w"> </span><span class="nl">180</span><span class="o">:</span><span class="w"> </span><span class="s">&quot;rotate-180&quot;</span>
+<span class="w">    </span><span class="k">of</span><span class="w"> </span><span class="nl">270</span><span class="o">:</span><span class="w"> </span><span class="s">&quot;counterclockwise&quot;</span>
+<span class="w">    </span><span class="k">else</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;none&quot;</span>
+
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="n">flipH</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="n">flipV</span><span class="p">:</span>
+<span class="w">    </span><span class="k">method</span><span class="w"> </span><span class="err">= &quot;</span><span class="nf">rotate</span><span class="o">-</span><span class="s">180&quot;</span>
+<span class="w">  </span><span class="k">elif</span><span class="w"> </span><span class="n">flipH</span><span class="p">:</span>
+<span class="w">    </span><span class="k">method</span><span class="w"> </span><span class="err">= &quot;</span><span class="nf">horizontal</span><span class="o">-</span><span class="s">flip&quot;</span>
+<span class="w">  </span><span class="k">elif</span><span class="w"> </span><span class="n">flipV</span><span class="p">:</span>
+<span class="w">    </span><span class="k">method</span><span class="w"> </span><span class="err">= &quot;</span><span class="nf">vertical</span><span class="o">-</span><span class="s">flip&quot;</span>
+
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">pipeline</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">fmt&quot;videoflip method={method}&quot;</span>
+<span class="w">  </span><span class="n">updatePipeline</span><span class="p">(</span><span class="n">pipeline</span><span class="p">)</span>
+</code></pre></div>
+
+<h2 id="timestamp-overlay">Timestamp Overlay</h2>
+<h3 id="timestamp-configuration">Timestamp Configuration</h3>
+<div class="codehilite"><pre><span></span><code><span class="n">initObservable</span><span class="p">(</span><span class="s">&quot;timestampOverlay&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="n">permissionRead</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Media_r</span><span class="p">,</span><span class="w"> </span><span class="n">Media_rw</span><span class="p">},</span>
+<span class="w">  </span><span class="n">permissionWrite</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Media_rw</span><span class="p">},</span>
+<span class="w">  </span><span class="n">default</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">%</span><span class="p">{</span>
+<span class="w">    </span><span class="s">&quot;enabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="kp">true</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;position&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;bottom-left&quot;</span><span class="p">,</span><span class="w">  </span><span class="c"># top-left, top-right, bottom-left, bottom-right, center</span>
+<span class="w">    </span><span class="s">&quot;format&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;yyyy-MM-dd HH:mm:ss&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;fontSize&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">24</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;color&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;white&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;background&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;semi-transparent&quot;</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">)</span>
+</code></pre></div>
+
+<h3 id="nv12-timestamp-rendering">NV12 Timestamp Rendering</h3>
+<div class="codehilite"><pre><span></span><code><span class="c1">// src/camserver/nv12Timestamp.c</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;timestamp_bitmaps.h&quot;</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">render_timestamp_nv12</span><span class="p">(</span>
+<span class="w">    </span><span class="kt">uint8_t</span><span class="o">*</span><span class="w"> </span><span class="n">frame</span><span class="p">,</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">width</span><span class="p">,</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">height</span><span class="p">,</span>
+<span class="w">    </span><span class="kt">int64_t</span><span class="w"> </span><span class="n">timestamp_ms</span><span class="p">,</span>
+<span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">timestamp_config</span><span class="o">*</span><span class="w"> </span><span class="n">config</span>
+<span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">char</span><span class="w"> </span><span class="n">time_str</span><span class="p">[</span><span class="mi">32</span><span class="p">];</span>
+<span class="w">    </span><span class="n">format_timestamp</span><span class="p">(</span><span class="n">time_str</span><span class="p">,</span><span class="w"> </span><span class="n">timestamp_ms</span><span class="p">,</span><span class="w"> </span><span class="n">config</span><span class="o">-&gt;</span><span class="n">format</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// Calculate position</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span><span class="k">switch</span><span class="w"> </span><span class="p">(</span><span class="n">config</span><span class="o">-&gt;</span><span class="n">position</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="no">TOP_LEFT</span><span class="p">:</span>
+<span class="w">            </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span>
+<span class="w">            </span><span class="k">break</span><span class="p">;</span>
+<span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="no">TOP_RIGHT</span><span class="p">:</span>
+<span class="w">            </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">width</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">200</span><span class="p">;</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span>
+<span class="w">            </span><span class="k">break</span><span class="p">;</span>
+<span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="no">BOTTOM_LEFT</span><span class="p">:</span>
+<span class="w">            </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">height</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">40</span><span class="p">;</span>
+<span class="w">            </span><span class="k">break</span><span class="p">;</span>
+<span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="no">BOTTOM_RIGHT</span><span class="p">:</span>
+<span class="w">            </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">width</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">200</span><span class="p">;</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">height</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">40</span><span class="p">;</span>
+<span class="w">            </span><span class="k">break</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// Render background rectangle (optional)</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">config</span><span class="o">-&gt;</span><span class="n">background</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">render_rect_nv12</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span><span class="w"> </span><span class="n">width</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="mi">-5</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="mi">-5</span><span class="p">,</span><span class="w"> </span><span class="mi">210</span><span class="p">,</span><span class="w"> </span><span class="mi">35</span><span class="p">,</span><span class="w"> </span><span class="mi">32</span><span class="p">,</span><span class="w"> </span><span class="mi">128</span><span class="p">,</span><span class="w"> </span><span class="mi">128</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// Render text</span>
+<span class="w">    </span><span class="n">render_text_nv12</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span><span class="w"> </span><span class="n">width</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="p">,</span><span class="w"> </span><span class="n">time_str</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">config</span><span class="o">-&gt;</span><span class="n">font_size</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="gstreamer-text-overlay">GStreamer Text Overlay</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">proc</span><span class="w"> </span><span class="nf">createTimestampPipeline</span><span class="o">*</span><span class="p">():</span><span class="w"> </span><span class="nb">string</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">format</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">State</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;timestampOverlay&quot;</span><span class="p">).</span><span class="n">value</span><span class="o">[</span><span class="s">&quot;format&quot;</span><span class="o">]</span><span class="p">.</span><span class="n">getStr</span>
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">State</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;timestampOverlay&quot;</span><span class="p">).</span><span class="n">value</span><span class="o">[</span><span class="s">&quot;position&quot;</span><span class="o">]</span><span class="p">.</span><span class="n">getStr</span>
+
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="p">(</span><span class="n">valign</span><span class="p">,</span><span class="w"> </span><span class="n">halign</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">case</span><span class="w"> </span><span class="n">position</span><span class="p">:</span>
+<span class="w">    </span><span class="k">of</span><span class="w"> </span><span class="nl">&quot;top-left&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;top&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;left&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="k">of</span><span class="w"> </span><span class="nl">&quot;top-right&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;top&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;right&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="k">of</span><span class="w"> </span><span class="nl">&quot;bottom-left&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;bottom&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;left&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="k">of</span><span class="w"> </span><span class="nl">&quot;bottom-right&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;bottom&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;right&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="k">of</span><span class="w"> </span><span class="nl">&quot;center&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;center&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;center&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="k">else</span><span class="p">:</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;bottom&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;left&quot;</span><span class="p">)</span>
+
+<span class="w">  </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">fmt&quot;</span><span class="se">&quot;&quot;</span>
+<span class="w">    </span><span class="n">textoverlay</span><span class="w"> </span>
+<span class="w">      </span><span class="n">text</span><span class="o">=</span><span class="p">{</span><span class="n">format</span><span class="p">}</span>
+<span class="w">      </span><span class="n">valignment</span><span class="o">=</span><span class="p">{</span><span class="n">valign</span><span class="p">}</span>
+<span class="w">      </span><span class="n">halignment</span><span class="o">=</span><span class="p">{</span><span class="n">halign</span><span class="p">}</span>
+<span class="w">      </span><span class="n">font</span><span class="o">-</span><span class="n">desc</span><span class="o">=</span><span class="s">&quot;Sans 24&quot;</span>
+<span class="w">      </span><span class="n">color</span><span class="o">=</span><span class="mh">0xFFFFFFFF</span>
+<span class="w">      </span><span class="n">shaded</span><span class="o">-</span><span class="n">background</span><span class="o">=</span><span class="kp">true</span>
+<span class="w">  </span><span class="s2">&quot;&quot;&quot;</span>
+</code></pre></div>
+
+<h2 id="logo-and-graphics-overlay">Logo and Graphics Overlay</h2>
+<h3 id="logo-overlay">Logo Overlay</h3>
+<div class="codehilite"><pre><span></span><code><span class="n">initObservable</span><span class="p">(</span><span class="s">&quot;logoOverlay&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="n">permissionRead</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Media_r</span><span class="p">,</span><span class="w"> </span><span class="n">Media_rw</span><span class="p">},</span>
+<span class="w">  </span><span class="n">permissionWrite</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Media_rw</span><span class="p">},</span>
+<span class="w">  </span><span class="n">default</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">%</span><span class="p">{</span>
+<span class="w">    </span><span class="s">&quot;enabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="kp">false</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;image&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/config/logo.png&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;position&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;top-right&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;scale&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.1</span><span class="p">,</span><span class="w">  </span><span class="c"># 10% of frame size</span>
+<span class="w">    </span><span class="s">&quot;opacity&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.8</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">)</span>
+</code></pre></div>
+
+<h3 id="gstreamer-logo-pipeline">GStreamer Logo Pipeline</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">proc</span><span class="w"> </span><span class="nf">createLogoPipeline</span><span class="o">*</span><span class="p">():</span><span class="w"> </span><span class="nb">string</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">config</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">State</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;logoOverlay&quot;</span><span class="p">).</span><span class="n">value</span>
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">imagePath</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">config</span><span class="o">[</span><span class="s">&quot;image&quot;</span><span class="o">]</span><span class="p">.</span><span class="n">getStr</span>
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">config</span><span class="o">[</span><span class="s">&quot;position&quot;</span><span class="o">]</span><span class="p">.</span><span class="n">getStr</span>
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">scale</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">config</span><span class="o">[</span><span class="s">&quot;scale&quot;</span><span class="o">]</span><span class="p">.</span><span class="n">getFloat</span>
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">opacity</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">config</span><span class="o">[</span><span class="s">&quot;opacity&quot;</span><span class="o">]</span><span class="p">.</span><span class="n">getFloat</span>
+
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="p">(</span><span class="n">xpos</span><span class="p">,</span><span class="w"> </span><span class="n">ypos</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">calculateLogoPosition</span><span class="p">(</span><span class="n">position</span><span class="p">,</span><span class="w"> </span><span class="n">scale</span><span class="p">)</span>
+
+<span class="w">  </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">fmt&quot;</span><span class="se">&quot;&quot;</span>
+<span class="w">    </span><span class="n">gdkpixbufoverlay</span><span class="w"> </span>
+<span class="w">      </span><span class="n">location</span><span class="o">=</span><span class="p">{</span><span class="n">imagePath</span><span class="p">}</span>
+<span class="w">      </span><span class="n">offset</span><span class="o">-</span><span class="n">x</span><span class="o">=</span><span class="p">{</span><span class="n">xpos</span><span class="p">}</span>
+<span class="w">      </span><span class="n">offset</span><span class="o">-</span><span class="n">y</span><span class="o">=</span><span class="p">{</span><span class="n">ypos</span><span class="p">}</span>
+<span class="w">      </span><span class="n">relative</span><span class="o">-</span><span class="n">x</span><span class="o">=</span><span class="p">{</span><span class="n">scale</span><span class="p">}</span>
+<span class="w">      </span><span class="n">relative</span><span class="o">-</span><span class="n">y</span><span class="o">=</span><span class="p">{</span><span class="n">scale</span><span class="p">}</span>
+<span class="w">      </span><span class="n">alpha</span><span class="o">=</span><span class="p">{</span><span class="n">opacity</span><span class="p">}</span>
+<span class="w">  </span><span class="s2">&quot;&quot;&quot;</span>
+</code></pre></div>
+
+<h2 id="fpga-image-processing-rc_dmg-variant">FPGA Image Processing (rc_DMG Variant)</h2>
+<h3 id="fpga-acceleration">FPGA Acceleration</h3>
+<p>The rc_DMG variant includes FPGA hardware for accelerated image processing:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">initObservable</span><span class="p">(</span><span class="s">&quot;fpgaProcessing&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="n">permissionRead</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Device_r</span><span class="p">,</span><span class="w"> </span><span class="n">Device_rw</span><span class="p">},</span>
+<span class="w">  </span><span class="n">permissionWrite</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Device_rw</span><span class="p">},</span>
+<span class="w">  </span><span class="n">default</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">%</span><span class="p">{</span>
+<span class="w">    </span><span class="s">&quot;enabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="kp">true</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;denoise&quot;</span><span class="p">:</span><span class="w"> </span><span class="kp">true</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;sharpen&quot;</span><span class="p">:</span><span class="w"> </span><span class="kp">true</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;edgeEnhancement&quot;</span><span class="p">:</span><span class="w"> </span><span class="kp">false</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">)</span>
+</code></pre></div>
+
+<h3 id="fpga-pipeline-configuration">FPGA Pipeline Configuration</h3>
+<div class="codehilite"><pre><span></span><code><span class="c1">// Configure FPGA image processing pipeline</span>
+<span class="kt">int</span><span class="w"> </span><span class="nf">configure_fpga_pipeline</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">fpga_config</span><span class="o">*</span><span class="w"> </span><span class="n">config</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Memory-mapped FPGA registers</span>
+<span class="w">    </span><span class="k">volatile</span><span class="w"> </span><span class="kt">uint32_t</span><span class="o">*</span><span class="w"> </span><span class="n">fpga_base</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="kt">uint32_t</span><span class="o">*</span><span class="p">)</span><span class="n">FPGA_BASE_ADDR</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">ctrl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">config</span><span class="o">-&gt;</span><span class="n">denoise</span><span class="p">)</span><span class="w"> </span><span class="n">ctrl</span><span class="w"> </span><span class="o">|=</span><span class="w"> </span><span class="n">FPGA_DENOISE_EN</span><span class="p">;</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">config</span><span class="o">-&gt;</span><span class="n">sharpen</span><span class="p">)</span><span class="w"> </span><span class="n">ctrl</span><span class="w"> </span><span class="o">|=</span><span class="w"> </span><span class="n">FPGA_SHARPEN_EN</span><span class="p">;</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">config</span><span class="o">-&gt;</span><span class="n">edge_enhancement</span><span class="p">)</span><span class="w"> </span><span class="n">ctrl</span><span class="w"> </span><span class="o">|=</span><span class="w"> </span><span class="n">FPGA_EDGE_EN</span><span class="p">;</span>
+
+<span class="w">    </span><span class="c1">// Write control register</span>
+<span class="w">    </span><span class="n">fpga_base</span><span class="p">[</span><span class="n">FPGA_CTRL_REG</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ctrl</span><span class="p">;</span>
+
+<span class="w">    </span><span class="c1">// Configure processing parameters</span>
+<span class="w">    </span><span class="n">fpga_base</span><span class="p">[</span><span class="n">FPGA_DENOISE_STRENGTH</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">config</span><span class="o">-&gt;</span><span class="n">denoise_strength</span><span class="p">;</span>
+<span class="w">    </span><span class="n">fpga_base</span><span class="p">[</span><span class="n">FPGA_SHARPEN_AMOUNT</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">config</span><span class="o">-&gt;</span><span class="n">sharpen_amount</span><span class="p">;</span>
+
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="denoise-filter">Denoise Filter</h3>
+<div class="codehilite"><pre><span></span><code><span class="n">initObservable</span><span class="p">(</span><span class="s">&quot;denoiseStrength&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="n">permissionRead</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Device_r</span><span class="p">,</span><span class="w"> </span><span class="n">Device_rw</span><span class="p">},</span>
+<span class="w">  </span><span class="n">permissionWrite</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Device_rw</span><span class="p">},</span>
+<span class="w">  </span><span class="n">default</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">%</span><span class="mi">50</span><span class="p">,</span><span class="w">  </span><span class="c"># 0-100</span>
+<span class="w">  </span><span class="n">validateType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Int</span>
+<span class="p">)</span>
+
+<span class="k">proc</span><span class="w"> </span><span class="nf">applyDenoise</span><span class="o">*</span><span class="p">(</span><span class="n">strength</span><span class="p">:</span><span class="w"> </span><span class="nb">int</span><span class="p">)</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="k">when</span><span class="w"> </span><span class="n">defined</span><span class="p">(</span><span class="n">embeddedSystem</span><span class="p">):</span>
+<span class="w">    </span><span class="c"># Use FPGA hardware denoise</span>
+<span class="w">    </span><span class="n">setFpgaDenoise</span><span class="p">(</span><span class="kp">true</span><span class="p">,</span><span class="w"> </span><span class="n">strength</span><span class="p">)</span>
+<span class="w">  </span><span class="k">else</span><span class="p">:</span>
+<span class="w">    </span><span class="c"># Software denoise (CPU)</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">pipeline</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">fmt&quot;denoise strength={strength}&quot;</span>
+<span class="w">    </span><span class="n">updatePipeline</span><span class="p">(</span><span class="n">pipeline</span><span class="p">)</span>
+</code></pre></div>
+
+<h3 id="sharpness-enhancement">Sharpness Enhancement</h3>
+<div class="codehilite"><pre><span></span><code><span class="n">initObservable</span><span class="p">(</span><span class="s">&quot;sharpness&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="n">permissionRead</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Device_r</span><span class="p">,</span><span class="w"> </span><span class="n">Device_rw</span><span class="p">},</span>
+<span class="w">  </span><span class="n">permissionWrite</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Device_rw</span><span class="p">},</span>
+<span class="w">  </span><span class="n">default</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">%</span><span class="mi">50</span><span class="p">,</span><span class="w">  </span><span class="c"># 0-100</span>
+<span class="w">  </span><span class="n">validateType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Int</span>
+<span class="p">)</span>
+
+<span class="k">proc</span><span class="w"> </span><span class="nf">applySharpness</span><span class="o">*</span><span class="p">(</span><span class="n">amount</span><span class="p">:</span><span class="w"> </span><span class="nb">int</span><span class="p">)</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="k">when</span><span class="w"> </span><span class="n">defined</span><span class="p">(</span><span class="n">embeddedSystem</span><span class="p">):</span>
+<span class="w">    </span><span class="n">setFpgaSharpen</span><span class="p">(</span><span class="kp">true</span><span class="p">,</span><span class="w"> </span><span class="n">amount</span><span class="p">)</span>
+<span class="w">  </span><span class="k">else</span><span class="p">:</span>
+<span class="w">    </span><span class="c"># Software sharpening</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">pipeline</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">fmt&quot;sharpen amount={amount}&quot;</span>
+<span class="w">    </span><span class="n">updatePipeline</span><span class="p">(</span><span class="n">pipeline</span><span class="p">)</span>
+</code></pre></div>
+
+<h2 id="color-grading">Color Grading</h2>
+<h3 id="lut-look-up-table-support">LUT (Look-Up Table) Support</h3>
+<div class="codehilite"><pre><span></span><code><span class="n">initObservable</span><span class="p">(</span><span class="s">&quot;colorGrading&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="n">permissionRead</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Device_r</span><span class="p">,</span><span class="w"> </span><span class="n">Device_rw</span><span class="p">},</span>
+<span class="w">  </span><span class="n">permissionWrite</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Device_rw</span><span class="p">},</span>
+<span class="w">  </span><span class="n">default</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">%</span><span class="p">{</span>
+<span class="w">    </span><span class="s">&quot;enabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="kp">false</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;lut&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w">  </span><span class="c"># Path to 3D LUT file (.cube)</span>
+<span class="w">    </span><span class="s">&quot;intensity&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">1.0</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">)</span>
+
+<span class="k">proc</span><span class="w"> </span><span class="nf">applyColorGrading</span><span class="o">*</span><span class="p">(</span><span class="n">lutPath</span><span class="p">:</span><span class="w"> </span><span class="nb">string</span><span class="p">,</span><span class="w"> </span><span class="n">intensity</span><span class="p">:</span><span class="w"> </span><span class="nb">float</span><span class="p">)</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="n">lutPath</span><span class="p">.</span><span class="n">len</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="n">fileExists</span><span class="p">(</span><span class="n">lutPath</span><span class="p">):</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">pipeline</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">fmt&quot;</span><span class="se">&quot;&quot;</span>
+<span class="w">      </span><span class="n">lut3d</span><span class="w"> </span>
+<span class="w">        </span><span class="n">file</span><span class="o">=</span><span class="p">{</span><span class="n">lutPath</span><span class="p">}</span>
+<span class="w">        </span><span class="n">interpolation</span><span class="o">=</span><span class="n">trilinear</span>
+<span class="w">        </span><span class="n">intensity</span><span class="o">=</span><span class="p">{</span><span class="n">intensity</span><span class="p">}</span>
+<span class="w">    </span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s">    updatePipeline(pipeline)</span>
+</code></pre></div>
+
+<h3 id="preset-color-profiles">Preset Color Profiles</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">type</span>
+<span class="w">  </span><span class="n">ColorProfile</span><span class="o">*</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">enum</span>
+<span class="w">    </span><span class="n">Standard</span>
+<span class="w">    </span><span class="n">Vivid</span>
+<span class="w">    </span><span class="n">Natural</span>
+<span class="w">    </span><span class="n">Cinema</span>
+<span class="w">    </span><span class="n">Medical</span>
+
+<span class="k">proc</span><span class="w"> </span><span class="nf">applyColorProfile</span><span class="o">*</span><span class="p">(</span><span class="n">profile</span><span class="p">:</span><span class="w"> </span><span class="n">ColorProfile</span><span class="p">)</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="k">case</span><span class="w"> </span><span class="n">profile</span><span class="p">:</span>
+<span class="w">  </span><span class="k">of</span><span class="w"> </span><span class="nl">Standard</span><span class="o">:</span>
+<span class="w">    </span><span class="n">applySettings</span><span class="p">(</span><span class="n">brightness</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span><span class="w"> </span><span class="n">contrast</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span><span class="w"> </span><span class="n">saturation</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+<span class="w">  </span><span class="k">of</span><span class="w"> </span><span class="nl">Vivid</span><span class="o">:</span>
+<span class="w">    </span><span class="n">applySettings</span><span class="p">(</span><span class="n">brightness</span><span class="o">=</span><span class="mi">55</span><span class="p">,</span><span class="w"> </span><span class="n">contrast</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span><span class="w"> </span><span class="n">saturation</span><span class="o">=</span><span class="mi">70</span><span class="p">)</span>
+<span class="w">  </span><span class="k">of</span><span class="w"> </span><span class="nl">Natural</span><span class="o">:</span>
+<span class="w">    </span><span class="n">applySettings</span><span class="p">(</span><span class="n">brightness</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span><span class="w"> </span><span class="n">contrast</span><span class="o">=</span><span class="mi">45</span><span class="p">,</span><span class="w"> </span><span class="n">saturation</span><span class="o">=</span><span class="mi">40</span><span class="p">)</span>
+<span class="w">  </span><span class="k">of</span><span class="w"> </span><span class="nl">Cinema</span><span class="o">:</span>
+<span class="w">    </span><span class="n">applySettings</span><span class="p">(</span><span class="n">brightness</span><span class="o">=</span><span class="mi">45</span><span class="p">,</span><span class="w"> </span><span class="n">contrast</span><span class="o">=</span><span class="mi">55</span><span class="p">,</span><span class="w"> </span><span class="n">saturation</span><span class="o">=</span><span class="mi">45</span><span class="p">)</span>
+<span class="w">  </span><span class="k">of</span><span class="w"> </span><span class="nl">Medical</span><span class="o">:</span>
+<span class="w">    </span><span class="n">applySettings</span><span class="p">(</span><span class="n">brightness</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span><span class="w"> </span><span class="n">contrast</span><span class="o">=</span><span class="mi">65</span><span class="p">,</span><span class="w"> </span><span class="n">saturation</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+</code></pre></div>
+
+<h2 id="exposure-control">Exposure Control</h2>
+<h3 id="auto-exposure">Auto Exposure</h3>
+<div class="codehilite"><pre><span></span><code><span class="n">initObservable</span><span class="p">(</span><span class="s">&quot;autoExposure&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="n">permissionRead</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Device_r</span><span class="p">,</span><span class="w"> </span><span class="n">Device_rw</span><span class="p">},</span>
+<span class="w">  </span><span class="n">permissionWrite</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Device_rw</span><span class="p">},</span>
+<span class="w">  </span><span class="n">default</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">%</span><span class="p">{</span>
+<span class="w">    </span><span class="s">&quot;enabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="kp">true</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;mode&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;average&quot;</span><span class="p">,</span><span class="w">  </span><span class="c"># average, center-weighted, spot</span>
+<span class="w">    </span><span class="s">&quot;compensation&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">   </span><span class="c"># -3 to +3 EV</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">)</span>
+</code></pre></div>
+
+<h3 id="manual-exposure">Manual Exposure</h3>
+<div class="codehilite"><pre><span></span><code><span class="n">initObservable</span><span class="p">(</span><span class="s">&quot;manualExposure&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="n">permissionRead</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Device_r</span><span class="p">,</span><span class="w"> </span><span class="n">Device_rw</span><span class="p">},</span>
+<span class="w">  </span><span class="n">permissionWrite</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Device_rw</span><span class="p">},</span>
+<span class="w">  </span><span class="n">default</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">%</span><span class="p">{</span>
+<span class="w">    </span><span class="s">&quot;shutterSpeed&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">16666</span><span class="p">,</span><span class="w">  </span><span class="c"># microseconds (1/60 sec)</span>
+<span class="w">    </span><span class="s">&quot;iso&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">400</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;aperture&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">2.8</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">)</span>
+</code></pre></div>
+
+<h2 id="performance-optimization">Performance Optimization</h2>
+<h3 id="hardware-acceleration">Hardware Acceleration</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">proc</span><span class="w"> </span><span class="nf">getOptimalEncoder</span><span class="o">*</span><span class="p">():</span><span class="w"> </span><span class="nb">string</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="k">when</span><span class="w"> </span><span class="n">defined</span><span class="p">(</span><span class="n">embeddedSystem</span><span class="p">):</span>
+<span class="w">    </span><span class="c"># Use hardware encoder on embedded systems</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">hasV4L2Encoder</span><span class="p">():</span>
+<span class="w">      </span><span class="k">return</span><span class="w"> </span><span class="s">&quot;v4l2h264enc&quot;</span>
+<span class="w">    </span><span class="k">elif</span><span class="w"> </span><span class="n">hasOMXEncoder</span><span class="p">():</span>
+<span class="w">      </span><span class="k">return</span><span class="w"> </span><span class="s">&quot;omxh264enc&quot;</span>
+<span class="w">    </span><span class="k">else</span><span class="p">:</span>
+<span class="w">      </span><span class="k">return</span><span class="w"> </span><span class="s">&quot;x264enc speed-preset=ultrafast&quot;</span>
+<span class="w">  </span><span class="k">else</span><span class="p">:</span>
+<span class="w">    </span><span class="c"># Desktop systems</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">hasNvidiaGPU</span><span class="p">():</span>
+<span class="w">      </span><span class="k">return</span><span class="w"> </span><span class="s">&quot;nvh264enc&quot;</span>
+<span class="w">    </span><span class="k">elif</span><span class="w"> </span><span class="n">hasIntelQSV</span><span class="p">():</span>
+<span class="w">      </span><span class="k">return</span><span class="w"> </span><span class="s">&quot;vaapih264enc&quot;</span>
+<span class="w">    </span><span class="k">else</span><span class="p">:</span>
+<span class="w">      </span><span class="k">return</span><span class="w"> </span><span class="s">&quot;x264enc speed-preset=fast&quot;</span>
+</code></pre></div>
+
+<h3 id="pipeline-optimization">Pipeline Optimization</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">proc</span><span class="w"> </span><span class="nf">optimizePipeline</span><span class="o">*</span><span class="p">(</span><span class="n">width</span><span class="p">:</span><span class="w"> </span><span class="nb">int</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="p">:</span><span class="w"> </span><span class="nb">int</span><span class="p">,</span><span class="w"> </span><span class="n">fps</span><span class="p">:</span><span class="w"> </span><span class="nb">int</span><span class="p">)</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="c"># Adjust buffer sizes based on resolution</span>
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">bufferSize</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">width</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">height</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="ow">div</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w">  </span><span class="c"># NV12 size</span>
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">numBuffers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span>
+
+<span class="w">  </span><span class="c"># Configure V4L2 buffers</span>
+<span class="w">  </span><span class="n">configureV4L2Buffers</span><span class="p">(</span><span class="n">numBuffers</span><span class="p">,</span><span class="w"> </span><span class="n">bufferSize</span><span class="p">)</span>
+
+<span class="w">  </span><span class="c"># Set queue sizes</span>
+<span class="w">  </span><span class="n">setQueueSize</span><span class="p">(</span><span class="s">&quot;video_queue&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">numBuffers</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span>
+<span class="w">  </span><span class="n">setQueueSize</span><span class="p">(</span><span class="s">&quot;encode_queue&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">numBuffers</span><span class="p">)</span>
+</code></pre></div>
+
+<h2 id="image-quality-metrics">Image Quality Metrics</h2>
+<h3 id="quality-assessment">Quality Assessment</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">proc</span><span class="w"> </span><span class="nf">calculateImageQuality</span><span class="o">*</span><span class="p">(</span><span class="n">frame</span><span class="p">:</span><span class="w"> </span><span class="n">DataView</span><span class="p">):</span><span class="w"> </span><span class="n">ImageQualityMetrics</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="n">result</span><span class="p">.</span><span class="n">sharpness</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">calculateSharpness</span><span class="p">(</span><span class="n">frame</span><span class="p">)</span>
+<span class="w">  </span><span class="n">result</span><span class="p">.</span><span class="n">brightness</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">calculateAverageBrightness</span><span class="p">(</span><span class="n">frame</span><span class="p">)</span>
+<span class="w">  </span><span class="n">result</span><span class="p">.</span><span class="n">contrast</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">calculateContrast</span><span class="p">(</span><span class="n">frame</span><span class="p">)</span>
+<span class="w">  </span><span class="n">result</span><span class="p">.</span><span class="n">colorfulness</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">calculateColorfulness</span><span class="p">(</span><span class="n">frame</span><span class="p">)</span>
+<span class="w">  </span><span class="n">result</span><span class="p">.</span><span class="n">noiseLevel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">estimateNoiseLevel</span><span class="p">(</span><span class="n">frame</span><span class="p">)</span>
+
+<span class="k">type</span>
+<span class="w">  </span><span class="n">ImageQualityMetrics</span><span class="o">*</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">object</span>
+<span class="w">    </span><span class="n">sharpness</span><span class="o">*</span><span class="p">:</span><span class="w"> </span><span class="nb">float</span><span class="w">      </span><span class="c"># 0.0 - 1.0</span>
+<span class="w">    </span><span class="n">brightness</span><span class="o">*</span><span class="p">:</span><span class="w"> </span><span class="nb">float</span><span class="w">     </span><span class="c"># 0.0 - 1.0</span>
+<span class="w">    </span><span class="n">contrast</span><span class="o">*</span><span class="p">:</span><span class="w"> </span><span class="nb">float</span><span class="w">       </span><span class="c"># 0.0 - 1.0</span>
+<span class="w">    </span><span class="n">colorfulness</span><span class="o">*</span><span class="p">:</span><span class="w"> </span><span class="nb">float</span><span class="w">   </span><span class="c"># 0.0 - 1.0</span>
+<span class="w">    </span><span class="n">noiseLevel</span><span class="o">*</span><span class="p">:</span><span class="w"> </span><span class="nb">float</span><span class="w">     </span><span class="c"># 0.0 - 1.0</span>
+</code></pre></div>
+
+<h2 id="troubleshooting">Troubleshooting</h2>
+<h3 id="poor-image-quality">Poor Image Quality</h3>
+<p><strong>Symptoms</strong>: Blurry or dark images.</p>
+<p><strong>Solutions</strong>:<br />
+- Adjust brightness and contrast<br />
+- Enable auto-exposure<br />
+- Check lighting conditions<br />
+- Clean camera lens<br />
+- Verify focus settings</p>
+<h3 id="high-cpu-usage">High CPU Usage</h3>
+<p><strong>Symptoms</strong>: System slow during video processing.</p>
+<p><strong>Solutions</strong>:<br />
+- Enable hardware acceleration<br />
+- Reduce resolution or framerate<br />
+- Disable unnecessary filters<br />
+- Use FPGA processing (rc_DMG variant)</p>
+<h3 id="overlay-not-visible">Overlay Not Visible</h3>
+<p><strong>Symptoms</strong>: Timestamp or logo not appearing.</p>
+<p><strong>Solutions</strong>:<br />
+- Verify overlay is enabled<br />
+- Check file paths for logo images<br />
+- Verify overlay position settings<br />
+- Review GStreamer pipeline logs</p>
+<h2 id="related-documentation">Related Documentation</h2>
+<ul>
+<li><a href="hardware-interface.md">Hardware Interface</a></li>
+<li><a href="streaming.md">Streaming</a></li>
+<li><a href="recording.md">Recording</a></li>
+<li><a href="../architecture/camera-pipeline.md">Camera Pipeline</a></li>
+</ul>
+            </div>
+            <footer class="content-footer">
+                <p>Copyright © 2025 Rotoclear</p>
+            </footer>
+        </main>
+        
+        <button class="mobile-menu-toggle" id="menuToggle" aria-label="Toggle menu">☰</button>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>
+        // Initialize Mermaid
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            securityLevel: 'loose',
+            fontFamily: 'Inter, sans-serif'
+        });
+        
+        // Syntax highlighting
+        hljs.highlightAll();
+        
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.querySelector('.sidebar');
+        
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+        });
+        
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth <= 768 && 
+                !sidebar.contains(e.target) && 
+                !menuToggle.contains(e.target) &&
+                sidebar.classList.contains('active')) {
+                sidebar.classList.remove('active');
+            }
+        });
+        
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

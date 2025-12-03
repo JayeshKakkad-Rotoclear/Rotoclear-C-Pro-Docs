@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Build and Deploy - RotoClear Camera Server Documentation</title>
+    <link rel="stylesheet" href="/assets/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1><a href="/index.html">RotoClear Docs</a></h1>
+                <p>Camera Server Documentation</p>
+            </div>
+            <nav class="sidebar-nav">
+                <ul class="nav-menu">
+                    <li class="nav-item depth-0">
+<a href="/index.html">Home</a>
+</li>
+<li class="nav-item depth-0">
+<a href="/getting-started.html">Getting Started</a>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Architecture</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/architecture/overview.html">Overview</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/architecture/state-management.html">State Management</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/architecture/camera-pipeline.html">Camera Pipeline</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/architecture/metadata-sqlite.html">Metadata & SQLite</a>
+</li>
+<li class="nav-folder depth-1">
+<span class="folder-title">Decisions</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-2">
+<a href="/architecture/decisions/ADR-0001-nim-language.html">ADR-0001 Nim Language</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/architecture/decisions/ADR-0002-corun-framework.html">ADR-0002 Corun Framework</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/architecture/decisions/ADR-0003-observable-state.html">ADR-0003 Observable State</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">API Reference</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/api/README.html">Overview</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/api/websocket-api.html">WebSocket API</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/api/http-api.html">HTTP API</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/api/rtsp-streaming.html">RTSP Streaming</a>
+</li>
+<li class="nav-folder depth-1">
+<span class="folder-title">Examples</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-2">
+<a href="/api/examples/python-client.html">Python Client</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/api/examples/javascript-client.html">JavaScript Client</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/api/examples/csharp-client.html">C# Client</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Configuration</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/configuration/environments.html">Environments</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/factory-config.html">Factory Config</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/license-config.html">License Config</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/deployment-variants.html">Deployment Variants</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/camera-system.html">Camera System</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/network.html">Network</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/storage-backup.html">Storage & Backup</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/authentication.html">Authentication</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Camera System</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/camera/hardware-interface.html">Hardware Interface</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/camera/streaming.html">Streaming</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/camera/recording.html">Recording</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/camera/image-processing.html">Image Processing</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Operations</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1 active">
+<a href="/operations/build-and-deploy.html">Build and Deploy</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/build-deploy.html">Build & Deploy (Alt)</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/monitoring.html">Monitoring</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/performance.html">Performance</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/troubleshooting.html">Troubleshooting</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Security</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/security/authentication.html">Authentication</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/security/permissions.html">Permissions</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/security/ssl-certificates.html">SSL Certificates</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Testing</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/testing/testing-strategy.html">Strategy</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/testing/strategies.html">Strategies</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/testing/test-cases.html">Test Cases</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/testing/validation.html">Validation</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Integration</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/integration/onvif-protocol.html">ONVIF Protocol</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/integration/third-party.html">Third Party</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Reference</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/reference/glossary.html">Glossary</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/reference/requirements.html">Requirements</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/reference/state-observables.html">State Observables</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Releases</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/releases/CHANGELOG.html">Changelog</a>
+</li>
+</ul>
+</li>
+<li class="nav-item depth-0">
+<a href="/glossary.html">Glossary</a>
+</li>
+                </ul>
+            </nav>
+        </aside>
+        
+        <main class="content">
+            <div class="content-wrapper">
+                <h1 id="build-and-deploy">Build and Deploy</h1>
+<p><strong>Complete guide for building and deploying the RotoClear Camera Server.</strong></p>
+<h2 id="build-system-overview">Build System Overview</h2>
+<p>The project uses Nim's compiler with custom build scripts in the <code>tools/</code> directory for cross-compilation and deployment to ARM64 embedded systems.</p>
+<h2 id="development-build">Development Build</h2>
+<h3 id="local-compilation">Local Compilation</h3>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Quick development build</span>
+nim<span class="w"> </span>c<span class="w"> </span>-r<span class="w"> </span>rotordream.nim
+
+<span class="c1"># With debug information</span>
+nim<span class="w"> </span>c<span class="w"> </span>-r<span class="w"> </span>-d:RuntimeCallDebug<span class="o">=</span><span class="nb">true</span><span class="w"> </span>rotordream.nim
+
+<span class="c1"># Release build (local)</span>
+nim<span class="w"> </span>c<span class="w"> </span>-d:release<span class="w"> </span>--mm:orc<span class="w"> </span>rotordream.nim
+</code></pre></div>
+
+<h3 id="vs-code-integration">VS Code Integration</h3>
+<p>Use configured VS Code tasks (Ctrl+Shift+B):</p>
+<ul>
+<li><strong>local-test-file</strong>: Compile and run current file</li>
+<li><strong>local-test-rotordream</strong>: Compile and run main application</li>
+<li><strong>remote-test</strong>: Test on remote device</li>
+<li><strong>remote-release</strong>: Build and deploy release</li>
+</ul>
+<h3 id="build-configuration">Build Configuration</h3>
+<p>Core build settings (from <code>config.nims</code>):</p>
+<div class="codehilite"><pre><span></span><code><span class="n">switch</span><span class="p">(</span><span class="s">&quot;define&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;leveldb&quot;</span><span class="p">)</span>
+<span class="n">switch</span><span class="p">(</span><span class="s">&quot;define&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;directCompile=true&quot;</span><span class="p">)</span>
+<span class="n">switch</span><span class="p">(</span><span class="s">&quot;mm&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;orc&quot;</span><span class="p">)</span><span class="w">  </span><span class="c"># ORC memory management</span>
+</code></pre></div>
+
+<h2 id="production-build">Production Build</h2>
+<h3 id="cross-compilation-for-arm64">Cross-compilation for ARM64</h3>
+<p><strong>Build Release for ARM64 Target:</strong></p>
+<div class="codehilite"><pre><span></span><code>nim<span class="w"> </span>c<span class="w"> </span>-r<span class="w"> </span>tools/buildRelease.nim<span class="w"> </span><span class="o">[</span>falcon_firmware_path<span class="o">]</span>
+</code></pre></div>
+
+<p><strong>Example:</strong></p>
+<div class="codehilite"><pre><span></span><code>nim<span class="w"> </span>c<span class="w"> </span>-r<span class="w"> </span>tools/buildRelease.nim<span class="w"> </span>../falcon_firmware
+</code></pre></div>
+
+<h3 id="build-flags-from-toolsbuildreleasenim">Build Flags (from <code>tools/buildRelease.nim</code>)</h3>
+<div class="codehilite"><pre><span></span><code>nim<span class="w"> </span>c<span class="w"> </span>-d:release<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--floatChecks:off<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--overflowChecks:off<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--passC:<span class="s2">&quot;-flto -ffast-math -funroll-loops -O3 -fno-strict-aliasing&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--nimcache:cache/release<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d:directCompile<span class="o">=</span><span class="nb">true</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d:embeddedSystem<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d:useRobustFileExists<span class="o">=</span><span class="nb">true</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--cpu:arm64<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--os:linux<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-o:<span class="s1">&#39;../falcon_firmware/projectroot/usr/bin/rotoclear_server&#39;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>rotordream.nim
+</code></pre></div>
+
+<h3 id="embedded-system-flags-from-toolscommonnim">Embedded System Flags (from <code>tools/common.nim</code>)</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">proc</span><span class="w"> </span><span class="nf">getEmbeddedFlags</span><span class="o">*</span><span class="p">(</span><span class="n">isArm32</span><span class="p">:</span><span class="w"> </span><span class="nb">bool</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kp">true</span><span class="p">):</span><span class="w"> </span><span class="nb">string</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="n">result</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="s">&quot; -d:directCompile=true -d:embeddedSystem -d:useRobustFileExists=true&quot;</span><span class="p">)</span>
+<span class="w">  </span><span class="n">result</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="s">&quot; -d:CorunLogsDir=/media/data/logs &quot;</span><span class="p">)</span>
+
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="n">isArm32</span><span class="p">:</span>
+<span class="w">    </span><span class="c"># ARM32 library linking</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">kind</span><span class="p">,</span><span class="w"> </span><span class="n">path</span><span class="p">)</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">walkDir</span><span class="p">(</span><span class="s">&quot;libs-petalinux&quot;</span><span class="p">):</span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="n">kind</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">pcFile</span><span class="p">:</span>
+<span class="w">        </span><span class="n">result</span><span class="p">.</span><span class="n">add</span><span class="w"> </span><span class="s">&quot;-L:&quot;</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">path</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="s">&quot; &quot;</span>
+<span class="w">    </span><span class="n">result</span><span class="p">.</span><span class="n">add</span><span class="w"> </span><span class="s">&quot; --passC:</span><span class="se">\&quot;</span><span class="s">-D_FILE_OFFSET_BITS=64</span><span class="se">\&quot;</span><span class="s">&quot;</span>
+<span class="w">  </span><span class="k">else</span><span class="p">:</span>
+<span class="w">    </span><span class="c"># ARM64 cross-compilation</span>
+<span class="w">    </span><span class="n">result</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="s">&quot; --cpu:arm64 --os:linux -d:nosimd&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="n">result</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="s">&quot; --clibdir:../falcon_firmware/platform-zynqmp/sysroot-target/usr/lib&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="n">result</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="s">&quot; --passL:</span><span class="se">\&quot;</span><span class="s">-L../falcon_firmware/platform-zynqmp/sysroot-target/usr/lib</span><span class="se">\&quot;</span><span class="s">&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="n">result</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="s">&quot; --passC:</span><span class="se">\&quot;</span><span class="s">-I../falcon_firmware/platform-zynqmp/sysroot-target/usr/include</span><span class="se">\&quot;</span><span class="s">&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<h2 id="deployment">Deployment</h2>
+<h3 id="environment-setup">Environment Setup</h3>
+<p>Configure deployment target:</p>
+<div class="codehilite"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">C3_BOX_IP</span><span class="o">=</span><span class="s2">&quot;192.168.1.100&quot;</span><span class="w">  </span><span class="c1"># Target device IP</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">C3_BOX_PW</span><span class="o">=</span><span class="s2">&quot;admin&quot;</span><span class="w">           </span><span class="c1"># SSH password</span>
+</code></pre></div>
+
+<h3 id="remote-deployment">Remote Deployment</h3>
+<p><strong>Deploy Release Build:</strong></p>
+<div class="codehilite"><pre><span></span><code>nim<span class="w"> </span>c<span class="w"> </span>-r<span class="w"> </span>tools/remoteRelease.nim
+</code></pre></div>
+
+<p><strong>Deploy with Custom Path:</strong></p>
+<div class="codehilite"><pre><span></span><code>nim<span class="w"> </span>c<span class="w"> </span>-r<span class="w"> </span>tools/remoteRelease.nim<span class="w"> </span>/path/to/falcon_firmware
+</code></pre></div>
+
+<h3 id="deployment-process-from-toolsremotereleasenim">Deployment Process (from <code>tools/remoteRelease.nim</code>)</h3>
+<ol>
+<li><strong>Cross-compile</strong> for ARM64 target</li>
+<li><strong>Package</strong> binary and assets</li>
+<li><strong>SSH Transfer</strong> to target device</li>
+<li><strong>Install</strong> on target system</li>
+<li><strong>Restart</strong> services</li>
+</ol>
+<h3 id="ssh-configuration-from-toolscommonnim">SSH Configuration (from <code>tools/common.nim</code>)</h3>
+<div class="codehilite"><pre><span></span><code><span class="kd">var</span><span class="w"> </span><span class="n">boxAddress</span><span class="o">*</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;root@&quot;</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">getEnv</span><span class="p">(</span><span class="s">&quot;C3_BOX_IP&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">default</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;rotoclear-cam.fritz.box&quot;</span><span class="p">)</span>
+<span class="kd">var</span><span class="w"> </span><span class="n">boxPassword</span><span class="o">*</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">getEnv</span><span class="p">(</span><span class="s">&quot;C3_BOX_PW&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">default</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;root&quot;</span><span class="p">)</span>
+<span class="kd">var</span><span class="w"> </span><span class="n">sshpass</span><span class="o">*</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">defined</span><span class="p">(</span><span class="n">windows</span><span class="p">):</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="w"> </span><span class="k">else</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;sshpass -p &quot;</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">boxPassword</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="s">&quot; &quot;</span>
+</code></pre></div>
+
+<h2 id="build-dependencies">Build Dependencies</h2>
+<h3 id="system-requirements">System Requirements</h3>
+<p><strong>Development Environment:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Build tools</span>
+sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>build-essential
+
+<span class="c1"># Media libraries</span>
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>ffmpeg
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>libturbojpeg
+
+<span class="c1"># Cross-compilation tools (for ARM64)</span>
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>gcc-aarch64-linux-gnu
+</code></pre></div>
+
+<p><strong>Nim Dependencies:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Install project dependencies</span>
+nim<span class="w"> </span>c<span class="w"> </span>-r<span class="w"> </span>tools/installDeps.nim
+nimble<span class="w"> </span>setup
+</code></pre></div>
+
+<h3 id="nim-package-dependencies-from-rotordreamnimble">Nim Package Dependencies (from <code>rotordream.nimble</code>)</h3>
+<div class="codehilite"><pre><span></span><code><span class="n">requires</span><span class="w"> </span><span class="s">&quot;nim &gt;= 2.2.2&quot;</span>
+<span class="n">requires</span><span class="w"> </span><span class="s">&quot;corun &gt;= 0.7.10&quot;</span>
+<span class="n">requires</span><span class="w"> </span><span class="s">&quot;xxtea&quot;</span>
+<span class="n">requires</span><span class="w"> </span><span class="s">&quot;checksums &gt;= 0.2.1&quot;</span>
+</code></pre></div>
+
+<h2 id="build-artifacts">Build Artifacts</h2>
+<h3 id="output-locations">Output Locations</h3>
+<table>
+<thead>
+<tr>
+<th>Build Type</th>
+<th>Output Path</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Development</td>
+<td><code>./rotordream</code></td>
+<td>Local testing binary</td>
+</tr>
+<tr>
+<td>Release</td>
+<td><code>../falcon_firmware/projectroot/usr/bin/rotoclear_server</code></td>
+<td>ARM64 production binary</td>
+</tr>
+<tr>
+<td>Cache</td>
+<td><code>cache/release/</code></td>
+<td>Nim compilation cache</td>
+</tr>
+</tbody>
+</table>
+<h3 id="binary-size-optimization">Binary Size Optimization</h3>
+<p>Production builds use aggressive optimization:</p>
+<ul>
+<li><strong>Link-time optimization</strong>: <code>-flto</code></li>
+<li><strong>Fast math</strong>: <code>-ffast-math</code></li>
+<li><strong>Loop unrolling</strong>: <code>-funroll-loops</code></li>
+<li><strong>Maximum optimization</strong>: <code>-O3</code></li>
+<li><strong>No strict aliasing</strong>: <code>-fno-strict-aliasing</code></li>
+</ul>
+<h2 id="testing-deployment">Testing Deployment</h2>
+<h3 id="remote-testing">Remote Testing</h3>
+<div class="codehilite"><pre><span></span><code>nim<span class="w"> </span>c<span class="w"> </span>-r<span class="w"> </span>tools/remoteTest.nim
+</code></pre></div>
+
+<h3 id="manual-verification">Manual Verification</h3>
+<p><strong>Check Service Status:</strong></p>
+<div class="codehilite"><pre><span></span><code>ssh<span class="w"> </span>root@<span class="nv">$C3_BOX_IP</span><span class="w"> </span><span class="s2">&quot;systemctl status rotoclear_server&quot;</span>
+</code></pre></div>
+
+<p><strong>View Logs:</strong></p>
+<div class="codehilite"><pre><span></span><code>ssh<span class="w"> </span>root@<span class="nv">$C3_BOX_IP</span><span class="w"> </span><span class="s2">&quot;tail -f /media/data/logs/rotoclear.log&quot;</span>
+</code></pre></div>
+
+<p><strong>Test API Connectivity:</strong></p>
+<div class="codehilite"><pre><span></span><code>curl<span class="w"> </span><span class="s2">&quot;http://</span><span class="nv">$C3_BOX_IP</span><span class="s2">/api/status?token=1a2B3c4D5e6f7G8h&quot;</span>
+</code></pre></div>
+
+<h2 id="configuration-deployment">Configuration Deployment</h2>
+<h3 id="environment-specific-builds">Environment-specific Builds</h3>
+<p>Deploy with specific configurations:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Deploy DMG configuration</span>
+<span class="nv">BUILD_CONFIG</span><span class="o">=</span>DMG<span class="w"> </span>nim<span class="w"> </span>c<span class="w"> </span>-r<span class="w"> </span>tools/remoteRelease.nim
+
+<span class="c1"># Deploy EDU configuration  </span>
+<span class="nv">BUILD_CONFIG</span><span class="o">=</span>EDU<span class="w"> </span>nim<span class="w"> </span>c<span class="w"> </span>-r<span class="w"> </span>tools/remoteRelease.nim
+</code></pre></div>
+
+<h3 id="asset-deployment">Asset Deployment</h3>
+<p>Deploy environment-specific assets:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Copy configuration files</span>
+scp<span class="w"> </span>-r<span class="w"> </span>rsc_config/config_DMG/*<span class="w"> </span>root@<span class="nv">$C3_BOX_IP</span>:/opt/rotoclear/config/
+
+<span class="c1"># Copy web assets</span>
+scp<span class="w"> </span>-r<span class="w"> </span>assets/*<span class="w"> </span>root@<span class="nv">$C3_BOX_IP</span>:/opt/rotoclear/assets/
+</code></pre></div>
+
+<h2 id="build-troubleshooting">Build Troubleshooting</h2>
+<h3 id="common-build-issues">Common Build Issues</h3>
+<p><strong>Missing Cross-compiler:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Install ARM64 cross-compiler</span>
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>gcc-aarch64-linux-gnu<span class="w"> </span>g++-aarch64-linux-gnu
+</code></pre></div>
+
+<p><strong>Library Not Found:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Check library paths</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span>/usr/local/lib:<span class="nv">$LD_LIBRARY_PATH</span>
+ldconfig
+</code></pre></div>
+
+<p><strong>Nim Cache Issues:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Clear Nim cache</span>
+rm<span class="w"> </span>-rf<span class="w"> </span>~/.cache/nim/
+rm<span class="w"> </span>-rf<span class="w"> </span>cache/
+</code></pre></div>
+
+<h3 id="deployment-issues">Deployment Issues</h3>
+<p><strong>SSH Connection Failed:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Test SSH connectivity</span>
+ssh-keyscan<span class="w"> </span><span class="nv">$C3_BOX_IP</span>
+ssh<span class="w"> </span>root@<span class="nv">$C3_BOX_IP</span><span class="w"> </span><span class="s2">&quot;echo &#39;Connection successful&#39;&quot;</span>
+</code></pre></div>
+
+<p><strong>Permission Denied:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Check SSH key or password</span>
+ssh-copy-id<span class="w"> </span>root@<span class="nv">$C3_BOX_IP</span>
+</code></pre></div>
+
+<p><strong>Service Won't Start:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Check dependencies</span>
+ssh<span class="w"> </span>root@<span class="nv">$C3_BOX_IP</span><span class="w"> </span><span class="s2">&quot;ldd /usr/bin/rotoclear_server&quot;</span>
+
+<span class="c1"># Check configuration</span>
+ssh<span class="w"> </span>root@<span class="nv">$C3_BOX_IP</span><span class="w"> </span><span class="s2">&quot;ls -la /opt/rotoclear/config/&quot;</span>
+</code></pre></div>
+
+<h2 id="build-optimization">Build Optimization</h2>
+<h3 id="compilation-speed">Compilation Speed</h3>
+<p><strong>Parallel Compilation:</strong></p>
+<div class="codehilite"><pre><span></span><code>nim<span class="w"> </span>c<span class="w"> </span>--threads:on<span class="w"> </span>--parallelBuild:4<span class="w"> </span>rotordream.nim
+</code></pre></div>
+
+<p><strong>Cache Utilization:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Use persistent cache</span>
+nim<span class="w"> </span>c<span class="w"> </span>--nimcache:cache/dev<span class="w"> </span>rotordream.nim
+</code></pre></div>
+
+<h3 id="binary-size-reduction">Binary Size Reduction</h3>
+<p><strong>Strip Debug Symbols:</strong></p>
+<div class="codehilite"><pre><span></span><code>nim<span class="w"> </span>c<span class="w"> </span>-d:release<span class="w"> </span>--passL:<span class="s2">&quot;-s&quot;</span><span class="w"> </span>rotordream.nim
+</code></pre></div>
+
+<p><strong>Link-time Optimization:</strong></p>
+<div class="codehilite"><pre><span></span><code>nim<span class="w"> </span>c<span class="w"> </span>-d:release<span class="w"> </span>--passC:<span class="s2">&quot;-flto&quot;</span><span class="w"> </span>--passL:<span class="s2">&quot;-flto&quot;</span><span class="w"> </span>rotordream.nim
+</code></pre></div>
+
+<h3 id="automated-builds">Automated Builds</h3>
+<p><strong>Build Matrix:</strong><br />
+- Development (x86-64)<br />
+- Production ARM64 (multiple configurations)<br />
+- Cross-platform testing</p>
+<p><strong>Deployment Pipeline:</strong><br />
+1. Build verification<br />
+2. Unit test execution<br />
+3. Cross-compilation<br />
+4. Deployment to staging<br />
+5. Integration testing<br />
+6. Production deployment</p>
+<h2 id="monitoring-and-health-checks">Monitoring and Health Checks</h2>
+<h3 id="post-deployment-verification">Post-deployment Verification</h3>
+<p><strong>Service Health:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Check process status</span>
+ssh<span class="w"> </span>root@<span class="nv">$C3_BOX_IP</span><span class="w"> </span><span class="s2">&quot;ps aux | grep rotoclear_server&quot;</span>
+
+<span class="c1"># Check port binding</span>
+ssh<span class="w"> </span>root@<span class="nv">$C3_BOX_IP</span><span class="w"> </span><span class="s2">&quot;netstat -tlnp | grep :80&quot;</span>
+</code></pre></div>
+
+<p><strong>API Health Check:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># WebSocket connectivity</span>
+wscat<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;ws://</span><span class="nv">$C3_BOX_IP</span><span class="s2">/api?token=1a2B3c4D5e6f7G8h&quot;</span>
+
+<span class="c1"># HTTP endpoint</span>
+curl<span class="w"> </span>-f<span class="w"> </span><span class="s2">&quot;http://</span><span class="nv">$C3_BOX_IP</span><span class="s2">/camera.jpeg?token=1a2B3c4D5e6f7G8h&quot;</span>
+</code></pre></div>
+
+<h3 id="rollback-procedures">Rollback Procedures</h3>
+<p><strong>Service Rollback:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Stop current service</span>
+ssh<span class="w"> </span>root@<span class="nv">$C3_BOX_IP</span><span class="w"> </span><span class="s2">&quot;systemctl stop rotoclear_server&quot;</span>
+
+<span class="c1"># Restore previous binary</span>
+ssh<span class="w"> </span>root@<span class="nv">$C3_BOX_IP</span><span class="w"> </span><span class="s2">&quot;cp /usr/bin/rotoclear_server.backup /usr/bin/rotoclear_server&quot;</span>
+
+<span class="c1"># Restart service</span>
+ssh<span class="w"> </span>root@<span class="nv">$C3_BOX_IP</span><span class="w"> </span><span class="s2">&quot;systemctl start rotoclear_server&quot;</span>
+</code></pre></div>
+
+<h2 id="related-documentation">Related Documentation</h2>
+<ul>
+<li><a href="../getting-started.md">Getting Started</a> - Development setup</li>
+<li><a href="../configuration/environments.md">Environment Configuration</a> - Multi-environment configs</li>
+<li><a href="../testing/testing-strategy.md">Testing Strategy</a> - Testing procedures</li>
+</ul>
+<hr />
+<p><em>Build and deployment documentation derived from <code>tools/buildRelease.nim</code>, <code>tools/common.nim</code>, and <code>rotordream.nimble</code></em></p>
+            </div>
+            <footer class="content-footer">
+                <p>Copyright © 2025 Rotoclear</p>
+            </footer>
+        </main>
+        
+        <button class="mobile-menu-toggle" id="menuToggle" aria-label="Toggle menu">☰</button>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>
+        // Initialize Mermaid
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            securityLevel: 'loose',
+            fontFamily: 'Inter, sans-serif'
+        });
+        
+        // Syntax highlighting
+        hljs.highlightAll();
+        
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.querySelector('.sidebar');
+        
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+        });
+        
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth <= 768 && 
+                !sidebar.contains(e.target) && 
+                !menuToggle.contains(e.target) &&
+                sidebar.classList.contains('active')) {
+                sidebar.classList.remove('active');
+            }
+        });
+        
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

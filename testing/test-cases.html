@@ -1,0 +1,1106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Cases - RotoClear Camera Server Documentation</title>
+    <link rel="stylesheet" href="/assets/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1><a href="/index.html">RotoClear Docs</a></h1>
+                <p>Camera Server Documentation</p>
+            </div>
+            <nav class="sidebar-nav">
+                <ul class="nav-menu">
+                    <li class="nav-item depth-0">
+<a href="/index.html">Home</a>
+</li>
+<li class="nav-item depth-0">
+<a href="/getting-started.html">Getting Started</a>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Architecture</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/architecture/overview.html">Overview</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/architecture/state-management.html">State Management</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/architecture/camera-pipeline.html">Camera Pipeline</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/architecture/metadata-sqlite.html">Metadata & SQLite</a>
+</li>
+<li class="nav-folder depth-1">
+<span class="folder-title">Decisions</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-2">
+<a href="/architecture/decisions/ADR-0001-nim-language.html">ADR-0001 Nim Language</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/architecture/decisions/ADR-0002-corun-framework.html">ADR-0002 Corun Framework</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/architecture/decisions/ADR-0003-observable-state.html">ADR-0003 Observable State</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">API Reference</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/api/README.html">Overview</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/api/websocket-api.html">WebSocket API</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/api/http-api.html">HTTP API</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/api/rtsp-streaming.html">RTSP Streaming</a>
+</li>
+<li class="nav-folder depth-1">
+<span class="folder-title">Examples</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-2">
+<a href="/api/examples/python-client.html">Python Client</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/api/examples/javascript-client.html">JavaScript Client</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/api/examples/csharp-client.html">C# Client</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Configuration</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/configuration/environments.html">Environments</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/factory-config.html">Factory Config</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/license-config.html">License Config</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/deployment-variants.html">Deployment Variants</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/camera-system.html">Camera System</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/network.html">Network</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/storage-backup.html">Storage & Backup</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/authentication.html">Authentication</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Camera System</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/camera/hardware-interface.html">Hardware Interface</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/camera/streaming.html">Streaming</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/camera/recording.html">Recording</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/camera/image-processing.html">Image Processing</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Operations</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/operations/build-and-deploy.html">Build and Deploy</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/build-deploy.html">Build & Deploy (Alt)</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/monitoring.html">Monitoring</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/performance.html">Performance</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/troubleshooting.html">Troubleshooting</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Security</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/security/authentication.html">Authentication</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/security/permissions.html">Permissions</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/security/ssl-certificates.html">SSL Certificates</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Testing</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/testing/testing-strategy.html">Strategy</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/testing/strategies.html">Strategies</a>
+</li>
+<li class="nav-item depth-1 active">
+<a href="/testing/test-cases.html">Test Cases</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/testing/validation.html">Validation</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Integration</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/integration/onvif-protocol.html">ONVIF Protocol</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/integration/third-party.html">Third Party</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Reference</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/reference/glossary.html">Glossary</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/reference/requirements.html">Requirements</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/reference/state-observables.html">State Observables</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Releases</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/releases/CHANGELOG.html">Changelog</a>
+</li>
+</ul>
+</li>
+<li class="nav-item depth-0">
+<a href="/glossary.html">Glossary</a>
+</li>
+                </ul>
+            </nav>
+        </aside>
+        
+        <main class="content">
+            <div class="content-wrapper">
+                <h1 id="test-cases">Test Cases</h1>
+<p><strong>Comprehensive test case specifications for functional, non-functional, and edge case testing of the C Pro camera system.</strong></p>
+<h2 id="overview">Overview</h2>
+<p>This document provides detailed test cases organized by functional areas, ensuring comprehensive coverage of all system components, user scenarios, and edge conditions.</p>
+<div class="mermaid">
+graph TB
+    A[Test Cases] --> B{Test Categories}
+
+    B -->|Functional| C[Functional Tests]
+    B -->|Non-Functional| D[Non-Functional Tests]
+    B -->|Integration| E[Integration Tests]
+    B -->|Edge Cases| F[Edge Case Tests]
+
+    C --> C1[Camera Operations]
+    C --> C2[API Functionality]
+    C --> C3[User Management]
+    C --> C4[Configuration]
+
+    D --> D1[Performance]
+    D --> D2[Security]
+    D --> D3[Reliability]
+    D --> D4[Usability]
+
+    E --> E1[System Integration]
+    E --> E2[Third-Party Integration]
+    E --> E3[Database Integration]
+    E --> E4[Network Integration]
+
+    F --> F1[Error Conditions]
+    F --> F2[Boundary Values]
+    F --> F3[Stress Conditions]
+    F --> F4[Recovery Scenarios]
+</div>
+
+<h2 id="functional-test-cases">Functional Test Cases</h2>
+<h3 id="camera-operations">Camera Operations</h3>
+<h4 id="tc_cam_001-camera-initialization">TC_CAM_001: Camera Initialization</h4>
+<p><strong>Objective</strong>: Verify camera device initialization and configuration<br />
+<strong>Priority</strong>: High<br />
+<strong>Prerequisites</strong>: Camera device available at <code>/dev/video0</code></p>
+<p><strong>Test Steps</strong>:<br />
+1. Initialize camera system<br />
+2. Detect available camera devices<br />
+3. Configure camera with default settings<br />
+4. Verify camera status</p>
+<p><strong>Expected Results</strong>:<br />
+- Camera device detected successfully<br />
+- Default configuration applied<br />
+- Camera status shows "Ready"<br />
+- No error messages in logs</p>
+<p><strong>Test Data</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;device_path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/dev/video0&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;expected_capabilities&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;streaming&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;recording&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;snapshot&quot;</span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;default_resolution&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;width&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1920</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;height&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1080</span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;default_framerate&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">30</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h4 id="tc_cam_002-video-streaming-startstop">TC_CAM_002: Video Streaming Start/Stop</h4>
+<p><strong>Objective</strong>: Verify video streaming functionality<br />
+<strong>Priority</strong>: High<br />
+<strong>Prerequisites</strong>: Camera initialized and configured</p>
+<p><strong>Test Steps</strong>:<br />
+1. Send start streaming command via API<br />
+2. Verify RTSP endpoint becomes available<br />
+3. Connect to RTSP stream with client<br />
+4. Verify video frames are received<br />
+5. Send stop streaming command<br />
+6. Verify RTSP endpoint closes properly</p>
+<p><strong>Expected Results</strong>:<br />
+- Streaming starts within 3 seconds<br />
+- RTSP URL <code>rtsp://camera_ip:554/live</code> accessible<br />
+- Video frames received at configured framerate<br />
+- Streaming stops cleanly without errors<br />
+- Resources properly released</p>
+<p><strong>Test Data</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;stream_config&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;resolution&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;width&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1280</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;height&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">720</span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;framerate&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">25</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;bitrate&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2000000</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;format&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;h264&quot;</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;expected_rtsp_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rtsp://192.168.1.100:554/live&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;timeout_seconds&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h4 id="tc_cam_003-recording-functionality">TC_CAM_003: Recording Functionality</h4>
+<p><strong>Objective</strong>: Verify video recording and playback<br />
+<strong>Priority</strong>: High<br />
+<strong>Prerequisites</strong>: Camera streaming active</p>
+<p><strong>Test Steps</strong>:<br />
+1. Start recording via API<br />
+2. Record for specified duration<br />
+3. Stop recording<br />
+4. Verify recording file created<br />
+5. Check file size and format<br />
+6. Playback recording to verify content</p>
+<p><strong>Expected Results</strong>:<br />
+- Recording starts immediately<br />
+- File created in configured directory<br />
+- File size matches expected range<br />
+- Recording contains valid video data<br />
+- Playback shows recorded content</p>
+<p><strong>Test Data</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;recording_config&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;duration&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">30</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;format&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;mp4&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;quality&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;high&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;audio&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;expected_file_pattern&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;recording_YYYYMMDD_HHMMSS.mp4&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;min_file_size&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1048576</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;storage_path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/var/recordings&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h4 id="tc_cam_004-snapshot-capture">TC_CAM_004: Snapshot Capture</h4>
+<p><strong>Objective</strong>: Verify snapshot image capture<br />
+<strong>Priority</strong>: Medium<br />
+<strong>Prerequisites</strong>: Camera streaming or ready</p>
+<p><strong>Test Steps</strong>:<br />
+1. Request snapshot via API<br />
+2. Verify image is returned<br />
+3. Check image format and size<br />
+4. Validate image contains current camera view<br />
+5. Save snapshot to storage</p>
+<p><strong>Expected Results</strong>:<br />
+- Snapshot captured within 1 second<br />
+- Image format is JPEG<br />
+- Image resolution matches camera setting<br />
+- Image contains valid visual data<br />
+- File saved successfully if requested</p>
+<p><strong>Test Data</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;snapshot_config&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;format&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;jpeg&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;quality&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">85</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;resolution&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;width&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1920</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;height&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1080</span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;save_to_storage&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;expected_content_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;image/jpeg&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;max_response_time&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">1.0</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h4 id="tc_cam_005-camera-settings-configuration">TC_CAM_005: Camera Settings Configuration</h4>
+<p><strong>Objective</strong>: Verify camera settings can be changed<br />
+<strong>Priority</strong>: High<br />
+<strong>Prerequisites</strong>: Camera system initialized</p>
+<p><strong>Test Steps</strong>:<br />
+1. Get current camera settings<br />
+2. Modify resolution setting<br />
+3. Apply new settings<br />
+4. Verify settings are applied<br />
+5. Test with different parameter combinations<br />
+6. Reset to default settings</p>
+<p><strong>Expected Results</strong>:<br />
+- Current settings retrieved successfully<br />
+- New settings applied without errors<br />
+- Camera operates with new settings<br />
+- Settings persist across sessions<br />
+- Default reset works properly</p>
+<p><strong>Test Data</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;test_settings&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span><span class="nt">&quot;resolution&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;width&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1920</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;height&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1080</span><span class="p">},</span><span class="w"> </span><span class="nt">&quot;framerate&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">30</span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span><span class="nt">&quot;resolution&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;width&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1280</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;height&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">720</span><span class="p">},</span><span class="w"> </span><span class="nt">&quot;framerate&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">25</span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span><span class="nt">&quot;resolution&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;width&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">640</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;height&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">480</span><span class="p">},</span><span class="w"> </span><span class="nt">&quot;framerate&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">15</span><span class="p">}</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;invalid_settings&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span><span class="nt">&quot;resolution&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;width&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">-1</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;height&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1080</span><span class="p">}},</span>
+<span class="w">    </span><span class="p">{</span><span class="nt">&quot;framerate&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span><span class="nt">&quot;quality&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">101</span><span class="p">}</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="api-functionality">API Functionality</h3>
+<h4 id="tc_api_001-authentication-and-authorization">TC_API_001: Authentication and Authorization</h4>
+<p><strong>Objective</strong>: Verify API authentication mechanisms<br />
+<strong>Priority</strong>: Critical<br />
+<strong>Prerequisites</strong>: User accounts configured</p>
+<p><strong>Test Steps</strong>:<br />
+1. Attempt API access without authentication<br />
+2. Login with valid credentials<br />
+3. Use returned JWT token for API calls<br />
+4. Test with invalid/expired tokens<br />
+5. Test role-based access control<br />
+6. Logout and verify token invalidation</p>
+<p><strong>Expected Results</strong>:<br />
+- Unauthenticated requests return 401<br />
+- Valid login returns JWT token<br />
+- Token allows access to permitted endpoints<br />
+- Invalid tokens rejected with 401<br />
+- Role restrictions enforced<br />
+- Logout invalidates token</p>
+<p><strong>Test Data</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;test_users&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span><span class="nt">&quot;username&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;admin&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;password&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;admin123&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;role&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;administrator&quot;</span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span><span class="nt">&quot;username&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;operator&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;password&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;oper123&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;role&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;operator&quot;</span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span><span class="nt">&quot;username&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;viewer&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;password&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;view123&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;role&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;viewer&quot;</span><span class="p">}</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;protected_endpoints&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span><span class="nt">&quot;path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/api/admin/users&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;required_role&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;administrator&quot;</span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span><span class="nt">&quot;path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/api/camera/settings&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;required_role&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;operator&quot;</span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span><span class="nt">&quot;path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/api/camera/status&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;required_role&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;viewer&quot;</span><span class="p">}</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h4 id="tc_api_002-http-api-endpoints">TC_API_002: HTTP API Endpoints</h4>
+<p><strong>Objective</strong>: Verify all HTTP API endpoints function correctly<br />
+<strong>Priority</strong>: High<br />
+<strong>Prerequisites</strong>: System running, authenticated user</p>
+<p><strong>Test Steps</strong>:<br />
+1. Test GET endpoints (status, info, settings)<br />
+2. Test POST endpoints (commands, uploads)<br />
+3. Test PUT endpoints (configuration updates)<br />
+4. Test DELETE endpoints (resource removal)<br />
+5. Verify request/response formats<br />
+6. Test error handling</p>
+<p><strong>Expected Results</strong>:<br />
+- All endpoints respond correctly<br />
+- JSON responses well-formed<br />
+- HTTP status codes appropriate<br />
+- Error responses include details<br />
+- Request validation works<br />
+- Documentation matches implementation</p>
+<p><strong>Test Data</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;api_endpoints&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;GET&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/api/status&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;expected_status&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;GET&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/api/camera/info&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;expected_status&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;POST&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/api/camera/start&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;expected_status&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;PUT&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/api/camera/settings&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;expected_status&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;DELETE&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/api/recordings/1&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;expected_status&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">204</span><span class="p">}</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h4 id="tc_api_003-websocket-real-time-communication">TC_API_003: WebSocket Real-time Communication</h4>
+<p><strong>Objective</strong>: Verify WebSocket functionality for real-time updates<br />
+<strong>Priority</strong>: High<br />
+<strong>Prerequisites</strong>: WebSocket endpoint available</p>
+<p><strong>Test Steps</strong>:<br />
+1. Establish WebSocket connection<br />
+2. Subscribe to status updates<br />
+3. Subscribe to event notifications<br />
+4. Send commands via WebSocket<br />
+5. Verify real-time message delivery<br />
+6. Test connection handling and recovery</p>
+<p><strong>Expected Results</strong>:<br />
+- WebSocket connects successfully<br />
+- Subscription confirmations received<br />
+- Real-time updates delivered promptly<br />
+- Commands executed correctly<br />
+- Connection recovers from interruptions<br />
+- Clean disconnection possible</p>
+<p><strong>Test Data</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;websocket_tests&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;action&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;subscribe&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;channel&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;status&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;expected_response&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;subscription_confirmed&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;action&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;command&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;command&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;camera_start&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;expected_response&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;command_response&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h4 id="tc_api_004-onvif-protocol-compliance">TC_API_004: ONVIF Protocol Compliance</h4>
+<p><strong>Objective</strong>: Verify ONVIF protocol implementation<br />
+<strong>Priority</strong>: Medium<br />
+<strong>Prerequisites</strong>: ONVIF services enabled</p>
+<p><strong>Test Steps</strong>:<br />
+1. ONVIF device discovery<br />
+2. GetDeviceInformation request<br />
+3. GetProfiles request<br />
+4. GetStreamUri request<br />
+5. PTZ control commands (if supported)<br />
+6. Event subscription</p>
+<p><strong>Expected Results</strong>:<br />
+- Device discovered via WS-Discovery<br />
+- SOAP responses valid and compliant<br />
+- Profiles returned correctly<br />
+- Stream URIs functional<br />
+- PTZ commands work if supported<br />
+- Events delivered properly</p>
+<p><strong>Test Data</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;onvif_tests&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;service&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;device&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;operation&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;GetDeviceInformation&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;expected_fields&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;Manufacturer&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Model&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;SerialNumber&quot;</span><span class="p">]</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;service&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;media&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;operation&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;GetProfiles&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;expected_profiles&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="user-management">User Management</h3>
+<h4 id="tc_user_001-user-registration-and-login">TC_USER_001: User Registration and Login</h4>
+<p><strong>Objective</strong>: Verify user account management<br />
+<strong>Priority</strong>: High<br />
+<strong>Prerequisites</strong>: Administrative access</p>
+<p><strong>Test Steps</strong>:<br />
+1. Create new user account<br />
+2. Verify user can login<br />
+3. Test password requirements<br />
+4. Test username uniqueness<br />
+5. Test email validation<br />
+6. Test account activation</p>
+<p><strong>Expected Results</strong>:<br />
+- User account created successfully<br />
+- Login works with correct credentials<br />
+- Password policy enforced<br />
+- Duplicate usernames rejected<br />
+- Invalid emails rejected<br />
+- Account activation required</p>
+<p><strong>Test Data</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;valid_users&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;username&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;newuser&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;email&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;newuser@example.com&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;password&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;SecurePass123!&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;role&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;operator&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;invalid_users&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span><span class="nt">&quot;username&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;email&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;test@example.com&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;password&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;pass&quot;</span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span><span class="nt">&quot;username&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;user&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;email&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;invalid-email&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;password&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;pass&quot;</span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span><span class="nt">&quot;username&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;user&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;email&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;test@example.com&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;password&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;123&quot;</span><span class="p">}</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h4 id="tc_user_002-role-based-access-control">TC_USER_002: Role-Based Access Control</h4>
+<p><strong>Objective</strong>: Verify user role permissions<br />
+<strong>Priority</strong>: Critical<br />
+<strong>Prerequisites</strong>: Users with different roles</p>
+<p><strong>Test Steps</strong>:<br />
+1. Login as administrator<br />
+2. Test admin-only operations<br />
+3. Login as operator<br />
+4. Test operator permissions<br />
+5. Login as viewer<br />
+6. Test viewer restrictions</p>
+<p><strong>Expected Results</strong>:<br />
+- Admin can access all functions<br />
+- Operator can control camera, not manage users<br />
+- Viewer can only view status and streams<br />
+- Unauthorized operations rejected<br />
+- Role changes take effect immediately<br />
+- Proper error messages for denied access</p>
+<p><strong>Test Data</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;role_permissions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;administrator&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;*&quot;</span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;operator&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;camera.*&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;recording.*&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;settings.read&quot;</span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;viewer&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;status.read&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;stream.view&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;camera.info&quot;</span><span class="p">]</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;test_operations&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span><span class="nt">&quot;operation&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;user.create&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;admin&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;operator&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;viewer&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span><span class="nt">&quot;operation&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;camera.start&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;admin&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;operator&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;viewer&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span><span class="nt">&quot;operation&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;status.read&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;admin&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;operator&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;viewer&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">}</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="configuration-management">Configuration Management</h3>
+<h4 id="tc_config_001-network-configuration">TC_CONFIG_001: Network Configuration</h4>
+<p><strong>Objective</strong>: Verify network settings configuration<br />
+<strong>Priority</strong>: High<br />
+<strong>Prerequisites</strong>: Administrative access</p>
+<p><strong>Test Steps</strong>:<br />
+1. View current network settings<br />
+2. Modify HTTP port configuration<br />
+3. Modify RTSP port configuration<br />
+4. Test static IP configuration<br />
+5. Test DHCP configuration<br />
+6. Verify settings persistence</p>
+<p><strong>Expected Results</strong>:<br />
+- Current settings displayed correctly<br />
+- Port changes applied successfully<br />
+- Services restart on new ports<br />
+- IP configuration works<br />
+- Settings saved to persistent storage<br />
+- Invalid configurations rejected</p>
+<p><strong>Test Data</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;network_tests&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span><span class="nt">&quot;http_port&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">8080</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;rtsp_port&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">554</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;valid&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span><span class="nt">&quot;http_port&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">9090</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;rtsp_port&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">8554</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;valid&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span><span class="nt">&quot;http_port&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">65536</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;rtsp_port&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">554</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;valid&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span><span class="nt">&quot;http_port&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">-1</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;rtsp_port&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">554</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;valid&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">}</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h4 id="tc_config_002-storage-configuration">TC_CONFIG_002: Storage Configuration</h4>
+<p><strong>Objective</strong>: Verify storage settings and management<br />
+<strong>Priority</strong>: High<br />
+<strong>Prerequisites</strong>: File system access</p>
+<p><strong>Test Steps</strong>:<br />
+1. Configure storage location<br />
+2. Set storage limits<br />
+3. Configure retention policies<br />
+4. Test automatic cleanup<br />
+5. Test storage full conditions<br />
+6. Verify backup configurations</p>
+<p><strong>Expected Results</strong>:<br />
+- Storage location set correctly<br />
+- Limits enforced properly<br />
+- Old files cleaned up automatically<br />
+- System handles storage full gracefully<br />
+- Backup settings work<br />
+- Configuration persists</p>
+<p><strong>Test Data</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;storage_tests&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/var/recordings&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;max_size&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;10GB&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;retention_days&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">30</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;cleanup_enabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/invalid/path&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;max_size&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;10GB&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;valid&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="non-functional-test-cases">Non-Functional Test Cases</h2>
+<h3 id="performance-test-cases">Performance Test Cases</h3>
+<h4 id="tc_perf_001-streaming-performance">TC_PERF_001: Streaming Performance</h4>
+<p><strong>Objective</strong>: Verify streaming performance under various conditions<br />
+<strong>Priority</strong>: High<br />
+<strong>Prerequisites</strong>: Camera system operational</p>
+<p><strong>Test Steps</strong>:<br />
+1. Start single stream<br />
+2. Measure frame rate consistency<br />
+3. Start multiple concurrent streams<br />
+4. Monitor CPU and memory usage<br />
+5. Test with different resolutions<br />
+6. Measure latency</p>
+<p><strong>Expected Results</strong>:<br />
+- Frame rate within 5% of configured value<br />
+- CPU usage &lt; 80% for single stream<br />
+- Memory usage stable over time<br />
+- Multiple streams supported<br />
+- Latency &lt; 500ms for local network<br />
+- No frame drops under normal load</p>
+<p><strong>Test Data</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;performance_targets&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;single_stream_cpu&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">80</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;single_stream_memory&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;max_concurrent_streams&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;max_latency_ms&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">500</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;frame_rate_tolerance&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.05</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h4 id="tc_perf_002-api-response-times">TC_PERF_002: API Response Times</h4>
+<p><strong>Objective</strong>: Verify API response performance<br />
+<strong>Priority</strong>: Medium<br />
+<strong>Prerequisites</strong>: System under normal load</p>
+<p><strong>Test Steps</strong>:<br />
+1. Test all API endpoints<br />
+2. Measure response times<br />
+3. Test with concurrent requests<br />
+4. Monitor during high load<br />
+5. Test database operations<br />
+6. Measure WebSocket latency</p>
+<p><strong>Expected Results</strong>:<br />
+- GET requests &lt; 100ms<br />
+- POST requests &lt; 500ms<br />
+- Database queries &lt; 200ms<br />
+- WebSocket messages &lt; 50ms<br />
+- Performance consistent under load<br />
+- No timeout errors</p>
+<p><strong>Test Data</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;response_time_targets&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;get_requests&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;post_requests&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">500</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;database_queries&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;websocket_latency&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;concurrent_users&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="security-test-cases">Security Test Cases</h3>
+<h4 id="tc_sec_001-authentication-security">TC_SEC_001: Authentication Security</h4>
+<p><strong>Objective</strong>: Verify authentication mechanism security<br />
+<strong>Priority</strong>: Critical<br />
+<strong>Prerequisites</strong>: System with authentication enabled</p>
+<p><strong>Test Steps</strong>:<br />
+1. Test password complexity requirements<br />
+2. Test account lockout after failed attempts<br />
+3. Test session timeout<br />
+4. Test token expiration<br />
+5. Test password reset security<br />
+6. Test brute force protection</p>
+<p><strong>Expected Results</strong>:<br />
+- Weak passwords rejected<br />
+- Account locked after failed attempts<br />
+- Sessions expire properly<br />
+- Tokens expire as configured<br />
+- Password reset secure<br />
+- Brute force attempts blocked</p>
+<p><strong>Test Data</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;security_policies&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;password_min_length&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;password_complexity&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;max_login_attempts&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;lockout_duration&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">300</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;token_expiry&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">3600</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;session_timeout&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1800</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h4 id="tc_sec_002-data-protection">TC_SEC_002: Data Protection</h4>
+<p><strong>Objective</strong>: Verify data encryption and protection<br />
+<strong>Priority</strong>: High<br />
+<strong>Prerequisites</strong>: HTTPS/TLS configured</p>
+<p><strong>Test Steps</strong>:<br />
+1. Verify HTTPS enforcement<br />
+2. Test TLS certificate validation<br />
+3. Test data encryption at rest<br />
+4. Test password hashing<br />
+5. Test API key security<br />
+6. Test data transmission security</p>
+<p><strong>Expected Results</strong>:<br />
+- HTTP redirects to HTTPS<br />
+- Valid TLS certificates<br />
+- Sensitive data encrypted<br />
+- Passwords properly hashed<br />
+- API keys not exposed<br />
+- All transmissions encrypted</p>
+<p><strong>Test Data</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;encryption_tests&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;tls_version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1.2&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;cipher_suites&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;AES128-GCM-SHA256&quot;</span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;password_hash&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;bcrypt&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;data_encryption&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;AES-256&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;certificate_validity&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="reliability-test-cases">Reliability Test Cases</h3>
+<h4 id="tc_rel_001-system-stability">TC_REL_001: System Stability</h4>
+<p><strong>Objective</strong>: Verify system stability over extended periods<br />
+<strong>Priority</strong>: High<br />
+<strong>Prerequisites</strong>: Fully configured system</p>
+<p><strong>Test Steps</strong>:<br />
+1. Run continuous streaming for 24 hours<br />
+2. Monitor memory leaks<br />
+3. Monitor resource usage<br />
+4. Test automatic recovery<br />
+5. Test log rotation<br />
+6. Monitor error rates</p>
+<p><strong>Expected Results</strong>:<br />
+- System runs without crashes<br />
+- Memory usage stable<br />
+- No resource exhaustion<br />
+- Automatic recovery works<br />
+- Logs rotate properly<br />
+- Error rate &lt; 0.1%</p>
+<p><strong>Test Data</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;stability_metrics&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;test_duration&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">86400</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;max_memory_growth&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;10MB&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;max_cpu_sustained&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">75</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;max_error_rate&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.001</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;recovery_time&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">30</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h4 id="tc_rel_002-fault-tolerance">TC_REL_002: Fault Tolerance</h4>
+<p><strong>Objective</strong>: Verify system handles failures gracefully<br />
+<strong>Priority</strong>: High<br />
+<strong>Prerequisites</strong>: System with fault injection capability</p>
+<p><strong>Test Steps</strong>:<br />
+1. Simulate camera disconnect<br />
+2. Simulate network interruption<br />
+3. Simulate disk full condition<br />
+4. Simulate power interruption<br />
+5. Test database connection loss<br />
+6. Test service crashes</p>
+<p><strong>Expected Results</strong>:<br />
+- Camera disconnect detected<br />
+- Network reconnection automatic<br />
+- Disk full handled gracefully<br />
+- System recovers from power loss<br />
+- Database reconnection works<br />
+- Services restart automatically</p>
+<p><strong>Test Data</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;fault_scenarios&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;camera_disconnect&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;recovery_time&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;network_loss&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;recovery_time&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">30</span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;disk_full&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;cleanup_enabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;service_crash&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;restart_enabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">}</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="edge-case-test-cases">Edge Case Test Cases</h2>
+<h3 id="boundary-value-testing">Boundary Value Testing</h3>
+<h4 id="tc_edge_001-configuration-limits">TC_EDGE_001: Configuration Limits</h4>
+<p><strong>Objective</strong>: Test system behavior at configuration boundaries<br />
+<strong>Priority</strong>: Medium<br />
+<strong>Prerequisites</strong>: System with configurable parameters</p>
+<p><strong>Test Steps</strong>:<br />
+1. Test minimum resolution values<br />
+2. Test maximum resolution values<br />
+3. Test minimum frame rate<br />
+4. Test maximum frame rate<br />
+5. Test storage size limits<br />
+6. Test user account limits</p>
+<p><strong>Expected Results</strong>:<br />
+- Minimum values accepted<br />
+- Maximum values accepted<br />
+- Values beyond limits rejected<br />
+- Appropriate error messages<br />
+- System remains stable<br />
+- Default values used for invalid input</p>
+<p><strong>Test Data</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;boundary_tests&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span><span class="nt">&quot;parameter&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;resolution_width&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;min&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">320</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;max&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">3840</span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span><span class="nt">&quot;parameter&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;resolution_height&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;min&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">240</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;max&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2160</span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span><span class="nt">&quot;parameter&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;framerate&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;min&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;max&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">60</span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span><span class="nt">&quot;parameter&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;storage_size&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;min&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1GB&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;max&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;10TB&quot;</span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span><span class="nt">&quot;parameter&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;max_users&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;min&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;max&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1000</span><span class="p">}</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="error-condition-testing">Error Condition Testing</h3>
+<h4 id="tc_error_001-hardware-failure-simulation">TC_ERROR_001: Hardware Failure Simulation</h4>
+<p><strong>Objective</strong>: Test behavior when hardware components fail<br />
+<strong>Priority</strong>: High<br />
+<strong>Prerequisites</strong>: Mockable hardware interfaces</p>
+<p><strong>Test Steps</strong>:<br />
+1. Simulate camera hardware failure<br />
+2. Simulate storage device failure<br />
+3. Simulate network interface failure<br />
+4. Test invalid device paths<br />
+5. Test permission denied errors<br />
+6. Test device busy conditions</p>
+<p><strong>Expected Results</strong>:<br />
+- Hardware failures detected<br />
+- Error messages informative<br />
+- System continues other operations<br />
+- Recovery possible when hardware returns<br />
+- No crashes or hangs<br />
+- User notified of issues</p>
+<p><strong>Test Data</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;hardware_errors&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span><span class="nt">&quot;device&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/dev/video0&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;error&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;no_such_device&quot;</span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span><span class="nt">&quot;device&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/dev/video0&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;error&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;permission_denied&quot;</span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span><span class="nt">&quot;device&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/dev/video0&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;error&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;device_busy&quot;</span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span><span class="nt">&quot;storage&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/recordings&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;error&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;read_only&quot;</span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span><span class="nt">&quot;network&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;eth0&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;error&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;interface_down&quot;</span><span class="p">}</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h4 id="tc_error_002-resource-exhaustion">TC_ERROR_002: Resource Exhaustion</h4>
+<p><strong>Objective</strong>: Test behavior under resource constraints<br />
+<strong>Priority</strong>: High<br />
+<strong>Prerequisites</strong>: Resource monitoring capability</p>
+<p><strong>Test Steps</strong>:<br />
+1. Fill disk to capacity<br />
+2. Exhaust available memory<br />
+3. Consume all CPU resources<br />
+4. Exceed network bandwidth<br />
+5. Reach file descriptor limits<br />
+6. Test concurrent connection limits</p>
+<p><strong>Expected Results</strong>:<br />
+- Resource exhaustion detected<br />
+- Graceful degradation of service<br />
+- Error messages clear<br />
+- Recovery when resources available<br />
+- No system crashes<br />
+- Cleanup mechanisms work</p>
+<p><strong>Test Data</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;resource_limits&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span><span class="nt">&quot;resource&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;disk_space&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;threshold&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;95%&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;action&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;cleanup&quot;</span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span><span class="nt">&quot;resource&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;memory&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;threshold&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;90%&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;action&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;reduce_quality&quot;</span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span><span class="nt">&quot;resource&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;cpu&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;threshold&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;95%&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;action&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;limit_streams&quot;</span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span><span class="nt">&quot;resource&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;connections&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;limit&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;action&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;reject_new&quot;</span><span class="p">}</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="test-execution-framework">Test Execution Framework</h2>
+<h3 id="test-case-template">Test Case Template</h3>
+<div class="codehilite"><pre><span></span><code><span class="c"># Test case template for C Pro</span>
+<span class="kn">import</span><span class="w"> </span><span class="n">unittest2</span><span class="p">,</span><span class="w"> </span><span class="n">asynctest</span><span class="p">,</span><span class="w"> </span><span class="n">json</span>
+<span class="kn">import</span><span class="w"> </span><span class="p">..</span><span class="o">/</span><span class="n">config</span>
+
+<span class="n">suite</span><span class="w"> </span><span class="s">&quot;Test Suite Name&quot;</span><span class="p">:</span>
+<span class="w">  </span><span class="kd">var</span><span class="w"> </span><span class="n">env</span><span class="p">:</span><span class="w"> </span><span class="n">TestEnvironment</span>
+
+<span class="w">  </span><span class="n">setup</span><span class="p">:</span>
+<span class="w">    </span><span class="n">env</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">setupTestEnvironment</span><span class="p">()</span>
+<span class="w">    </span><span class="c"># Test-specific setup</span>
+
+<span class="w">  </span><span class="n">teardown</span><span class="p">:</span>
+<span class="w">    </span><span class="n">cleanupTestEnvironment</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>
+<span class="w">    </span><span class="c"># Test-specific cleanup</span>
+
+<span class="w">  </span><span class="n">test</span><span class="w"> </span><span class="s">&quot;TC_XXX_001: Test Case Description&quot;</span><span class="p">:</span>
+<span class="w">    </span><span class="c"># Test case ID: TC_XXX_001</span>
+<span class="w">    </span><span class="c"># Priority: High/Medium/Low</span>
+<span class="w">    </span><span class="c"># Category: Functional/Performance/Security/etc.</span>
+
+<span class="w">    </span><span class="c"># Arrange</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">testData</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">loadTestData</span><span class="p">(</span><span class="s">&quot;test_case_data.json&quot;</span><span class="p">)</span>
+
+<span class="w">    </span><span class="c"># Act</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">performTestAction</span><span class="p">(</span><span class="n">testData</span><span class="p">)</span>
+
+<span class="w">    </span><span class="c"># Assert</span>
+<span class="w">    </span><span class="n">check</span><span class="w"> </span><span class="n">result</span><span class="p">.</span><span class="n">success</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kp">true</span>
+<span class="w">    </span><span class="n">check</span><span class="w"> </span><span class="n">result</span><span class="p">.</span><span class="n">data</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kp">nil</span>
+
+<span class="w">    </span><span class="c"># Verify expected results</span>
+<span class="w">    </span><span class="n">verifyTestResults</span><span class="p">(</span><span class="n">result</span><span class="p">,</span><span class="w"> </span><span class="n">testData</span><span class="p">.</span><span class="n">expectedResults</span><span class="p">)</span>
+</code></pre></div>
+
+<h3 id="test-data-management">Test Data Management</h3>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;test_case_metadata&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;TC_CAM_001&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Camera Initialization&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;priority&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;High&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;category&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Functional&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;estimated_duration&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">30</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;prerequisites&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;camera_available&quot;</span><span class="p">],</span>
+<span class="w">      </span><span class="nt">&quot;automation_status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;automated&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;test_execution_config&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;parallel_execution&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;max_parallel_tests&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;retry_failed_tests&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;capture_screenshots&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;generate_reports&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="test-metrics-and-reporting">Test Metrics and Reporting</h3>
+<div class="codehilite"><pre><span></span><code><span class="c"># test_metrics.nim</span>
+<span class="k">type</span>
+<span class="w">  </span><span class="n">TestResult</span><span class="o">*</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">object</span>
+<span class="w">    </span><span class="n">testId</span><span class="o">*</span><span class="p">:</span><span class="w"> </span><span class="nb">string</span>
+<span class="w">    </span><span class="n">status</span><span class="o">*</span><span class="p">:</span><span class="w"> </span><span class="n">TestStatus</span>
+<span class="w">    </span><span class="n">duration</span><span class="o">*</span><span class="p">:</span><span class="w"> </span><span class="nb">float</span>
+<span class="w">    </span><span class="n">errorMessage</span><span class="o">*</span><span class="p">:</span><span class="w"> </span><span class="nb">string</span>
+<span class="w">    </span><span class="n">timestamp</span><span class="o">*</span><span class="p">:</span><span class="w"> </span><span class="n">DateTime</span>
+
+<span class="w">  </span><span class="n">TestMetrics</span><span class="o">*</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">object</span>
+<span class="w">    </span><span class="n">totalTests</span><span class="o">*</span><span class="p">:</span><span class="w"> </span><span class="nb">int</span>
+<span class="w">    </span><span class="n">passedTests</span><span class="o">*</span><span class="p">:</span><span class="w"> </span><span class="nb">int</span>
+<span class="w">    </span><span class="n">failedTests</span><span class="o">*</span><span class="p">:</span><span class="w"> </span><span class="nb">int</span>
+<span class="w">    </span><span class="n">skippedTests</span><span class="o">*</span><span class="p">:</span><span class="w"> </span><span class="nb">int</span>
+<span class="w">    </span><span class="n">totalDuration</span><span class="o">*</span><span class="p">:</span><span class="w"> </span><span class="nb">float</span>
+<span class="w">    </span><span class="n">coverage</span><span class="o">*</span><span class="p">:</span><span class="w"> </span><span class="nb">float</span>
+
+<span class="k">proc</span><span class="w"> </span><span class="nf">generateTestReport</span><span class="o">*</span><span class="p">(</span><span class="n">results</span><span class="p">:</span><span class="w"> </span><span class="nb">seq</span><span class="o">[</span><span class="n">TestResult</span><span class="o">]</span><span class="p">):</span><span class="w"> </span><span class="n">TestMetrics</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="sd">## Generate comprehensive test report</span>
+<span class="w">  </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TestMetrics</span><span class="p">(</span>
+<span class="w">    </span><span class="n">totalTests</span><span class="p">:</span><span class="w"> </span><span class="n">results</span><span class="p">.</span><span class="n">len</span><span class="p">,</span>
+<span class="w">    </span><span class="n">passedTests</span><span class="p">:</span><span class="w"> </span><span class="n">results</span><span class="p">.</span><span class="n">filter</span><span class="p">(</span><span class="n">r</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">r</span><span class="p">.</span><span class="n">status</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">Passed</span><span class="p">).</span><span class="n">len</span><span class="p">,</span>
+<span class="w">    </span><span class="n">failedTests</span><span class="p">:</span><span class="w"> </span><span class="n">results</span><span class="p">.</span><span class="n">filter</span><span class="p">(</span><span class="n">r</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">r</span><span class="p">.</span><span class="n">status</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">Failed</span><span class="p">).</span><span class="n">len</span><span class="p">,</span>
+<span class="w">    </span><span class="n">skippedTests</span><span class="p">:</span><span class="w"> </span><span class="n">results</span><span class="p">.</span><span class="n">filter</span><span class="p">(</span><span class="n">r</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">r</span><span class="p">.</span><span class="n">status</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">Skipped</span><span class="p">).</span><span class="n">len</span><span class="p">,</span>
+<span class="w">    </span><span class="n">totalDuration</span><span class="p">:</span><span class="w"> </span><span class="n">results</span><span class="p">.</span><span class="n">map</span><span class="p">(</span><span class="n">r</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">r</span><span class="p">.</span><span class="n">duration</span><span class="p">).</span><span class="n">sum</span>
+<span class="w">  </span><span class="p">)</span>
+
+<span class="w">  </span><span class="c"># Calculate pass rate</span>
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">passRate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">result</span><span class="p">.</span><span class="n">passedTests</span><span class="p">.</span><span class="nb">float</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">result</span><span class="p">.</span><span class="n">totalTests</span><span class="p">.</span><span class="nb">float</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">100</span>
+<span class="w">  </span><span class="n">echo</span><span class="w"> </span><span class="s">f&quot;Test Pass Rate: {passRate:.2f}%&quot;</span>
+</code></pre></div>
+
+<h2 id="related-documentation">Related Documentation</h2>
+<ul>
+<li><a href="./strategies.md">Testing Strategies</a> - Overall testing approach</li>
+<li><a href="./validation.md">Validation Procedures</a> - System validation</li>
+<li><a href="../api/http-api.md">API Reference</a> - API testing reference</li>
+<li><a href="../operations/performance.md">Performance</a> - Performance testing</li>
+</ul>
+<hr />
+<p><em>Comprehensive test case specifications ensuring thorough system validation and quality assurance</em></p>
+            </div>
+            <footer class="content-footer">
+                <p>Copyright © 2025 Rotoclear</p>
+            </footer>
+        </main>
+        
+        <button class="mobile-menu-toggle" id="menuToggle" aria-label="Toggle menu">☰</button>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>
+        // Initialize Mermaid
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            securityLevel: 'loose',
+            fontFamily: 'Inter, sans-serif'
+        });
+        
+        // Syntax highlighting
+        hljs.highlightAll();
+        
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.querySelector('.sidebar');
+        
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+        });
+        
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth <= 768 && 
+                !sidebar.contains(e.target) && 
+                !menuToggle.contains(e.target) &&
+                sidebar.classList.contains('active')) {
+                sidebar.classList.remove('active');
+            }
+        });
+        
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

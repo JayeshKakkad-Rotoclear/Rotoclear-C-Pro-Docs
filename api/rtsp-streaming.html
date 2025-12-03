@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RTSP Streaming - RotoClear Camera Server Documentation</title>
+    <link rel="stylesheet" href="/assets/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1><a href="/index.html">RotoClear Docs</a></h1>
+                <p>Camera Server Documentation</p>
+            </div>
+            <nav class="sidebar-nav">
+                <ul class="nav-menu">
+                    <li class="nav-item depth-0">
+<a href="/index.html">Home</a>
+</li>
+<li class="nav-item depth-0">
+<a href="/getting-started.html">Getting Started</a>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Architecture</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/architecture/overview.html">Overview</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/architecture/state-management.html">State Management</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/architecture/camera-pipeline.html">Camera Pipeline</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/architecture/metadata-sqlite.html">Metadata & SQLite</a>
+</li>
+<li class="nav-folder depth-1">
+<span class="folder-title">Decisions</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-2">
+<a href="/architecture/decisions/ADR-0001-nim-language.html">ADR-0001 Nim Language</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/architecture/decisions/ADR-0002-corun-framework.html">ADR-0002 Corun Framework</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/architecture/decisions/ADR-0003-observable-state.html">ADR-0003 Observable State</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">API Reference</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/api/README.html">Overview</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/api/websocket-api.html">WebSocket API</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/api/http-api.html">HTTP API</a>
+</li>
+<li class="nav-item depth-1 active">
+<a href="/api/rtsp-streaming.html">RTSP Streaming</a>
+</li>
+<li class="nav-folder depth-1">
+<span class="folder-title">Examples</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-2">
+<a href="/api/examples/python-client.html">Python Client</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/api/examples/javascript-client.html">JavaScript Client</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/api/examples/csharp-client.html">C# Client</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Configuration</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/configuration/environments.html">Environments</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/factory-config.html">Factory Config</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/license-config.html">License Config</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/deployment-variants.html">Deployment Variants</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/camera-system.html">Camera System</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/network.html">Network</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/storage-backup.html">Storage & Backup</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/authentication.html">Authentication</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Camera System</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/camera/hardware-interface.html">Hardware Interface</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/camera/streaming.html">Streaming</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/camera/recording.html">Recording</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/camera/image-processing.html">Image Processing</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Operations</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/operations/build-and-deploy.html">Build and Deploy</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/build-deploy.html">Build & Deploy (Alt)</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/monitoring.html">Monitoring</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/performance.html">Performance</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/troubleshooting.html">Troubleshooting</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Security</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/security/authentication.html">Authentication</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/security/permissions.html">Permissions</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/security/ssl-certificates.html">SSL Certificates</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Testing</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/testing/testing-strategy.html">Strategy</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/testing/strategies.html">Strategies</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/testing/test-cases.html">Test Cases</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/testing/validation.html">Validation</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Integration</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/integration/onvif-protocol.html">ONVIF Protocol</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/integration/third-party.html">Third Party</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Reference</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/reference/glossary.html">Glossary</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/reference/requirements.html">Requirements</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/reference/state-observables.html">State Observables</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Releases</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/releases/CHANGELOG.html">Changelog</a>
+</li>
+</ul>
+</li>
+<li class="nav-item depth-0">
+<a href="/glossary.html">Glossary</a>
+</li>
+                </ul>
+            </nav>
+        </aside>
+        
+        <main class="content">
+            <div class="content-wrapper">
+                <h1 id="rtsp-streaming-protocol">RTSP Streaming Protocol</h1>
+<p><strong>Real-time streaming protocol for live video access and camera control.</strong></p>
+<h2 id="overview">Overview</h2>
+<p>The RTSP streaming implementation provides H.264 video streams for real-time monitoring and recording applications. Built on GStreamer pipeline with V4L2 hardware acceleration.</p>
+<div class="mermaid">
+graph LR
+    A[Camera Device] --> B[V4L2 Driver]
+    B --> C[GStreamer Pipeline]
+    C --> D[H.264 Encoder]
+    D --> E[RTP Packetizer]
+    E --> F[RTSP Server]
+    F --> G[RTSP Client]
+    G --> H[Media Player]
+</div>
+
+<h2 id="rtsp-urls-and-authentication">RTSP URLs and Authentication</h2>
+<h3 id="primary-stream-url">Primary Stream URL</h3>
+<div class="codehilite"><pre><span></span><code><span class="nl">rtsp</span><span class="p">:</span><span class="c1">//192.168.1.100:554/stream0</span>
+<span class="nl">rtsp</span><span class="p">:</span><span class="c1">//admin:password@192.168.1.100:554/stream0</span>
+<span class="nl">rtsp</span><span class="p">:</span><span class="c1">//192.168.1.100:554/stream0?token=1a2B3c4D5e6f7G8h</span>
+</code></pre></div>
+
+<h3 id="secondary-stream-low-resolution">Secondary Stream (Low Resolution)</h3>
+<div class="codehilite"><pre><span></span><code>rtsp://192.168.1.100:554/stream1
+rtsp://192.168.1.100:554/stream1?resolution=640x480
+</code></pre></div>
+
+<h3 id="authentication-methods">Authentication Methods</h3>
+<p><strong>Basic Authentication</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># VLC media player</span>
+vlc<span class="w"> </span>rtsp://admin:password@192.168.1.100:554/stream0
+
+<span class="c1"># FFmpeg</span>
+ffmpeg<span class="w"> </span>-i<span class="w"> </span>rtsp://admin:password@192.168.1.100:554/stream0<span class="w"> </span>output.mp4
+
+<span class="c1"># GStreamer</span>
+gst-launch-1.0<span class="w"> </span>rtspsrc<span class="w"> </span><span class="nv">location</span><span class="o">=</span>rtsp://admin:password@192.168.1.100:554/stream0<span class="w"> </span>!<span class="w"> </span>decodebin<span class="w"> </span>!<span class="w"> </span>autovideosink
+</code></pre></div>
+
+<p><strong>Token Authentication</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Using query parameter</span>
+vlc<span class="w"> </span><span class="s2">&quot;rtsp://192.168.1.100:554/stream0?token=1a2B3c4D5e6f7G8h&quot;</span>
+
+<span class="c1"># Using custom header (application dependent)</span>
+ffmpeg<span class="w"> </span>-headers<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span>-i<span class="w"> </span>rtsp://192.168.1.100:554/stream0<span class="w"> </span>output.mp4
+</code></pre></div>
+
+<h2 id="stream-parameters">Stream Parameters</h2>
+<h3 id="primary-stream-stream0">Primary Stream (stream0)</h3>
+<ul>
+<li><strong>Resolution</strong>: 1920×1080 (configurable)</li>
+<li><strong>Frame Rate</strong>: 30 fps (configurable) </li>
+<li><strong>Bitrate</strong>: 4-8 Mbps (adaptive)</li>
+<li><strong>Codec</strong>: H.264 Main Profile Level 4.0</li>
+<li><strong>Container</strong>: RTP/RTSP</li>
+</ul>
+<h3 id="secondary-stream-stream1">Secondary Stream (stream1)</h3>
+<ul>
+<li><strong>Resolution</strong>: 640×480 (configurable)</li>
+<li><strong>Frame Rate</strong>: 15 fps (configurable)</li>
+<li><strong>Bitrate</strong>: 500 Kbps - 2 Mbps</li>
+<li><strong>Codec</strong>: H.264 Baseline Profile Level 3.1</li>
+<li><strong>Container</strong>: RTP/RTSP</li>
+</ul>
+<h3 id="dynamic-parameters">Dynamic Parameters</h3>
+<div class="codehilite"><pre><span></span><code>rtsp://192.168.1.100:554/stream0?resolution=1280x720&amp;fps=25&amp;bitrate=2000
+rtsp://192.168.1.100:554/stream1?resolution=320x240&amp;fps=10
+</code></pre></div>
+
+<h2 id="gstreamer-pipeline-architecture">GStreamer Pipeline Architecture</h2>
+<h3 id="source-pipeline-device-side">Source Pipeline (Device Side)</h3>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Primary high-resolution stream</span>
+gst-launch-1.0<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>v4l2src<span class="w"> </span><span class="nv">device</span><span class="o">=</span>/dev/video0<span class="w"> </span>!<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>video/x-raw,format<span class="o">=</span>YUY2,width<span class="o">=</span><span class="m">1920</span>,height<span class="o">=</span><span class="m">1080</span>,framerate<span class="o">=</span><span class="m">30</span>/1<span class="w"> </span>!<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>v4l2h264enc<span class="w"> </span>extra-controls<span class="o">=</span><span class="s2">&quot;controls,video_bitrate=4000000&quot;</span><span class="w"> </span>!<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>video/x-h264,profile<span class="o">=</span>main<span class="w"> </span>!<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>rtph264pay<span class="w"> </span>config-interval<span class="o">=</span><span class="m">1</span><span class="w"> </span><span class="nv">pt</span><span class="o">=</span><span class="m">96</span><span class="w"> </span>!<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>udpsink<span class="w"> </span><span class="nv">host</span><span class="o">=</span><span class="m">0</span>.0.0.0<span class="w"> </span><span class="nv">port</span><span class="o">=</span><span class="m">5004</span>
+
+<span class="c1"># Secondary low-resolution stream  </span>
+gst-launch-1.0<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>v4l2src<span class="w"> </span><span class="nv">device</span><span class="o">=</span>/dev/video0<span class="w"> </span>!<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>video/x-raw,format<span class="o">=</span>YUY2,width<span class="o">=</span><span class="m">1920</span>,height<span class="o">=</span><span class="m">1080</span>,framerate<span class="o">=</span><span class="m">30</span>/1<span class="w"> </span>!<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>videoscale<span class="w"> </span>!<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>video/x-raw,width<span class="o">=</span><span class="m">640</span>,height<span class="o">=</span><span class="m">480</span><span class="w"> </span>!<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>v4l2h264enc<span class="w"> </span>extra-controls<span class="o">=</span><span class="s2">&quot;controls,video_bitrate=1000000&quot;</span><span class="w"> </span>!<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>video/x-h264,profile<span class="o">=</span>baseline<span class="w"> </span>!<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>rtph264pay<span class="w"> </span>config-interval<span class="o">=</span><span class="m">1</span><span class="w"> </span><span class="nv">pt</span><span class="o">=</span><span class="m">96</span><span class="w"> </span>!<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>udpsink<span class="w"> </span><span class="nv">host</span><span class="o">=</span><span class="m">0</span>.0.0.0<span class="w"> </span><span class="nv">port</span><span class="o">=</span><span class="m">5006</span>
+</code></pre></div>
+
+<h3 id="client-pipeline-examples">Client Pipeline Examples</h3>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Receive and display</span>
+gst-launch-1.0<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>rtspsrc<span class="w"> </span><span class="nv">location</span><span class="o">=</span>rtsp://192.168.1.100:554/stream0<span class="w"> </span>!<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>rtph264depay<span class="w"> </span>!<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>avdec_h264<span class="w"> </span>!<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>videoconvert<span class="w"> </span>!<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>autovideosink
+
+<span class="c1"># Receive and record to file</span>
+gst-launch-1.0<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>rtspsrc<span class="w"> </span><span class="nv">location</span><span class="o">=</span>rtsp://192.168.1.100:554/stream0<span class="w"> </span>!<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>rtph264depay<span class="w"> </span>!<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>h264parse<span class="w"> </span>!<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>mp4mux<span class="w"> </span>!<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>filesink<span class="w"> </span><span class="nv">location</span><span class="o">=</span>recording.mp4
+
+<span class="c1"># Receive with custom buffer settings</span>
+gst-launch-1.0<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>rtspsrc<span class="w"> </span><span class="nv">location</span><span class="o">=</span>rtsp://192.168.1.100:554/stream0<span class="w"> </span><span class="se">\</span>
+<span class="w">             </span><span class="nv">latency</span><span class="o">=</span><span class="m">200</span><span class="w"> </span>buffer-mode<span class="o">=</span>auto<span class="w"> </span>!<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>rtph264depay<span class="w"> </span>!<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>avdec_h264<span class="w"> </span>max-threads<span class="o">=</span><span class="m">4</span><span class="w"> </span>!<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>videoconvert<span class="w"> </span>!<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>autovideosink<span class="w"> </span><span class="nv">sync</span><span class="o">=</span><span class="nb">false</span>
+</code></pre></div>
+
+<h2 id="client-integration-examples">Client Integration Examples</h2>
+<h3 id="vlc-media-player">VLC Media Player</h3>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Command line</span>
+vlc<span class="w"> </span>rtsp://admin:password@192.168.1.100:554/stream0
+
+<span class="c1"># With custom cache</span>
+vlc<span class="w"> </span>--network-caching<span class="o">=</span><span class="m">300</span><span class="w"> </span>rtsp://admin:password@192.168.1.100:554/stream0
+
+<span class="c1"># Transcoding while viewing</span>
+vlc<span class="w"> </span>rtsp://admin:password@192.168.1.100:554/stream0<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--sout<span class="w"> </span><span class="s2">&quot;#transcode{vcodec=h264,vb=1024,scale=1}:file{dst=output.mp4}&quot;</span>
+</code></pre></div>
+
+<h3 id="ffmpeg-integration">FFmpeg Integration</h3>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Live viewing with FFplay</span>
+ffplay<span class="w"> </span>-fflags<span class="w"> </span>nobuffer<span class="w"> </span>-flags<span class="w"> </span>low_delay<span class="w"> </span>-framedrop<span class="w"> </span><span class="se">\</span>
+<span class="w">       </span>rtsp://admin:password@192.168.1.100:554/stream0
+
+<span class="c1"># Recording to file</span>
+ffmpeg<span class="w"> </span>-i<span class="w"> </span>rtsp://admin:password@192.168.1.100:554/stream0<span class="w"> </span><span class="se">\</span>
+<span class="w">       </span>-c<span class="w"> </span>copy<span class="w"> </span>-f<span class="w"> </span>mp4<span class="w"> </span>recording.mp4
+
+<span class="c1"># Re-streaming to another RTSP server</span>
+ffmpeg<span class="w"> </span>-i<span class="w"> </span>rtsp://admin:password@192.168.1.100:554/stream0<span class="w"> </span><span class="se">\</span>
+<span class="w">       </span>-c<span class="w"> </span>copy<span class="w"> </span>-f<span class="w"> </span>rtsp<span class="w"> </span>rtsp://destination-server:554/restream
+
+<span class="c1"># Extracting frames at intervals</span>
+ffmpeg<span class="w"> </span>-i<span class="w"> </span>rtsp://admin:password@192.168.1.100:554/stream0<span class="w"> </span><span class="se">\</span>
+<span class="w">       </span>-vf<span class="w"> </span><span class="nv">fps</span><span class="o">=</span><span class="m">1</span>/10<span class="w"> </span>frame_%03d.jpg
+</code></pre></div>
+
+<h3 id="opencv-python-integration">OpenCV Python Integration</h3>
+<div class="codehilite"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">cv2</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="c1"># Connect to RTSP stream</span>
+<span class="n">rtsp_url</span> <span class="o">=</span> <span class="s2">&quot;rtsp://admin:password@192.168.1.100:554/stream0&quot;</span>
+<span class="n">cap</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">VideoCapture</span><span class="p">(</span><span class="n">rtsp_url</span><span class="p">)</span>
+
+<span class="c1"># Configure buffer to reduce latency</span>
+<span class="n">cap</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">CAP_PROP_BUFFERSIZE</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">cap</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">CAP_PROP_FPS</span><span class="p">,</span> <span class="mi">30</span><span class="p">)</span>
+
+<span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+    <span class="n">ret</span><span class="p">,</span> <span class="n">frame</span> <span class="o">=</span> <span class="n">cap</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">ret</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Failed to grab frame&quot;</span><span class="p">)</span>
+        <span class="k">break</span>
+
+    <span class="c1"># Process frame</span>
+    <span class="n">cv2</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="s1">&#39;RTSP Stream&#39;</span><span class="p">,</span> <span class="n">frame</span><span class="p">)</span>
+
+    <span class="c1"># Press &#39;q&#39; to quit</span>
+    <span class="k">if</span> <span class="n">cv2</span><span class="o">.</span><span class="n">waitKey</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0xFF</span> <span class="o">==</span> <span class="nb">ord</span><span class="p">(</span><span class="s1">&#39;q&#39;</span><span class="p">):</span>
+        <span class="k">break</span>
+
+<span class="n">cap</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
+<span class="n">cv2</span><span class="o">.</span><span class="n">destroyAllWindows</span><span class="p">()</span>
+</code></pre></div>
+
+<h3 id="html5-video-integration">HTML5 Video Integration</h3>
+<div class="codehilite"><pre><span></span><code><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="p">&lt;</span><span class="nt">html</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span>RTSP Stream Viewer<span class="p">&lt;/</span><span class="nt">title</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span>Live Camera Feed<span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
+
+    <span class="cm">&lt;!-- Convert RTSP to WebRTC or HLS for browser support --&gt;</span>
+    <span class="p">&lt;</span><span class="nt">video</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;rtspPlayer&quot;</span> <span class="na">width</span><span class="o">=</span><span class="s">&quot;1920&quot;</span> <span class="na">height</span><span class="o">=</span><span class="s">&quot;1080&quot;</span> <span class="na">controls</span> <span class="na">autoplay</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">source</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;http://192.168.1.100:8080/hls/stream0/index.m3u8&quot;</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;application/x-mpegURL&quot;</span><span class="p">&gt;</span>
+        Your browser does not support the video tag.
+    <span class="p">&lt;/</span><span class="nt">video</span><span class="p">&gt;</span>
+
+    <span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span>
+<span class="w">        </span><span class="c1">// Alternative: Use MSE (Media Source Extensions) with WebSocket</span>
+<span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">video</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;rtspPlayer&#39;</span><span class="p">);</span>
+
+<span class="w">        </span><span class="c1">// Configure for low latency</span>
+<span class="w">        </span><span class="nx">video</span><span class="p">.</span><span class="nx">setAttribute</span><span class="p">(</span><span class="s1">&#39;playsinline&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;&#39;</span><span class="p">);</span>
+<span class="w">        </span><span class="nx">video</span><span class="p">.</span><span class="nx">muted</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">;</span><span class="w"> </span><span class="c1">// Required for autoplay in many browsers</span>
+
+<span class="w">        </span><span class="c1">// Handle stream events</span>
+<span class="w">        </span><span class="nx">video</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;loadstart&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Started loading video&#39;</span><span class="p">);</span>
+<span class="w">        </span><span class="p">});</span>
+
+<span class="w">        </span><span class="nx">video</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;canplay&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Video ready to play&#39;</span><span class="p">);</span>
+<span class="w">            </span><span class="nx">video</span><span class="p">.</span><span class="nx">play</span><span class="p">();</span>
+<span class="w">        </span><span class="p">});</span>
+<span class="w">    </span><span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
+</code></pre></div>
+
+<h2 id="advanced-configuration">Advanced Configuration</h2>
+<h3 id="adaptive-bitrate-streaming">Adaptive Bitrate Streaming</h3>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Device configuration file</span>
+<span class="k">[rtsp]</span>
+<span class="na">adaptive_bitrate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">true</span>
+<span class="na">max_bitrate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">8000000</span>
+<span class="na">min_bitrate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">500000</span>
+<span class="na">target_buffer_time</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">2.0</span>
+
+<span class="k">[stream_profiles]</span>
+<span class="na">profile_high</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;resolution=1920x1080,fps=30,bitrate=6000000&quot;</span>
+<span class="na">profile_medium</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;resolution=1280x720,fps=25,bitrate=3000000&quot;</span><span class="w">  </span>
+<span class="na">profile_low</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;resolution=640x480,fps=15,bitrate=1000000&quot;</span>
+</code></pre></div>
+
+<h3 id="quality-of-service-qos">Quality of Service (QoS)</h3>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Network QoS configuration for RTSP traffic</span>
+<span class="c1"># On device (Linux)</span>
+tc<span class="w"> </span>qdisc<span class="w"> </span>add<span class="w"> </span>dev<span class="w"> </span>eth0<span class="w"> </span>root<span class="w"> </span>handle<span class="w"> </span><span class="m">1</span>:<span class="w"> </span>htb<span class="w"> </span>default<span class="w"> </span><span class="m">30</span>
+tc<span class="w"> </span>class<span class="w"> </span>add<span class="w"> </span>dev<span class="w"> </span>eth0<span class="w"> </span>parent<span class="w"> </span><span class="m">1</span>:<span class="w"> </span>classid<span class="w"> </span><span class="m">1</span>:1<span class="w"> </span>htb<span class="w"> </span>rate<span class="w"> </span>100mbit
+tc<span class="w"> </span>class<span class="w"> </span>add<span class="w"> </span>dev<span class="w"> </span>eth0<span class="w"> </span>parent<span class="w"> </span><span class="m">1</span>:1<span class="w"> </span>classid<span class="w"> </span><span class="m">1</span>:10<span class="w"> </span>htb<span class="w"> </span>rate<span class="w"> </span>10mbit<span class="w"> </span>ceil<span class="w"> </span>50mbit<span class="w"> </span>prio<span class="w"> </span><span class="m">1</span>
+tc<span class="w"> </span>filter<span class="w"> </span>add<span class="w"> </span>dev<span class="w"> </span>eth0<span class="w"> </span>protocol<span class="w"> </span>ip<span class="w"> </span>parent<span class="w"> </span><span class="m">1</span>:0<span class="w"> </span>prio<span class="w"> </span><span class="m">1</span><span class="w"> </span>u32<span class="w"> </span>match<span class="w"> </span>ip<span class="w"> </span>dport<span class="w"> </span><span class="m">554</span><span class="w"> </span>0xffff<span class="w"> </span>flowid<span class="w"> </span><span class="m">1</span>:10
+
+<span class="c1"># DSCP marking for RTSP packets</span>
+iptables<span class="w"> </span>-t<span class="w"> </span>mangle<span class="w"> </span>-A<span class="w"> </span>OUTPUT<span class="w"> </span>-p<span class="w"> </span>tcp<span class="w"> </span>--dport<span class="w"> </span><span class="m">554</span><span class="w"> </span>-j<span class="w"> </span>DSCP<span class="w"> </span>--set-dscp<span class="w"> </span><span class="m">46</span>
+iptables<span class="w"> </span>-t<span class="w"> </span>mangle<span class="w"> </span>-A<span class="w"> </span>OUTPUT<span class="w"> </span>-p<span class="w"> </span>udp<span class="w"> </span>--dport<span class="w"> </span><span class="m">5004</span>:5010<span class="w"> </span>-j<span class="w"> </span>DSCP<span class="w"> </span>--set-dscp<span class="w"> </span><span class="m">46</span>
+</code></pre></div>
+
+<h3 id="multi-camera-setup">Multi-Camera Setup</h3>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Configuration for multiple camera streams</span>
+<span class="nt">cameras</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span>
+<span class="w">    </span><span class="nt">device</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/dev/video0&quot;</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Main</span><span class="nv"> </span><span class="s">Camera&quot;</span>
+<span class="w">    </span><span class="nt">streams</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">url</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;rtsp://192.168.1.100:554/camera0/stream0&quot;</span>
+<span class="w">        </span><span class="nt">resolution</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;1920x1080&quot;</span>
+<span class="w">        </span><span class="nt">fps</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">30</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">url</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;rtsp://192.168.1.100:554/camera0/stream1&quot;</span><span class="w"> </span>
+<span class="w">        </span><span class="nt">resolution</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;640x480&quot;</span>
+<span class="w">        </span><span class="nt">fps</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">15</span>
+
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">    </span><span class="nt">device</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/dev/video1&quot;</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Secondary</span><span class="nv"> </span><span class="s">Camera&quot;</span>
+<span class="w">    </span><span class="nt">streams</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">url</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;rtsp://192.168.1.100:554/camera1/stream0&quot;</span>
+<span class="w">        </span><span class="nt">resolution</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;1280x720&quot;</span>
+<span class="w">        </span><span class="nt">fps</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">25</span>
+</code></pre></div>
+
+<h2 id="rtsp-protocol-details">RTSP Protocol Details</h2>
+<h3 id="rtsp-methods-supported">RTSP Methods Supported</h3>
+<ul>
+<li><strong>DESCRIBE</strong>: Get media description (SDP)</li>
+<li><strong>SETUP</strong>: Setup transport for media stream</li>
+<li><strong>PLAY</strong>: Start media transmission</li>
+<li><strong>PAUSE</strong>: Temporarily halt transmission</li>
+<li><strong>TEARDOWN</strong>: Stop transmission and cleanup</li>
+<li><strong>GET_PARAMETER</strong>: Query session parameters</li>
+<li><strong>SET_PARAMETER</strong>: Modify session parameters</li>
+</ul>
+<h3 id="sdp-session-description-protocol">SDP (Session Description Protocol)</h3>
+<div class="codehilite"><pre><span></span><code><span class="nt">v</span><span class="o">=</span><span class="nt">0</span>
+<span class="nt">o</span><span class="o">=</span><span class="nt">-</span><span class="w"> </span><span class="nt">1642247400</span><span class="w"> </span><span class="nt">1642247400</span><span class="w"> </span><span class="nt">IN</span><span class="w"> </span><span class="nt">IP4</span><span class="w"> </span><span class="nt">192</span><span class="p">.</span><span class="nc">168</span><span class="p">.</span><span class="nc">1</span><span class="p">.</span><span class="nc">100</span>
+<span class="nt">s</span><span class="o">=</span><span class="nt">RTSP</span><span class="w"> </span><span class="nt">Session</span>
+<span class="nt">c</span><span class="o">=</span><span class="nt">IN</span><span class="w"> </span><span class="nt">IP4</span><span class="w"> </span><span class="nt">192</span><span class="p">.</span><span class="nc">168</span><span class="p">.</span><span class="nc">1</span><span class="p">.</span><span class="nc">100</span>
+<span class="nt">t</span><span class="o">=</span><span class="nt">0</span><span class="w"> </span><span class="nt">0</span>
+<span class="nt">m</span><span class="o">=</span><span class="nt">video</span><span class="w"> </span><span class="nt">5004</span><span class="w"> </span><span class="nt">RTP</span><span class="o">/</span><span class="nt">AVP</span><span class="w"> </span><span class="nt">96</span>
+<span class="nt">a</span><span class="o">=</span><span class="nt">rtpmap</span><span class="p">:</span><span class="nd">96</span><span class="w"> </span><span class="nt">H264</span><span class="o">/</span><span class="nt">90000</span>
+<span class="nt">a</span><span class="o">=</span><span class="nt">fmtp</span><span class="p">:</span><span class="nd">96</span><span class="w"> </span><span class="nt">packetization-mode</span><span class="o">=</span><span class="nt">1</span><span class="o">;</span><span class="nt">profile-level-id</span><span class="o">=</span><span class="nt">4d001e</span><span class="o">;</span><span class="nt">sprop-parameter-sets</span><span class="o">=</span><span class="nt">Z00AHpWoKA9puAgIAAADAAQAAAMAPA8WLqA</span><span class="o">=,</span><span class="nt">aO48gA</span><span class="o">==</span>
+<span class="nt">a</span><span class="o">=</span><span class="nt">control</span><span class="p">:</span><span class="nd">stream</span><span class="o">=</span><span class="nt">0</span>
+</code></pre></div>
+
+<h3 id="rtp-payload-format">RTP Payload Format</h3>
+<ul>
+<li><strong>Payload Type</strong>: 96 (H.264 dynamic)</li>
+<li><strong>Packetization Mode</strong>: 1 (Non-interleaved mode)</li>
+<li><strong>Profile Level ID</strong>: 4d001e (Main Profile Level 3.0)</li>
+<li><strong>Maximum Packet Size</strong>: 1400 bytes (MTU consideration)</li>
+</ul>
+<h2 id="performance-optimization">Performance Optimization</h2>
+<h3 id="latency-reduction">Latency Reduction</h3>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Ultra-low latency pipeline (&lt; 100ms)</span>
+gst-launch-1.0<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>v4l2src<span class="w"> </span><span class="nv">device</span><span class="o">=</span>/dev/video0<span class="w"> </span>!<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>video/x-raw,format<span class="o">=</span>YUY2,width<span class="o">=</span><span class="m">1920</span>,height<span class="o">=</span><span class="m">1080</span>,framerate<span class="o">=</span><span class="m">30</span>/1<span class="w"> </span>!<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>v4l2h264enc<span class="w"> </span>extra-controls<span class="o">=</span><span class="s2">&quot;controls,video_bitrate=4000000,h264_profile=1,h264_level=13&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">               </span><span class="nv">tune</span><span class="o">=</span>0x00000004<span class="w"> </span>!<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>video/x-h264,profile<span class="o">=</span>baseline<span class="w"> </span>!<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>rtph264pay<span class="w"> </span>config-interval<span class="o">=</span>-1<span class="w"> </span><span class="nv">pt</span><span class="o">=</span><span class="m">96</span><span class="w"> </span>!<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>udpsink<span class="w"> </span><span class="nv">host</span><span class="o">=</span><span class="m">0</span>.0.0.0<span class="w"> </span><span class="nv">port</span><span class="o">=</span><span class="m">5004</span><span class="w"> </span><span class="nv">sync</span><span class="o">=</span><span class="nb">false</span>
+</code></pre></div>
+
+<h3 id="hardware-acceleration">Hardware Acceleration</h3>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Use hardware encoder if available</span>
+v4l2h264enc<span class="w"> </span>extra-controls<span class="o">=</span><span class="s2">&quot;controls,video_bitrate=4000000,video_gop_size=30&quot;</span>
+
+<span class="c1"># VAAPI acceleration (Intel GPUs)</span>
+vaapih264enc<span class="w"> </span><span class="nv">bitrate</span><span class="o">=</span><span class="m">4000</span><span class="w"> </span>keyframe-period<span class="o">=</span><span class="m">30</span>
+
+<span class="c1"># NVENC acceleration (NVIDIA GPUs)  </span>
+nvh264enc<span class="w"> </span><span class="nv">bitrate</span><span class="o">=</span><span class="m">4000</span><span class="w"> </span>gop-size<span class="o">=</span><span class="m">30</span><span class="w"> </span><span class="nv">preset</span><span class="o">=</span>low-latency-hq
+</code></pre></div>
+
+<h3 id="network-optimization">Network Optimization</h3>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Buffer tuning for network stability</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;net.core.rmem_max = 67108864&#39;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>/etc/sysctl.conf
+<span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;net.core.wmem_max = 67108864&#39;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>/etc/sysctl.conf
+<span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;net.ipv4.udp_mem = 102400 873800 16777216&#39;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>/etc/sysctl.conf
+sysctl<span class="w"> </span>-p
+</code></pre></div>
+
+<h2 id="troubleshooting">Troubleshooting</h2>
+<h3 id="common-issues">Common Issues</h3>
+<p><strong>"Connection refused" or "No route to host"</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Check RTSP server status</span>
+netstat<span class="w"> </span>-tlnp<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>:554
+
+<span class="c1"># Test connectivity</span>
+telnet<span class="w"> </span><span class="m">192</span>.168.1.100<span class="w"> </span><span class="m">554</span>
+
+<span class="c1"># Check firewall rules</span>
+iptables<span class="w"> </span>-L<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="m">554</span>
+</code></pre></div>
+
+<p><strong>"Authentication failed"</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Test with curl</span>
+curl<span class="w"> </span>-v<span class="w"> </span><span class="s2">&quot;rtsp://admin:password@192.168.1.100:554/stream0&quot;</span>
+
+<span class="c1"># Check credentials in device config</span>
+cat<span class="w"> </span>/etc/rotordream/auth.conf
+</code></pre></div>
+
+<p><strong>"No video data received"</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Check video device</span>
+v4l2-ctl<span class="w"> </span>--device<span class="o">=</span>/dev/video0<span class="w"> </span>--list-formats
+
+<span class="c1"># Test local pipeline</span>
+gst-launch-1.0<span class="w"> </span>v4l2src<span class="w"> </span><span class="nv">device</span><span class="o">=</span>/dev/video0<span class="w"> </span>!<span class="w"> </span>autovideosink
+
+<span class="c1"># Monitor RTP packets</span>
+tcpdump<span class="w"> </span>-i<span class="w"> </span>eth0<span class="w"> </span>-n<span class="w"> </span>port<span class="w"> </span><span class="m">5004</span>
+</code></pre></div>
+
+<p><strong>High latency or buffering</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Reduce client buffer</span>
+vlc<span class="w"> </span>--network-caching<span class="o">=</span><span class="m">50</span><span class="w"> </span>rtsp://192.168.1.100:554/stream0
+
+<span class="c1"># Check network quality</span>
+ping<span class="w"> </span>-c<span class="w"> </span><span class="m">10</span><span class="w"> </span><span class="m">192</span>.168.1.100
+iperf3<span class="w"> </span>-c<span class="w"> </span><span class="m">192</span>.168.1.100<span class="w"> </span>-t<span class="w"> </span><span class="m">30</span>
+</code></pre></div>
+
+<h3 id="debug-commands">Debug Commands</h3>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Enable GStreamer debug output</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">GST_DEBUG</span><span class="o">=</span><span class="m">3</span>
+gst-launch-1.0<span class="w"> </span>rtspsrc<span class="w"> </span><span class="nv">location</span><span class="o">=</span>rtsp://192.168.1.100:554/stream0<span class="w"> </span>!<span class="w"> </span>fakesink
+
+<span class="c1"># RTSP protocol debugging</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">GST_DEBUG</span><span class="o">=</span>rtspsrc:5
+vlc<span class="w"> </span>--intf<span class="w"> </span>dummy<span class="w"> </span>--extraintf<span class="w"> </span>logger<span class="w"> </span>--verbose<span class="w"> </span><span class="m">2</span><span class="w"> </span>rtsp://192.168.1.100:554/stream0
+
+<span class="c1"># Network packet analysis</span>
+wireshark<span class="w"> </span>-i<span class="w"> </span>eth0<span class="w"> </span>-f<span class="w"> </span><span class="s2">&quot;host 192.168.1.100 and (port 554 or portrange 5004-5010)&quot;</span>
+</code></pre></div>
+
+<h2 id="security-considerations">Security Considerations</h2>
+<h3 id="access-control">Access Control</h3>
+<ul>
+<li>Default authentication required for all streams</li>
+<li>Support for user-specific stream access permissions</li>
+<li>IP-based access control lists</li>
+<li>Session timeout and automatic cleanup</li>
+</ul>
+<h3 id="encryption">Encryption</h3>
+<div class="codehilite"><pre><span></span><code><span class="c1"># RTSP over TLS (RTSPS) - if supported</span>
+rtsps://admin:password@192.168.1.100:8554/stream0
+
+<span class="c1"># VPN tunnel for secure transmission</span>
+openvpn<span class="w"> </span>--config<span class="w"> </span>camera_access.ovpn
+</code></pre></div>
+
+<h3 id="bandwidth-management">Bandwidth Management</h3>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Rate limiting per client</span>
+iptables<span class="w"> </span>-A<span class="w"> </span>OUTPUT<span class="w"> </span>-p<span class="w"> </span>udp<span class="w"> </span>--dport<span class="w"> </span><span class="m">5004</span>:5010<span class="w"> </span>-m<span class="w"> </span>limit<span class="w"> </span>--limit<span class="w"> </span><span class="m">10000</span>/sec<span class="w"> </span>-j<span class="w"> </span>ACCEPT
+iptables<span class="w"> </span>-A<span class="w"> </span>OUTPUT<span class="w"> </span>-p<span class="w"> </span>udp<span class="w"> </span>--dport<span class="w"> </span><span class="m">5004</span>:5010<span class="w"> </span>-j<span class="w"> </span>DROP
+</code></pre></div>
+
+<h2 id="related-documentation">Related Documentation</h2>
+<ul>
+<li><a href="../architecture/camera-pipeline.md">Camera Pipeline</a> - Hardware integration details</li>
+<li><a href="websocket-api.md">WebSocket API</a> - Alternative real-time interface</li>
+<li><a href="http-api.md">HTTP API</a> - REST endpoints for control</li>
+<li><a href="../operations/performance.md">Performance Tuning</a> - Optimization guidelines</li>
+</ul>
+<hr />
+<p><em>RTSP documentation based on GStreamer implementation in <code>src/camserver/streamer.nim</code> and client examples</em></p>
+            </div>
+            <footer class="content-footer">
+                <p>Copyright © 2025 Rotoclear</p>
+            </footer>
+        </main>
+        
+        <button class="mobile-menu-toggle" id="menuToggle" aria-label="Toggle menu">☰</button>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>
+        // Initialize Mermaid
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            securityLevel: 'loose',
+            fontFamily: 'Inter, sans-serif'
+        });
+        
+        // Syntax highlighting
+        hljs.highlightAll();
+        
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.querySelector('.sidebar');
+        
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+        });
+        
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth <= 768 && 
+                !sidebar.contains(e.target) && 
+                !menuToggle.contains(e.target) &&
+                sidebar.classList.contains('active')) {
+                sidebar.classList.remove('active');
+            }
+        });
+        
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

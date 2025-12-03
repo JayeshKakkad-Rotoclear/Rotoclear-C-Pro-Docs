@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hardware Interface - RotoClear Camera Server Documentation</title>
+    <link rel="stylesheet" href="/assets/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1><a href="/index.html">RotoClear Docs</a></h1>
+                <p>Camera Server Documentation</p>
+            </div>
+            <nav class="sidebar-nav">
+                <ul class="nav-menu">
+                    <li class="nav-item depth-0">
+<a href="/index.html">Home</a>
+</li>
+<li class="nav-item depth-0">
+<a href="/getting-started.html">Getting Started</a>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Architecture</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/architecture/overview.html">Overview</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/architecture/state-management.html">State Management</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/architecture/camera-pipeline.html">Camera Pipeline</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/architecture/metadata-sqlite.html">Metadata & SQLite</a>
+</li>
+<li class="nav-folder depth-1">
+<span class="folder-title">Decisions</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-2">
+<a href="/architecture/decisions/ADR-0001-nim-language.html">ADR-0001 Nim Language</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/architecture/decisions/ADR-0002-corun-framework.html">ADR-0002 Corun Framework</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/architecture/decisions/ADR-0003-observable-state.html">ADR-0003 Observable State</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">API Reference</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/api/README.html">Overview</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/api/websocket-api.html">WebSocket API</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/api/http-api.html">HTTP API</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/api/rtsp-streaming.html">RTSP Streaming</a>
+</li>
+<li class="nav-folder depth-1">
+<span class="folder-title">Examples</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-2">
+<a href="/api/examples/python-client.html">Python Client</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/api/examples/javascript-client.html">JavaScript Client</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/api/examples/csharp-client.html">C# Client</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Configuration</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/configuration/environments.html">Environments</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/factory-config.html">Factory Config</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/license-config.html">License Config</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/deployment-variants.html">Deployment Variants</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/camera-system.html">Camera System</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/network.html">Network</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/storage-backup.html">Storage & Backup</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/authentication.html">Authentication</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Camera System</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1 active">
+<a href="/camera/hardware-interface.html">Hardware Interface</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/camera/streaming.html">Streaming</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/camera/recording.html">Recording</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/camera/image-processing.html">Image Processing</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Operations</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/operations/build-and-deploy.html">Build and Deploy</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/build-deploy.html">Build & Deploy (Alt)</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/monitoring.html">Monitoring</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/performance.html">Performance</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/troubleshooting.html">Troubleshooting</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Security</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/security/authentication.html">Authentication</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/security/permissions.html">Permissions</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/security/ssl-certificates.html">SSL Certificates</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Testing</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/testing/testing-strategy.html">Strategy</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/testing/strategies.html">Strategies</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/testing/test-cases.html">Test Cases</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/testing/validation.html">Validation</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Integration</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/integration/onvif-protocol.html">ONVIF Protocol</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/integration/third-party.html">Third Party</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Reference</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/reference/glossary.html">Glossary</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/reference/requirements.html">Requirements</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/reference/state-observables.html">State Observables</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Releases</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/releases/CHANGELOG.html">Changelog</a>
+</li>
+</ul>
+</li>
+<li class="nav-item depth-0">
+<a href="/glossary.html">Glossary</a>
+</li>
+                </ul>
+            </nav>
+        </aside>
+        
+        <main class="content">
+            <div class="content-wrapper">
+                <h1 id="hardware-interface">Hardware Interface</h1>
+<h2 id="overview">Overview</h2>
+<p>The RotoClear camera system interfaces with various hardware components including camera sensors, rotation motors, lighting systems, and I/O controls. This document describes the hardware abstraction layer and device interfaces.</p>
+<h2 id="architecture">Architecture</h2>
+<div class="mermaid">
+graph TB
+    App[Application Layer] --> CamClient[Camera Client]
+    App --> Motor[Motor Control]
+    App --> Light[Light Control]
+
+    CamClient --> V4L2[V4L2 Interface]
+    CamClient --> UVC[UVC Interface]
+
+    V4L2 --> Driver[Kernel Drivers]
+    UVC --> Driver
+
+    Motor --> GPIO[GPIO Control]
+    Light --> GPIO
+
+    GPIO --> Hardware[Physical Hardware]
+    Driver --> Hardware
+
+    style Hardware fill:#f9f,stroke:#333,stroke-width:4px
+</div>
+
+<h2 id="camera-interfaces">Camera Interfaces</h2>
+<h3 id="v4l2-video4linux2">V4L2 (Video4Linux2)</h3>
+<p>Primary interface for camera video capture on Linux:</p>
+<p><strong>Device Discovery</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1">// src/camserver/v4l2_dev_interface.c</span>
+<span class="kt">int</span><span class="w"> </span><span class="nf">enumerate_v4l2_devices</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">v4l2_capability</span><span class="w"> </span><span class="n">cap</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">fd</span><span class="p">;</span>
+
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">MAX_DEVICES</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kt">char</span><span class="w"> </span><span class="n">device</span><span class="p">[</span><span class="mi">32</span><span class="p">];</span>
+<span class="w">        </span><span class="n">sprintf</span><span class="p">(</span><span class="n">device</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;/dev/video%d&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">);</span>
+
+<span class="w">        </span><span class="n">fd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">open</span><span class="p">(</span><span class="n">device</span><span class="p">,</span><span class="w"> </span><span class="n">O_RDWR</span><span class="p">);</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">fd</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">continue</span><span class="p">;</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">ioctl</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span><span class="w"> </span><span class="n">VIDIOC_QUERYCAP</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">cap</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">cap</span><span class="p">.</span><span class="n">capabilities</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">V4L2_CAP_VIDEO_CAPTURE</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">register_camera_device</span><span class="p">(</span><span class="n">device</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">cap</span><span class="p">);</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="n">close</span><span class="p">(</span><span class="n">fd</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Supported Formats</strong>:<br />
+- YUV420 (I420, NV12)<br />
+- YUYV (YUV 4:2:2)<br />
+- MJPEG<br />
+- H.264 (hardware encode)</p>
+<p><strong>Resolution Support</strong>:<br />
+- 640x480 (VGA)<br />
+- 1280x720 (HD)<br />
+- 1920x1080 (Full HD)<br />
+- 3840x2160 (4K UHD)</p>
+<h3 id="uvc-usb-video-class">UVC (USB Video Class)</h3>
+<p>Support for USB cameras and microphones:</p>
+<div class="codehilite"><pre><span></span><code><span class="c"># src/state/rc_uvc_and_mic.nim</span>
+<span class="k">proc</span><span class="w"> </span><span class="nf">initUvcDevices</span><span class="o">*</span><span class="p">()</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="n">initObservable</span><span class="p">(</span><span class="s">&quot;uvcDevices&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">permissionRead</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Device_r</span><span class="p">,</span><span class="w"> </span><span class="n">Device_rw</span><span class="p">},</span>
+<span class="w">    </span><span class="n">permissionWrite</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{},</span>
+<span class="w">    </span><span class="n">isOnlyAskState</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kp">false</span><span class="p">,</span>
+<span class="w">    </span><span class="n">save</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kp">false</span><span class="p">,</span>
+<span class="w">    </span><span class="n">default</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">%[]</span>
+<span class="w">  </span><span class="p">)</span>
+
+<span class="w">  </span><span class="c"># Monitor for USB device hotplug</span>
+<span class="w">  </span><span class="n">startUdevMonitoring</span><span class="p">()</span>
+</code></pre></div>
+
+<p><strong>Device Detection</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1">// src/camserver/udev_monitor.c</span>
+<span class="k">struct</span><span class="w"> </span><span class="nc">udev_monitor</span><span class="o">*</span><span class="w"> </span><span class="n">setup_udev_monitor</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">udev</span><span class="o">*</span><span class="w"> </span><span class="n">udev</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">udev_new</span><span class="p">();</span>
+<span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">udev_monitor</span><span class="o">*</span><span class="w"> </span><span class="n">mon</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">udev_monitor_new_from_netlink</span><span class="p">(</span><span class="n">udev</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;udev&quot;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// Filter for video devices</span>
+<span class="w">    </span><span class="n">udev_monitor_filter_add_match_subsystem_devtype</span><span class="p">(</span><span class="n">mon</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;video4linux&quot;</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">);</span>
+<span class="w">    </span><span class="n">udev_monitor_filter_add_match_subsystem_devtype</span><span class="p">(</span><span class="n">mon</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;usb&quot;</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">udev_monitor_enable_receiving</span><span class="p">(</span><span class="n">mon</span><span class="p">);</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">mon</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="camera-head-management">Camera Head Management</h3>
+<p><strong>Multi-Head Support</strong> (rc_DMG variant):</p>
+<div class="codehilite"><pre><span></span><code><span class="c"># src/state/rc_camera_heads.nim</span>
+<span class="k">type</span>
+<span class="w">  </span><span class="n">CameraHead</span><span class="o">*</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">enum</span>
+<span class="w">    </span><span class="n">Primary</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="n">Secondary</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span>
+
+<span class="k">proc</span><span class="w"> </span><span class="nf">initCameraHeads</span><span class="o">*</span><span class="p">()</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="n">initObservable</span><span class="p">(</span><span class="s">&quot;activeCameraHead&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">permissionRead</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Device_r</span><span class="p">,</span><span class="w"> </span><span class="n">Device_rw</span><span class="p">},</span>
+<span class="w">    </span><span class="n">permissionWrite</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Device_rw</span><span class="p">},</span>
+<span class="w">    </span><span class="n">default</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">%</span><span class="p">(</span><span class="n">ord</span><span class="p">(</span><span class="n">Primary</span><span class="p">))</span>
+<span class="w">  </span><span class="p">)</span>
+
+<span class="w">  </span><span class="n">initObservable</span><span class="p">(</span><span class="s">&quot;cameraHeadSettings&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">permissionRead</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Device_r</span><span class="p">,</span><span class="w"> </span><span class="n">Device_rw</span><span class="p">},</span>
+<span class="w">    </span><span class="n">permissionWrite</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Device_rw</span><span class="p">},</span>
+<span class="w">    </span><span class="n">default</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">%</span><span class="p">{</span>
+<span class="w">      </span><span class="s">&quot;primary&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="s">&quot;device&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/dev/video0&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="s">&quot;format&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;NV12&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="s">&quot;resolution&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;1920x1080&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="s">&quot;fps&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">60</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="s">&quot;secondary&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="s">&quot;device&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/dev/video1&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="s">&quot;format&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;NV12&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="s">&quot;resolution&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;1920x1080&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="s">&quot;fps&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">60</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">)</span>
+</code></pre></div>
+
+<h2 id="rotation-motor-control">Rotation Motor Control</h2>
+<h3 id="motor-interface">Motor Interface</h3>
+<div class="codehilite"><pre><span></span><code><span class="c"># src/state/rc_disc_rotation.nim</span>
+<span class="k">type</span>
+<span class="w">  </span><span class="n">RotationDirection</span><span class="o">*</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">enum</span>
+<span class="w">    </span><span class="n">Clockwise</span>
+<span class="w">    </span><span class="n">CounterClockwise</span>
+<span class="w">    </span><span class="n">Stopped</span>
+
+<span class="k">proc</span><span class="w"> </span><span class="nf">initDiscRotation</span><span class="o">*</span><span class="p">()</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="n">initObservable</span><span class="p">(</span><span class="s">&quot;discRotation&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">permissionRead</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Device_r</span><span class="p">,</span><span class="w"> </span><span class="n">Device_rw</span><span class="p">},</span>
+<span class="w">    </span><span class="n">permissionWrite</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Device_rw</span><span class="p">},</span>
+<span class="w">    </span><span class="n">default</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">%</span><span class="p">{</span>
+<span class="w">      </span><span class="s">&quot;enabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="kp">false</span><span class="p">,</span>
+<span class="w">      </span><span class="s">&quot;direction&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;stopped&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="s">&quot;speed&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">      </span><span class="c"># RPM</span>
+<span class="w">      </span><span class="s">&quot;position&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">    </span><span class="c"># degrees</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">)</span>
+
+<span class="w">  </span><span class="n">initObservable</span><span class="p">(</span><span class="s">&quot;autoRotate&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">permissionRead</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Device_r</span><span class="p">,</span><span class="w"> </span><span class="n">Device_rw</span><span class="p">},</span>
+<span class="w">    </span><span class="n">permissionWrite</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Device_rw</span><span class="p">},</span>
+<span class="w">    </span><span class="n">default</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">%</span><span class="p">{</span>
+<span class="w">      </span><span class="s">&quot;enabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="kp">false</span><span class="p">,</span>
+<span class="w">      </span><span class="s">&quot;sensitivity&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span>
+<span class="w">      </span><span class="s">&quot;threshold&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">)</span>
+</code></pre></div>
+
+<h3 id="gpio-control">GPIO Control</h3>
+<p>Motor control via GPIO pins:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1">// Motor control pins</span>
+<span class="cp">#define GPIO_MOTOR_ENABLE    17</span>
+<span class="cp">#define GPIO_MOTOR_DIR       27</span>
+<span class="cp">#define GPIO_MOTOR_STEP      22</span>
+<span class="cp">#define GPIO_MOTOR_FAULT     23</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">motor_init</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">gpio_export</span><span class="p">(</span><span class="n">GPIO_MOTOR_ENABLE</span><span class="p">);</span>
+<span class="w">    </span><span class="n">gpio_export</span><span class="p">(</span><span class="n">GPIO_MOTOR_DIR</span><span class="p">);</span>
+<span class="w">    </span><span class="n">gpio_export</span><span class="p">(</span><span class="n">GPIO_MOTOR_STEP</span><span class="p">);</span>
+<span class="w">    </span><span class="n">gpio_export</span><span class="p">(</span><span class="n">GPIO_MOTOR_FAULT</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">gpio_direction</span><span class="p">(</span><span class="n">GPIO_MOTOR_ENABLE</span><span class="p">,</span><span class="w"> </span><span class="n">GPIO_OUT</span><span class="p">);</span>
+<span class="w">    </span><span class="n">gpio_direction</span><span class="p">(</span><span class="n">GPIO_MOTOR_DIR</span><span class="p">,</span><span class="w"> </span><span class="n">GPIO_OUT</span><span class="p">);</span>
+<span class="w">    </span><span class="n">gpio_direction</span><span class="p">(</span><span class="n">GPIO_MOTOR_STEP</span><span class="p">,</span><span class="w"> </span><span class="n">GPIO_OUT</span><span class="p">);</span>
+<span class="w">    </span><span class="n">gpio_direction</span><span class="p">(</span><span class="n">GPIO_MOTOR_FAULT</span><span class="p">,</span><span class="w"> </span><span class="n">GPIO_IN</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">motor_start</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">direction</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">speed</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">gpio_write</span><span class="p">(</span><span class="n">GPIO_MOTOR_DIR</span><span class="p">,</span><span class="w"> </span><span class="n">direction</span><span class="p">);</span>
+<span class="w">    </span><span class="n">gpio_write</span><span class="p">(</span><span class="n">GPIO_MOTOR_ENABLE</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// Generate step pulses at specified rate</span>
+<span class="w">    </span><span class="n">setup_pwm</span><span class="p">(</span><span class="n">GPIO_MOTOR_STEP</span><span class="p">,</span><span class="w"> </span><span class="n">speed</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="auto-rotation-detection">Auto-Rotation Detection</h3>
+<p>Automatic rotation detection based on image analysis:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">proc</span><span class="w"> </span><span class="nf">detectRotation</span><span class="o">*</span><span class="p">(</span><span class="n">frame</span><span class="p">:</span><span class="w"> </span><span class="n">DataView</span><span class="p">):</span><span class="w"> </span><span class="nb">float</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="c"># Analyze frame for rotation indicators</span>
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">features</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">extractFeatures</span><span class="p">(</span><span class="n">frame</span><span class="p">)</span>
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">angle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">calculateRotationAngle</span><span class="p">(</span><span class="n">features</span><span class="p">)</span>
+
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="n">angle</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">State</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;autoRotateThreshold&quot;</span><span class="p">).</span><span class="n">value</span><span class="p">.</span><span class="n">getFloat</span><span class="p">:</span>
+<span class="w">    </span><span class="c"># Trigger motor rotation</span>
+<span class="w">    </span><span class="n">setMotorRotation</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span>
+
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">angle</span>
+</code></pre></div>
+
+<h2 id="lighting-control">Lighting Control</h2>
+<h3 id="light-management">Light Management</h3>
+<div class="codehilite"><pre><span></span><code><span class="c"># src/state/rc_light.nim</span>
+<span class="k">proc</span><span class="w"> </span><span class="nf">initLightControl</span><span class="o">*</span><span class="p">()</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="n">initObservable</span><span class="p">(</span><span class="s">&quot;lightEnabled&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">permissionRead</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Device_r</span><span class="p">,</span><span class="w"> </span><span class="n">Device_rw</span><span class="p">},</span>
+<span class="w">    </span><span class="n">permissionWrite</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Device_rw</span><span class="p">},</span>
+<span class="w">    </span><span class="n">default</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">%</span><span class="kp">true</span>
+<span class="w">  </span><span class="p">)</span>
+
+<span class="w">  </span><span class="n">initObservable</span><span class="p">(</span><span class="s">&quot;lightIntensity&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">permissionRead</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Device_r</span><span class="p">,</span><span class="w"> </span><span class="n">Device_rw</span><span class="p">},</span>
+<span class="w">    </span><span class="n">permissionWrite</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Device_rw</span><span class="p">},</span>
+<span class="w">    </span><span class="n">default</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">%</span><span class="mi">100</span><span class="p">,</span><span class="w">  </span><span class="c"># 0-100%</span>
+<span class="w">    </span><span class="n">validateType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Int</span>
+<span class="w">  </span><span class="p">)</span>
+
+<span class="w">  </span><span class="n">initObservable</span><span class="p">(</span><span class="s">&quot;lightTemperature&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">permissionRead</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Device_r</span><span class="p">,</span><span class="w"> </span><span class="n">Device_rw</span><span class="p">},</span>
+<span class="w">    </span><span class="n">permissionWrite</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Device_rw</span><span class="p">},</span>
+<span class="w">    </span><span class="n">default</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">%</span><span class="mi">5500</span><span class="p">,</span><span class="w">  </span><span class="c"># Kelvin</span>
+<span class="w">    </span><span class="n">validateType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Int</span>
+<span class="w">  </span><span class="p">)</span>
+</code></pre></div>
+
+<h3 id="pwm-control">PWM Control</h3>
+<p>Light intensity via PWM (Pulse Width Modulation):</p>
+<div class="codehilite"><pre><span></span><code><span class="cp">#define GPIO_LIGHT_PWM    18</span>
+<span class="cp">#define PWM_FREQUENCY     1000  </span><span class="c1">// Hz</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">light_set_intensity</span><span class="p">(</span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">percent</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Convert percentage to duty cycle</span>
+<span class="w">    </span><span class="kt">uint16_t</span><span class="w"> </span><span class="n">duty</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">percent</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">PWM_MAX</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">100</span><span class="p">;</span>
+
+<span class="w">    </span><span class="c1">// Set PWM duty cycle</span>
+<span class="w">    </span><span class="n">pwm_write</span><span class="p">(</span><span class="n">GPIO_LIGHT_PWM</span><span class="p">,</span><span class="w"> </span><span class="n">duty</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">light_set_temperature</span><span class="p">(</span><span class="kt">uint16_t</span><span class="w"> </span><span class="n">kelvin</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Convert color temperature to RGB values</span>
+<span class="w">    </span><span class="n">rgb_t</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">kelvin_to_rgb</span><span class="p">(</span><span class="n">kelvin</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// Set multi-channel LED PWM</span>
+<span class="w">    </span><span class="n">pwm_write</span><span class="p">(</span><span class="n">GPIO_LED_RED</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="p">.</span><span class="n">r</span><span class="p">);</span>
+<span class="w">    </span><span class="n">pwm_write</span><span class="p">(</span><span class="n">GPIO_LED_GREEN</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="p">.</span><span class="n">g</span><span class="p">);</span>
+<span class="w">    </span><span class="n">pwm_write</span><span class="p">(</span><span class="n">GPIO_LED_BLUE</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="p">.</span><span class="n">b</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="sensor-interfaces">Sensor Interfaces</h2>
+<h3 id="temperature-sensors">Temperature Sensors</h3>
+<p><strong>FPGA Temperature</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c"># src/state/rc_fpga_temp.nim</span>
+<span class="k">proc</span><span class="w"> </span><span class="nf">initFpgaTemp</span><span class="o">*</span><span class="p">()</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="n">initObservable</span><span class="p">(</span><span class="s">&quot;fpgaTemperature&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">permissionRead</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Device_r</span><span class="p">,</span><span class="w"> </span><span class="n">Device_rw</span><span class="p">},</span>
+<span class="w">    </span><span class="n">permissionWrite</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{},</span>
+<span class="w">    </span><span class="n">default</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">%</span><span class="mf">25.0</span><span class="p">,</span>
+<span class="w">    </span><span class="n">validateType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Float</span>
+<span class="w">  </span><span class="p">)</span>
+
+<span class="w">  </span><span class="c"># Poll temperature every 5 seconds</span>
+<span class="w">  </span><span class="n">setInterval</span><span class="w"> </span><span class="mi">5000</span><span class="p">:</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">temp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">readFpgaTemperature</span><span class="p">()</span>
+<span class="w">    </span><span class="n">State</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;fpgaTemperature&quot;</span><span class="p">).</span><span class="n">updateValue</span><span class="p">(</span><span class="o">%</span><span class="n">temp</span><span class="p">)</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">temp</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mf">85.0</span><span class="p">:</span>
+<span class="w">      </span><span class="n">Notification</span><span class="p">.</span><span class="n">trigger</span><span class="p">(</span><span class="s">&quot;systemWarning&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;temperature&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;FPGA overheating&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<p><strong>CPU Temperature</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">proc</span><span class="w"> </span><span class="nf">readCpuTemperature</span><span class="o">*</span><span class="p">():</span><span class="w"> </span><span class="nb">float</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="k">when</span><span class="w"> </span><span class="n">defined</span><span class="p">(</span><span class="n">embeddedSystem</span><span class="p">):</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">tempStr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">readFile</span><span class="p">(</span><span class="s">&quot;/sys/class/thermal/thermal_zone0/temp&quot;</span><span class="p">).</span><span class="n">strip</span><span class="p">()</span>
+<span class="w">    </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">parseFloat</span><span class="p">(</span><span class="n">tempStr</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">1000.0</span>
+<span class="w">  </span><span class="k">else</span><span class="p">:</span>
+<span class="w">    </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">45.0</span><span class="w">  </span><span class="c"># Simulated</span>
+</code></pre></div>
+
+<h3 id="head-sensors">Head Sensors</h3>
+<p>Position and proximity sensors:</p>
+<div class="codehilite"><pre><span></span><code><span class="c"># src/state/rc_head_sensors.nim</span>
+<span class="k">type</span>
+<span class="w">  </span><span class="n">SensorType</span><span class="o">*</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">enum</span>
+<span class="w">    </span><span class="n">Proximity</span>
+<span class="w">    </span><span class="n">Position</span>
+<span class="w">    </span><span class="n">Contact</span>
+
+<span class="k">proc</span><span class="w"> </span><span class="nf">initHeadSensors</span><span class="o">*</span><span class="p">()</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="n">initObservable</span><span class="p">(</span><span class="s">&quot;headSensors&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">permissionRead</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Device_r</span><span class="p">,</span><span class="w"> </span><span class="n">Device_rw</span><span class="p">},</span>
+<span class="w">    </span><span class="n">permissionWrite</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{},</span>
+<span class="w">    </span><span class="n">default</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">%</span><span class="p">{</span>
+<span class="w">      </span><span class="s">&quot;proximity&quot;</span><span class="p">:</span><span class="w"> </span><span class="kp">false</span><span class="p">,</span>
+<span class="w">      </span><span class="s">&quot;position&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">      </span><span class="s">&quot;contact&quot;</span><span class="p">:</span><span class="w"> </span><span class="kp">false</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">)</span>
+</code></pre></div>
+
+<h2 id="hdmi-output">HDMI Output</h2>
+<h3 id="hdmi-interface">HDMI Interface</h3>
+<div class="codehilite"><pre><span></span><code><span class="c"># src/state/rc_hdmi_monitor.nim</span>
+<span class="k">proc</span><span class="w"> </span><span class="nf">initHdmiMonitor</span><span class="o">*</span><span class="p">()</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="n">initObservable</span><span class="p">(</span><span class="s">&quot;hdmiEnabled&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">permissionRead</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Device_r</span><span class="p">,</span><span class="w"> </span><span class="n">Device_rw</span><span class="p">},</span>
+<span class="w">    </span><span class="n">permissionWrite</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Device_rw</span><span class="p">},</span>
+<span class="w">    </span><span class="n">default</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">%</span><span class="kp">true</span>
+<span class="w">  </span><span class="p">)</span>
+
+<span class="w">  </span><span class="n">initObservable</span><span class="p">(</span><span class="s">&quot;hdmiResolution&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">permissionRead</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Device_r</span><span class="p">,</span><span class="w"> </span><span class="n">Device_rw</span><span class="p">},</span>
+<span class="w">    </span><span class="n">permissionWrite</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Device_rw</span><span class="p">},</span>
+<span class="w">    </span><span class="n">default</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">%</span><span class="s">&quot;1920x1080&quot;</span>
+<span class="w">  </span><span class="p">)</span>
+
+<span class="w">  </span><span class="n">initObservable</span><span class="p">(</span><span class="s">&quot;hdmiOverlay&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">permissionRead</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Device_r</span><span class="p">,</span><span class="w"> </span><span class="n">Device_rw</span><span class="p">},</span>
+<span class="w">    </span><span class="n">permissionWrite</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Device_rw</span><span class="p">},</span>
+<span class="w">    </span><span class="n">default</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">%</span><span class="p">{</span>
+<span class="w">      </span><span class="s">&quot;logo&quot;</span><span class="p">:</span><span class="w"> </span><span class="kp">true</span><span class="p">,</span>
+<span class="w">      </span><span class="s">&quot;info&quot;</span><span class="p">:</span><span class="w"> </span><span class="kp">true</span><span class="p">,</span>
+<span class="w">      </span><span class="s">&quot;timestamp&quot;</span><span class="p">:</span><span class="w"> </span><span class="kp">true</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">)</span>
+</code></pre></div>
+
+<h3 id="display-output">Display Output</h3>
+<p>Render video to HDMI output:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1">// GStreamer pipeline for HDMI output</span>
+<span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">hdmi_pipeline</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>
+<span class="w">    </span><span class="s">&quot;v4l2src device=/dev/video0 ! &quot;</span>
+<span class="w">    </span><span class="s">&quot;video/x-raw,format=NV12,width=1920,height=1080 ! &quot;</span>
+<span class="w">    </span><span class="s">&quot;textoverlay name=overlay ! &quot;</span>
+<span class="w">    </span><span class="s">&quot;videoconvert ! &quot;</span>
+<span class="w">    </span><span class="s">&quot;waylandsink&quot;</span><span class="p">;</span>
+</code></pre></div>
+
+<h2 id="storage-interface">Storage Interface</h2>
+<h3 id="media-storage">Media Storage</h3>
+<div class="codehilite"><pre><span></span><code><span class="c"># src/state/rc_storage.nim</span>
+<span class="k">proc</span><span class="w"> </span><span class="nf">initStorage</span><span class="o">*</span><span class="p">()</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="n">initObservable</span><span class="p">(</span><span class="s">&quot;storageDevices&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">permissionRead</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Storage_r</span><span class="p">,</span><span class="w"> </span><span class="n">Storage_rw</span><span class="p">},</span>
+<span class="w">    </span><span class="n">permissionWrite</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{},</span>
+<span class="w">    </span><span class="n">default</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">%[]</span>
+<span class="w">  </span><span class="p">)</span>
+
+<span class="w">  </span><span class="c"># Monitor storage devices</span>
+<span class="w">  </span><span class="n">monitorBlockDevices</span><span class="p">()</span>
+</code></pre></div>
+
+<h3 id="block-device-detection">Block Device Detection</h3>
+<div class="codehilite"><pre><span></span><code><span class="c1">// Monitor for storage device changes</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">monitor_block_devices</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">udev_monitor</span><span class="o">*</span><span class="w"> </span><span class="n">mon</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">setup_block_monitor</span><span class="p">();</span>
+
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">struct</span><span class="w"> </span><span class="nc">udev_device</span><span class="o">*</span><span class="w"> </span><span class="n">dev</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">udev_monitor_receive_device</span><span class="p">(</span><span class="n">mon</span><span class="p">);</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">dev</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">action</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">udev_device_get_action</span><span class="p">(</span><span class="n">dev</span><span class="p">);</span>
+<span class="w">            </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">devnode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">udev_device_get_devnode</span><span class="p">(</span><span class="n">dev</span><span class="p">);</span>
+
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">strcmp</span><span class="p">(</span><span class="n">action</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;add&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">notify_device_added</span><span class="p">(</span><span class="n">devnode</span><span class="p">);</span>
+<span class="w">            </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">strcmp</span><span class="p">(</span><span class="n">action</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;remove&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">notify_device_removed</span><span class="p">(</span><span class="n">devnode</span><span class="p">);</span>
+<span class="w">            </span><span class="p">}</span>
+
+<span class="w">            </span><span class="n">udev_device_unref</span><span class="p">(</span><span class="n">dev</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="hardware-specifications">Hardware Specifications</h2>
+<h3 id="supported-hardware">Supported Hardware</h3>
+<p><strong>Camera Inputs</strong>:<br />
+- MIPI CSI-2 cameras<br />
+- USB UVC cameras<br />
+- V4L2-compatible devices<br />
+- IP cameras (via ONVIF)</p>
+<p><strong>Output</strong>:<br />
+- HDMI 2.0 (up to 4K@60Hz)<br />
+- Network streaming (RTSP, WebRTC)<br />
+- USB storage</p>
+<p><strong>Control</strong>:<br />
+- GPIO pins (motor, lights, sensors)<br />
+- I2C devices<br />
+- SPI devices<br />
+- UART serial</p>
+<p><strong>Storage</strong>:<br />
+- eMMC internal storage<br />
+- USB mass storage<br />
+- Network storage (NFS, SMB)<br />
+- SD card</p>
+<h3 id="pin-assignments">Pin Assignments</h3>
+<div class="codehilite"><pre><span></span><code><span class="n">GPIO</span><span class="w"> </span><span class="n">Pinout</span><span class="w"> </span><span class="p">(</span><span class="n">rc_DMG</span><span class="w"> </span><span class="n">variant</span><span class="p">):</span>
+<span class="n">Pin</span><span class="w">  </span><span class="n">Function</span><span class="w">         </span><span class="n">Direction</span><span class="w">  </span><span class="n">Description</span>
+<span class="o">----------------------------------------------------</span>
+<span class="mi">17</span><span class="w">   </span><span class="n">MOTOR_ENABLE</span><span class="w">     </span><span class="n">OUT</span><span class="w">        </span><span class="n">Motor</span><span class="w"> </span><span class="n">power</span><span class="w"> </span><span class="n">enable</span>
+<span class="mi">27</span><span class="w">   </span><span class="n">MOTOR_DIR</span><span class="w">        </span><span class="n">OUT</span><span class="w">        </span><span class="n">Rotation</span><span class="w"> </span><span class="n">direction</span>
+<span class="mi">22</span><span class="w">   </span><span class="n">MOTOR_STEP</span><span class="w">       </span><span class="n">OUT</span><span class="w">        </span><span class="n">Step</span><span class="w"> </span><span class="n">pulse</span>
+<span class="mi">23</span><span class="w">   </span><span class="n">MOTOR_FAULT</span><span class="w">      </span><span class="n">IN</span><span class="w">         </span><span class="n">Motor</span><span class="w"> </span><span class="n">fault</span><span class="w"> </span><span class="k">signal</span>
+<span class="mi">18</span><span class="w">   </span><span class="n">LIGHT_PWM</span><span class="w">        </span><span class="n">OUT</span><span class="w">        </span><span class="n">Light</span><span class="w"> </span><span class="n">intensity</span><span class="w"> </span><span class="n">PWM</span>
+<span class="mi">24</span><span class="w">   </span><span class="n">SENSOR_PROX</span><span class="w">      </span><span class="n">IN</span><span class="w">         </span><span class="n">Proximity</span><span class="w"> </span><span class="n">sensor</span>
+<span class="mi">25</span><span class="w">   </span><span class="n">SENSOR_POS</span><span class="w">       </span><span class="n">IN</span><span class="w">         </span><span class="n">Position</span><span class="w"> </span><span class="n">sensor</span>
+<span class="mi">5</span><span class="w">    </span><span class="n">LED_STATUS</span><span class="w">       </span><span class="n">OUT</span><span class="w">        </span><span class="n">Status</span><span class="w"> </span><span class="n">LED</span>
+<span class="mi">6</span><span class="w">    </span><span class="n">BUTTON_RESET</span><span class="w">     </span><span class="n">IN</span><span class="w">         </span><span class="n">Reset</span><span class="w"> </span><span class="n">button</span>
+</code></pre></div>
+
+<h2 id="troubleshooting">Troubleshooting</h2>
+<h3 id="camera-not-detected">Camera Not Detected</h3>
+<p><strong>Symptoms</strong>: No video devices found.</p>
+<p><strong>Solutions</strong>:<br />
+- Check USB connection: <code>lsusb</code><br />
+- Verify V4L2 devices: <code>ls /dev/video*</code><br />
+- Check kernel drivers: <code>dmesg | grep video</code><br />
+- Review permissions: <code>ls -l /dev/video0</code></p>
+<h3 id="motor-not-responding">Motor Not Responding</h3>
+<p><strong>Symptoms</strong>: Rotation motor doesn't move.</p>
+<p><strong>Solutions</strong>:<br />
+- Check GPIO export: <code>cat /sys/class/gpio/gpio17/value</code><br />
+- Verify power supply<br />
+- Check fault pin: read GPIO_MOTOR_FAULT<br />
+- Review motor controller logs</p>
+<h3 id="hdmi-no-signal">HDMI No Signal</h3>
+<p><strong>Symptoms</strong>: No output on HDMI display.</p>
+<p><strong>Solutions</strong>:<br />
+- Check HDMI cable connection<br />
+- Verify display resolution settings<br />
+- Test with different display<br />
+- Check GStreamer pipeline: <code>gst-launch-1.0 ...</code></p>
+<h2 id="related-documentation">Related Documentation</h2>
+<ul>
+<li><a href="../architecture/camera-pipeline.md">Camera Pipeline</a></li>
+<li><a href="streaming.md">Streaming</a></li>
+<li><a href="recording.md">Recording</a></li>
+<li><a href="image-processing.md">Image Processing</a></li>
+</ul>
+            </div>
+            <footer class="content-footer">
+                <p>Copyright © 2025 Rotoclear</p>
+            </footer>
+        </main>
+        
+        <button class="mobile-menu-toggle" id="menuToggle" aria-label="Toggle menu">☰</button>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>
+        // Initialize Mermaid
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            securityLevel: 'loose',
+            fontFamily: 'Inter, sans-serif'
+        });
+        
+        // Syntax highlighting
+        hljs.highlightAll();
+        
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.querySelector('.sidebar');
+        
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+        });
+        
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth <= 768 && 
+                !sidebar.contains(e.target) && 
+                !menuToggle.contains(e.target) &&
+                sidebar.classList.contains('active')) {
+                sidebar.classList.remove('active');
+            }
+        });
+        
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

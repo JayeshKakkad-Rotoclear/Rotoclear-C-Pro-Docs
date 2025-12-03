@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Performance - RotoClear Camera Server Documentation</title>
+    <link rel="stylesheet" href="/assets/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1><a href="/index.html">RotoClear Docs</a></h1>
+                <p>Camera Server Documentation</p>
+            </div>
+            <nav class="sidebar-nav">
+                <ul class="nav-menu">
+                    <li class="nav-item depth-0">
+<a href="/index.html">Home</a>
+</li>
+<li class="nav-item depth-0">
+<a href="/getting-started.html">Getting Started</a>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Architecture</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/architecture/overview.html">Overview</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/architecture/state-management.html">State Management</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/architecture/camera-pipeline.html">Camera Pipeline</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/architecture/metadata-sqlite.html">Metadata & SQLite</a>
+</li>
+<li class="nav-folder depth-1">
+<span class="folder-title">Decisions</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-2">
+<a href="/architecture/decisions/ADR-0001-nim-language.html">ADR-0001 Nim Language</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/architecture/decisions/ADR-0002-corun-framework.html">ADR-0002 Corun Framework</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/architecture/decisions/ADR-0003-observable-state.html">ADR-0003 Observable State</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">API Reference</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/api/README.html">Overview</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/api/websocket-api.html">WebSocket API</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/api/http-api.html">HTTP API</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/api/rtsp-streaming.html">RTSP Streaming</a>
+</li>
+<li class="nav-folder depth-1">
+<span class="folder-title">Examples</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-2">
+<a href="/api/examples/python-client.html">Python Client</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/api/examples/javascript-client.html">JavaScript Client</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/api/examples/csharp-client.html">C# Client</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Configuration</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/configuration/environments.html">Environments</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/factory-config.html">Factory Config</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/license-config.html">License Config</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/deployment-variants.html">Deployment Variants</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/camera-system.html">Camera System</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/network.html">Network</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/storage-backup.html">Storage & Backup</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/authentication.html">Authentication</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Camera System</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/camera/hardware-interface.html">Hardware Interface</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/camera/streaming.html">Streaming</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/camera/recording.html">Recording</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/camera/image-processing.html">Image Processing</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Operations</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/operations/build-and-deploy.html">Build and Deploy</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/build-deploy.html">Build & Deploy (Alt)</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/monitoring.html">Monitoring</a>
+</li>
+<li class="nav-item depth-1 active">
+<a href="/operations/performance.html">Performance</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/troubleshooting.html">Troubleshooting</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Security</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/security/authentication.html">Authentication</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/security/permissions.html">Permissions</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/security/ssl-certificates.html">SSL Certificates</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Testing</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/testing/testing-strategy.html">Strategy</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/testing/strategies.html">Strategies</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/testing/test-cases.html">Test Cases</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/testing/validation.html">Validation</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Integration</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/integration/onvif-protocol.html">ONVIF Protocol</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/integration/third-party.html">Third Party</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Reference</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/reference/glossary.html">Glossary</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/reference/requirements.html">Requirements</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/reference/state-observables.html">State Observables</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Releases</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/releases/CHANGELOG.html">Changelog</a>
+</li>
+</ul>
+</li>
+<li class="nav-item depth-0">
+<a href="/glossary.html">Glossary</a>
+</li>
+                </ul>
+            </nav>
+        </aside>
+        
+        <main class="content">
+            <div class="content-wrapper">
+                <h1 id="performance-tuning-guide">Performance Tuning Guide</h1>
+<p><strong>Comprehensive performance optimization strategies for hardware, software, and network components.</strong></p>
+<h2 id="overview">Overview</h2>
+<p>This guide provides systematic approaches to optimize C Pro camera system performance across all components for maximum efficiency and reliability.</p>
+<div class="mermaid">
+graph TB
+    A[Performance Optimization] --> B{Optimization Areas}
+
+    B -->|Hardware| C[CPU/Memory/Storage]
+    B -->|Video Pipeline| D[Capture/Encode/Stream]
+    B -->|Network| E[Bandwidth/Latency]
+    B -->|Application| F[Code/Configuration]
+
+    C --> G[Hardware Tuning]
+    D --> H[Video Optimization]
+    E --> I[Network Tuning]
+    F --> J[Software Optimization]
+
+    G --> K[Performance Testing]
+    H --> K
+    I --> K
+    J --> K
+
+    K --> L[Metrics Analysis]
+    L --> M[Bottleneck Identification]
+    M --> N[Targeted Improvements]
+
+    N --> O[Validation]
+    O --> P[Continuous Monitoring]
+</div>
+
+<h2 id="hardware-optimization">Hardware Optimization</h2>
+<h3 id="cpu-performance-tuning">CPU Performance Tuning</h3>
+<p><strong>CPU Governor and Frequency Scaling</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Check current CPU governor</span>
+cat<span class="w"> </span>/sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
+
+<span class="c1"># Set performance governor for maximum performance</span>
+<span class="nb">echo</span><span class="w"> </span>performance<span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>/sys/devices/system/cpu/cpu*/cpufreq/scaling_governor
+
+<span class="c1"># Or use powersave for battery efficiency</span>
+<span class="nb">echo</span><span class="w"> </span>powersave<span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>/sys/devices/system/cpu/cpu*/cpufreq/scaling_governor
+
+<span class="c1"># Set specific frequency (if supported)</span>
+<span class="nb">echo</span><span class="w"> </span><span class="m">1800000</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>/sys/devices/system/cpu/cpu*/cpufreq/scaling_setspeed
+
+<span class="c1"># Check available frequencies</span>
+cat<span class="w"> </span>/sys/devices/system/cpu/cpu0/cpufreq/scaling_available_frequencies
+</code></pre></div>
+
+<p><strong>CPU Affinity and Process Scheduling</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Set CPU affinity for camera process</span>
+taskset<span class="w"> </span>-cp<span class="w"> </span><span class="m">0</span>,1<span class="w"> </span><span class="k">$(</span>pgrep<span class="w"> </span>rotordream<span class="k">)</span>
+
+<span class="c1"># Set high priority for camera process</span>
+renice<span class="w"> </span>-10<span class="w"> </span><span class="k">$(</span>pgrep<span class="w"> </span>rotordream<span class="k">)</span>
+
+<span class="c1"># Use systemd to set CPU affinity permanently</span>
+<span class="c1"># /etc/systemd/system/rotordream.service</span>
+<span class="o">[</span>Service<span class="o">]</span>
+<span class="nv">CPUAffinity</span><span class="o">=</span><span class="m">0</span><span class="w"> </span><span class="m">1</span>
+<span class="nv">Nice</span><span class="o">=</span>-10
+<span class="nv">IOSchedulingClass</span><span class="o">=</span><span class="m">1</span>
+<span class="nv">IOSchedulingPriority</span><span class="o">=</span><span class="m">4</span>
+</code></pre></div>
+
+<p><strong>CPU Configuration via API</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Get CPU optimization recommendations</span>
+curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>http://192.168.1.100:8080/api/performance/cpu/recommendations
+
+<span class="c1"># Apply CPU optimizations</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/performance/cpu/optimize&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;governor&quot;: &quot;performance&quot;,</span>
+<span class="s1">       &quot;affinity&quot;: [0, 1],</span>
+<span class="s1">       &quot;priority&quot;: &quot;high&quot;</span>
+<span class="s1">     }&#39;</span>
+</code></pre></div>
+
+<h3 id="memory-optimization">Memory Optimization</h3>
+<p><strong>Memory Management</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Check memory usage and fragmentation</span>
+cat<span class="w"> </span>/proc/meminfo
+cat<span class="w"> </span>/proc/buddyinfo
+
+<span class="c1"># Tune virtual memory parameters</span>
+<span class="nb">echo</span><span class="w"> </span><span class="m">10</span><span class="w"> </span>&gt;<span class="w"> </span>/proc/sys/vm/swappiness
+<span class="nb">echo</span><span class="w"> </span><span class="m">1</span><span class="w"> </span>&gt;<span class="w"> </span>/proc/sys/vm/drop_caches<span class="w">  </span><span class="c1"># Clear caches (temporary)</span>
+
+<span class="c1"># Optimize for video workloads</span>
+<span class="nb">echo</span><span class="w"> </span><span class="m">5</span><span class="w"> </span>&gt;<span class="w"> </span>/proc/sys/vm/dirty_background_ratio
+<span class="nb">echo</span><span class="w"> </span><span class="m">20</span><span class="w"> </span>&gt;<span class="w"> </span>/proc/sys/vm/dirty_ratio
+<span class="nb">echo</span><span class="w"> </span><span class="m">1500</span><span class="w"> </span>&gt;<span class="w"> </span>/proc/sys/vm/dirty_expire_centisecs
+</code></pre></div>
+
+<p><strong>Memory Pool Configuration</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;memory_pools&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;frame_buffers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">16</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;size_mb&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;alignment&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">4096</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;location&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;dma_coherent&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;encoding_buffers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;size_mb&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;alignment&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1024</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;location&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;contiguous&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;network_buffers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">32</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;size_kb&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">64</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;alignment&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">512</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;location&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;normal&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Memory Optimization API</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Configure memory pools</span>
+curl<span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/performance/memory/pools&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;frame_buffer_count&quot;: 16,</span>
+<span class="s1">       &quot;frame_buffer_size_mb&quot;: 8,</span>
+<span class="s1">       &quot;enable_zero_copy&quot;: true,</span>
+<span class="s1">       &quot;memory_mapping&quot;: &quot;contiguous&quot;</span>
+<span class="s1">     }&#39;</span>
+
+<span class="c1"># Get memory utilization</span>
+curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>http://192.168.1.100:8080/api/performance/memory/status
+</code></pre></div>
+
+<h3 id="storage-performance">Storage Performance</h3>
+<p><strong>I/O Scheduler Optimization</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Check current I/O scheduler</span>
+cat<span class="w"> </span>/sys/block/mmcblk0/queue/scheduler
+
+<span class="c1"># Set deadline scheduler for better video I/O</span>
+<span class="nb">echo</span><span class="w"> </span>deadline<span class="w"> </span>&gt;<span class="w"> </span>/sys/block/mmcblk0/queue/scheduler
+
+<span class="c1"># Tune scheduler parameters</span>
+<span class="nb">echo</span><span class="w"> </span><span class="m">50</span><span class="w"> </span>&gt;<span class="w"> </span>/sys/block/mmcblk0/queue/iosched/read_expire
+<span class="nb">echo</span><span class="w"> </span><span class="m">250</span><span class="w"> </span>&gt;<span class="w"> </span>/sys/block/mmcblk0/queue/iosched/write_expire
+<span class="nb">echo</span><span class="w"> </span><span class="m">1</span><span class="w"> </span>&gt;<span class="w"> </span>/sys/block/mmcblk0/queue/iosched/writes_starved
+<span class="nb">echo</span><span class="w"> </span><span class="m">2</span><span class="w"> </span>&gt;<span class="w"> </span>/sys/block/mmcblk0/queue/iosched/fifo_batch
+</code></pre></div>
+
+<p><strong>File System Optimization</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Mount with optimized options for video</span>
+mount<span class="w"> </span>-o<span class="w"> </span>remount,noatime,nodiratime,commit<span class="o">=</span><span class="m">60</span>,barrier<span class="o">=</span><span class="m">0</span><span class="w"> </span>/media/data
+
+<span class="c1"># Tune ext4 for large files</span>
+tune2fs<span class="w"> </span>-o<span class="w"> </span>journal_data_writeback<span class="w"> </span>/dev/mmcblk0p2
+tune2fs<span class="w"> </span>-c<span class="w"> </span><span class="m">0</span><span class="w"> </span>-i<span class="w"> </span><span class="m">0</span><span class="w"> </span>/dev/mmcblk0p2<span class="w">  </span><span class="c1"># Disable fsck intervals</span>
+
+<span class="c1"># Adjust read-ahead</span>
+<span class="nb">echo</span><span class="w"> </span><span class="m">4096</span><span class="w"> </span>&gt;<span class="w"> </span>/sys/block/mmcblk0/queue/read_ahead_kb
+</code></pre></div>
+
+<p><strong>Storage Performance API</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Configure storage optimization</span>
+curl<span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/performance/storage/config&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;io_scheduler&quot;: &quot;deadline&quot;,</span>
+<span class="s1">       &quot;write_cache&quot;: true,</span>
+<span class="s1">       &quot;read_ahead_kb&quot;: 4096,</span>
+<span class="s1">       &quot;sync_mode&quot;: &quot;async&quot;</span>
+<span class="s1">     }&#39;</span>
+
+<span class="c1"># Test storage performance</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/performance/storage/benchmark&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span>
+</code></pre></div>
+
+<h2 id="video-pipeline-optimization">Video Pipeline Optimization</h2>
+<h3 id="camera-capture-optimization">Camera Capture Optimization</h3>
+<p><strong>V4L2 Buffer Configuration</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Configure capture buffers via API</span>
+curl<span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/camera/capture/buffers&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;buffer_count&quot;: 8,</span>
+<span class="s1">       &quot;buffer_size&quot;: 8388608,</span>
+<span class="s1">       &quot;memory_type&quot;: &quot;mmap&quot;,</span>
+<span class="s1">       &quot;queue_length&quot;: 4</span>
+<span class="s1">     }&#39;</span>
+
+<span class="c1"># Optimize capture parameters</span>
+curl<span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/camera/capture/optimize&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;frame_rate&quot;: 30,</span>
+<span class="s1">       &quot;resolution&quot;: &quot;1920x1080&quot;,</span>
+<span class="s1">       &quot;pixel_format&quot;: &quot;NV12&quot;,</span>
+<span class="s1">       &quot;capture_mode&quot;: &quot;streaming&quot;</span>
+<span class="s1">     }&#39;</span>
+</code></pre></div>
+
+<p><strong>Sensor and Timing Optimization</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;sensor_optimization&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;exposure_mode&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;auto&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;exposure_time_us&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">33333</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;gain_mode&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;auto&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;gain_value&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">1.0</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;white_balance_mode&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;auto&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;focus_mode&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;continuous&quot;</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;timing_optimization&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;frame_rate_target&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">30.0</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;frame_rate_tolerance&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.1</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;timing_source&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;hardware&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;vsync_enabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="encoding-optimization">Encoding Optimization</h3>
+<p><strong>H.264/H.265 Encoder Tuning</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Configure video encoding parameters</span>
+curl<span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/camera/encoding/config&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;codec&quot;: &quot;h264&quot;,</span>
+<span class="s1">       &quot;bitrate_kbps&quot;: 5000,</span>
+<span class="s1">       &quot;quality_preset&quot;: &quot;medium&quot;,</span>
+<span class="s1">       &quot;rate_control&quot;: &quot;cbr&quot;,</span>
+<span class="s1">       &quot;gop_size&quot;: 30,</span>
+<span class="s1">       &quot;b_frames&quot;: 0,</span>
+<span class="s1">       &quot;hardware_acceleration&quot;: true</span>
+<span class="s1">     }&#39;</span>
+
+<span class="c1"># Advanced encoding options</span>
+curl<span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/camera/encoding/advanced&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;profile&quot;: &quot;baseline&quot;,</span>
+<span class="s1">       &quot;level&quot;: &quot;4.0&quot;,</span>
+<span class="s1">       &quot;entropy_coding&quot;: &quot;cavlc&quot;,</span>
+<span class="s1">       &quot;motion_estimation&quot;: &quot;hex&quot;,</span>
+<span class="s1">       &quot;subpixel_refinement&quot;: 2,</span>
+<span class="s1">       &quot;reference_frames&quot;: 1</span>
+<span class="s1">     }&#39;</span>
+</code></pre></div>
+
+<p><strong>Encoding Performance Profiles</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;encoding_profiles&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;low_latency&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;preset&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ultrafast&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;tune&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;zerolatency&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;keyframe_interval&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;b_frames&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;reference_frames&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;threads&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;high_quality&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;preset&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;medium&quot;</span><span class="p">,</span><span class="w"> </span>
+<span class="w">      </span><span class="nt">&quot;tune&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;film&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;keyframe_interval&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">30</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;b_frames&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;reference_frames&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;threads&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;low_power&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;preset&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;fast&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;tune&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;stillimage&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;keyframe_interval&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">60</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;b_frames&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;reference_frames&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;hardware_acceleration&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="streaming-optimization">Streaming Optimization</h3>
+<p><strong>Network Protocol Optimization</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Configure RTSP streaming parameters</span>
+curl<span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/streaming/rtsp/config&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;transport&quot;: &quot;udp&quot;,</span>
+<span class="s1">       &quot;packet_size&quot;: 1316,</span>
+<span class="s1">       &quot;buffer_size&quot;: 1048576,</span>
+<span class="s1">       &quot;timeout_ms&quot;: 5000,</span>
+<span class="s1">       &quot;retransmission&quot;: true</span>
+<span class="s1">     }&#39;</span>
+
+<span class="c1"># WebRTC optimization</span>
+curl<span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/streaming/webrtc/config&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;ice_servers&quot;: [&quot;stun:stun.l.google.com:19302&quot;],</span>
+<span class="s1">       &quot;video_codec&quot;: &quot;h264&quot;,</span>
+<span class="s1">       &quot;audio_codec&quot;: &quot;opus&quot;,</span>
+<span class="s1">       &quot;bandwidth_kbps&quot;: 5000,</span>
+<span class="s1">       &quot;adaptive_bitrate&quot;: true</span>
+<span class="s1">     }&#39;</span>
+</code></pre></div>
+
+<p><strong>Buffer Management</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;buffer_configuration&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;capture_buffers&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;encode_buffers&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;stream_buffers&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">16</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;network_buffers&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">32</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;buffer_size_kb&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">64</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;zero_copy_enabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;memory_mapping&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;dma_coherent&quot;</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="network-performance-tuning">Network Performance Tuning</h2>
+<h3 id="network-interface-optimization">Network Interface Optimization</h3>
+<p><strong>Interface Configuration</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Optimize network interface</span>
+ethtool<span class="w"> </span>-G<span class="w"> </span>eth0<span class="w"> </span>rx<span class="w"> </span><span class="m">1024</span><span class="w"> </span>tx<span class="w"> </span><span class="m">1024</span>
+ethtool<span class="w"> </span>-K<span class="w"> </span>eth0<span class="w"> </span>tso<span class="w"> </span>on<span class="w"> </span>gso<span class="w"> </span>on<span class="w"> </span>gro<span class="w"> </span>on<span class="w"> </span>lro<span class="w"> </span>on
+ethtool<span class="w"> </span>-C<span class="w"> </span>eth0<span class="w"> </span>rx-usecs<span class="w"> </span><span class="m">50</span><span class="w"> </span>tx-usecs<span class="w"> </span><span class="m">50</span>
+
+<span class="c1"># Set network buffer sizes</span>
+<span class="nb">echo</span><span class="w"> </span><span class="m">262144</span><span class="w"> </span>&gt;<span class="w"> </span>/proc/sys/net/core/rmem_max
+<span class="nb">echo</span><span class="w"> </span><span class="m">262144</span><span class="w"> </span>&gt;<span class="w"> </span>/proc/sys/net/core/wmem_max
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;4096 65536 262144&quot;</span><span class="w"> </span>&gt;<span class="w"> </span>/proc/sys/net/ipv4/tcp_rmem
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;4096 65536 262144&quot;</span><span class="w"> </span>&gt;<span class="w"> </span>/proc/sys/net/ipv4/tcp_wmem
+</code></pre></div>
+
+<p><strong>Network API Configuration</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Configure network performance</span>
+curl<span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/performance/network/config&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;tcp_buffer_size&quot;: 262144,</span>
+<span class="s1">       &quot;udp_buffer_size&quot;: 131072,</span>
+<span class="s1">       &quot;enable_tcp_offload&quot;: true,</span>
+<span class="s1">       &quot;enable_jumbo_frames&quot;: false,</span>
+<span class="s1">       &quot;mtu_size&quot;: 1500</span>
+<span class="s1">     }&#39;</span>
+</code></pre></div>
+
+<h3 id="bandwidth-management">Bandwidth Management</h3>
+<p><strong>Quality of Service (QoS)</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Setup traffic shaping for video streams</span>
+tc<span class="w"> </span>qdisc<span class="w"> </span>add<span class="w"> </span>dev<span class="w"> </span>eth0<span class="w"> </span>root<span class="w"> </span>handle<span class="w"> </span><span class="m">1</span>:<span class="w"> </span>htb<span class="w"> </span>default<span class="w"> </span><span class="m">30</span>
+tc<span class="w"> </span>class<span class="w"> </span>add<span class="w"> </span>dev<span class="w"> </span>eth0<span class="w"> </span>parent<span class="w"> </span><span class="m">1</span>:<span class="w"> </span>classid<span class="w"> </span><span class="m">1</span>:1<span class="w"> </span>htb<span class="w"> </span>rate<span class="w"> </span>100mbit
+tc<span class="w"> </span>class<span class="w"> </span>add<span class="w"> </span>dev<span class="w"> </span>eth0<span class="w"> </span>parent<span class="w"> </span><span class="m">1</span>:1<span class="w"> </span>classid<span class="w"> </span><span class="m">1</span>:10<span class="w"> </span>htb<span class="w"> </span>rate<span class="w"> </span>80mbit<span class="w"> </span>ceil<span class="w"> </span>100mbit
+tc<span class="w"> </span>class<span class="w"> </span>add<span class="w"> </span>dev<span class="w"> </span>eth0<span class="w"> </span>parent<span class="w"> </span><span class="m">1</span>:1<span class="w"> </span>classid<span class="w"> </span><span class="m">1</span>:20<span class="w"> </span>htb<span class="w"> </span>rate<span class="w"> </span>15mbit<span class="w"> </span>ceil<span class="w"> </span>20mbit
+tc<span class="w"> </span>class<span class="w"> </span>add<span class="w"> </span>dev<span class="w"> </span>eth0<span class="w"> </span>parent<span class="w"> </span><span class="m">1</span>:1<span class="w"> </span>classid<span class="w"> </span><span class="m">1</span>:30<span class="w"> </span>htb<span class="w"> </span>rate<span class="w"> </span>5mbit<span class="w"> </span>ceil<span class="w"> </span>10mbit
+
+<span class="c1"># Prioritize video traffic</span>
+tc<span class="w"> </span>filter<span class="w"> </span>add<span class="w"> </span>dev<span class="w"> </span>eth0<span class="w"> </span>protocol<span class="w"> </span>ip<span class="w"> </span>parent<span class="w"> </span><span class="m">1</span>:0<span class="w"> </span>prio<span class="w"> </span><span class="m">1</span><span class="w"> </span>u32<span class="w"> </span>match<span class="w"> </span>ip<span class="w"> </span>dport<span class="w"> </span><span class="m">554</span><span class="w"> </span>0xffff<span class="w"> </span>flowid<span class="w"> </span><span class="m">1</span>:10
+</code></pre></div>
+
+<p><strong>Adaptive Bitrate Configuration</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Configure adaptive streaming</span>
+curl<span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/streaming/adaptive&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;enabled&quot;: true,</span>
+<span class="s1">       &quot;min_bitrate_kbps&quot;: 1000,</span>
+<span class="s1">       &quot;max_bitrate_kbps&quot;: 8000,</span>
+<span class="s1">       &quot;step_size_kbps&quot;: 500,</span>
+<span class="s1">       &quot;adjustment_interval_ms&quot;: 5000,</span>
+<span class="s1">       &quot;quality_threshold&quot;: 0.95</span>
+<span class="s1">     }&#39;</span>
+</code></pre></div>
+
+<h3 id="latency-optimization">Latency Optimization</h3>
+<p><strong>Low-Latency Configuration</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Configure for minimum latency</span>
+curl<span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/performance/latency/config&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;target_latency_ms&quot;: 100,</span>
+<span class="s1">       &quot;buffer_strategy&quot;: &quot;minimal&quot;,</span>
+<span class="s1">       &quot;encoding_preset&quot;: &quot;ultrafast&quot;,</span>
+<span class="s1">       &quot;network_protocol&quot;: &quot;udp&quot;,</span>
+<span class="s1">       &quot;frame_buffering&quot;: 1</span>
+<span class="s1">     }&#39;</span>
+
+<span class="c1"># Test end-to-end latency</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/performance/latency/test&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span>
+</code></pre></div>
+
+<h2 id="software-optimization">Software Optimization</h2>
+<h3 id="application-performance">Application Performance</h3>
+<p><strong>Thread and Process Optimization</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;thread_configuration&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;capture_threads&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;encode_threads&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;stream_threads&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;io_threads&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;worker_threads&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;thread_affinity&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;capture&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">],</span>
+<span class="w">      </span><span class="nt">&quot;encode&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">],</span>
+<span class="w">      </span><span class="nt">&quot;stream&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">],</span>
+<span class="w">      </span><span class="nt">&quot;io&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">]</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Memory Management</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Configure application memory settings</span>
+curl<span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/performance/memory/config&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;heap_size_mb&quot;: 512,</span>
+<span class="s1">       &quot;stack_size_kb&quot;: 1024,</span>
+<span class="s1">       &quot;gc_threshold_mb&quot;: 256,</span>
+<span class="s1">       &quot;memory_mapping&quot;: &quot;shared&quot;,</span>
+<span class="s1">       &quot;preallocation&quot;: true</span>
+<span class="s1">     }&#39;</span>
+</code></pre></div>
+
+<h3 id="configuration-optimization">Configuration Optimization</h3>
+<p><strong>Runtime Configuration</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># /etc/rotordream/performance.conf</span>
+<span class="k">[runtime]</span>
+<span class="na">worker_threads</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">4</span>
+<span class="na">max_connections</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">100</span>
+<span class="na">connection_timeout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">30</span>
+<span class="na">keepalive_timeout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">60</span>
+<span class="na">request_timeout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">30</span>
+
+<span class="k">[video_pipeline]</span>
+<span class="na">frame_buffer_count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">16</span>
+<span class="na">encode_buffer_count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">8</span>
+<span class="na">stream_buffer_count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">32</span>
+<span class="na">zero_copy_enabled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">true</span>
+<span class="na">hardware_acceleration</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">true</span>
+
+<span class="k">[network]</span>
+<span class="na">tcp_nodelay</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">true</span>
+<span class="na">tcp_cork</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">false</span>
+<span class="na">socket_buffer_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">262144</span>
+<span class="na">max_packet_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">1316</span>
+</code></pre></div>
+
+<p><strong>Performance Profiles</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Apply performance profile</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/performance/profile/apply&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;profile&quot;: &quot;high_performance&quot;,</span>
+<span class="s1">       &quot;components&quot;: [&quot;cpu&quot;, &quot;memory&quot;, &quot;video&quot;, &quot;network&quot;]</span>
+<span class="s1">     }&#39;</span>
+
+<span class="c1"># Available profiles: &quot;balanced&quot;, &quot;high_performance&quot;, &quot;low_power&quot;, &quot;low_latency&quot;</span>
+</code></pre></div>
+
+<h2 id="performance-testing">Performance Testing</h2>
+<h3 id="benchmarking">Benchmarking</h3>
+<p><strong>System Benchmarks</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># CPU benchmark</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/performance/benchmark/cpu&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;duration_seconds&quot;: 60,</span>
+<span class="s1">       &quot;threads&quot;: 4,</span>
+<span class="s1">       &quot;workload&quot;: &quot;video_encoding&quot;</span>
+<span class="s1">     }&#39;</span>
+
+<span class="c1"># Memory benchmark</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/performance/benchmark/memory&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;test_size_mb&quot;: 1024,</span>
+<span class="s1">       &quot;pattern&quot;: &quot;sequential&quot;,</span>
+<span class="s1">       &quot;operations&quot;: [&quot;read&quot;, &quot;write&quot;, &quot;copy&quot;]</span>
+<span class="s1">     }&#39;</span>
+
+<span class="c1"># Storage benchmark</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/performance/benchmark/storage&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;file_size_mb&quot;: 1024,</span>
+<span class="s1">       &quot;block_size_kb&quot;: 1024,</span>
+<span class="s1">       &quot;test_type&quot;: &quot;sequential_write&quot;</span>
+<span class="s1">     }&#39;</span>
+</code></pre></div>
+
+<p><strong>Video Pipeline Benchmarks</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Encoding performance test</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/performance/benchmark/encoding&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;input_resolution&quot;: &quot;1920x1080&quot;,</span>
+<span class="s1">       &quot;output_bitrate&quot;: 5000,</span>
+<span class="s1">       &quot;duration_seconds&quot;: 60,</span>
+<span class="s1">       &quot;codec&quot;: &quot;h264&quot;</span>
+<span class="s1">     }&#39;</span>
+
+<span class="c1"># Streaming performance test</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/performance/benchmark/streaming&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;concurrent_streams&quot;: 10,</span>
+<span class="s1">       &quot;stream_duration_seconds&quot;: 300,</span>
+<span class="s1">       &quot;bitrate_kbps&quot;: 5000</span>
+<span class="s1">     }&#39;</span>
+</code></pre></div>
+
+<h3 id="load-testing">Load Testing</h3>
+<p><strong>Stress Testing</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># System stress test</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/performance/stress-test&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;test_type&quot;: &quot;full_system&quot;,</span>
+<span class="s1">       &quot;duration_minutes&quot;: 30,</span>
+<span class="s1">       &quot;load_level&quot;: 90,</span>
+<span class="s1">       &quot;components&quot;: [&quot;cpu&quot;, &quot;memory&quot;, &quot;storage&quot;, &quot;network&quot;]</span>
+<span class="s1">     }&#39;</span>
+
+<span class="c1"># API load test</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/performance/load-test&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;requests_per_second&quot;: 100,</span>
+<span class="s1">       &quot;duration_minutes&quot;: 10,</span>
+<span class="s1">       &quot;endpoints&quot;: [&quot;/api/camera/status&quot;, &quot;/api/streaming/info&quot;]</span>
+<span class="s1">     }&#39;</span>
+</code></pre></div>
+
+<h2 id="performance-monitoring">Performance Monitoring</h2>
+<h3 id="real-time-metrics">Real-time Metrics</h3>
+<p><strong>Performance Dashboard</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Get real-time performance metrics</span>
+curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>http://192.168.1.100:8080/api/performance/metrics/realtime
+
+<span class="c1"># Response includes current performance data</span>
+<span class="o">{</span>
+<span class="w">  </span><span class="s2">&quot;performance&quot;</span>:<span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="s2">&quot;cpu_usage_percent&quot;</span>:<span class="w"> </span><span class="m">45</span>.2,
+<span class="w">    </span><span class="s2">&quot;memory_usage_percent&quot;</span>:<span class="w"> </span><span class="m">62</span>.1,
+<span class="w">    </span><span class="s2">&quot;video_fps&quot;</span>:<span class="w"> </span><span class="m">29</span>.97,
+<span class="w">    </span><span class="s2">&quot;encoding_time_ms&quot;</span>:<span class="w"> </span><span class="m">8</span>.5,
+<span class="w">    </span><span class="s2">&quot;network_latency_ms&quot;</span>:<span class="w"> </span><span class="m">12</span>.3,
+<span class="w">    </span><span class="s2">&quot;storage_io_mbps&quot;</span>:<span class="w"> </span><span class="m">25</span>.6
+<span class="w">  </span><span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div>
+
+<p><strong>Performance Alerts</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Configure performance alerts</span>
+curl<span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/performance/alerts/config&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;cpu_threshold&quot;: 80,</span>
+<span class="s1">       &quot;memory_threshold&quot;: 85,</span>
+<span class="s1">       &quot;fps_threshold&quot;: 25,</span>
+<span class="s1">       &quot;latency_threshold&quot;: 100,</span>
+<span class="s1">       &quot;alert_cooldown_minutes&quot;: 5</span>
+<span class="s1">     }&#39;</span>
+</code></pre></div>
+
+<h3 id="performance-analysis">Performance Analysis</h3>
+<p><strong>Bottleneck Detection</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Analyze performance bottlenecks</span>
+curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>http://192.168.1.100:8080/api/performance/analysis/bottlenecks
+
+<span class="c1"># Get optimization recommendations</span>
+curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>http://192.168.1.100:8080/api/performance/analysis/recommendations
+</code></pre></div>
+
+<p><strong>Performance Trending</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Get performance trends</span>
+curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span><span class="s2">&quot;http://192.168.1.100:8080/api/performance/trends?period=24h&quot;</span>
+
+<span class="c1"># Performance regression detection</span>
+curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>http://192.168.1.100:8080/api/performance/regression/detect
+</code></pre></div>
+
+<h2 id="best-practices">Best Practices</h2>
+<h3 id="performance-guidelines">Performance Guidelines</h3>
+<p><strong>Hardware Recommendations</strong>:<br />
+- Use dedicated hardware for video processing when possible<br />
+- Ensure adequate cooling for sustained performance<br />
+- Use high-speed storage (SSD preferred) for video recording<br />
+- Allocate sufficient RAM for frame buffering<br />
+- Consider hardware-accelerated encoding</p>
+<p><strong>Software Configuration</strong>:<br />
+- Use appropriate thread counts for your hardware<br />
+- Configure memory pools to avoid allocation overhead<br />
+- Enable zero-copy operations where supported<br />
+- Use hardware acceleration when available<br />
+- Optimize buffer sizes for your use case</p>
+<p><strong>Network Optimization</strong>:<br />
+- Use dedicated network interfaces for video streaming<br />
+- Configure QoS to prioritize video traffic<br />
+- Use appropriate protocols (UDP for low latency, TCP for reliability)<br />
+- Monitor and tune network buffer sizes<br />
+- Consider network topology for multi-camera setups</p>
+<h3 id="troubleshooting-performance-issues">Troubleshooting Performance Issues</h3>
+<p><strong>Common Problems</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># High CPU usage</span>
+curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>http://192.168.1.100:8080/api/performance/troubleshoot/cpu
+
+<span class="c1"># Memory leaks</span>
+curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>http://192.168.1.100:8080/api/performance/troubleshoot/memory
+
+<span class="c1"># Storage I/O issues</span>
+curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>http://192.168.1.100:8080/api/performance/troubleshoot/storage
+
+<span class="c1"># Network bottlenecks</span>
+curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>http://192.168.1.100:8080/api/performance/troubleshoot/network
+</code></pre></div>
+
+<h2 id="related-documentation">Related Documentation</h2>
+<ul>
+<li><a href="./monitoring.md">Monitoring</a> - Performance monitoring and alerting</li>
+<li><a href="./troubleshooting.md">Troubleshooting</a> - Problem diagnosis and resolution</li>
+<li><a href="../configuration/camera-system.md">Camera Configuration</a> - Video pipeline optimization</li>
+<li><a href="../configuration/network.md">Network Configuration</a> - Network performance tuning</li>
+</ul>
+<hr />
+<p><em>Performance tuning documentation based on Linux performance optimization and video processing best practices</em></p>
+            </div>
+            <footer class="content-footer">
+                <p>Copyright © 2025 Rotoclear</p>
+            </footer>
+        </main>
+        
+        <button class="mobile-menu-toggle" id="menuToggle" aria-label="Toggle menu">☰</button>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>
+        // Initialize Mermaid
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            securityLevel: 'loose',
+            fontFamily: 'Inter, sans-serif'
+        });
+        
+        // Syntax highlighting
+        hljs.highlightAll();
+        
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.querySelector('.sidebar');
+        
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+        });
+        
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth <= 768 && 
+                !sidebar.contains(e.target) && 
+                !menuToggle.contains(e.target) &&
+                sidebar.classList.contains('active')) {
+                sidebar.classList.remove('active');
+            }
+        });
+        
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

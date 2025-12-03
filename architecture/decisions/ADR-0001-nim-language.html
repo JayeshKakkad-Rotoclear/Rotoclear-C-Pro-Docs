@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ADR-0001 Nim Language - RotoClear Camera Server Documentation</title>
+    <link rel="stylesheet" href="/assets/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1><a href="/index.html">RotoClear Docs</a></h1>
+                <p>Camera Server Documentation</p>
+            </div>
+            <nav class="sidebar-nav">
+                <ul class="nav-menu">
+                    <li class="nav-item depth-0">
+<a href="/index.html">Home</a>
+</li>
+<li class="nav-item depth-0">
+<a href="/getting-started.html">Getting Started</a>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Architecture</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/architecture/overview.html">Overview</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/architecture/state-management.html">State Management</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/architecture/camera-pipeline.html">Camera Pipeline</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/architecture/metadata-sqlite.html">Metadata & SQLite</a>
+</li>
+<li class="nav-folder depth-1">
+<span class="folder-title">Decisions</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-2 active">
+<a href="/architecture/decisions/ADR-0001-nim-language.html">ADR-0001 Nim Language</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/architecture/decisions/ADR-0002-corun-framework.html">ADR-0002 Corun Framework</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/architecture/decisions/ADR-0003-observable-state.html">ADR-0003 Observable State</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">API Reference</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/api/README.html">Overview</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/api/websocket-api.html">WebSocket API</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/api/http-api.html">HTTP API</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/api/rtsp-streaming.html">RTSP Streaming</a>
+</li>
+<li class="nav-folder depth-1">
+<span class="folder-title">Examples</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-2">
+<a href="/api/examples/python-client.html">Python Client</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/api/examples/javascript-client.html">JavaScript Client</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/api/examples/csharp-client.html">C# Client</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Configuration</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/configuration/environments.html">Environments</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/factory-config.html">Factory Config</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/license-config.html">License Config</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/deployment-variants.html">Deployment Variants</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/camera-system.html">Camera System</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/network.html">Network</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/storage-backup.html">Storage & Backup</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/authentication.html">Authentication</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Camera System</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/camera/hardware-interface.html">Hardware Interface</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/camera/streaming.html">Streaming</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/camera/recording.html">Recording</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/camera/image-processing.html">Image Processing</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Operations</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/operations/build-and-deploy.html">Build and Deploy</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/build-deploy.html">Build & Deploy (Alt)</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/monitoring.html">Monitoring</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/performance.html">Performance</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/troubleshooting.html">Troubleshooting</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Security</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/security/authentication.html">Authentication</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/security/permissions.html">Permissions</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/security/ssl-certificates.html">SSL Certificates</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Testing</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/testing/testing-strategy.html">Strategy</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/testing/strategies.html">Strategies</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/testing/test-cases.html">Test Cases</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/testing/validation.html">Validation</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Integration</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/integration/onvif-protocol.html">ONVIF Protocol</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/integration/third-party.html">Third Party</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Reference</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/reference/glossary.html">Glossary</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/reference/requirements.html">Requirements</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/reference/state-observables.html">State Observables</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Releases</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/releases/CHANGELOG.html">Changelog</a>
+</li>
+</ul>
+</li>
+<li class="nav-item depth-0">
+<a href="/glossary.html">Glossary</a>
+</li>
+                </ul>
+            </nav>
+        </aside>
+        
+        <main class="content">
+            <div class="content-wrapper">
+                <h1 id="adr-0001-nim-programming-language-selection">ADR-0001: Nim Programming Language Selection</h1>
+<p><strong>Status</strong>: Accepted<br />
+<strong>Date</strong>: 2024-01-15<br />
+<strong>Deciders</strong>: Engineering Team  </p>
+<h2 id="context">Context</h2>
+<p>We needed to select a programming language for the RotoClear embedded camera server that would provide:</p>
+<ul>
+<li>Low-level hardware access (V4L2, GPIO, I2C)</li>
+<li>High performance for real-time video processing</li>
+<li>Memory safety and reliability for medical devices</li>
+<li>Cross-compilation for ARM64 embedded targets</li>
+<li>Small binary size for resource-constrained devices</li>
+</ul>
+<h2 id="decision">Decision</h2>
+<p>We chose <strong>Nim</strong> as the primary programming language for the RotoClear camera server.</p>
+<h2 id="rationale">Rationale</h2>
+<h3 id="performance-benefits">Performance Benefits</h3>
+<ul>
+<li><strong>Compiled to C</strong>: Nim compiles to optimized C code, providing near-C performance</li>
+<li><strong>Zero-cost Abstractions</strong>: High-level constructs with no runtime overhead</li>
+<li><strong>Manual Memory Management</strong>: Precise control over memory allocation with ORC GC</li>
+<li><strong>Small Binaries</strong>: Typical binary size &lt;10MB for complete application</li>
+</ul>
+<h3 id="cross-compilation-support">Cross-compilation Support</h3>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Cross-compile for ARM64 from x86</span>
+nim<span class="w"> </span>c<span class="w"> </span>--cpu:arm64<span class="w"> </span>--os:linux<span class="w"> </span>-d:release<span class="w"> </span>rotordream.nim
+</code></pre></div>
+
+<h3 id="hardware-integration">Hardware Integration</h3>
+<ul>
+<li><strong>C Interop</strong>: Seamless integration with existing C libraries (GStreamer, V4L2)</li>
+<li><strong>Low-level Access</strong>: Direct memory manipulation and hardware control</li>
+<li><strong>No Runtime</strong>: Minimal runtime dependencies for embedded deployment</li>
+</ul>
+<h3 id="development-experience">Development Experience</h3>
+<ul>
+<li><strong>Type Safety</strong>: Strong static typing with inference</li>
+<li><strong>Metaprogramming</strong>: Powerful macro system for code generation</li>
+<li><strong>Modern Syntax</strong>: Python-like readability with C-like performance</li>
+</ul>
+<h2 id="code-example">Code Example</h2>
+<div class="codehilite"><pre><span></span><code><span class="c"># Clean integration with C libraries</span>
+<span class="k">proc</span><span class="w"> </span><span class="nf">v4l2_open</span><span class="p">(</span><span class="n">device</span><span class="p">:</span><span class="w"> </span><span class="n">cstring</span><span class="p">,</span><span class="w"> </span><span class="n">flags</span><span class="p">:</span><span class="w"> </span><span class="n">cint</span><span class="p">):</span><span class="w"> </span><span class="n">cint</span><span class="w"> </span><span class="sx">{.importc</span>,<span class="w"> </span><span class="sx">header</span>:<span class="w"> </span><span class="sx">&quot;&lt;fcntl.h&gt;&quot;.}</span>
+
+<span class="sx"># Type-safe</span>,<span class="w"> </span><span class="sx">high-performance</span><span class="w"> </span><span class="sx">video</span><span class="w"> </span><span class="sx">processing</span>
+<span class="sx">proc</span><span class="w"> </span><span class="sx">processFrame(buffer</span>:<span class="w"> </span><span class="sx">ptr</span><span class="w"> </span><span class="sx">UncheckedArray[byte], size</span>:<span class="w"> </span><span class="sx">int): seq[byte] =</span>
+<span class="sx">  result</span><span class="w"> </span><span class="sx">= newSeq[byte](size)</span>
+<span class="sx">  copyMem(result[0].addr</span>,<span class="w"> </span><span class="sx">buffer</span>,<span class="w"> </span><span class="sx">size)</span>
+</code></pre></div>
+
+<h2 id="alternatives-considered">Alternatives Considered</h2>
+<h3 id="cc">C/C++</h3>
+<ul>
+<li><strong>Pros</strong>: Maximum performance, hardware access</li>
+<li><strong>Cons</strong>: Memory safety issues, complex build system, slower development</li>
+</ul>
+<h3 id="rust">Rust</h3>
+<ul>
+<li><strong>Pros</strong>: Memory safety, performance, growing embedded ecosystem</li>
+<li><strong>Cons</strong>: Steep learning curve, larger binaries, limited ARM64 ecosystem (2024)</li>
+</ul>
+<h3 id="go">Go</h3>
+<ul>
+<li><strong>Pros</strong>: Simple syntax, good networking support</li>
+<li><strong>Cons</strong>: Garbage collector unsuitable for real-time, larger binaries</li>
+</ul>
+<h3 id="pythonnodejs">Python/Node.js</h3>
+<ul>
+<li><strong>Pros</strong>: Rapid development, extensive libraries</li>
+<li><strong>Cons</strong>: Performance limitations, runtime dependencies</li>
+</ul>
+<h2 id="consequences">Consequences</h2>
+<h3 id="positive">Positive</h3>
+<ul>
+<li><strong>Performance</strong>: Real-time video processing at 30fps+</li>
+<li><strong>Reliability</strong>: Type safety reduces runtime errors</li>
+<li><strong>Deployment</strong>: Single binary deployment, no runtime dependencies</li>
+<li><strong>Integration</strong>: Seamless C library integration for hardware access</li>
+</ul>
+<h3 id="negative">Negative</h3>
+<ul>
+<li><strong>Learning Curve</strong>: Team had to learn Nim language and ecosystem</li>
+<li><strong>Ecosystem</strong>: Smaller package ecosystem compared to mainstream languages</li>
+<li><strong>Debugging</strong>: Limited tooling compared to C/C++/Python</li>
+</ul>
+<h3 id="neutral">Neutral</h3>
+<ul>
+<li><strong>Build System</strong>: Nim's build system works well but required configuration tuning</li>
+<li><strong>Documentation</strong>: Good core documentation, but community packages vary</li>
+</ul>
+<h2 id="implementation-notes">Implementation Notes</h2>
+<h3 id="build-configuration">Build Configuration</h3>
+<p>From <code>rotordream.nimble</code>:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">requires</span><span class="w"> </span><span class="s">&quot;nim &gt;= 2.2.2&quot;</span>
+<span class="n">requires</span><span class="w"> </span><span class="s">&quot;corun &gt;= 0.7.10&quot;</span>
+<span class="n">requires</span><span class="w"> </span><span class="s">&quot;xxtea&quot;</span>
+<span class="n">requires</span><span class="w"> </span><span class="s">&quot;checksums &gt;= 0.2.1&quot;</span>
+</code></pre></div>
+
+<h3 id="cross-compilation-setup">Cross-compilation Setup</h3>
+<p>From <code>tools/buildRelease.nim</code>:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">when</span><span class="w"> </span><span class="n">defined</span><span class="p">(</span><span class="n">embeddedSystem</span><span class="p">):</span>
+<span class="w">  </span><span class="n">switch</span><span class="p">(</span><span class="s">&quot;cpu&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;arm64&quot;</span><span class="p">)</span>
+<span class="w">  </span><span class="n">switch</span><span class="p">(</span><span class="s">&quot;os&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;linux&quot;</span><span class="p">)</span>
+<span class="w">  </span><span class="n">switch</span><span class="p">(</span><span class="s">&quot;define&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;directCompile=true&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<h2 id="monitoring">Monitoring</h2>
+<p>We track the following metrics to validate this decision:<br />
+- <strong>Binary Size</strong>: Target &lt;10MB for release builds<br />
+- <strong>Memory Usage</strong>: &lt;100MB RAM for typical operation<br />
+- <strong>Performance</strong>: 30fps video processing on ARM64 hardware<br />
+- <strong>Development Velocity</strong>: Feature delivery time vs. C++ baseline</p>
+<h2 id="review-date">Review Date</h2>
+<p>This decision will be reviewed in Q4 2025 based on:<br />
+- Team productivity and satisfaction<br />
+- Performance benchmarks vs. requirements<br />
+- Nim ecosystem maturity and support<br />
+- Availability of alternative technologies</p>
+            </div>
+            <footer class="content-footer">
+                <p>Copyright © 2025 Rotoclear</p>
+            </footer>
+        </main>
+        
+        <button class="mobile-menu-toggle" id="menuToggle" aria-label="Toggle menu">☰</button>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>
+        // Initialize Mermaid
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            securityLevel: 'loose',
+            fontFamily: 'Inter, sans-serif'
+        });
+        
+        // Syntax highlighting
+        hljs.highlightAll();
+        
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.querySelector('.sidebar');
+        
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+        });
+        
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth <= 768 && 
+                !sidebar.contains(e.target) && 
+                !menuToggle.contains(e.target) &&
+                sidebar.classList.contains('active')) {
+                sidebar.classList.remove('active');
+            }
+        });
+        
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

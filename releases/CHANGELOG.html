@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Changelog - RotoClear Camera Server Documentation</title>
+    <link rel="stylesheet" href="/assets/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1><a href="/index.html">RotoClear Docs</a></h1>
+                <p>Camera Server Documentation</p>
+            </div>
+            <nav class="sidebar-nav">
+                <ul class="nav-menu">
+                    <li class="nav-item depth-0">
+<a href="/index.html">Home</a>
+</li>
+<li class="nav-item depth-0">
+<a href="/getting-started.html">Getting Started</a>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Architecture</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/architecture/overview.html">Overview</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/architecture/state-management.html">State Management</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/architecture/camera-pipeline.html">Camera Pipeline</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/architecture/metadata-sqlite.html">Metadata & SQLite</a>
+</li>
+<li class="nav-folder depth-1">
+<span class="folder-title">Decisions</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-2">
+<a href="/architecture/decisions/ADR-0001-nim-language.html">ADR-0001 Nim Language</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/architecture/decisions/ADR-0002-corun-framework.html">ADR-0002 Corun Framework</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/architecture/decisions/ADR-0003-observable-state.html">ADR-0003 Observable State</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">API Reference</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/api/README.html">Overview</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/api/websocket-api.html">WebSocket API</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/api/http-api.html">HTTP API</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/api/rtsp-streaming.html">RTSP Streaming</a>
+</li>
+<li class="nav-folder depth-1">
+<span class="folder-title">Examples</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-2">
+<a href="/api/examples/python-client.html">Python Client</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/api/examples/javascript-client.html">JavaScript Client</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/api/examples/csharp-client.html">C# Client</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Configuration</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/configuration/environments.html">Environments</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/factory-config.html">Factory Config</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/license-config.html">License Config</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/deployment-variants.html">Deployment Variants</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/camera-system.html">Camera System</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/network.html">Network</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/storage-backup.html">Storage & Backup</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/authentication.html">Authentication</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Camera System</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/camera/hardware-interface.html">Hardware Interface</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/camera/streaming.html">Streaming</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/camera/recording.html">Recording</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/camera/image-processing.html">Image Processing</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Operations</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/operations/build-and-deploy.html">Build and Deploy</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/build-deploy.html">Build & Deploy (Alt)</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/monitoring.html">Monitoring</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/performance.html">Performance</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/troubleshooting.html">Troubleshooting</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Security</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/security/authentication.html">Authentication</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/security/permissions.html">Permissions</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/security/ssl-certificates.html">SSL Certificates</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Testing</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/testing/testing-strategy.html">Strategy</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/testing/strategies.html">Strategies</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/testing/test-cases.html">Test Cases</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/testing/validation.html">Validation</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Integration</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/integration/onvif-protocol.html">ONVIF Protocol</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/integration/third-party.html">Third Party</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Reference</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/reference/glossary.html">Glossary</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/reference/requirements.html">Requirements</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/reference/state-observables.html">State Observables</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Releases</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1 active">
+<a href="/releases/CHANGELOG.html">Changelog</a>
+</li>
+</ul>
+</li>
+<li class="nav-item depth-0">
+<a href="/glossary.html">Glossary</a>
+</li>
+                </ul>
+            </nav>
+        </aside>
+        
+        <main class="content">
+            <div class="content-wrapper">
+                <h1 id="changelog">Changelog</h1>
+<p><strong>Human-readable release history for Rotoclear Camera Server.</strong></p>
+<h2 id="format">Format</h2>
+<p>This changelog follows <a href="https://keepachangelog.com/en/1.0.0/">Keep a Changelog</a> format and <a href="https://semver.org/spec/v2.0.0.html">Semantic Versioning</a>.</p>
+<h2 id="unreleased">[Unreleased]</h2>
+<h3 id="added">Added</h3>
+<ul>
+<li>Comprehensive documentation set</li>
+<li>API reference with working examples</li>
+<li>Multi-environment configuration guide</li>
+</ul>
+<h3 id="changed">Changed</h3>
+<ul>
+<li>
+<blockquote>
+<p>TODO: Document pending changes</p>
+</blockquote>
+</li>
+</ul>
+<h3 id="deprecated">Deprecated</h3>
+<ul>
+<li>
+<blockquote>
+<p>TODO: Document deprecated features</p>
+</blockquote>
+</li>
+</ul>
+<h3 id="removed">Removed</h3>
+<ul>
+<li>
+<blockquote>
+<p>TODO: Document removed features</p>
+</blockquote>
+</li>
+</ul>
+<h3 id="fixed">Fixed</h3>
+<ul>
+<li>
+<blockquote>
+<p>TODO: Document bug fixes</p>
+</blockquote>
+</li>
+</ul>
+<h3 id="security">Security</h3>
+<ul>
+<li>
+<blockquote>
+<p>TODO: Document security improvements</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="100-current-version">[1.0.0] - Current Version</h2>
+<p><strong>Current stable release (from <code>rotordream.nimble</code>)</strong></p>
+<h3 id="features">Features</h3>
+<ul>
+<li><strong>Real-time WebSocket API</strong> - Bidirectional camera control and state management</li>
+<li><strong>Multi-camera Support</strong> - Multiple camera heads with sensor selection</li>
+<li><strong>Video Recording</strong> - AVI recording with configurable quality settings</li>
+<li><strong>Image Capture</strong> - JPEG snapshots with timestamp overlays</li>
+<li><strong>HTTP/HTTPS Servers</strong> - Web interface and file operations</li>
+<li><strong>RTSP Streaming</strong> - Standards-based video streaming</li>
+<li><strong>Permission System</strong> - Role-based access control with API tokens</li>
+<li><strong>Observable State</strong> - Reactive state management with 40+ specialized modules</li>
+<li><strong>Cross-platform Build</strong> - Development on x86, deployment on ARM64</li>
+<li><strong>Multi-environment Config</strong> - DEV/DEMO/EDU/VB/DMG configuration variants</li>
+</ul>
+<h3 id="technical-stack">Technical Stack</h3>
+<ul>
+<li><strong>Language</strong>: Nim 2.2.2+</li>
+<li><strong>Framework</strong>: Corun async runtime</li>
+<li><strong>Camera Interface</strong>: V4L2 with GStreamer pipeline</li>
+<li><strong>Memory Management</strong>: ORC garbage collector</li>
+<li><strong>Authentication</strong>: Token-based with Basic Auth fallback</li>
+<li><strong>Configuration</strong>: JSON-based multi-environment system</li>
+</ul>
+<h3 id="api-endpoints">API Endpoints</h3>
+<ul>
+<li><strong>WebSocket</strong>: <code>ws://host:port/api?token=&lt;TOKEN&gt;</code></li>
+<li><strong>Camera Image</strong>: <code>http://host:port/camera.jpeg?token=&lt;TOKEN&gt;</code></li>
+<li><strong>Web Interface</strong>: <code>http://host:port/</code></li>
+<li><strong>RTSP Stream</strong>: <code>rtsp://host:port/stream</code></li>
+</ul>
+<h3 id="supported-platforms">Supported Platforms</h3>
+<ul>
+<li><strong>Development</strong>: Ubuntu/Debian Linux, Windows with WSL2</li>
+<li><strong>Production</strong>: ARM64 embedded Linux (RotoClear hardware)</li>
+</ul>
+<h2 id="version-history-template">Version History Template</h2>
+<h3 id="version-yyyy-mm-dd">[Version] - YYYY-MM-DD</h3>
+<h4 id="added_1">Added</h4>
+<ul>
+<li>New features and capabilities</li>
+</ul>
+<h4 id="changed_1">Changed</h4>
+<ul>
+<li>Changes to existing functionality</li>
+</ul>
+<h4 id="deprecated_1">Deprecated</h4>
+<ul>
+<li>Features marked for removal in future versions</li>
+</ul>
+<h4 id="removed_1">Removed</h4>
+<ul>
+<li>Features removed in this version</li>
+</ul>
+<h4 id="fixed_1">Fixed</h4>
+<ul>
+<li>Bug fixes and corrections</li>
+</ul>
+<h4 id="security_1">Security</h4>
+<ul>
+<li>Security improvements and vulnerability fixes</li>
+</ul>
+<h2 id="release-process">Release Process</h2>
+<blockquote>
+<p>TODO: Document the release process steps</p>
+</blockquote>
+<h3 id="pre-release-checklist">Pre-release Checklist</h3>
+<ul>
+<li>[ ] All tests pass</li>
+<li>[ ] Documentation updated</li>
+<li>[ ] Version numbers updated</li>
+<li>[ ] Changelog updated</li>
+<li>[ ] Security review completed</li>
+</ul>
+<h3 id="release-steps">Release Steps</h3>
+<ol>
+<li><strong>Version Bump</strong>: Update version in <code>rotordream.nimble</code></li>
+<li><strong>Build Testing</strong>: Test cross-compilation for ARM64</li>
+<li><strong>Documentation</strong>: Update documentation for new features</li>
+<li><strong>Release Notes</strong>: Prepare human-readable release notes</li>
+<li><strong>Deployment Testing</strong>: Verify deployment on target hardware</li>
+<li><strong>Tag Release</strong>: Create Git tag with version number</li>
+</ol>
+<h3 id="post-release-steps">Post-release Steps</h3>
+<ol>
+<li><strong>Deployment</strong>: Deploy to production devices</li>
+<li><strong>Monitoring</strong>: Monitor deployment health</li>
+<li><strong>Feedback</strong>: Collect user feedback</li>
+<li><strong>Documentation</strong>: Update any missing documentation</li>
+</ol>
+<h2 id="versioning-strategy">Versioning Strategy</h2>
+<h3 id="semantic-versioning">Semantic Versioning</h3>
+<ul>
+<li><strong>MAJOR</strong>: Breaking changes, incompatible API changes</li>
+<li><strong>MINOR</strong>: New features, backward-compatible additions</li>
+<li><strong>PATCH</strong>: Bug fixes, backward-compatible fixes</li>
+</ul>
+<h3 id="version-components">Version Components</h3>
+<p><strong>Format</strong>: <code>MAJOR.MINOR.PATCH[-PRERELEASE][+BUILD]</code></p>
+<p><strong>Examples</strong>:<br />
+- <code>1.0.0</code> - Stable release<br />
+- <code>1.1.0-beta.1</code> - Pre-release version<br />
+- <code>1.0.1+20240903.commit.abc123</code> - Build metadata</p>
+<h3 id="api-versioning">API Versioning</h3>
+<p>API versions are managed separately from application versions:<br />
+- <strong>WebSocket API</strong>: Currently V1 (<code>websocketApiV1Handler.nim</code>)<br />
+- <strong>HTTP API</strong>: Version in URL path or headers<br />
+- <strong>RTSP</strong>: Standards-based versioning</p>
+<h2 id="breaking-changes">Breaking Changes</h2>
+<h3 id="migration-guide-template">Migration Guide Template</h3>
+<p>When breaking changes are introduced, include migration guidance:</p>
+<h4 id="from-version-xyz-to-abc">From Version X.Y.Z to A.B.C</h4>
+<p><strong>Configuration Changes:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c1">// Old format</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;oldProperty&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;value&quot;</span>
+<span class="p">}</span>
+
+<span class="c1">// New format</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;newProperty&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;subProperty&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;value&quot;</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>API Changes:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c1">// Old API</span>
+<span class="nx">ws</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="nb">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">({</span><span class="s2">&quot;old-command&quot;</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span><span class="p">}));</span>
+
+<span class="c1">// New API  </span>
+<span class="nx">ws</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="nb">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">({</span><span class="s2">&quot;new-command&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="s2">&quot;enabled&quot;</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span><span class="p">}}));</span>
+</code></pre></div>
+
+<h2 id="support-and-compatibility">Support and Compatibility</h2>
+<h3 id="supported-versions">Supported Versions</h3>
+<table>
+<thead>
+<tr>
+<th>Version</th>
+<th>Status</th>
+<th>Support Until</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1.0.x</td>
+<td>Current</td>
+<td>Active</td>
+<td>Current stable release</td>
+</tr>
+<tr>
+<td>0.9.x</td>
+<td>Legacy</td>
+<td>&gt; TODO</td>
+<td>Previous generation</td>
+</tr>
+</tbody>
+</table>
+<h3 id="compatibility-matrix">Compatibility Matrix</h3>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Version</th>
+<th>Compatibility</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Nim</td>
+<td>2.2.2+</td>
+<td>Required</td>
+</tr>
+<tr>
+<td>Corun</td>
+<td>0.7.10+</td>
+<td>Required</td>
+</tr>
+<tr>
+<td>GStreamer</td>
+<td>1.0+</td>
+<td>Recommended</td>
+</tr>
+<tr>
+<td>V4L2</td>
+<td>Linux 4.0+</td>
+<td>Required</td>
+</tr>
+</tbody>
+</table>
+<h2 id="known-issues">Known Issues</h2>
+<h3 id="current-limitations">Current Limitations</h3>
+<blockquote>
+<p>TODO: Document known issues and limitations</p>
+</blockquote>
+<h3 id="workarounds">Workarounds</h3>
+<blockquote>
+<p>TODO: Document workarounds for known issues</p>
+</blockquote>
+<h2 id="contributors">Contributors</h2>
+<blockquote>
+<p>TODO: Acknowledge contributors and maintainers</p>
+</blockquote>
+<h2 id="license">License</h2>
+<p>Licensed under Rotoclear proprietary license. See <code>rotordream.nimble</code> for details.</p>
+<hr />
+<p><em>This changelog will be updated with each release. For the most current information, check the repository tags and commit history.</em></p>
+            </div>
+            <footer class="content-footer">
+                <p>Copyright © 2025 Rotoclear</p>
+            </footer>
+        </main>
+        
+        <button class="mobile-menu-toggle" id="menuToggle" aria-label="Toggle menu">☰</button>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>
+        // Initialize Mermaid
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            securityLevel: 'loose',
+            fontFamily: 'Inter, sans-serif'
+        });
+        
+        // Syntax highlighting
+        hljs.highlightAll();
+        
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.querySelector('.sidebar');
+        
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+        });
+        
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth <= 768 && 
+                !sidebar.contains(e.target) && 
+                !menuToggle.contains(e.target) &&
+                sidebar.classList.contains('active')) {
+                sidebar.classList.remove('active');
+            }
+        });
+        
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

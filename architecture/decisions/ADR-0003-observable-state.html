@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ADR-0003 Observable State - RotoClear Camera Server Documentation</title>
+    <link rel="stylesheet" href="/assets/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1><a href="/index.html">RotoClear Docs</a></h1>
+                <p>Camera Server Documentation</p>
+            </div>
+            <nav class="sidebar-nav">
+                <ul class="nav-menu">
+                    <li class="nav-item depth-0">
+<a href="/index.html">Home</a>
+</li>
+<li class="nav-item depth-0">
+<a href="/getting-started.html">Getting Started</a>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Architecture</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/architecture/overview.html">Overview</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/architecture/state-management.html">State Management</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/architecture/camera-pipeline.html">Camera Pipeline</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/architecture/metadata-sqlite.html">Metadata & SQLite</a>
+</li>
+<li class="nav-folder depth-1">
+<span class="folder-title">Decisions</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-2">
+<a href="/architecture/decisions/ADR-0001-nim-language.html">ADR-0001 Nim Language</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/architecture/decisions/ADR-0002-corun-framework.html">ADR-0002 Corun Framework</a>
+</li>
+<li class="nav-item depth-2 active">
+<a href="/architecture/decisions/ADR-0003-observable-state.html">ADR-0003 Observable State</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">API Reference</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/api/README.html">Overview</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/api/websocket-api.html">WebSocket API</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/api/http-api.html">HTTP API</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/api/rtsp-streaming.html">RTSP Streaming</a>
+</li>
+<li class="nav-folder depth-1">
+<span class="folder-title">Examples</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-2">
+<a href="/api/examples/python-client.html">Python Client</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/api/examples/javascript-client.html">JavaScript Client</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/api/examples/csharp-client.html">C# Client</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Configuration</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/configuration/environments.html">Environments</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/factory-config.html">Factory Config</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/license-config.html">License Config</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/deployment-variants.html">Deployment Variants</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/camera-system.html">Camera System</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/network.html">Network</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/storage-backup.html">Storage & Backup</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/authentication.html">Authentication</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Camera System</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/camera/hardware-interface.html">Hardware Interface</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/camera/streaming.html">Streaming</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/camera/recording.html">Recording</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/camera/image-processing.html">Image Processing</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Operations</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/operations/build-and-deploy.html">Build and Deploy</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/build-deploy.html">Build & Deploy (Alt)</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/monitoring.html">Monitoring</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/performance.html">Performance</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/troubleshooting.html">Troubleshooting</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Security</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/security/authentication.html">Authentication</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/security/permissions.html">Permissions</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/security/ssl-certificates.html">SSL Certificates</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Testing</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/testing/testing-strategy.html">Strategy</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/testing/strategies.html">Strategies</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/testing/test-cases.html">Test Cases</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/testing/validation.html">Validation</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Integration</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/integration/onvif-protocol.html">ONVIF Protocol</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/integration/third-party.html">Third Party</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Reference</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/reference/glossary.html">Glossary</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/reference/requirements.html">Requirements</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/reference/state-observables.html">State Observables</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Releases</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/releases/CHANGELOG.html">Changelog</a>
+</li>
+</ul>
+</li>
+<li class="nav-item depth-0">
+<a href="/glossary.html">Glossary</a>
+</li>
+                </ul>
+            </nav>
+        </aside>
+        
+        <main class="content">
+            <div class="content-wrapper">
+                <h1 id="adr-0003-observable-state-management-pattern">ADR-0003: Observable State Management Pattern</h1>
+<p><strong>Status</strong>: Accepted<br />
+<strong>Date</strong>: 2024-01-25<br />
+<strong>Deciders</strong>: Engineering Team  </p>
+<h2 id="context">Context</h2>
+<p>The RotoClear camera server needs to synchronize state between:</p>
+<ul>
+<li>Multiple WebSocket clients (web interfaces, mobile apps)</li>
+<li>Internal system components (camera, recording, network)</li>
+<li>External APIs (ONVIF, REST endpoints)</li>
+<li>Persistent configuration storage</li>
+</ul>
+<p>Requirements:<br />
+- <strong>Real-time Updates</strong>: State changes must propagate to all clients instantly<br />
+- <strong>Granular Permissions</strong>: Different user roles need different access levels<br />
+- <strong>Type Safety</strong>: Prevent invalid state modifications<br />
+- <strong>Persistence</strong>: Critical state must survive application restarts<br />
+- <strong>Conflict Resolution</strong>: Handle simultaneous state modifications</p>
+<h2 id="decision">Decision</h2>
+<p>We implemented a <strong>centralized observable state management pattern</strong> with automatic change propagation and permission-based access control.</p>
+<h2 id="architecture">Architecture</h2>
+<div class="mermaid">
+graph TB
+    A[State Module] --> B[Observable Value]
+    B --> C[Change Observers]
+    C --> D[WebSocket Broadcast]
+    C --> E[Persistence Layer]
+    C --> F[System Actions]
+
+    G[Permission System] --> A
+    H[Type Validation] --> A
+    I[Change History] --> A
+</div>
+
+<h2 id="implementation">Implementation</h2>
+<h3 id="observable-base-functions">Observable Base Functions</h3>
+<p>From <code>src/state/observable.nim</code>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c"># Core observable functions</span>
+<span class="k">proc</span><span class="w"> </span><span class="nf">GetUnsafeObservable</span><span class="o">*</span><span class="p">(</span><span class="n">key</span><span class="p">:</span><span class="w"> </span><span class="nb">string</span><span class="p">):</span><span class="w"> </span><span class="n">JsonNode</span>
+<span class="k">proc</span><span class="w"> </span><span class="nf">SetUnsafeObservable</span><span class="o">*</span><span class="p">(</span><span class="n">key</span><span class="p">:</span><span class="w"> </span><span class="nb">string</span><span class="p">,</span><span class="w"> </span><span class="n">value</span><span class="p">:</span><span class="w"> </span><span class="n">JsonNode</span><span class="p">)</span>
+
+<span class="c"># Observable with change notification</span>
+<span class="k">proc</span><span class="w"> </span><span class="nf">addObserver</span><span class="o">*</span><span class="p">(</span><span class="n">key</span><span class="p">:</span><span class="w"> </span><span class="nb">string</span><span class="p">,</span><span class="w"> </span><span class="n">observer</span><span class="p">:</span><span class="w"> </span><span class="n">proc</span><span class="p">(</span><span class="n">oldVal</span><span class="p">,</span><span class="w"> </span><span class="n">newVal</span><span class="p">:</span><span class="w"> </span><span class="n">JsonNode</span><span class="p">))</span>
+<span class="k">proc</span><span class="w"> </span><span class="nf">notifyObservers</span><span class="o">*</span><span class="p">(</span><span class="n">key</span><span class="p">:</span><span class="w"> </span><span class="nb">string</span><span class="p">,</span><span class="w"> </span><span class="n">oldVal</span><span class="p">,</span><span class="w"> </span><span class="n">newVal</span><span class="p">:</span><span class="w"> </span><span class="n">JsonNode</span><span class="p">)</span>
+</code></pre></div>
+
+<h3 id="state-module-structure">State Module Structure</h3>
+<div class="codehilite"><pre><span></span><code><span class="c"># Example state module pattern</span>
+<span class="kn">import</span><span class="w"> </span><span class="p">..</span><span class="o">/</span><span class="n">observable</span>
+
+<span class="c"># Initialize state values</span>
+<span class="k">proc</span><span class="w"> </span><span class="nf">initCameraState</span><span class="o">*</span><span class="p">()</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="n">SetUnsafeObservable</span><span class="p">(</span><span class="s">&quot;light0&quot;</span><span class="p">,</span><span class="w"> </span><span class="o">%</span><span class="kp">false</span><span class="p">)</span>
+<span class="w">  </span><span class="n">SetUnsafeObservable</span><span class="p">(</span><span class="s">&quot;brightness&quot;</span><span class="p">,</span><span class="w"> </span><span class="o">%</span><span class="mi">50</span><span class="p">)</span>
+<span class="w">  </span><span class="n">SetUnsafeObservable</span><span class="p">(</span><span class="s">&quot;exposure&quot;</span><span class="p">,</span><span class="w"> </span><span class="o">%</span><span class="mi">100</span><span class="p">)</span>
+
+<span class="w">  </span><span class="c"># Add hardware sync observers</span>
+<span class="w">  </span><span class="n">addObserver</span><span class="p">(</span><span class="s">&quot;light0&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">proc</span><span class="p">(</span><span class="n">oldVal</span><span class="p">,</span><span class="w"> </span><span class="n">newVal</span><span class="p">:</span><span class="w"> </span><span class="n">JsonNode</span><span class="p">)</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="n">setCameraLight</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">newVal</span><span class="p">.</span><span class="n">getBool</span><span class="p">())</span>
+<span class="w">  </span><span class="p">)</span>
+
+<span class="w">  </span><span class="n">addObserver</span><span class="p">(</span><span class="s">&quot;brightness&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">proc</span><span class="p">(</span><span class="n">oldVal</span><span class="p">,</span><span class="w"> </span><span class="n">newVal</span><span class="p">:</span><span class="w"> </span><span class="n">JsonNode</span><span class="p">)</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="n">setCameraBrightness</span><span class="p">(</span><span class="n">newVal</span><span class="p">.</span><span class="n">getInt</span><span class="p">())</span>
+<span class="w">  </span><span class="p">)</span>
+</code></pre></div>
+
+<h2 id="permission-system">Permission System</h2>
+<h3 id="permission-levels">Permission Levels</h3>
+<p>From <code>src/state/permissions.nim</code>:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">type</span><span class="w"> </span><span class="n">StatePermission</span><span class="o">*</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">enum</span>
+<span class="w">  </span><span class="n">StreamSettings_r</span><span class="p">,</span><span class="w"> </span><span class="n">StreamSettings_rw</span>
+<span class="w">  </span><span class="n">HeadFeatures_r</span><span class="p">,</span><span class="w"> </span><span class="n">HeadFeatures_rw</span><span class="w">  </span>
+<span class="w">  </span><span class="n">Recording_rw</span>
+<span class="w">  </span><span class="n">Media_r</span><span class="p">,</span><span class="w"> </span><span class="n">Media_rw</span>
+<span class="w">  </span><span class="n">NetworkSettings_r</span><span class="p">,</span><span class="w"> </span><span class="n">NetworkSettings_rw</span>
+<span class="w">  </span><span class="n">UserSettings_r</span><span class="p">,</span><span class="w"> </span><span class="n">UserSettings_rw</span>
+</code></pre></div>
+
+<h3 id="user-context-validation">User Context Validation</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">type</span><span class="w"> </span><span class="n">UserContext</span><span class="o">*</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">object</span>
+<span class="w">  </span><span class="n">permissions</span><span class="o">*</span><span class="p">:</span><span class="w"> </span><span class="nb">set</span><span class="o">[</span><span class="n">StatePermission</span><span class="o">]</span>
+<span class="w">  </span><span class="n">sessionId</span><span class="o">*</span><span class="p">:</span><span class="w"> </span><span class="nb">string</span>
+<span class="w">  </span><span class="n">ipAddress</span><span class="o">*</span><span class="p">:</span><span class="w"> </span><span class="nb">string</span>
+
+<span class="k">proc</span><span class="w"> </span><span class="nf">canDo</span><span class="o">*</span><span class="p">(</span><span class="n">ctx</span><span class="p">:</span><span class="w"> </span><span class="n">UserContext</span><span class="p">,</span><span class="w"> </span><span class="n">required</span><span class="p">:</span><span class="w"> </span><span class="n">StatePermission</span><span class="p">):</span><span class="w"> </span><span class="nb">bool</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="n">required</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">ctx</span><span class="p">.</span><span class="n">permissions</span>
+</code></pre></div>
+
+<h2 id="websocket-integration">WebSocket Integration</h2>
+<h3 id="real-time-broadcasting">Real-time Broadcasting</h3>
+<p>From <code>src/servers/websocketApiV1Handler.nim</code>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c"># Automatic state synchronization</span>
+<span class="k">proc</span><span class="w"> </span><span class="nf">evaluateApiV1Setter</span><span class="o">*</span><span class="p">(</span><span class="n">reqKeys</span><span class="p">:</span><span class="w"> </span><span class="n">JsonNode</span><span class="p">,</span><span class="w"> </span><span class="n">info</span><span class="p">:</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nb">seq</span><span class="o">[</span><span class="nb">string</span><span class="o">]</span><span class="p">)</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="n">val</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">reqKeys</span><span class="p">.</span><span class="n">pairs</span><span class="p">:</span>
+<span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="n">key</span><span class="p">:</span>
+<span class="w">    </span><span class="k">of</span><span class="w"> </span><span class="nl">&quot;cam1-light&quot;</span><span class="o">:</span>
+<span class="w">      </span><span class="n">SetUnsafeObservable</span><span class="p">(</span><span class="s">&quot;light0&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">val</span><span class="p">)</span>
+<span class="w">      </span><span class="n">info</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="s">&quot;cam1-light&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="k">of</span><span class="w"> </span><span class="nl">&quot;brightness&quot;</span><span class="o">:</span>
+<span class="w">      </span><span class="n">SetUnsafeObservable</span><span class="p">(</span><span class="s">&quot;brightness&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">val</span><span class="p">)</span>
+<span class="w">      </span><span class="n">info</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="s">&quot;brightness&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="c"># ... additional mappings</span>
+</code></pre></div>
+
+<h3 id="client-synchronization">Client Synchronization</h3>
+<div class="codehilite"><pre><span></span><code><span class="c"># State change broadcasting</span>
+<span class="k">proc</span><span class="w"> </span><span class="nf">broadcastStateChange</span><span class="o">*</span><span class="p">(</span><span class="n">changedStates</span><span class="p">:</span><span class="w"> </span><span class="nb">seq</span><span class="o">[</span><span class="nb">string</span><span class="o">]</span><span class="p">)</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">message</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">%*</span><span class="p">{</span>
+<span class="w">    </span><span class="s">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;stateUpdate&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;changes&quot;</span><span class="p">:</span><span class="w"> </span><span class="n">changedStates</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;timestamp&quot;</span><span class="p">:</span><span class="w"> </span><span class="n">now</span><span class="p">().</span><span class="n">toUnix</span><span class="p">()</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="n">client</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">connectedClients</span><span class="p">:</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">client</span><span class="p">.</span><span class="n">hasPermissionForStates</span><span class="p">(</span><span class="n">changedStates</span><span class="p">):</span>
+<span class="w">      </span><span class="n">client</span><span class="p">.</span><span class="n">send</span><span class="p">(</span><span class="o">$</span><span class="n">message</span><span class="p">)</span>
+</code></pre></div>
+
+<h2 id="state-persistence">State Persistence</h2>
+<h3 id="configuration-persistence">Configuration Persistence</h3>
+<p>Critical state values are automatically persisted:</p>
+<div class="codehilite"><pre><span></span><code><span class="c"># Factory configuration persistence</span>
+<span class="k">proc</span><span class="w"> </span><span class="nf">persistFactoryConfig</span><span class="o">*</span><span class="p">()</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">config</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">%*</span><span class="p">{</span>
+<span class="w">    </span><span class="s">&quot;httpOn&quot;</span><span class="p">:</span><span class="w"> </span><span class="n">GetUnsafeObservable</span><span class="p">(</span><span class="s">&quot;httpServerEnabled&quot;</span><span class="p">),</span>
+<span class="w">    </span><span class="s">&quot;httpsOn&quot;</span><span class="p">:</span><span class="w"> </span><span class="n">GetUnsafeObservable</span><span class="p">(</span><span class="s">&quot;httpsServerEnabled&quot;</span><span class="p">),</span>
+<span class="w">    </span><span class="s">&quot;httpPort&quot;</span><span class="p">:</span><span class="w"> </span><span class="n">GetUnsafeObservable</span><span class="p">(</span><span class="s">&quot;httpPort&quot;</span><span class="p">),</span>
+<span class="w">    </span><span class="s">&quot;httpsPort&quot;</span><span class="p">:</span><span class="w"> </span><span class="n">GetUnsafeObservable</span><span class="p">(</span><span class="s">&quot;httpsPort&quot;</span><span class="p">)</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span><span class="n">writeFile</span><span class="p">(</span><span class="s">&quot;factory_config.json&quot;</span><span class="p">,</span><span class="w"> </span><span class="o">$</span><span class="n">config</span><span class="p">)</span>
+
+<span class="c"># State restoration on startup</span>
+<span class="k">proc</span><span class="w"> </span><span class="nf">restorePersistedState</span><span class="o">*</span><span class="p">()</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="n">fileExists</span><span class="p">(</span><span class="s">&quot;factory_config.json&quot;</span><span class="p">):</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">config</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">parseJson</span><span class="p">(</span><span class="n">readFile</span><span class="p">(</span><span class="s">&quot;factory_config.json&quot;</span><span class="p">))</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">config</span><span class="p">:</span>
+<span class="w">      </span><span class="n">SetUnsafeObservable</span><span class="p">(</span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="n">value</span><span class="p">)</span>
+</code></pre></div>
+
+<h2 id="alternatives-considered">Alternatives Considered</h2>
+<h3 id="redux-style-state-management">Redux-style State Management</h3>
+<ul>
+<li><strong>Pros</strong>: Predictable state updates, time-travel debugging</li>
+<li><strong>Cons</strong>: Overhead for simple operations, action/reducer complexity</li>
+</ul>
+<h3 id="direct-database-integration">Direct Database Integration</h3>
+<ul>
+<li><strong>Pros</strong>: Automatic persistence, ACID properties</li>
+<li><strong>Cons</strong>: Latency for real-time updates, complexity for embedded systems</li>
+</ul>
+<h3 id="message-passing-actors">Message Passing (Actors)</h3>
+<ul>
+<li><strong>Pros</strong>: Isolated state, concurrent safety</li>
+<li><strong>Cons</strong>: Complexity, memory overhead, difficult debugging</li>
+</ul>
+<h3 id="pubsub-system">Pub/Sub System</h3>
+<ul>
+<li><strong>Pros</strong>: Decoupled components, scalable</li>
+<li><strong>Cons</strong>: Message ordering issues, delivery guarantees</li>
+</ul>
+<h2 id="benefits-realized">Benefits Realized</h2>
+<h3 id="performance">Performance</h3>
+<ul>
+<li><strong>Sub-millisecond</strong> state propagation to local components</li>
+<li><strong>&lt;10ms</strong> WebSocket broadcast to connected clients</li>
+<li><strong>Zero-copy</strong> state access for read operations</li>
+</ul>
+<h3 id="type-safety">Type Safety</h3>
+<div class="codehilite"><pre><span></span><code><span class="c"># Compile-time type checking through JsonNode validation</span>
+<span class="k">proc</span><span class="w"> </span><span class="nf">validateStateValue</span><span class="p">(</span><span class="n">key</span><span class="p">:</span><span class="w"> </span><span class="nb">string</span><span class="p">,</span><span class="w"> </span><span class="n">value</span><span class="p">:</span><span class="w"> </span><span class="n">JsonNode</span><span class="p">):</span><span class="w"> </span><span class="nb">bool</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="k">case</span><span class="w"> </span><span class="n">key</span><span class="p">:</span>
+<span class="w">  </span><span class="k">of</span><span class="w"> </span><span class="nl">&quot;brightness&quot;</span><span class="o">:</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">value</span><span class="p">.</span><span class="n">kind</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">JInt</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="n">value</span><span class="p">.</span><span class="n">getInt</span><span class="p">()</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="mf">0</span><span class="p">..</span><span class="mi">100</span>
+<span class="w">  </span><span class="k">of</span><span class="w"> </span><span class="nl">&quot;resolution&quot;</span><span class="o">:</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">value</span><span class="p">.</span><span class="n">kind</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">JString</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="n">value</span><span class="p">.</span><span class="n">getStr</span><span class="p">()</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">validResolutions</span>
+</code></pre></div>
+
+<h3 id="permission-enforcement">Permission Enforcement</h3>
+<div class="codehilite"><pre><span></span><code><span class="c"># Runtime permission checking</span>
+<span class="k">proc</span><span class="w"> </span><span class="nf">setValue</span><span class="o">*</span><span class="p">(</span><span class="n">key</span><span class="p">:</span><span class="w"> </span><span class="nb">string</span><span class="p">,</span><span class="w"> </span><span class="n">value</span><span class="p">:</span><span class="w"> </span><span class="n">JsonNode</span><span class="p">,</span><span class="w"> </span><span class="n">ctx</span><span class="p">:</span><span class="w"> </span><span class="n">UserContext</span><span class="p">)</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">required</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">getRequiredPermission</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="n">ctx</span><span class="p">.</span><span class="n">canDo</span><span class="p">(</span><span class="n">required</span><span class="p">):</span>
+<span class="w">    </span><span class="k">raise</span><span class="w"> </span><span class="n">newException</span><span class="p">(</span><span class="n">PermissionError</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Access denied&quot;</span><span class="p">)</span>
+
+<span class="w">  </span><span class="n">SetUnsafeObservable</span><span class="p">(</span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="n">value</span><span class="p">)</span>
+</code></pre></div>
+
+<h2 id="state-modules">State Modules</h2>
+<p>Current implementation includes 40+ state modules in <code>src/state/</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Module</th>
+<th>Purpose</th>
+<th>Key States</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>rc_light</code></td>
+<td>LED lighting control</td>
+<td>light0, light1</td>
+</tr>
+<tr>
+<td><code>rc_image_settings</code></td>
+<td>Camera image settings</td>
+<td>brightness, contrast, exposure</td>
+</tr>
+<tr>
+<td><code>rc_recording</code></td>
+<td>Recording control</td>
+<td>record, takePicture</td>
+</tr>
+<tr>
+<td><code>rc_stream_settings</code></td>
+<td>Stream configuration</td>
+<td>resolution, fps</td>
+</tr>
+<tr>
+<td><code>rc_network</code></td>
+<td>Network configuration</td>
+<td>ipAddress, hostname</td>
+</tr>
+<tr>
+<td><code>rc_user</code></td>
+<td>User management</td>
+<td>sessions, tokens</td>
+</tr>
+</tbody>
+</table>
+<h2 id="consequences">Consequences</h2>
+<h3 id="positive">Positive</h3>
+<ul>
+<li><strong>Real-time Sync</strong>: All clients automatically receive state updates</li>
+<li><strong>Permission Control</strong>: Granular access control per state item</li>
+<li><strong>Maintainability</strong>: Clear separation of state logic and business logic</li>
+<li><strong>Debugging</strong>: Observable pattern makes state flow traceable</li>
+</ul>
+<h3 id="negative">Negative</h3>
+<ul>
+<li><strong>Memory Usage</strong>: ~2MB additional RAM for state management system</li>
+<li><strong>Complexity</strong>: Learning curve for new team members</li>
+<li><strong>Debug Traces</strong>: State change chains can be complex to follow</li>
+</ul>
+<h3 id="neutral">Neutral</h3>
+<ul>
+<li><strong>Performance</strong>: Slight overhead for state access, but negligible in practice</li>
+<li><strong>Scalability</strong>: Currently handles 25+ concurrent clients efficiently</li>
+</ul>
+<h2 id="monitoring">Monitoring</h2>
+<h3 id="state-change-metrics">State Change Metrics</h3>
+<div class="codehilite"><pre><span></span><code><span class="c"># Performance tracking for state operations</span>
+<span class="k">proc</span><span class="w"> </span><span class="nf">recordStateMetric</span><span class="p">(</span><span class="n">operation</span><span class="p">:</span><span class="w"> </span><span class="nb">string</span><span class="p">,</span><span class="w"> </span><span class="n">duration</span><span class="p">:</span><span class="w"> </span><span class="nb">float</span><span class="p">)</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="k">case</span><span class="w"> </span><span class="n">operation</span><span class="p">:</span>
+<span class="w">  </span><span class="k">of</span><span class="w"> </span><span class="nl">&quot;set&quot;</span><span class="o">:</span><span class="w"> </span><span class="n">recordMetric</span><span class="p">(</span><span class="s">&quot;state.set.duration&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">duration</span><span class="p">)</span>
+<span class="w">  </span><span class="k">of</span><span class="w"> </span><span class="nl">&quot;get&quot;</span><span class="o">:</span><span class="w"> </span><span class="n">recordMetric</span><span class="p">(</span><span class="s">&quot;state.get.duration&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">duration</span><span class="p">)</span>
+<span class="w">  </span><span class="k">of</span><span class="w"> </span><span class="nl">&quot;broadcast&quot;</span><span class="o">:</span><span class="w"> </span><span class="n">recordMetric</span><span class="p">(</span><span class="s">&quot;state.broadcast.duration&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">duration</span><span class="p">)</span>
+</code></pre></div>
+
+<h3 id="key-metrics-monitored">Key Metrics Monitored</h3>
+<ul>
+<li><strong>Change Rate</strong>: State modifications per second</li>
+<li><strong>Broadcast Latency</strong>: Time from state change to client notification</li>
+<li><strong>Permission Violations</strong>: Failed access attempts</li>
+<li><strong>Memory Usage</strong>: Observable system memory consumption</li>
+</ul>
+<h2 id="future-enhancements">Future Enhancements</h2>
+<h3 id="planned-improvements">Planned Improvements</h3>
+<ul>
+<li><strong>State History</strong>: Change tracking and rollback capability</li>
+<li><strong>Conflict Resolution</strong>: Automatic merge strategies for concurrent modifications</li>
+<li><strong>Batch Updates</strong>: Atomic multi-state changes</li>
+<li><strong>State Snapshots</strong>: Point-in-time state export/import</li>
+</ul>
+<h3 id="migration-path">Migration Path</h3>
+<div class="codehilite"><pre><span></span><code><span class="c"># Example future enhancement: state versioning</span>
+<span class="k">type</span><span class="w"> </span><span class="n">StateVersion</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">object</span>
+<span class="w">  </span><span class="n">timestamp</span><span class="p">:</span><span class="w"> </span><span class="n">DateTime</span>
+<span class="w">  </span><span class="n">states</span><span class="p">:</span><span class="w"> </span><span class="n">JsonNode</span>
+<span class="w">  </span><span class="n">changeset</span><span class="p">:</span><span class="w"> </span><span class="nb">seq</span><span class="o">[</span><span class="n">StateChange</span><span class="o">]</span>
+
+<span class="k">proc</span><span class="w"> </span><span class="nf">createStateSnapshot</span><span class="o">*</span><span class="p">():</span><span class="w"> </span><span class="n">StateVersion</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="n">result</span><span class="p">.</span><span class="n">timestamp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">now</span><span class="p">()</span>
+<span class="w">  </span><span class="n">result</span><span class="p">.</span><span class="n">states</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">getAllStates</span><span class="p">()</span>
+<span class="w">  </span><span class="n">result</span><span class="p">.</span><span class="n">changeset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">getRecentChanges</span><span class="p">()</span>
+</code></pre></div>
+
+<h2 id="review-date">Review Date</h2>
+<p>This decision will be reviewed in Q3 2025 based on:<br />
+- Client scalability requirements (100+ concurrent users)<br />
+- Performance under high-frequency state changes<br />
+- Team feedback on development experience<br />
+- Requirements for distributed deployments</p>
+            </div>
+            <footer class="content-footer">
+                <p>Copyright © 2025 Rotoclear</p>
+            </footer>
+        </main>
+        
+        <button class="mobile-menu-toggle" id="menuToggle" aria-label="Toggle menu">☰</button>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>
+        // Initialize Mermaid
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            securityLevel: 'loose',
+            fontFamily: 'Inter, sans-serif'
+        });
+        
+        // Syntax highlighting
+        hljs.highlightAll();
+        
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.querySelector('.sidebar');
+        
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+        });
+        
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth <= 768 && 
+                !sidebar.contains(e.target) && 
+                !menuToggle.contains(e.target) &&
+                sidebar.classList.contains('active')) {
+                sidebar.classList.remove('active');
+            }
+        });
+        
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

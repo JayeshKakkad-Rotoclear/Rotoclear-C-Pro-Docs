@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Requirements - RotoClear Camera Server Documentation</title>
+    <link rel="stylesheet" href="/assets/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1><a href="/index.html">RotoClear Docs</a></h1>
+                <p>Camera Server Documentation</p>
+            </div>
+            <nav class="sidebar-nav">
+                <ul class="nav-menu">
+                    <li class="nav-item depth-0">
+<a href="/index.html">Home</a>
+</li>
+<li class="nav-item depth-0">
+<a href="/getting-started.html">Getting Started</a>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Architecture</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/architecture/overview.html">Overview</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/architecture/state-management.html">State Management</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/architecture/camera-pipeline.html">Camera Pipeline</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/architecture/metadata-sqlite.html">Metadata & SQLite</a>
+</li>
+<li class="nav-folder depth-1">
+<span class="folder-title">Decisions</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-2">
+<a href="/architecture/decisions/ADR-0001-nim-language.html">ADR-0001 Nim Language</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/architecture/decisions/ADR-0002-corun-framework.html">ADR-0002 Corun Framework</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/architecture/decisions/ADR-0003-observable-state.html">ADR-0003 Observable State</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">API Reference</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/api/README.html">Overview</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/api/websocket-api.html">WebSocket API</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/api/http-api.html">HTTP API</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/api/rtsp-streaming.html">RTSP Streaming</a>
+</li>
+<li class="nav-folder depth-1">
+<span class="folder-title">Examples</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-2">
+<a href="/api/examples/python-client.html">Python Client</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/api/examples/javascript-client.html">JavaScript Client</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/api/examples/csharp-client.html">C# Client</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Configuration</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/configuration/environments.html">Environments</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/factory-config.html">Factory Config</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/license-config.html">License Config</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/deployment-variants.html">Deployment Variants</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/camera-system.html">Camera System</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/network.html">Network</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/storage-backup.html">Storage & Backup</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/authentication.html">Authentication</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Camera System</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/camera/hardware-interface.html">Hardware Interface</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/camera/streaming.html">Streaming</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/camera/recording.html">Recording</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/camera/image-processing.html">Image Processing</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Operations</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/operations/build-and-deploy.html">Build and Deploy</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/build-deploy.html">Build & Deploy (Alt)</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/monitoring.html">Monitoring</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/performance.html">Performance</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/troubleshooting.html">Troubleshooting</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Security</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/security/authentication.html">Authentication</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/security/permissions.html">Permissions</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/security/ssl-certificates.html">SSL Certificates</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Testing</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/testing/testing-strategy.html">Strategy</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/testing/strategies.html">Strategies</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/testing/test-cases.html">Test Cases</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/testing/validation.html">Validation</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Integration</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/integration/onvif-protocol.html">ONVIF Protocol</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/integration/third-party.html">Third Party</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Reference</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/reference/glossary.html">Glossary</a>
+</li>
+<li class="nav-item depth-1 active">
+<a href="/reference/requirements.html">Requirements</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/reference/state-observables.html">State Observables</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Releases</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/releases/CHANGELOG.html">Changelog</a>
+</li>
+</ul>
+</li>
+<li class="nav-item depth-0">
+<a href="/glossary.html">Glossary</a>
+</li>
+                </ul>
+            </nav>
+        </aside>
+        
+        <main class="content">
+            <div class="content-wrapper">
+                <h1 id="requirements">Requirements</h1>
+<p><strong>Comprehensive system requirements specification for the C Pro camera system, covering functional, non-functional, technical, and business requirements.</strong></p>
+<h2 id="overview">Overview</h2>
+<p>This document defines all requirements for the C Pro camera system, providing a complete specification for system capabilities, constraints, and quality attributes.</p>
+<div class="mermaid">
+graph TB
+    A[Requirements] --> B{Requirement Types}
+
+    B -->|What the system does| C[Functional Requirements]
+    B -->|How well it does it| D[Non-Functional Requirements]
+    B -->|Technical constraints| E[Technical Requirements]
+    B -->|Business needs| F[Business Requirements]
+
+    C --> C1[Camera Control]
+    C --> C2[Video Processing]
+    C --> C3[API Services]
+    C --> C4[User Management]
+
+    D --> D1[Performance]
+    D --> D2[Security]
+    D --> D3[Reliability]
+    D --> D4[Usability]
+
+    E --> E1[Hardware Requirements]
+    E --> E2[Software Dependencies]
+    E --> E3[Platform Constraints]
+    E --> E4[Integration Requirements]
+
+    F --> F1[Market Requirements]
+    F --> F2[Compliance Requirements]
+    F --> F3[Cost Requirements]
+    F --> F4[Timeline Requirements]
+</div>
+
+<h2 id="functional-requirements">Functional Requirements</h2>
+<h3 id="fr-001-camera-control-and-configuration">FR-001: Camera Control and Configuration</h3>
+<h4 id="fr-0011-camera-device-management">FR-001.1: Camera Device Management</h4>
+<p><strong>Priority</strong>: Critical<br />
+<strong>Description</strong>: The system shall provide comprehensive camera device management capabilities.</p>
+<p><strong>Requirements</strong>:<br />
+- <strong>FR-001.1.1</strong>: System shall automatically detect available camera devices on startup<br />
+- <strong>FR-001.1.2</strong>: System shall support V4L2-compatible camera devices<br />
+- <strong>FR-001.1.3</strong>: System shall support USB UVC camera devices<br />
+- <strong>FR-001.1.4</strong>: System shall provide device capability enumeration<br />
+- <strong>FR-001.1.5</strong>: System shall handle device connection/disconnection events<br />
+- <strong>FR-001.1.6</strong>: System shall support multiple camera devices simultaneously</p>
+<p><strong>Acceptance Criteria</strong>:<br />
+- Camera detection completes within 5 seconds of system startup<br />
+- All connected V4L2/UVC devices are properly identified<br />
+- Device capabilities (resolutions, formats, frame rates) are accurately reported<br />
+- System gracefully handles device disconnection without crashing<br />
+- Support for minimum 4 concurrent camera devices</p>
+<h4 id="fr-0012-video-resolution-and-quality-control">FR-001.2: Video Resolution and Quality Control</h4>
+<p><strong>Priority</strong>: High<br />
+<strong>Description</strong>: The system shall provide configurable video resolution and quality settings.</p>
+<p><strong>Requirements</strong>:<br />
+- <strong>FR-001.2.1</strong>: Support for standard resolutions: 640x480, 1280x720, 1920x1080, 3840x2160<br />
+- <strong>FR-001.2.2</strong>: Support for custom resolution configuration within device limits<br />
+- <strong>FR-001.2.3</strong>: Configurable frame rates: 15, 25, 30, 60 FPS<br />
+- <strong>FR-001.2.4</strong>: Adjustable video quality/bitrate settings<br />
+- <strong>FR-001.2.5</strong>: Real-time resolution changes without system restart<br />
+- <strong>FR-001.2.6</strong>: Automatic fallback to supported resolutions if requested unavailable</p>
+<p><strong>Acceptance Criteria</strong>:<br />
+- Resolution changes applied within 3 seconds<br />
+- Frame rate adjustments take effect immediately<br />
+- Quality settings affect file size appropriately<br />
+- Unsupported settings gracefully rejected with error message</p>
+<h4 id="fr-0013-video-format-support">FR-001.3: Video Format Support</h4>
+<p><strong>Priority</strong>: High<br />
+<strong>Description</strong>: The system shall support multiple video formats for streaming and recording.</p>
+<p><strong>Requirements</strong>:<br />
+- <strong>FR-001.3.1</strong>: H.264 video encoding for streaming and recording<br />
+- <strong>FR-001.3.2</strong>: MJPEG support for legacy compatibility<br />
+- <strong>FR-001.3.3</strong>: Raw YUV format support for uncompressed capture<br />
+- <strong>FR-001.3.4</strong>: Configurable compression levels for each format<br />
+- <strong>FR-001.3.5</strong>: Format-specific parameter configuration (GOP size, profile, level)</p>
+<p><strong>Acceptance Criteria</strong>:<br />
+- All specified formats produce valid video output<br />
+- Format switching without service interruption<br />
+- Compression parameters affect output as expected<br />
+- Format compatibility with standard players/viewers</p>
+<h3 id="fr-002-video-streaming">FR-002: Video Streaming</h3>
+<h4 id="fr-0021-rtsp-streaming-service">FR-002.1: RTSP Streaming Service</h4>
+<p><strong>Priority</strong>: Critical<br />
+<strong>Description</strong>: The system shall provide RTSP-based video streaming capabilities.</p>
+<p><strong>Requirements</strong>:<br />
+- <strong>FR-002.1.1</strong>: RTSP server on configurable port (default 554)<br />
+- <strong>FR-002.1.2</strong>: Support for multiple concurrent RTSP clients<br />
+- <strong>FR-002.1.3</strong>: RTP/UDP and RTP/TCP transport options<br />
+- <strong>FR-002.1.4</strong>: RTSP authentication support<br />
+- <strong>FR-002.1.5</strong>: Multiple streaming profiles (live, playback)<br />
+- <strong>FR-002.1.6</strong>: Stream URL format: <code>rtsp://host:port/[profile]</code></p>
+<p><strong>Acceptance Criteria</strong>:<br />
+- RTSP service starts within 2 seconds<br />
+- Minimum 10 concurrent clients supported<br />
+- Authentication properly restricts access<br />
+- Standard RTSP clients can connect and view streams<br />
+- Stream latency under 500ms on local network</p>
+<h4 id="fr-0022-webrtc-streaming">FR-002.2: WebRTC Streaming</h4>
+<p><strong>Priority</strong>: Medium<br />
+<strong>Description</strong>: The system shall provide WebRTC streaming for browser-based clients.</p>
+<p><strong>Requirements</strong>:<br />
+- <strong>FR-002.2.1</strong>: WebRTC peer connection establishment<br />
+- <strong>FR-002.2.2</strong>: ICE candidate exchange via WebSocket signaling<br />
+- <strong>FR-002.2.3</strong>: STUN/TURN server support for NAT traversal<br />
+- <strong>FR-002.2.4</strong>: Adaptive bitrate streaming based on network conditions<br />
+- <strong>FR-002.2.5</strong>: Browser compatibility (Chrome, Firefox, Safari, Edge)</p>
+<p><strong>Acceptance Criteria</strong>:<br />
+- WebRTC connection established within 5 seconds<br />
+- Stream quality adapts to network conditions<br />
+- Works through NAT/firewall configurations<br />
+- Low latency streaming (under 200ms)</p>
+<h3 id="fr-003-video-recording-and-storage">FR-003: Video Recording and Storage</h3>
+<h4 id="fr-0031-local-recording">FR-003.1: Local Recording</h4>
+<p><strong>Priority</strong>: High<br />
+<strong>Description</strong>: The system shall provide local video recording capabilities.</p>
+<p><strong>Requirements</strong>:<br />
+- <strong>FR-003.1.1</strong>: On-demand recording start/stop via API<br />
+- <strong>FR-003.1.2</strong>: Scheduled recording based on time/date rules<br />
+- <strong>FR-003.1.3</strong>: Motion-triggered recording<br />
+- <strong>FR-003.1.4</strong>: Multiple video container formats (MP4, AVI, MKV)<br />
+- <strong>FR-003.1.5</strong>: Configurable recording duration and segmentation<br />
+- <strong>FR-003.1.6</strong>: Automatic file naming with timestamp</p>
+<p><strong>Acceptance Criteria</strong>:<br />
+- Recording starts within 1 second of command<br />
+- Files saved in specified format and location<br />
+- Automatic cleanup based on retention policies<br />
+- Recording continues during system restart (recovery)</p>
+<h4 id="fr-0032-recording-management">FR-003.2: Recording Management</h4>
+<p><strong>Priority</strong>: High<br />
+<strong>Description</strong>: The system shall provide comprehensive recording management.</p>
+<p><strong>Requirements</strong>:<br />
+- <strong>FR-003.2.1</strong>: Recording file listing and metadata retrieval<br />
+- <strong>FR-003.2.2</strong>: Recording file download via HTTP API<br />
+- <strong>FR-003.2.3</strong>: Recording file deletion and cleanup<br />
+- <strong>FR-003.2.4</strong>: Storage space monitoring and alerts<br />
+- <strong>FR-003.2.5</strong>: Automatic retention policy enforcement<br />
+- <strong>FR-003.2.6</strong>: Recording file integrity verification</p>
+<p><strong>Acceptance Criteria</strong>:<br />
+- File operations complete within reasonable time<br />
+- Metadata accurately reflects recording content<br />
+- Storage monitoring provides accurate space usage<br />
+- Retention policies automatically enforced</p>
+<h3 id="fr-004-api-services">FR-004: API Services</h3>
+<h4 id="fr-0041-rest-api">FR-004.1: REST API</h4>
+<p><strong>Priority</strong>: Critical<br />
+<strong>Description</strong>: The system shall provide a comprehensive REST API for all operations.</p>
+<p><strong>Requirements</strong>:<br />
+- <strong>FR-004.1.1</strong>: RESTful HTTP API following OpenAPI 3.0 specification<br />
+- <strong>FR-004.1.2</strong>: JSON request/response format<br />
+- <strong>FR-004.1.3</strong>: Comprehensive endpoint coverage for all functionality<br />
+- <strong>FR-004.1.4</strong>: Proper HTTP status codes and error responses<br />
+- <strong>FR-004.1.5</strong>: API versioning support<br />
+- <strong>FR-004.1.6</strong>: Request/response validation</p>
+<p><strong>API Endpoints Required</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">GET</span><span class="w">    </span><span class="o">/</span><span class="n">api</span><span class="o">/</span><span class="n">v1</span><span class="o">/</span><span class="n">status</span><span class="w">              </span><span class="o">-</span><span class="w"> </span><span class="n">System</span><span class="w"> </span><span class="n">status</span>
+<span class="n">GET</span><span class="w">    </span><span class="o">/</span><span class="n">api</span><span class="o">/</span><span class="n">v1</span><span class="o">/</span><span class="nb">camera</span><span class="o">/</span><span class="n">info</span><span class="w">         </span><span class="o">-</span><span class="w"> </span><span class="n">Camera</span><span class="w"> </span><span class="n">information</span>
+<span class="n">POST</span><span class="w">   </span><span class="o">/</span><span class="n">api</span><span class="o">/</span><span class="n">v1</span><span class="o">/</span><span class="nb">camera</span><span class="o">/</span><span class="n">start</span><span class="w">        </span><span class="o">-</span><span class="w"> </span><span class="n">Start</span><span class="w"> </span><span class="n">streaming</span>
+<span class="n">POST</span><span class="w">   </span><span class="o">/</span><span class="n">api</span><span class="o">/</span><span class="n">v1</span><span class="o">/</span><span class="nb">camera</span><span class="o">/</span><span class="n">stop</span><span class="w">         </span><span class="o">-</span><span class="w"> </span><span class="n">Stop</span><span class="w"> </span><span class="n">streaming</span>
+<span class="n">PUT</span><span class="w">    </span><span class="o">/</span><span class="n">api</span><span class="o">/</span><span class="n">v1</span><span class="o">/</span><span class="nb">camera</span><span class="o">/</span><span class="n">settings</span><span class="w">     </span><span class="o">-</span><span class="w"> </span><span class="n">Update</span><span class="w"> </span><span class="n">settings</span>
+<span class="n">GET</span><span class="w">    </span><span class="o">/</span><span class="n">api</span><span class="o">/</span><span class="n">v1</span><span class="o">/</span><span class="nb">camera</span><span class="o">/</span><span class="n">settings</span><span class="w">     </span><span class="o">-</span><span class="w"> </span><span class="n">Get</span><span class="w"> </span><span class="n">settings</span>
+<span class="n">POST</span><span class="w">   </span><span class="o">/</span><span class="n">api</span><span class="o">/</span><span class="n">v1</span><span class="o">/</span><span class="nb">camera</span><span class="o">/</span><span class="n">snapshot</span><span class="w">     </span><span class="o">-</span><span class="w"> </span><span class="n">Capture</span><span class="w"> </span><span class="n">snapshot</span>
+<span class="n">GET</span><span class="w">    </span><span class="o">/</span><span class="n">api</span><span class="o">/</span><span class="n">v1</span><span class="o">/</span><span class="n">recordings</span><span class="w">          </span><span class="o">-</span><span class="w"> </span><span class="n">List</span><span class="w"> </span><span class="n">recordings</span>
+<span class="n">DELETE</span><span class="w"> </span><span class="o">/</span><span class="n">api</span><span class="o">/</span><span class="n">v1</span><span class="o">/</span><span class="n">recordings</span><span class="o">/</span><span class="p">{</span><span class="n">id</span><span class="p">}</span><span class="w">     </span><span class="o">-</span><span class="w"> </span><span class="n">Delete</span><span class="w"> </span><span class="n">recording</span>
+<span class="n">POST</span><span class="w">   </span><span class="o">/</span><span class="n">api</span><span class="o">/</span><span class="n">v1</span><span class="o">/</span><span class="n">recording</span><span class="o">/</span><span class="n">start</span><span class="w">     </span><span class="o">-</span><span class="w"> </span><span class="n">Start</span><span class="w"> </span><span class="n">recording</span>
+<span class="n">POST</span><span class="w">   </span><span class="o">/</span><span class="n">api</span><span class="o">/</span><span class="n">v1</span><span class="o">/</span><span class="n">recording</span><span class="o">/</span><span class="n">stop</span><span class="w">      </span><span class="o">-</span><span class="w"> </span><span class="n">Stop</span><span class="w"> </span><span class="n">recording</span>
+<span class="n">GET</span><span class="w">    </span><span class="o">/</span><span class="n">api</span><span class="o">/</span><span class="n">v1</span><span class="o">/</span><span class="n">users</span><span class="w">               </span><span class="o">-</span><span class="w"> </span><span class="n">List</span><span class="w"> </span><span class="n">users</span>
+<span class="n">POST</span><span class="w">   </span><span class="o">/</span><span class="n">api</span><span class="o">/</span><span class="n">v1</span><span class="o">/</span><span class="n">users</span><span class="w">               </span><span class="o">-</span><span class="w"> </span><span class="n">Create</span><span class="w"> </span><span class="n">user</span>
+<span class="n">PUT</span><span class="w">    </span><span class="o">/</span><span class="n">api</span><span class="o">/</span><span class="n">v1</span><span class="o">/</span><span class="n">users</span><span class="o">/</span><span class="p">{</span><span class="n">id</span><span class="p">}</span><span class="w">          </span><span class="o">-</span><span class="w"> </span><span class="n">Update</span><span class="w"> </span><span class="n">user</span>
+<span class="n">DELETE</span><span class="w"> </span><span class="o">/</span><span class="n">api</span><span class="o">/</span><span class="n">v1</span><span class="o">/</span><span class="n">users</span><span class="o">/</span><span class="p">{</span><span class="n">id</span><span class="p">}</span><span class="w">          </span><span class="o">-</span><span class="w"> </span><span class="n">Delete</span><span class="w"> </span><span class="n">user</span>
+<span class="n">POST</span><span class="w">   </span><span class="o">/</span><span class="n">api</span><span class="o">/</span><span class="n">v1</span><span class="o">/</span><span class="n">auth</span><span class="o">/</span><span class="n">login</span><span class="w">          </span><span class="o">-</span><span class="w"> </span><span class="n">User</span><span class="w"> </span><span class="n">login</span>
+<span class="n">POST</span><span class="w">   </span><span class="o">/</span><span class="n">api</span><span class="o">/</span><span class="n">v1</span><span class="o">/</span><span class="n">auth</span><span class="o">/</span><span class="n">logout</span><span class="w">         </span><span class="o">-</span><span class="w"> </span><span class="n">User</span><span class="w"> </span><span class="n">logout</span>
+</code></pre></div>
+
+<h4 id="fr-0042-websocket-api">FR-004.2: WebSocket API</h4>
+<p><strong>Priority</strong>: High<br />
+<strong>Description</strong>: The system shall provide real-time communication via WebSocket API.</p>
+<p><strong>Requirements</strong>:<br />
+- <strong>FR-004.2.1</strong>: WebSocket endpoint for real-time communication<br />
+- <strong>FR-004.2.2</strong>: Event subscription/unsubscription mechanism<br />
+- <strong>FR-004.2.3</strong>: Real-time status updates<br />
+- <strong>FR-004.2.4</strong>: Command execution via WebSocket<br />
+- <strong>FR-004.2.5</strong>: Message authentication and authorization<br />
+- <strong>FR-004.2.6</strong>: Connection state management and recovery</p>
+<p><strong>Supported Events</strong>:<br />
+- Camera status changes<br />
+- Recording start/stop events<br />
+- Motion detection events<br />
+- System alerts and errors<br />
+- Configuration changes<br />
+- User authentication events</p>
+<h4 id="fr-0043-onvif-protocol-support">FR-004.3: ONVIF Protocol Support</h4>
+<p><strong>Priority</strong>: Medium<br />
+<strong>Description</strong>: The system shall provide ONVIF protocol compliance for VMS integration.</p>
+<p><strong>Requirements</strong>:<br />
+- <strong>FR-004.3.1</strong>: ONVIF Profile S compliance<br />
+- <strong>FR-004.3.2</strong>: Device discovery via WS-Discovery<br />
+- <strong>FR-004.3.3</strong>: Device service implementation<br />
+- <strong>FR-004.3.4</strong>: Media service implementation<br />
+- <strong>FR-004.3.5</strong>: PTZ service implementation (if hardware supports)<br />
+- <strong>FR-004.3.6</strong>: Event service implementation</p>
+<p><strong>ONVIF Services</strong>:<br />
+- Device Service: Device information and capabilities<br />
+- Media Service: Video streaming profiles and configuration<br />
+- PTZ Service: Pan/tilt/zoom control (hardware dependent)<br />
+- Event Service: Event handling and notifications</p>
+<h3 id="fr-005-user-management-and-authentication">FR-005: User Management and Authentication</h3>
+<h4 id="fr-0051-user-account-management">FR-005.1: User Account Management</h4>
+<p><strong>Priority</strong>: High<br />
+<strong>Description</strong>: The system shall provide comprehensive user account management.</p>
+<p><strong>Requirements</strong>:<br />
+- <strong>FR-005.1.1</strong>: User registration and account creation<br />
+- <strong>FR-005.1.2</strong>: User profile management (username, email, role)<br />
+- <strong>FR-005.1.3</strong>: Password management and reset functionality<br />
+- <strong>FR-005.1.4</strong>: Account activation/deactivation<br />
+- <strong>FR-005.1.5</strong>: User role assignment and management<br />
+- <strong>FR-005.1.6</strong>: Account audit logging</p>
+<p><strong>User Roles</strong>:<br />
+- <strong>Administrator</strong>: Full system access and user management<br />
+- <strong>Operator</strong>: Camera control and configuration access<br />
+- <strong>Viewer</strong>: Read-only access to streams and recordings</p>
+<h4 id="fr-0052-authentication-and-session-management">FR-005.2: Authentication and Session Management</h4>
+<p><strong>Priority</strong>: Critical<br />
+<strong>Description</strong>: The system shall provide secure authentication and session management.</p>
+<p><strong>Requirements</strong>:<br />
+- <strong>FR-005.2.1</strong>: JWT-based authentication tokens<br />
+- <strong>FR-005.2.2</strong>: Configurable session timeout<br />
+- <strong>FR-005.2.3</strong>: Password complexity requirements<br />
+- <strong>FR-005.2.4</strong>: Account lockout after failed attempts<br />
+- <strong>FR-005.2.5</strong>: Two-factor authentication support<br />
+- <strong>FR-005.2.6</strong>: Session invalidation on logout</p>
+<p><strong>Password Requirements</strong>:<br />
+- Minimum 8 characters<br />
+- Mix of uppercase and lowercase letters<br />
+- At least one number<br />
+- At least one special character<br />
+- Cannot be previous 5 passwords</p>
+<h3 id="fr-006-configuration-management">FR-006: Configuration Management</h3>
+<h4 id="fr-0061-system-configuration">FR-006.1: System Configuration</h4>
+<p><strong>Priority</strong>: High<br />
+<strong>Description</strong>: The system shall provide comprehensive configuration management.</p>
+<p><strong>Requirements</strong>:<br />
+- <strong>FR-006.1.1</strong>: JSON-based configuration files<br />
+- <strong>FR-006.1.2</strong>: Runtime configuration updates without restart<br />
+- <strong>FR-006.1.3</strong>: Configuration validation and error handling<br />
+- <strong>FR-006.1.4</strong>: Configuration backup and restore<br />
+- <strong>FR-006.1.5</strong>: Default configuration templates<br />
+- <strong>FR-006.1.6</strong>: Configuration change auditing</p>
+<p><strong>Configuration Categories</strong>:<br />
+- Network settings (ports, protocols, addresses)<br />
+- Camera settings (resolution, format, quality)<br />
+- Storage settings (paths, retention, limits)<br />
+- Security settings (authentication, encryption)<br />
+- Logging settings (levels, outputs, rotation)</p>
+<h2 id="non-functional-requirements">Non-Functional Requirements</h2>
+<h3 id="nfr-001-performance-requirements">NFR-001: Performance Requirements</h3>
+<h4 id="nfr-0011-video-streaming-performance">NFR-001.1: Video Streaming Performance</h4>
+<p><strong>Priority</strong>: Critical<br />
+<strong>Description</strong>: The system shall meet specified performance criteria for video streaming.</p>
+<p><strong>Requirements</strong>:<br />
+- <strong>NFR-001.1.1</strong>: Stream latency shall not exceed 500ms on local network<br />
+- <strong>NFR-001.1.2</strong>: System shall support minimum 4 concurrent streams at 1080p@30fps<br />
+- <strong>NFR-001.1.3</strong>: Frame rate shall remain stable within ±5% of configured value<br />
+- <strong>NFR-001.1.4</strong>: CPU usage shall not exceed 80% during normal streaming<br />
+- <strong>NFR-001.1.5</strong>: Memory usage shall not exceed 512MB for single stream<br />
+- <strong>NFR-001.1.6</strong>: Network bandwidth usage shall be configurable and enforced</p>
+<h4 id="nfr-0012-api-response-performance">NFR-001.2: API Response Performance</h4>
+<p><strong>Priority</strong>: High<br />
+<strong>Description</strong>: The system shall provide responsive API performance.</p>
+<p><strong>Requirements</strong>:<br />
+- <strong>NFR-001.2.1</strong>: GET requests shall respond within 100ms<br />
+- <strong>NFR-001.2.2</strong>: POST/PUT requests shall respond within 500ms<br />
+- <strong>NFR-001.2.3</strong>: WebSocket messages shall be delivered within 50ms<br />
+- <strong>NFR-001.2.4</strong>: API shall support minimum 50 concurrent requests<br />
+- <strong>NFR-001.2.5</strong>: Database queries shall complete within 200ms<br />
+- <strong>NFR-001.2.6</strong>: File operations shall not block API responses</p>
+<h4 id="nfr-0013-system-resource-usage">NFR-001.3: System Resource Usage</h4>
+<p><strong>Priority</strong>: High<br />
+<strong>Description</strong>: The system shall operate within specified resource constraints.</p>
+<p><strong>Requirements</strong>:<br />
+- <strong>NFR-001.3.1</strong>: Total system memory usage shall not exceed 2GB<br />
+- <strong>NFR-001.3.2</strong>: Storage space growth shall be predictable and manageable<br />
+- <strong>NFR-001.3.3</strong>: Network bandwidth usage shall be optimized<br />
+- <strong>NFR-001.3.4</strong>: Battery life impact minimized for mobile deployments<br />
+- <strong>NFR-001.3.5</strong>: Heat generation shall be within acceptable limits<br />
+- <strong>NFR-001.3.6</strong>: System shall operate on ARM and x86 architectures</p>
+<h3 id="nfr-002-security-requirements">NFR-002: Security Requirements</h3>
+<h4 id="nfr-0021-data-security">NFR-002.1: Data Security</h4>
+<p><strong>Priority</strong>: Critical<br />
+<strong>Description</strong>: The system shall protect all data with appropriate security measures.</p>
+<p><strong>Requirements</strong>:<br />
+- <strong>NFR-002.1.1</strong>: All network communication shall be encrypted using TLS 1.2+<br />
+- <strong>NFR-002.1.2</strong>: User passwords shall be hashed using bcrypt with minimum 12 rounds<br />
+- <strong>NFR-002.1.3</strong>: Sensitive configuration data shall be encrypted at rest<br />
+- <strong>NFR-002.1.4</strong>: API keys and tokens shall be securely generated and stored<br />
+- <strong>NFR-002.1.5</strong>: Recording files shall support optional encryption<br />
+- <strong>NFR-002.1.6</strong>: Database connections shall use encryption</p>
+<h4 id="nfr-0022-access-control">NFR-002.2: Access Control</h4>
+<p><strong>Priority</strong>: Critical<br />
+<strong>Description</strong>: The system shall implement robust access control mechanisms.</p>
+<p><strong>Requirements</strong>:<br />
+- <strong>NFR-002.2.1</strong>: All API endpoints shall require authentication<br />
+- <strong>NFR-002.2.2</strong>: Role-based access control shall be enforced<br />
+- <strong>NFR-002.2.3</strong>: Administrative functions shall require elevated privileges<br />
+- <strong>NFR-002.2.4</strong>: Session management shall prevent token reuse<br />
+- <strong>NFR-002.2.5</strong>: Rate limiting shall prevent abuse<br />
+- <strong>NFR-002.2.6</strong>: Audit logging shall track all access attempts</p>
+<h4 id="nfr-0023-security-compliance">NFR-002.3: Security Compliance</h4>
+<p><strong>Priority</strong>: High<br />
+<strong>Description</strong>: The system shall comply with security standards and best practices.</p>
+<p><strong>Requirements</strong>:<br />
+- <strong>NFR-002.3.1</strong>: Input validation shall prevent injection attacks<br />
+- <strong>NFR-002.3.2</strong>: Output encoding shall prevent XSS attacks<br />
+- <strong>NFR-002.3.3</strong>: CSRF protection shall be implemented<br />
+- <strong>NFR-002.3.4</strong>: Security headers shall be included in HTTP responses<br />
+- <strong>NFR-002.3.5</strong>: Regular security updates shall be supported<br />
+- <strong>NFR-002.3.6</strong>: Penetration testing compatibility shall be maintained</p>
+<h3 id="nfr-003-reliability-requirements">NFR-003: Reliability Requirements</h3>
+<h4 id="nfr-0031-system-availability">NFR-003.1: System Availability</h4>
+<p><strong>Priority</strong>: High<br />
+<strong>Description</strong>: The system shall provide high availability and reliability.</p>
+<p><strong>Requirements</strong>:<br />
+- <strong>NFR-003.1.1</strong>: System uptime shall exceed 99.5% (monthly)<br />
+- <strong>NFR-003.1.2</strong>: Planned maintenance windows shall not exceed 4 hours<br />
+- <strong>NFR-003.1.3</strong>: System shall recover from failures within 30 seconds<br />
+- <strong>NFR-003.1.4</strong>: No single point of failure for critical components<br />
+- <strong>NFR-003.1.5</strong>: Graceful degradation during component failures<br />
+- <strong>NFR-003.1.6</strong>: Health monitoring and alerting implemented</p>
+<h4 id="nfr-0032-error-handling-and-recovery">NFR-003.2: Error Handling and Recovery</h4>
+<p><strong>Priority</strong>: High<br />
+<strong>Description</strong>: The system shall handle errors gracefully and recover automatically.</p>
+<p><strong>Requirements</strong>:<br />
+- <strong>NFR-003.2.1</strong>: All errors shall be properly logged with context<br />
+- <strong>NFR-003.2.2</strong>: System shall recover from hardware disconnections<br />
+- <strong>NFR-003.2.3</strong>: Network interruptions shall not cause system failure<br />
+- <strong>NFR-003.2.4</strong>: Corrupted files shall be detected and isolated<br />
+- <strong>NFR-003.2.5</strong>: Resource exhaustion shall be handled gracefully<br />
+- <strong>NFR-003.2.6</strong>: Automatic restart mechanisms for critical services</p>
+<h4 id="nfr-0033-data-integrity">NFR-003.3: Data Integrity</h4>
+<p><strong>Priority</strong>: Critical<br />
+<strong>Description</strong>: The system shall maintain data integrity under all conditions.</p>
+<p><strong>Requirements</strong>:<br />
+- <strong>NFR-003.3.1</strong>: Recording files shall include integrity checksums<br />
+- <strong>NFR-003.3.2</strong>: Configuration changes shall be atomic<br />
+- <strong>NFR-003.3.3</strong>: Database transactions shall maintain ACID properties<br />
+- <strong>NFR-003.3.4</strong>: File corruption shall be detected and reported<br />
+- <strong>NFR-003.3.5</strong>: Backup and restore operations shall verify integrity<br />
+- <strong>NFR-003.3.6</strong>: System state shall be consistent across restarts</p>
+<h3 id="nfr-004-usability-requirements">NFR-004: Usability Requirements</h3>
+<h4 id="nfr-0041-user-interface">NFR-004.1: User Interface</h4>
+<p><strong>Priority</strong>: Medium<br />
+<strong>Description</strong>: The system shall provide intuitive and efficient user interfaces.</p>
+<p><strong>Requirements</strong>:<br />
+- <strong>NFR-004.1.1</strong>: Web interface shall be responsive and mobile-friendly<br />
+- <strong>NFR-004.1.2</strong>: API documentation shall be comprehensive and interactive<br />
+- <strong>NFR-004.1.3</strong>: Error messages shall be clear and actionable<br />
+- <strong>NFR-004.1.4</strong>: Configuration interfaces shall provide validation feedback<br />
+- <strong>NFR-004.1.5</strong>: System status shall be clearly visible<br />
+- <strong>NFR-004.1.6</strong>: Help documentation shall be accessible</p>
+<h4 id="nfr-0042-operational-usability">NFR-004.2: Operational Usability</h4>
+<p><strong>Priority</strong>: Medium<br />
+<strong>Description</strong>: The system shall be easy to deploy, configure, and maintain.</p>
+<p><strong>Requirements</strong>:<br />
+- <strong>NFR-004.2.1</strong>: Installation shall be automated with minimal user input<br />
+- <strong>NFR-004.2.2</strong>: Configuration shall use self-documenting formats<br />
+- <strong>NFR-004.2.3</strong>: Logs shall be structured and searchable<br />
+- <strong>NFR-004.2.4</strong>: Monitoring integration shall be straightforward<br />
+- <strong>NFR-004.2.5</strong>: Updates shall be non-disruptive when possible<br />
+- <strong>NFR-004.2.6</strong>: Troubleshooting guides shall be comprehensive</p>
+<h2 id="technical-requirements">Technical Requirements</h2>
+<h3 id="tr-001-hardware-requirements">TR-001: Hardware Requirements</h3>
+<h4 id="tr-0011-minimum-hardware-specifications">TR-001.1: Minimum Hardware Specifications</h4>
+<p><strong>Priority</strong>: Critical<br />
+<strong>Description</strong>: The system shall operate on specified minimum hardware.</p>
+<p><strong>Requirements</strong>:<br />
+- <strong>TR-001.1.1</strong>: ARM64 or x86_64 processor architecture<br />
+- <strong>TR-001.1.2</strong>: Minimum 2GB RAM for basic operation<br />
+- <strong>TR-001.1.3</strong>: Minimum 8GB storage for system and short-term recordings<br />
+- <strong>TR-001.1.4</strong>: USB 2.0+ or integrated camera interface<br />
+- <strong>TR-001.1.5</strong>: Ethernet or Wi-Fi network connectivity<br />
+- <strong>TR-001.1.6</strong>: Optional: GPIO pins for external device control</p>
+<h4 id="tr-0012-recommended-hardware-specifications">TR-001.2: Recommended Hardware Specifications</h4>
+<p><strong>Priority</strong>: Medium<br />
+<strong>Description</strong>: Recommended hardware for optimal performance.</p>
+<p><strong>Requirements</strong>:<br />
+- <strong>TR-001.2.1</strong>: Multi-core processor (4+ cores) for concurrent streams<br />
+- <strong>TR-001.2.2</strong>: 4GB+ RAM for multiple streams and analytics<br />
+- <strong>TR-001.2.3</strong>: SSD storage for improved I/O performance<br />
+- <strong>TR-001.2.4</strong>: Gigabit Ethernet for high-quality streaming<br />
+- <strong>TR-001.2.5</strong>: Hardware video encoding support (e.g., Intel Quick Sync)<br />
+- <strong>TR-001.2.6</strong>: UPS or backup power for reliability</p>
+<h4 id="tr-0013-camera-hardware-requirements">TR-001.3: Camera Hardware Requirements</h4>
+<p><strong>Priority</strong>: High<br />
+<strong>Description</strong>: Supported camera hardware specifications.</p>
+<p><strong>Requirements</strong>:<br />
+- <strong>TR-001.3.1</strong>: USB Video Class (UVC) compatible cameras<br />
+- <strong>TR-001.3.2</strong>: Video4Linux2 (V4L2) compatible devices<br />
+- <strong>TR-001.3.3</strong>: Minimum resolution support: 640x480<br />
+- <strong>TR-001.3.4</strong>: Preferred resolution support: 1920x1080<br />
+- <strong>TR-001.3.5</strong>: Minimum frame rate: 15 FPS<br />
+- <strong>TR-001.3.6</strong>: Preferred frame rate: 30 FPS</p>
+<h3 id="tr-002-software-dependencies">TR-002: Software Dependencies</h3>
+<h4 id="tr-0021-operating-system-requirements">TR-002.1: Operating System Requirements</h4>
+<p><strong>Priority</strong>: Critical<br />
+<strong>Description</strong>: Supported operating system platforms.</p>
+<p><strong>Requirements</strong>:<br />
+- <strong>TR-002.1.1</strong>: Linux kernel 4.14+ (Ubuntu 18.04+, Debian 10+, CentOS 8+)<br />
+- <strong>TR-002.1.2</strong>: Docker container support<br />
+- <strong>TR-002.1.3</strong>: SystemD service management<br />
+- <strong>TR-002.1.4</strong>: V4L2 kernel modules loaded<br />
+- <strong>TR-002.1.5</strong>: Network stack with TCP/UDP support<br />
+- <strong>TR-002.1.6</strong>: File system with extended attributes support</p>
+<h4 id="tr-0022-runtime-dependencies">TR-002.2: Runtime Dependencies</h4>
+<p><strong>Priority</strong>: Critical<br />
+<strong>Description</strong>: Required runtime libraries and tools.</p>
+<p><strong>Requirements</strong>:<br />
+- <strong>TR-002.2.1</strong>: GStreamer 1.14+ multimedia framework<br />
+- <strong>TR-002.2.2</strong>: FFmpeg 4.0+ for video processing<br />
+- <strong>TR-002.2.3</strong>: OpenSSL 1.1+ for cryptography<br />
+- <strong>TR-002.2.4</strong>: SQLite 3.24+ for data storage<br />
+- <strong>TR-002.2.5</strong>: libv4l2 for camera device access<br />
+- <strong>TR-002.2.6</strong>: libc6 2.27+ standard C library</p>
+<h4 id="tr-0023-development-dependencies">TR-002.3: Development Dependencies</h4>
+<p><strong>Priority</strong>: Medium<br />
+<strong>Description</strong>: Required tools for building and development.</p>
+<p><strong>Requirements</strong>:<br />
+- <strong>TR-002.3.1</strong>: Nim compiler 1.6.14+<br />
+- <strong>TR-002.3.2</strong>: GCC 7+ or Clang 6+ for C dependencies<br />
+- <strong>TR-002.3.3</strong>: CMake 3.10+ for build configuration<br />
+- <strong>TR-002.3.4</strong>: Git for version control<br />
+- <strong>TR-002.3.5</strong>: pkg-config for library detection<br />
+- <strong>TR-002.3.6</strong>: Make for build automation</p>
+<h3 id="tr-003-network-requirements">TR-003: Network Requirements</h3>
+<h4 id="tr-0031-network-protocols">TR-003.1: Network Protocols</h4>
+<p><strong>Priority</strong>: Critical<br />
+<strong>Description</strong>: Required network protocol support.</p>
+<p><strong>Requirements</strong>:<br />
+- <strong>TR-003.1.1</strong>: HTTP/HTTPS protocol support<br />
+- <strong>TR-003.1.2</strong>: WebSocket protocol support<br />
+- <strong>TR-003.1.3</strong>: RTSP/RTP protocol support<br />
+- <strong>TR-003.1.4</strong>: UDP multicast support for discovery<br />
+- <strong>TR-003.1.5</strong>: TCP reliable transport support<br />
+- <strong>TR-003.1.6</strong>: DNS resolution support</p>
+<h4 id="tr-0032-network-configuration">TR-003.2: Network Configuration</h4>
+<p><strong>Priority</strong>: High<br />
+<strong>Description</strong>: Network configuration requirements.</p>
+<p><strong>Requirements</strong>:<br />
+- <strong>TR-003.2.1</strong>: Configurable port assignments<br />
+- <strong>TR-003.2.2</strong>: Static IP address configuration<br />
+- <strong>TR-003.2.3</strong>: DHCP client support<br />
+- <strong>TR-003.2.4</strong>: Firewall rule configuration<br />
+- <strong>TR-003.2.5</strong>: NAT traversal capabilities<br />
+- <strong>TR-003.2.6</strong>: Quality of Service (QoS) support</p>
+<h3 id="tr-004-integration-requirements">TR-004: Integration Requirements</h3>
+<h4 id="tr-0041-video-management-system-integration">TR-004.1: Video Management System Integration</h4>
+<p><strong>Priority</strong>: High<br />
+<strong>Description</strong>: Requirements for VMS integration capabilities.</p>
+<p><strong>Requirements</strong>:<br />
+- <strong>TR-004.1.1</strong>: ONVIF Profile S compliance<br />
+- <strong>TR-004.1.2</strong>: RTSP streaming compatibility<br />
+- <strong>TR-004.1.3</strong>: Standard video format support<br />
+- <strong>TR-004.1.4</strong>: PTZ control interface (if supported)<br />
+- <strong>TR-004.1.5</strong>: Event notification mechanisms<br />
+- <strong>TR-004.1.6</strong>: Device discovery protocols</p>
+<h4 id="tr-0042-third-party-api-integration">TR-004.2: Third-Party API Integration</h4>
+<p><strong>Priority</strong>: Medium<br />
+<strong>Description</strong>: Requirements for external system integration.</p>
+<p><strong>Requirements</strong>:<br />
+- <strong>TR-004.2.1</strong>: RESTful API client capabilities<br />
+- <strong>TR-004.2.2</strong>: Webhook delivery mechanisms<br />
+- <strong>TR-004.2.3</strong>: MQTT message broker support<br />
+- <strong>TR-004.2.4</strong>: Database integration options<br />
+- <strong>TR-004.2.5</strong>: Cloud service API support<br />
+- <strong>TR-004.2.6</strong>: Authentication protocol support (OAuth, SAML)</p>
+<h2 id="business-requirements">Business Requirements</h2>
+<h3 id="br-001-market-requirements">BR-001: Market Requirements</h3>
+<h4 id="br-0011-target-markets">BR-001.1: Target Markets</h4>
+<p><strong>Priority</strong>: High<br />
+<strong>Description</strong>: Primary target markets and use cases.</p>
+<p><strong>Requirements</strong>:<br />
+- <strong>BR-001.1.1</strong>: Small to medium business surveillance<br />
+- <strong>BR-001.1.2</strong>: Home automation and security<br />
+- <strong>BR-001.1.3</strong>: Educational institution monitoring<br />
+- <strong>BR-001.1.4</strong>: Retail and hospitality surveillance<br />
+- <strong>BR-001.1.5</strong>: Industrial facility monitoring<br />
+- <strong>BR-001.1.6</strong>: IoT and edge computing applications</p>
+<h4 id="br-0012-competitive-positioning">BR-001.2: Competitive Positioning</h4>
+<p><strong>Priority</strong>: Medium<br />
+<strong>Description</strong>: Competitive advantages and differentiators.</p>
+<p><strong>Requirements</strong>:<br />
+- <strong>BR-001.2.1</strong>: Open source licensing for transparency<br />
+- <strong>BR-001.2.2</strong>: High-performance native code implementation<br />
+- <strong>BR-001.2.3</strong>: Comprehensive API for integration<br />
+- <strong>BR-001.2.4</strong>: Low resource consumption<br />
+- <strong>BR-001.2.5</strong>: Standards-based interoperability<br />
+- <strong>BR-001.2.6</strong>: Flexible deployment options</p>
+<h3 id="br-002-compliance-requirements">BR-002: Compliance Requirements</h3>
+<h4 id="br-0021-data-protection-compliance">BR-002.1: Data Protection Compliance</h4>
+<p><strong>Priority</strong>: Critical<br />
+<strong>Description</strong>: Data protection and privacy regulation compliance.</p>
+<p><strong>Requirements</strong>:<br />
+- <strong>BR-002.1.1</strong>: GDPR compliance for European deployments<br />
+- <strong>BR-002.1.2</strong>: CCPA compliance for California deployments<br />
+- <strong>BR-002.1.3</strong>: Data retention policy configuration<br />
+- <strong>BR-002.1.4</strong>: Right to be forgotten implementation<br />
+- <strong>BR-002.1.5</strong>: Data portability features<br />
+- <strong>BR-002.1.6</strong>: Privacy by design principles</p>
+<h4 id="br-0022-industry-standards-compliance">BR-002.2: Industry Standards Compliance</h4>
+<p><strong>Priority</strong>: High<br />
+<strong>Description</strong>: Relevant industry standard compliance.</p>
+<p><strong>Requirements</strong>:<br />
+- <strong>BR-002.2.1</strong>: ONVIF Profile S certification eligible<br />
+- <strong>BR-002.2.2</strong>: RTSP RFC 2326 compliance<br />
+- <strong>BR-002.2.3</strong>: HTTP RFC 7230-7235 compliance<br />
+- <strong>BR-002.2.4</strong>: WebSocket RFC 6455 compliance<br />
+- <strong>BR-002.2.5</strong>: TLS RFC 8446 compliance<br />
+- <strong>BR-002.2.6</strong>: OAuth 2.0 RFC 6749 compliance</p>
+<h3 id="br-003-cost-and-resource-requirements">BR-003: Cost and Resource Requirements</h3>
+<h4 id="br-0031-development-cost-constraints">BR-003.1: Development Cost Constraints</h4>
+<p><strong>Priority</strong>: Medium<br />
+<strong>Description</strong>: Development budget and resource constraints.</p>
+<p><strong>Requirements</strong>:<br />
+- <strong>BR-003.1.1</strong>: Open source dependencies to minimize licensing costs<br />
+- <strong>BR-003.1.2</strong>: Single developer capability for core features<br />
+- <strong>BR-003.1.3</strong>: Minimal external service dependencies<br />
+- <strong>BR-003.1.4</strong>: Efficient development toolchain<br />
+- <strong>BR-003.1.5</strong>: Automated testing to reduce manual QA costs<br />
+- <strong>BR-003.1.6</strong>: Community contribution enablement</p>
+<h4 id="br-0032-operational-cost-optimization">BR-003.2: Operational Cost Optimization</h4>
+<p><strong>Priority</strong>: Medium<br />
+<strong>Description</strong>: Minimize operational costs for end users.</p>
+<p><strong>Requirements</strong>:<br />
+- <strong>BR-003.2.1</strong>: Low power consumption for embedded deployments<br />
+- <strong>BR-003.2.2</strong>: Minimal bandwidth usage with configurable quality<br />
+- <strong>BR-003.2.3</strong>: Efficient storage utilization<br />
+- <strong>BR-003.2.4</strong>: Automated maintenance to reduce admin overhead<br />
+- <strong>BR-003.2.5</strong>: Cloud deployment cost optimization<br />
+- <strong>BR-003.2.6</strong>: Hardware requirement flexibility</p>
+<h3 id="br-004-timeline-and-delivery-requirements">BR-004: Timeline and Delivery Requirements</h3>
+<h4 id="br-0041-development-phases">BR-004.1: Development Phases</h4>
+<p><strong>Priority</strong>: High<br />
+<strong>Description</strong>: Phased development and delivery timeline.</p>
+<p><strong>Requirements</strong>:<br />
+- <strong>BR-004.1.1</strong>: Phase 1: Core camera functionality (Month 1-2)<br />
+- <strong>BR-004.1.2</strong>: Phase 2: Streaming and API development (Month 3-4)<br />
+- <strong>BR-004.1.3</strong>: Phase 3: User management and security (Month 5-6)<br />
+- <strong>BR-004.1.4</strong>: Phase 4: ONVIF and integration features (Month 7-8)<br />
+- <strong>BR-004.1.5</strong>: Phase 5: Testing and documentation (Month 9-10)<br />
+- <strong>BR-004.1.6</strong>: Phase 6: Release preparation and deployment (Month 11-12)</p>
+<h4 id="br-0042-milestone-requirements">BR-004.2: Milestone Requirements</h4>
+<p><strong>Priority</strong>: Medium<br />
+<strong>Description</strong>: Key milestone deliverables and acceptance criteria.</p>
+<p><strong>Requirements</strong>:<br />
+- <strong>BR-004.2.1</strong>: MVP: Basic camera streaming and recording<br />
+- <strong>BR-004.2.2</strong>: Alpha: Full API functionality with authentication<br />
+- <strong>BR-004.2.3</strong>: Beta: ONVIF compliance and third-party integration<br />
+- <strong>BR-004.2.4</strong>: RC: Complete testing and documentation<br />
+- <strong>BR-004.2.5</strong>: GA: Production-ready release with support<br />
+- <strong>BR-004.2.6</strong>: Updates: Regular maintenance releases</p>
+<h2 id="requirements-traceability-matrix">Requirements Traceability Matrix</h2>
+<table>
+<thead>
+<tr>
+<th>Requirement ID</th>
+<th>Priority</th>
+<th>Category</th>
+<th>Validation Method</th>
+<th>Test Coverage</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FR-001.1.1</td>
+<td>Critical</td>
+<td>Functional</td>
+<td>Unit Test</td>
+<td>✓</td>
+</tr>
+<tr>
+<td>FR-001.1.2</td>
+<td>Critical</td>
+<td>Functional</td>
+<td>Integration Test</td>
+<td>✓</td>
+</tr>
+<tr>
+<td>FR-001.2.1</td>
+<td>High</td>
+<td>Functional</td>
+<td>System Test</td>
+<td>✓</td>
+</tr>
+<tr>
+<td>FR-002.1.1</td>
+<td>Critical</td>
+<td>Functional</td>
+<td>Integration Test</td>
+<td>✓</td>
+</tr>
+<tr>
+<td>FR-003.1.1</td>
+<td>High</td>
+<td>Functional</td>
+<td>System Test</td>
+<td>✓</td>
+</tr>
+<tr>
+<td>FR-004.1.1</td>
+<td>Critical</td>
+<td>Functional</td>
+<td>API Test</td>
+<td>✓</td>
+</tr>
+<tr>
+<td>FR-005.1.1</td>
+<td>High</td>
+<td>Functional</td>
+<td>Security Test</td>
+<td>✓</td>
+</tr>
+<tr>
+<td>NFR-001.1.1</td>
+<td>Critical</td>
+<td>Performance</td>
+<td>Performance Test</td>
+<td>✓</td>
+</tr>
+<tr>
+<td>NFR-002.1.1</td>
+<td>Critical</td>
+<td>Security</td>
+<td>Security Test</td>
+<td>✓</td>
+</tr>
+<tr>
+<td>NFR-003.1.1</td>
+<td>High</td>
+<td>Reliability</td>
+<td>Reliability Test</td>
+<td>✓</td>
+</tr>
+<tr>
+<td>TR-001.1.1</td>
+<td>Critical</td>
+<td>Technical</td>
+<td>Compatibility Test</td>
+<td>✓</td>
+</tr>
+<tr>
+<td>BR-001.1.1</td>
+<td>High</td>
+<td>Business</td>
+<td>Market Validation</td>
+<td>○</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Legend</strong>: ✓ = Covered, ○ = Partial Coverage, ✗ = Not Covered</p>
+<h2 id="requirements-validation">Requirements Validation</h2>
+<h3 id="validation-methods">Validation Methods</h3>
+<ol>
+<li><strong>Unit Testing</strong>: Individual component functionality</li>
+<li><strong>Integration Testing</strong>: Component interaction testing</li>
+<li><strong>System Testing</strong>: End-to-end system validation</li>
+<li><strong>Performance Testing</strong>: Non-functional requirement validation</li>
+<li><strong>Security Testing</strong>: Security requirement compliance</li>
+<li><strong>User Acceptance Testing</strong>: Business requirement validation</li>
+</ol>
+<h3 id="acceptance-criteria">Acceptance Criteria</h3>
+<p>Each requirement must meet the following acceptance criteria:<br />
+- Functionality implemented as specified<br />
+- Performance meets or exceeds targets<br />
+- Security measures properly implemented<br />
+- Error handling covers edge cases<br />
+- Documentation complete and accurate<br />
+- Test coverage meets minimum threshold (80%)</p>
+<h2 id="related-documentation">Related Documentation</h2>
+<ul>
+<li><a href="../architecture/overview.md">Architecture Overview</a> - System architecture</li>
+<li><a href="../api/http-api.md">API Reference</a> - API implementation</li>
+<li><a href="../testing/test-cases.md">Test Cases</a> - Validation test cases</li>
+<li><a href="../operations/performance.md">Performance</a> - Performance specifications</li>
+</ul>
+<hr />
+<p><em>Comprehensive requirements specification defining all aspects of the C Pro camera system functionality, quality, and constraints</em></p>
+            </div>
+            <footer class="content-footer">
+                <p>Copyright © 2025 Rotoclear</p>
+            </footer>
+        </main>
+        
+        <button class="mobile-menu-toggle" id="menuToggle" aria-label="Toggle menu">☰</button>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>
+        // Initialize Mermaid
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            securityLevel: 'loose',
+            fontFamily: 'Inter, sans-serif'
+        });
+        
+        // Syntax highlighting
+        hljs.highlightAll();
+        
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.querySelector('.sidebar');
+        
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+        });
+        
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth <= 768 && 
+                !sidebar.contains(e.target) && 
+                !menuToggle.contains(e.target) &&
+                sidebar.classList.contains('active')) {
+                sidebar.classList.remove('active');
+            }
+        });
+        
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

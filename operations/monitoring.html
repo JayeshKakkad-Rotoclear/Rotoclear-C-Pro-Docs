@@ -1,0 +1,1083 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monitoring - RotoClear Camera Server Documentation</title>
+    <link rel="stylesheet" href="/assets/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1><a href="/index.html">RotoClear Docs</a></h1>
+                <p>Camera Server Documentation</p>
+            </div>
+            <nav class="sidebar-nav">
+                <ul class="nav-menu">
+                    <li class="nav-item depth-0">
+<a href="/index.html">Home</a>
+</li>
+<li class="nav-item depth-0">
+<a href="/getting-started.html">Getting Started</a>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Architecture</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/architecture/overview.html">Overview</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/architecture/state-management.html">State Management</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/architecture/camera-pipeline.html">Camera Pipeline</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/architecture/metadata-sqlite.html">Metadata & SQLite</a>
+</li>
+<li class="nav-folder depth-1">
+<span class="folder-title">Decisions</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-2">
+<a href="/architecture/decisions/ADR-0001-nim-language.html">ADR-0001 Nim Language</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/architecture/decisions/ADR-0002-corun-framework.html">ADR-0002 Corun Framework</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/architecture/decisions/ADR-0003-observable-state.html">ADR-0003 Observable State</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">API Reference</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/api/README.html">Overview</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/api/websocket-api.html">WebSocket API</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/api/http-api.html">HTTP API</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/api/rtsp-streaming.html">RTSP Streaming</a>
+</li>
+<li class="nav-folder depth-1">
+<span class="folder-title">Examples</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-2">
+<a href="/api/examples/python-client.html">Python Client</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/api/examples/javascript-client.html">JavaScript Client</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/api/examples/csharp-client.html">C# Client</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Configuration</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/configuration/environments.html">Environments</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/factory-config.html">Factory Config</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/license-config.html">License Config</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/deployment-variants.html">Deployment Variants</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/camera-system.html">Camera System</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/network.html">Network</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/storage-backup.html">Storage & Backup</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/authentication.html">Authentication</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Camera System</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/camera/hardware-interface.html">Hardware Interface</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/camera/streaming.html">Streaming</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/camera/recording.html">Recording</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/camera/image-processing.html">Image Processing</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Operations</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/operations/build-and-deploy.html">Build and Deploy</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/build-deploy.html">Build & Deploy (Alt)</a>
+</li>
+<li class="nav-item depth-1 active">
+<a href="/operations/monitoring.html">Monitoring</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/performance.html">Performance</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/troubleshooting.html">Troubleshooting</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Security</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/security/authentication.html">Authentication</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/security/permissions.html">Permissions</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/security/ssl-certificates.html">SSL Certificates</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Testing</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/testing/testing-strategy.html">Strategy</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/testing/strategies.html">Strategies</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/testing/test-cases.html">Test Cases</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/testing/validation.html">Validation</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Integration</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/integration/onvif-protocol.html">ONVIF Protocol</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/integration/third-party.html">Third Party</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Reference</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/reference/glossary.html">Glossary</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/reference/requirements.html">Requirements</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/reference/state-observables.html">State Observables</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Releases</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/releases/CHANGELOG.html">Changelog</a>
+</li>
+</ul>
+</li>
+<li class="nav-item depth-0">
+<a href="/glossary.html">Glossary</a>
+</li>
+                </ul>
+            </nav>
+        </aside>
+        
+        <main class="content">
+            <div class="content-wrapper">
+                <h1 id="system-monitoring-and-performance">System Monitoring and Performance</h1>
+<p><strong>Comprehensive monitoring system with metrics collection, alerting, and performance analysis.</strong></p>
+<h2 id="overview">Overview</h2>
+<p>C Pro monitoring provides real-time system metrics, performance analytics, and proactive alerting to ensure optimal camera system operation.</p>
+<div class="mermaid">
+graph TB
+    A[Monitoring System] --> B{Data Sources}
+
+    B -->|Hardware| C[CPU/Memory/Storage]
+    B -->|Network| D[Network Interfaces]
+    B -->|Camera| E[Video Pipeline]
+    B -->|Application| F[Service Health]
+
+    C --> G[Metrics Collector]
+    D --> G
+    E --> G
+    F --> G
+
+    G --> H[Time Series DB]
+    H --> I[Analytics Engine]
+
+    I --> J{Alerting Rules}
+    J -->|Threshold| K[Threshold Alerts]
+    J -->|Anomaly| L[Anomaly Detection]
+    J -->|Predictive| M[Predictive Alerts]
+
+    K --> N[Alert Manager]
+    L --> N
+    M --> N
+
+    N --> O[Notification Channels]
+    O --> P[Email/SMS/Webhook]
+
+    H --> Q[Dashboard]
+    I --> Q
+    Q --> R[Grafana/Web UI]
+</div>
+
+<h2 id="system-metrics-collection">System Metrics Collection</h2>
+<h3 id="hardware-monitoring">Hardware Monitoring</h3>
+<p><strong>CPU and Memory Metrics</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Get system performance metrics</span>
+curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>http://192.168.1.100:8080/api/monitoring/system
+
+<span class="c1"># Response format</span>
+<span class="o">{</span>
+<span class="w">  </span><span class="s2">&quot;system&quot;</span>:<span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="s2">&quot;timestamp&quot;</span>:<span class="w"> </span><span class="s2">&quot;2025-01-15T10:30:00Z&quot;</span>,
+<span class="w">    </span><span class="s2">&quot;cpu&quot;</span>:<span class="w"> </span><span class="o">{</span>
+<span class="w">      </span><span class="s2">&quot;usage_percent&quot;</span>:<span class="w"> </span><span class="m">45</span>.2,
+<span class="w">      </span><span class="s2">&quot;load_average&quot;</span>:<span class="w"> </span><span class="o">[</span><span class="m">1</span>.2,<span class="w"> </span><span class="m">1</span>.1,<span class="w"> </span><span class="m">0</span>.9<span class="o">]</span>,
+<span class="w">      </span><span class="s2">&quot;cores&quot;</span>:<span class="w"> </span><span class="m">4</span>,
+<span class="w">      </span><span class="s2">&quot;temperature&quot;</span>:<span class="w"> </span><span class="m">52</span>.3,
+<span class="w">      </span><span class="s2">&quot;frequency_mhz&quot;</span>:<span class="w"> </span><span class="m">1800</span>
+<span class="w">    </span><span class="o">}</span>,
+<span class="w">    </span><span class="s2">&quot;memory&quot;</span>:<span class="w"> </span><span class="o">{</span>
+<span class="w">      </span><span class="s2">&quot;total_mb&quot;</span>:<span class="w"> </span><span class="m">8192</span>,
+<span class="w">      </span><span class="s2">&quot;used_mb&quot;</span>:<span class="w"> </span><span class="m">3072</span>,
+<span class="w">      </span><span class="s2">&quot;available_mb&quot;</span>:<span class="w"> </span><span class="m">5120</span>,
+<span class="w">      </span><span class="s2">&quot;usage_percent&quot;</span>:<span class="w"> </span><span class="m">37</span>.5,
+<span class="w">      </span><span class="s2">&quot;swap_total_mb&quot;</span>:<span class="w"> </span><span class="m">2048</span>,
+<span class="w">      </span><span class="s2">&quot;swap_used_mb&quot;</span>:<span class="w"> </span><span class="m">0</span>
+<span class="w">    </span><span class="o">}</span>,
+<span class="w">    </span><span class="s2">&quot;storage&quot;</span>:<span class="w"> </span><span class="o">{</span>
+<span class="w">      </span><span class="s2">&quot;total_gb&quot;</span>:<span class="w"> </span><span class="m">256</span>,
+<span class="w">      </span><span class="s2">&quot;used_gb&quot;</span>:<span class="w"> </span><span class="m">128</span>,
+<span class="w">      </span><span class="s2">&quot;available_gb&quot;</span>:<span class="w"> </span><span class="m">128</span>,
+<span class="w">      </span><span class="s2">&quot;usage_percent&quot;</span>:<span class="w"> </span><span class="m">50</span>.0,
+<span class="w">      </span><span class="s2">&quot;io_read_bps&quot;</span>:<span class="w"> </span><span class="m">1048576</span>,
+<span class="w">      </span><span class="s2">&quot;io_write_bps&quot;</span>:<span class="w"> </span><span class="m">2097152</span>
+<span class="w">    </span><span class="o">}</span>
+<span class="w">  </span><span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div>
+
+<p><strong>Hardware Health Monitoring</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># System temperature monitoring</span>
+curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>http://192.168.1.100:8080/api/monitoring/hardware
+
+<span class="c1"># Response includes</span>
+<span class="o">{</span>
+<span class="w">  </span><span class="s2">&quot;hardware&quot;</span>:<span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="s2">&quot;temperatures&quot;</span>:<span class="w"> </span><span class="o">{</span>
+<span class="w">      </span><span class="s2">&quot;cpu&quot;</span>:<span class="w"> </span><span class="m">52</span>.3,
+<span class="w">      </span><span class="s2">&quot;gpu&quot;</span>:<span class="w"> </span><span class="m">48</span>.1,
+<span class="w">      </span><span class="s2">&quot;storage&quot;</span>:<span class="w"> </span><span class="m">35</span>.2,
+<span class="w">      </span><span class="s2">&quot;ambient&quot;</span>:<span class="w"> </span><span class="m">28</span>.5
+<span class="w">    </span><span class="o">}</span>,
+<span class="w">    </span><span class="s2">&quot;voltages&quot;</span>:<span class="w"> </span><span class="o">{</span>
+<span class="w">      </span><span class="s2">&quot;core&quot;</span>:<span class="w"> </span><span class="m">1</span>.2,
+<span class="w">      </span><span class="s2">&quot;memory&quot;</span>:<span class="w"> </span><span class="m">1</span>.35,
+<span class="w">      </span><span class="s2">&quot;io&quot;</span>:<span class="w"> </span><span class="m">3</span>.3
+<span class="w">    </span><span class="o">}</span>,
+<span class="w">    </span><span class="s2">&quot;fans&quot;</span>:<span class="w"> </span><span class="o">{</span>
+<span class="w">      </span><span class="s2">&quot;cpu_fan&quot;</span>:<span class="w"> </span><span class="m">2800</span>,
+<span class="w">      </span><span class="s2">&quot;case_fan&quot;</span>:<span class="w"> </span><span class="m">1200</span>
+<span class="w">    </span><span class="o">}</span>,
+<span class="w">    </span><span class="s2">&quot;power&quot;</span>:<span class="w"> </span><span class="o">{</span>
+<span class="w">      </span><span class="s2">&quot;consumption_watts&quot;</span>:<span class="w"> </span><span class="m">25</span>.6,
+<span class="w">      </span><span class="s2">&quot;efficiency_percent&quot;</span>:<span class="w"> </span><span class="m">87</span>.2
+<span class="w">    </span><span class="o">}</span>
+<span class="w">  </span><span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div>
+
+<h3 id="network-performance">Network Performance</h3>
+<p><strong>Network Interface Monitoring</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Get network statistics</span>
+curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>http://192.168.1.100:8080/api/monitoring/network
+
+<span class="c1"># Response format</span>
+<span class="o">{</span>
+<span class="w">  </span><span class="s2">&quot;network&quot;</span>:<span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="s2">&quot;interfaces&quot;</span>:<span class="w"> </span><span class="o">{</span>
+<span class="w">      </span><span class="s2">&quot;eth0&quot;</span>:<span class="w"> </span><span class="o">{</span>
+<span class="w">        </span><span class="s2">&quot;status&quot;</span>:<span class="w"> </span><span class="s2">&quot;up&quot;</span>,
+<span class="w">        </span><span class="s2">&quot;speed_mbps&quot;</span>:<span class="w"> </span><span class="m">1000</span>,
+<span class="w">        </span><span class="s2">&quot;duplex&quot;</span>:<span class="w"> </span><span class="s2">&quot;full&quot;</span>,
+<span class="w">        </span><span class="s2">&quot;mtu&quot;</span>:<span class="w"> </span><span class="m">1500</span>,
+<span class="w">        </span><span class="s2">&quot;bytes_sent&quot;</span>:<span class="w"> </span><span class="m">1073741824</span>,
+<span class="w">        </span><span class="s2">&quot;bytes_received&quot;</span>:<span class="w"> </span><span class="m">2147483648</span>,
+<span class="w">        </span><span class="s2">&quot;packets_sent&quot;</span>:<span class="w"> </span><span class="m">1000000</span>,
+<span class="w">        </span><span class="s2">&quot;packets_received&quot;</span>:<span class="w"> </span><span class="m">1500000</span>,
+<span class="w">        </span><span class="s2">&quot;errors_send&quot;</span>:<span class="w"> </span><span class="m">0</span>,
+<span class="w">        </span><span class="s2">&quot;errors_receive&quot;</span>:<span class="w"> </span><span class="m">0</span>,
+<span class="w">        </span><span class="s2">&quot;dropped_send&quot;</span>:<span class="w"> </span><span class="m">0</span>,
+<span class="w">        </span><span class="s2">&quot;dropped_receive&quot;</span>:<span class="w"> </span><span class="m">0</span>
+<span class="w">      </span><span class="o">}</span>
+<span class="w">    </span><span class="o">}</span>,
+<span class="w">    </span><span class="s2">&quot;connections&quot;</span>:<span class="w"> </span><span class="o">{</span>
+<span class="w">      </span><span class="s2">&quot;established&quot;</span>:<span class="w"> </span><span class="m">15</span>,
+<span class="w">      </span><span class="s2">&quot;listening&quot;</span>:<span class="w"> </span><span class="m">8</span>,
+<span class="w">      </span><span class="s2">&quot;time_wait&quot;</span>:<span class="w"> </span><span class="m">2</span>
+<span class="w">    </span><span class="o">}</span>,
+<span class="w">    </span><span class="s2">&quot;bandwidth&quot;</span>:<span class="w"> </span><span class="o">{</span>
+<span class="w">      </span><span class="s2">&quot;current_upload_mbps&quot;</span>:<span class="w"> </span><span class="m">5</span>.2,
+<span class="w">      </span><span class="s2">&quot;current_download_mbps&quot;</span>:<span class="w"> </span><span class="m">12</span>.8,
+<span class="w">      </span><span class="s2">&quot;peak_upload_mbps&quot;</span>:<span class="w"> </span><span class="m">85</span>.6,
+<span class="w">      </span><span class="s2">&quot;peak_download_mbps&quot;</span>:<span class="w"> </span><span class="m">156</span>.3
+<span class="w">    </span><span class="o">}</span>
+<span class="w">  </span><span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div>
+
+<p><strong>Connection Quality Metrics</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Network quality assessment</span>
+curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>http://192.168.1.100:8080/api/monitoring/network/quality
+
+<span class="c1"># Response includes latency, jitter, packet loss</span>
+<span class="o">{</span>
+<span class="w">  </span><span class="s2">&quot;quality&quot;</span>:<span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="s2">&quot;ping_tests&quot;</span>:<span class="w"> </span><span class="o">[</span>
+<span class="w">      </span><span class="o">{</span>
+<span class="w">        </span><span class="s2">&quot;target&quot;</span>:<span class="w"> </span><span class="s2">&quot;8.8.8.8&quot;</span>,
+<span class="w">        </span><span class="s2">&quot;avg_latency_ms&quot;</span>:<span class="w"> </span><span class="m">12</span>.3,
+<span class="w">        </span><span class="s2">&quot;max_latency_ms&quot;</span>:<span class="w"> </span><span class="m">45</span>.2,
+<span class="w">        </span><span class="s2">&quot;min_latency_ms&quot;</span>:<span class="w"> </span><span class="m">8</span>.1,
+<span class="w">        </span><span class="s2">&quot;jitter_ms&quot;</span>:<span class="w"> </span><span class="m">2</span>.1,
+<span class="w">        </span><span class="s2">&quot;packet_loss_percent&quot;</span>:<span class="w"> </span><span class="m">0</span>.0
+<span class="w">      </span><span class="o">}</span>
+<span class="w">    </span><span class="o">]</span>,
+<span class="w">    </span><span class="s2">&quot;dns_resolution_ms&quot;</span>:<span class="w"> </span><span class="m">5</span>.2,
+<span class="w">    </span><span class="s2">&quot;throughput_test&quot;</span>:<span class="w"> </span><span class="o">{</span>
+<span class="w">      </span><span class="s2">&quot;download_mbps&quot;</span>:<span class="w"> </span><span class="m">95</span>.6,
+<span class="w">      </span><span class="s2">&quot;upload_mbps&quot;</span>:<span class="w"> </span><span class="m">35</span>.2,
+<span class="w">      </span><span class="s2">&quot;test_duration_seconds&quot;</span>:<span class="w"> </span><span class="m">10</span>
+<span class="w">    </span><span class="o">}</span>
+<span class="w">  </span><span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div>
+
+<h3 id="camera-system-monitoring">Camera System Monitoring</h3>
+<p><strong>Video Pipeline Performance</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Get camera performance metrics</span>
+curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>http://192.168.1.100:8080/api/monitoring/camera
+
+<span class="c1"># Response format</span>
+<span class="o">{</span>
+<span class="w">  </span><span class="s2">&quot;camera_performance&quot;</span>:<span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="s2">&quot;capture&quot;</span>:<span class="w"> </span><span class="o">{</span>
+<span class="w">      </span><span class="s2">&quot;fps_current&quot;</span>:<span class="w"> </span><span class="m">29</span>.97,
+<span class="w">      </span><span class="s2">&quot;fps_target&quot;</span>:<span class="w"> </span><span class="m">30</span>.0,
+<span class="w">      </span><span class="s2">&quot;frames_captured&quot;</span>:<span class="w"> </span><span class="m">1080000</span>,
+<span class="w">      </span><span class="s2">&quot;frames_dropped&quot;</span>:<span class="w"> </span><span class="m">15</span>,
+<span class="w">      </span><span class="s2">&quot;frame_drop_rate&quot;</span>:<span class="w"> </span><span class="m">0</span>.0014
+<span class="w">    </span><span class="o">}</span>,
+<span class="w">    </span><span class="s2">&quot;encoding&quot;</span>:<span class="w"> </span><span class="o">{</span>
+<span class="w">      </span><span class="s2">&quot;bitrate_kbps&quot;</span>:<span class="w"> </span><span class="m">5000</span>,
+<span class="w">      </span><span class="s2">&quot;bitrate_target&quot;</span>:<span class="w"> </span><span class="m">5000</span>,
+<span class="w">      </span><span class="s2">&quot;encoding_time_ms&quot;</span>:<span class="w"> </span><span class="m">8</span>.5,
+<span class="w">      </span><span class="s2">&quot;queue_size&quot;</span>:<span class="w"> </span><span class="m">2</span>,
+<span class="w">      </span><span class="s2">&quot;encoder_errors&quot;</span>:<span class="w"> </span><span class="m">0</span>
+<span class="w">    </span><span class="o">}</span>,
+<span class="w">    </span><span class="s2">&quot;streaming&quot;</span>:<span class="w"> </span><span class="o">{</span>
+<span class="w">      </span><span class="s2">&quot;active_clients&quot;</span>:<span class="w"> </span><span class="m">3</span>,
+<span class="w">      </span><span class="s2">&quot;bytes_sent&quot;</span>:<span class="w"> </span><span class="m">536870912</span>,
+<span class="w">      </span><span class="s2">&quot;packets_sent&quot;</span>:<span class="w"> </span><span class="m">500000</span>,
+<span class="w">      </span><span class="s2">&quot;retransmissions&quot;</span>:<span class="w"> </span><span class="m">12</span>,
+<span class="w">      </span><span class="s2">&quot;buffer_underruns&quot;</span>:<span class="w"> </span><span class="m">0</span>
+<span class="w">    </span><span class="o">}</span>,
+<span class="w">    </span><span class="s2">&quot;storage&quot;</span>:<span class="w"> </span><span class="o">{</span>
+<span class="w">      </span><span class="s2">&quot;recording_active&quot;</span>:<span class="w"> </span>true,
+<span class="w">      </span><span class="s2">&quot;write_speed_mbps&quot;</span>:<span class="w"> </span><span class="m">12</span>.5,
+<span class="w">      </span><span class="s2">&quot;files_written&quot;</span>:<span class="w"> </span><span class="m">156</span>,
+<span class="w">      </span><span class="s2">&quot;write_errors&quot;</span>:<span class="w"> </span><span class="m">0</span>
+<span class="w">    </span><span class="o">}</span>
+<span class="w">  </span><span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div>
+
+<p><strong>Camera Health Status</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Camera health diagnostics</span>
+curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>http://192.168.1.100:8080/api/monitoring/camera/health
+
+<span class="c1"># Response includes sensor status, lens condition, etc.</span>
+<span class="o">{</span>
+<span class="w">  </span><span class="s2">&quot;health&quot;</span>:<span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="s2">&quot;sensor&quot;</span>:<span class="w"> </span><span class="o">{</span>
+<span class="w">      </span><span class="s2">&quot;status&quot;</span>:<span class="w"> </span><span class="s2">&quot;healthy&quot;</span>,
+<span class="w">      </span><span class="s2">&quot;temperature&quot;</span>:<span class="w"> </span><span class="m">42</span>.1,
+<span class="w">      </span><span class="s2">&quot;dead_pixels&quot;</span>:<span class="w"> </span><span class="m">0</span>,
+<span class="w">      </span><span class="s2">&quot;sensitivity&quot;</span>:<span class="w"> </span><span class="s2">&quot;normal&quot;</span>
+<span class="w">    </span><span class="o">}</span>,
+<span class="w">    </span><span class="s2">&quot;lens&quot;</span>:<span class="w"> </span><span class="o">{</span>
+<span class="w">      </span><span class="s2">&quot;focus_quality&quot;</span>:<span class="w"> </span><span class="s2">&quot;excellent&quot;</span>,
+<span class="w">      </span><span class="s2">&quot;auto_focus_time_ms&quot;</span>:<span class="w"> </span><span class="m">250</span>,
+<span class="w">      </span><span class="s2">&quot;zoom_position&quot;</span>:<span class="w"> </span><span class="m">1</span>.0,
+<span class="w">      </span><span class="s2">&quot;iris_position&quot;</span>:<span class="w"> </span><span class="m">2</span>.8
+<span class="w">    </span><span class="o">}</span>,
+<span class="w">    </span><span class="s2">&quot;processing&quot;</span>:<span class="w"> </span><span class="o">{</span>
+<span class="w">      </span><span class="s2">&quot;image_quality_score&quot;</span>:<span class="w"> </span><span class="m">95</span>.2,
+<span class="w">      </span><span class="s2">&quot;noise_level&quot;</span>:<span class="w"> </span><span class="s2">&quot;low&quot;</span>,
+<span class="w">      </span><span class="s2">&quot;exposure_accuracy&quot;</span>:<span class="w"> </span><span class="s2">&quot;good&quot;</span>,
+<span class="w">      </span><span class="s2">&quot;white_balance&quot;</span>:<span class="w"> </span><span class="s2">&quot;accurate&quot;</span>
+<span class="w">    </span><span class="o">}</span>
+<span class="w">  </span><span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div>
+
+<h2 id="application-monitoring">Application Monitoring</h2>
+<h3 id="service-health">Service Health</h3>
+<p><strong>Service Status Monitoring</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Get service health status</span>
+curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>http://192.168.1.100:8080/api/monitoring/services
+
+<span class="c1"># Response format</span>
+<span class="o">{</span>
+<span class="w">  </span><span class="s2">&quot;services&quot;</span>:<span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="s2">&quot;camera_service&quot;</span>:<span class="w"> </span><span class="o">{</span>
+<span class="w">      </span><span class="s2">&quot;status&quot;</span>:<span class="w"> </span><span class="s2">&quot;running&quot;</span>,
+<span class="w">      </span><span class="s2">&quot;uptime_seconds&quot;</span>:<span class="w"> </span><span class="m">86400</span>,
+<span class="w">      </span><span class="s2">&quot;memory_usage_mb&quot;</span>:<span class="w"> </span><span class="m">256</span>,
+<span class="w">      </span><span class="s2">&quot;cpu_usage_percent&quot;</span>:<span class="w"> </span><span class="m">15</span>.2,
+<span class="w">      </span><span class="s2">&quot;threads&quot;</span>:<span class="w"> </span><span class="m">8</span>,
+<span class="w">      </span><span class="s2">&quot;file_descriptors&quot;</span>:<span class="w"> </span><span class="m">45</span>
+<span class="w">    </span><span class="o">}</span>,
+<span class="w">    </span><span class="s2">&quot;web_server&quot;</span>:<span class="w"> </span><span class="o">{</span>
+<span class="w">      </span><span class="s2">&quot;status&quot;</span>:<span class="w"> </span><span class="s2">&quot;running&quot;</span>,
+<span class="w">      </span><span class="s2">&quot;uptime_seconds&quot;</span>:<span class="w"> </span><span class="m">86400</span>,
+<span class="w">      </span><span class="s2">&quot;active_connections&quot;</span>:<span class="w"> </span><span class="m">15</span>,
+<span class="w">      </span><span class="s2">&quot;total_requests&quot;</span>:<span class="w"> </span><span class="m">50000</span>,
+<span class="w">      </span><span class="s2">&quot;error_rate_percent&quot;</span>:<span class="w"> </span><span class="m">0</span>.02
+<span class="w">    </span><span class="o">}</span>,
+<span class="w">    </span><span class="s2">&quot;stream_server&quot;</span>:<span class="w"> </span><span class="o">{</span>
+<span class="w">      </span><span class="s2">&quot;status&quot;</span>:<span class="w"> </span><span class="s2">&quot;running&quot;</span>,
+<span class="w">      </span><span class="s2">&quot;uptime_seconds&quot;</span>:<span class="w"> </span><span class="m">86400</span>,
+<span class="w">      </span><span class="s2">&quot;active_streams&quot;</span>:<span class="w"> </span><span class="m">3</span>,
+<span class="w">      </span><span class="s2">&quot;total_bytes_sent&quot;</span>:<span class="w"> </span><span class="m">1073741824</span>,
+<span class="w">      </span><span class="s2">&quot;bandwidth_mbps&quot;</span>:<span class="w"> </span><span class="m">12</span>.5
+<span class="w">    </span><span class="o">}</span>
+<span class="w">  </span><span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div>
+
+<p><strong>Application Performance Metrics</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Get detailed application metrics</span>
+curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>http://192.168.1.100:8080/api/monitoring/application
+
+<span class="c1"># Response includes API response times, error rates, etc.</span>
+<span class="o">{</span>
+<span class="w">  </span><span class="s2">&quot;application&quot;</span>:<span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="s2">&quot;api_performance&quot;</span>:<span class="w"> </span><span class="o">{</span>
+<span class="w">      </span><span class="s2">&quot;avg_response_time_ms&quot;</span>:<span class="w"> </span><span class="m">45</span>.2,
+<span class="w">      </span><span class="s2">&quot;95th_percentile_ms&quot;</span>:<span class="w"> </span><span class="m">120</span>.5,
+<span class="w">      </span><span class="s2">&quot;99th_percentile_ms&quot;</span>:<span class="w"> </span><span class="m">250</span>.1,
+<span class="w">      </span><span class="s2">&quot;requests_per_second&quot;</span>:<span class="w"> </span><span class="m">12</span>.5,
+<span class="w">      </span><span class="s2">&quot;error_rate_percent&quot;</span>:<span class="w"> </span><span class="m">0</span>.15
+<span class="w">    </span><span class="o">}</span>,
+<span class="w">    </span><span class="s2">&quot;database&quot;</span>:<span class="w"> </span><span class="o">{</span>
+<span class="w">      </span><span class="s2">&quot;connection_pool_size&quot;</span>:<span class="w"> </span><span class="m">10</span>,
+<span class="w">      </span><span class="s2">&quot;active_connections&quot;</span>:<span class="w"> </span><span class="m">3</span>,
+<span class="w">      </span><span class="s2">&quot;query_time_avg_ms&quot;</span>:<span class="w"> </span><span class="m">5</span>.2,
+<span class="w">      </span><span class="s2">&quot;slow_queries&quot;</span>:<span class="w"> </span><span class="m">0</span>
+<span class="w">    </span><span class="o">}</span>,
+<span class="w">    </span><span class="s2">&quot;cache&quot;</span>:<span class="w"> </span><span class="o">{</span>
+<span class="w">      </span><span class="s2">&quot;hit_rate_percent&quot;</span>:<span class="w"> </span><span class="m">89</span>.5,
+<span class="w">      </span><span class="s2">&quot;memory_usage_mb&quot;</span>:<span class="w"> </span><span class="m">128</span>,
+<span class="w">      </span><span class="s2">&quot;operations_per_second&quot;</span>:<span class="w"> </span><span class="m">250</span>
+<span class="w">    </span><span class="o">}</span>
+<span class="w">  </span><span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div>
+
+<h3 id="resource-utilization">Resource Utilization</h3>
+<p><strong>Process Monitoring</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Monitor specific processes</span>
+curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span><span class="s2">&quot;http://192.168.1.100:8080/api/monitoring/processes?name=rotordream&quot;</span>
+
+<span class="c1"># Response format</span>
+<span class="o">{</span>
+<span class="w">  </span><span class="s2">&quot;processes&quot;</span>:<span class="w"> </span><span class="o">[</span>
+<span class="w">    </span><span class="o">{</span>
+<span class="w">      </span><span class="s2">&quot;pid&quot;</span>:<span class="w"> </span><span class="m">1234</span>,
+<span class="w">      </span><span class="s2">&quot;name&quot;</span>:<span class="w"> </span><span class="s2">&quot;rotordream&quot;</span>,
+<span class="w">      </span><span class="s2">&quot;status&quot;</span>:<span class="w"> </span><span class="s2">&quot;running&quot;</span>,
+<span class="w">      </span><span class="s2">&quot;cpu_percent&quot;</span>:<span class="w"> </span><span class="m">15</span>.2,
+<span class="w">      </span><span class="s2">&quot;memory_mb&quot;</span>:<span class="w"> </span><span class="m">256</span>,
+<span class="w">      </span><span class="s2">&quot;memory_percent&quot;</span>:<span class="w"> </span><span class="m">3</span>.1,
+<span class="w">      </span><span class="s2">&quot;uptime_seconds&quot;</span>:<span class="w"> </span><span class="m">86400</span>,
+<span class="w">      </span><span class="s2">&quot;threads&quot;</span>:<span class="w"> </span><span class="m">8</span>,
+<span class="w">      </span><span class="s2">&quot;file_descriptors&quot;</span>:<span class="w"> </span><span class="m">45</span>,
+<span class="w">      </span><span class="s2">&quot;command_line&quot;</span>:<span class="w"> </span><span class="s2">&quot;/usr/bin/rotordream --config /etc/rotordream/config.ini&quot;</span>
+<span class="w">    </span><span class="o">}</span>
+<span class="w">  </span><span class="o">]</span>
+<span class="o">}</span>
+</code></pre></div>
+
+<h2 id="performance-analytics">Performance Analytics</h2>
+<h3 id="historical-data">Historical Data</h3>
+<p><strong>Time Series Metrics</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Get historical performance data</span>
+curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span><span class="s2">&quot;http://192.168.1.100:8080/api/monitoring/history?metric=cpu_usage&amp;period=24h&amp;interval=5m&quot;</span>
+
+<span class="c1"># Response format</span>
+<span class="o">{</span>
+<span class="w">  </span><span class="s2">&quot;metric&quot;</span>:<span class="w"> </span><span class="s2">&quot;cpu_usage&quot;</span>,
+<span class="w">  </span><span class="s2">&quot;period&quot;</span>:<span class="w"> </span><span class="s2">&quot;24h&quot;</span>,
+<span class="w">  </span><span class="s2">&quot;interval&quot;</span>:<span class="w"> </span><span class="s2">&quot;5m&quot;</span>,
+<span class="w">  </span><span class="s2">&quot;data_points&quot;</span>:<span class="w"> </span><span class="o">[</span>
+<span class="w">    </span><span class="o">{</span>
+<span class="w">      </span><span class="s2">&quot;timestamp&quot;</span>:<span class="w"> </span><span class="s2">&quot;2025-01-15T10:00:00Z&quot;</span>,
+<span class="w">      </span><span class="s2">&quot;value&quot;</span>:<span class="w"> </span><span class="m">45</span>.2,
+<span class="w">      </span><span class="s2">&quot;min&quot;</span>:<span class="w"> </span><span class="m">12</span>.1,
+<span class="w">      </span><span class="s2">&quot;max&quot;</span>:<span class="w"> </span><span class="m">78</span>.5,
+<span class="w">      </span><span class="s2">&quot;avg&quot;</span>:<span class="w"> </span><span class="m">42</span>.3
+<span class="w">    </span><span class="o">}</span>
+<span class="w">  </span><span class="o">]</span>
+<span class="o">}</span>
+</code></pre></div>
+
+<p><strong>Performance Trends</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Get performance trend analysis</span>
+curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>http://192.168.1.100:8080/api/monitoring/trends
+
+<span class="c1"># Response includes performance trends and predictions</span>
+<span class="o">{</span>
+<span class="w">  </span><span class="s2">&quot;trends&quot;</span>:<span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="s2">&quot;cpu_usage&quot;</span>:<span class="w"> </span><span class="o">{</span>
+<span class="w">      </span><span class="s2">&quot;trend&quot;</span>:<span class="w"> </span><span class="s2">&quot;increasing&quot;</span>,
+<span class="w">      </span><span class="s2">&quot;change_percent&quot;</span>:<span class="w"> </span><span class="m">12</span>.5,
+<span class="w">      </span><span class="s2">&quot;confidence&quot;</span>:<span class="w"> </span><span class="m">0</span>.85,
+<span class="w">      </span><span class="s2">&quot;prediction_24h&quot;</span>:<span class="w"> </span><span class="m">52</span>.3
+<span class="w">    </span><span class="o">}</span>,
+<span class="w">    </span><span class="s2">&quot;memory_usage&quot;</span>:<span class="w"> </span><span class="o">{</span>
+<span class="w">      </span><span class="s2">&quot;trend&quot;</span>:<span class="w"> </span><span class="s2">&quot;stable&quot;</span>,
+<span class="w">      </span><span class="s2">&quot;change_percent&quot;</span>:<span class="w"> </span><span class="m">1</span>.2,
+<span class="w">      </span><span class="s2">&quot;confidence&quot;</span>:<span class="w"> </span><span class="m">0</span>.95,
+<span class="w">      </span><span class="s2">&quot;prediction_24h&quot;</span>:<span class="w"> </span><span class="m">38</span>.1
+<span class="w">    </span><span class="o">}</span>,
+<span class="w">    </span><span class="s2">&quot;storage_usage&quot;</span>:<span class="w"> </span><span class="o">{</span>
+<span class="w">      </span><span class="s2">&quot;trend&quot;</span>:<span class="w"> </span><span class="s2">&quot;increasing&quot;</span>,
+<span class="w">      </span><span class="s2">&quot;change_percent&quot;</span>:<span class="w"> </span><span class="m">8</span>.5,
+<span class="w">      </span><span class="s2">&quot;confidence&quot;</span>:<span class="w"> </span><span class="m">0</span>.92,
+<span class="w">      </span><span class="s2">&quot;prediction_7d&quot;</span>:<span class="w"> </span><span class="m">58</span>.2
+<span class="w">    </span><span class="o">}</span>
+<span class="w">  </span><span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div>
+
+<h3 id="performance-optimization">Performance Optimization</h3>
+<p><strong>Bottleneck Detection</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Identify performance bottlenecks</span>
+curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>http://192.168.1.100:8080/api/monitoring/bottlenecks
+
+<span class="c1"># Response format</span>
+<span class="o">{</span>
+<span class="w">  </span><span class="s2">&quot;bottlenecks&quot;</span>:<span class="w"> </span><span class="o">[</span>
+<span class="w">    </span><span class="o">{</span>
+<span class="w">      </span><span class="s2">&quot;type&quot;</span>:<span class="w"> </span><span class="s2">&quot;cpu&quot;</span>,
+<span class="w">      </span><span class="s2">&quot;severity&quot;</span>:<span class="w"> </span><span class="s2">&quot;medium&quot;</span>,
+<span class="w">      </span><span class="s2">&quot;description&quot;</span>:<span class="w"> </span><span class="s2">&quot;CPU usage consistently above 80%&quot;</span>,
+<span class="w">      </span><span class="s2">&quot;recommendation&quot;</span>:<span class="w"> </span><span class="s2">&quot;Consider reducing video quality or frame rate&quot;</span>,
+<span class="w">      </span><span class="s2">&quot;impact&quot;</span>:<span class="w"> </span><span class="s2">&quot;May cause frame drops in video stream&quot;</span>
+<span class="w">    </span><span class="o">}</span>,
+<span class="w">    </span><span class="o">{</span>
+<span class="w">      </span><span class="s2">&quot;type&quot;</span>:<span class="w"> </span><span class="s2">&quot;storage_io&quot;</span>,
+<span class="w">      </span><span class="s2">&quot;severity&quot;</span>:<span class="w"> </span><span class="s2">&quot;low&quot;</span>,
+<span class="w">      </span><span class="s2">&quot;description&quot;</span>:<span class="w"> </span><span class="s2">&quot;Storage write speed below optimal&quot;</span>,
+<span class="w">      </span><span class="s2">&quot;recommendation&quot;</span>:<span class="w"> </span><span class="s2">&quot;Check storage device health and consider upgrade&quot;</span>,
+<span class="w">      </span><span class="s2">&quot;impact&quot;</span>:<span class="w"> </span><span class="s2">&quot;Recording quality may be affected during high activity&quot;</span>
+<span class="w">    </span><span class="o">}</span>
+<span class="w">  </span><span class="o">]</span>
+<span class="o">}</span>
+</code></pre></div>
+
+<p><strong>Performance Recommendations</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Get optimization recommendations</span>
+curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>http://192.168.1.100:8080/api/monitoring/recommendations
+
+<span class="c1"># Response includes specific optimization suggestions</span>
+<span class="o">{</span>
+<span class="w">  </span><span class="s2">&quot;recommendations&quot;</span>:<span class="w"> </span><span class="o">[</span>
+<span class="w">    </span><span class="o">{</span>
+<span class="w">      </span><span class="s2">&quot;category&quot;</span>:<span class="w"> </span><span class="s2">&quot;video_encoding&quot;</span>,
+<span class="w">      </span><span class="s2">&quot;priority&quot;</span>:<span class="w"> </span><span class="s2">&quot;high&quot;</span>,
+<span class="w">      </span><span class="s2">&quot;title&quot;</span>:<span class="w"> </span><span class="s2">&quot;Optimize encoding parameters&quot;</span>,
+<span class="w">      </span><span class="s2">&quot;description&quot;</span>:<span class="w"> </span><span class="s2">&quot;Current encoding settings are CPU-intensive&quot;</span>,
+<span class="w">      </span><span class="s2">&quot;actions&quot;</span>:<span class="w"> </span><span class="o">[</span>
+<span class="w">        </span><span class="s2">&quot;Reduce bitrate from 5000 to 4000 kbps&quot;</span>,
+<span class="w">        </span><span class="s2">&quot;Enable hardware acceleration if available&quot;</span>,
+<span class="w">        </span><span class="s2">&quot;Consider using H.265 codec for better compression&quot;</span>
+<span class="w">      </span><span class="o">]</span>,
+<span class="w">      </span><span class="s2">&quot;expected_improvement&quot;</span>:<span class="w"> </span><span class="s2">&quot;25% CPU usage reduction&quot;</span>
+<span class="w">    </span><span class="o">}</span>
+<span class="w">  </span><span class="o">]</span>
+<span class="o">}</span>
+</code></pre></div>
+
+<h2 id="alerting-system">Alerting System</h2>
+<h3 id="alert-configuration">Alert Configuration</h3>
+<p><strong>Alert Rules</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;alert_rules&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;high_cpu_usage&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;CPU usage above 80% for 5 minutes&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;metric&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;cpu_usage_percent&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;condition&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&gt; 80&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;duration&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;5m&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;severity&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;warning&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;enabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;memory_critical&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Memory usage above 95%&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;metric&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;memory_usage_percent&quot;</span><span class="p">,</span><span class="w"> </span>
+<span class="w">      </span><span class="nt">&quot;condition&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&gt; 95&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;duration&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1m&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;severity&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;critical&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;enabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;storage_full&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Storage usage above 90%&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;metric&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;storage_usage_percent&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;condition&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&gt; 90&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;duration&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0s&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;severity&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;critical&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;enabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;camera_offline&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Camera not responding&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;metric&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;camera_status&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;condition&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;== &#39;offline&#39;&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;duration&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;30s&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;severity&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;critical&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;enabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Configure Alerts</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Create alert rule</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/monitoring/alerts/rules&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;name&quot;: &quot;network_latency_high&quot;,</span>
+<span class="s1">       &quot;description&quot;: &quot;Network latency above 100ms&quot;,</span>
+<span class="s1">       &quot;metric&quot;: &quot;network_latency_ms&quot;,</span>
+<span class="s1">       &quot;condition&quot;: &quot;&gt; 100&quot;,</span>
+<span class="s1">       &quot;duration&quot;: &quot;2m&quot;,</span>
+<span class="s1">       &quot;severity&quot;: &quot;warning&quot;,</span>
+<span class="s1">       &quot;actions&quot;: [&quot;email&quot;, &quot;webhook&quot;]</span>
+<span class="s1">     }&#39;</span>
+
+<span class="c1"># Update alert rule</span>
+curl<span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/monitoring/alerts/rules/high_cpu_usage&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;condition&quot;: &quot;&gt; 85&quot;,</span>
+<span class="s1">       &quot;duration&quot;: &quot;3m&quot;,</span>
+<span class="s1">       &quot;enabled&quot;: true</span>
+<span class="s1">     }&#39;</span>
+</code></pre></div>
+
+<h3 id="notification-channels">Notification Channels</h3>
+<p><strong>Email Notifications</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;email_config&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;enabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;smtp_server&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;mail.company.com&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;smtp_port&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">587</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;username&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;alerts@company.com&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;password_file&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/etc/rotordream/smtp_password&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;use_tls&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;from_address&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;camera-alerts@company.com&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;recipients&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">      </span><span class="s2">&quot;admin@company.com&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="s2">&quot;ops@company.com&quot;</span>
+<span class="w">    </span><span class="p">]</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Webhook Notifications</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Configure webhook alerts</span>
+curl<span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/monitoring/alerts/webhooks&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;webhooks&quot;: [</span>
+<span class="s1">         {</span>
+<span class="s1">           &quot;name&quot;: &quot;slack_alerts&quot;,</span>
+<span class="s1">           &quot;url&quot;: &quot;https://hooks.slack.com/services/YOUR_WORKSPACE_ID/YOUR_CHANNEL_ID/YOUR_WEBHOOK_TOKEN&quot;,</span>
+<span class="s1">           &quot;method&quot;: &quot;POST&quot;,</span>
+<span class="s1">           &quot;headers&quot;: {</span>
+<span class="s1">             &quot;Content-Type&quot;: &quot;application/json&quot;</span>
+<span class="s1">           },</span>
+<span class="s1">           &quot;body_template&quot;: {</span>
+<span class="s1">             &quot;text&quot;: &quot;Alert: {{.AlertName}} - {{.Description}}&quot;,</span>
+<span class="s1">             &quot;channel&quot;: &quot;#monitoring&quot;,</span>
+<span class="s1">             &quot;username&quot;: &quot;C Pro&quot;</span>
+<span class="s1">           },</span>
+<span class="s1">           &quot;enabled&quot;: true</span>
+<span class="s1">         }</span>
+<span class="s1">       ]</span>
+<span class="s1">     }&#39;</span>
+</code></pre></div>
+
+<p><strong>SMS/Push Notifications</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;sms_config&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;enabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;provider&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;twilio&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;account_sid&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ACxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;auth_token_file&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/etc/rotordream/twilio_token&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;from_number&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;+15551234567&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;recipients&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">      </span><span class="s2">&quot;+15559876543&quot;</span>
+<span class="w">    </span><span class="p">]</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="alert-management">Alert Management</h3>
+<p><strong>View Active Alerts</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Get current alerts</span>
+curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>http://192.168.1.100:8080/api/monitoring/alerts
+
+<span class="c1"># Response format</span>
+<span class="o">{</span>
+<span class="w">  </span><span class="s2">&quot;alerts&quot;</span>:<span class="w"> </span><span class="o">[</span>
+<span class="w">    </span><span class="o">{</span>
+<span class="w">      </span><span class="s2">&quot;id&quot;</span>:<span class="w"> </span><span class="s2">&quot;alert_001&quot;</span>,
+<span class="w">      </span><span class="s2">&quot;rule_name&quot;</span>:<span class="w"> </span><span class="s2">&quot;high_cpu_usage&quot;</span>,
+<span class="w">      </span><span class="s2">&quot;severity&quot;</span>:<span class="w"> </span><span class="s2">&quot;warning&quot;</span>,
+<span class="w">      </span><span class="s2">&quot;status&quot;</span>:<span class="w"> </span><span class="s2">&quot;firing&quot;</span>,
+<span class="w">      </span><span class="s2">&quot;started&quot;</span>:<span class="w"> </span><span class="s2">&quot;2025-01-15T10:25:00Z&quot;</span>,
+<span class="w">      </span><span class="s2">&quot;current_value&quot;</span>:<span class="w"> </span><span class="m">85</span>.2,
+<span class="w">      </span><span class="s2">&quot;threshold&quot;</span>:<span class="w"> </span><span class="m">80</span>,
+<span class="w">      </span><span class="s2">&quot;description&quot;</span>:<span class="w"> </span><span class="s2">&quot;CPU usage above 80% for 5 minutes&quot;</span>
+<span class="w">    </span><span class="o">}</span>
+<span class="w">  </span><span class="o">]</span>
+<span class="o">}</span>
+
+<span class="c1"># Acknowledge alert</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/monitoring/alerts/alert_001/acknowledge&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;user&quot;: &quot;admin&quot;,</span>
+<span class="s1">       &quot;comment&quot;: &quot;Investigating high CPU usage&quot;</span>
+<span class="s1">     }&#39;</span>
+
+<span class="c1"># Silence alert</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/monitoring/alerts/silence&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;rule_name&quot;: &quot;high_cpu_usage&quot;,</span>
+<span class="s1">       &quot;duration&quot;: &quot;1h&quot;,</span>
+<span class="s1">       &quot;reason&quot;: &quot;Scheduled maintenance&quot;</span>
+<span class="s1">     }&#39;</span>
+</code></pre></div>
+
+<h2 id="monitoring-dashboard">Monitoring Dashboard</h2>
+<h3 id="web-dashboard">Web Dashboard</h3>
+<p><strong>Dashboard Configuration</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;dashboard&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;enabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;port&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">8082</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;refresh_interval&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">30</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;widgets&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">      </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;system_overview&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;System Overview&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;position&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;x&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;y&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;w&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;h&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">},</span>
+<span class="w">        </span><span class="nt">&quot;metrics&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;cpu_usage&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;memory_usage&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;storage_usage&quot;</span><span class="p">]</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;camera_status&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Camera Status&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;position&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;x&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;y&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;w&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;h&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">},</span>
+<span class="w">        </span><span class="nt">&quot;metrics&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;fps&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;bitrate&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;active_streams&quot;</span><span class="p">]</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;network_performance&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Network Performance&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;position&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;x&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;y&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;w&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">12</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;h&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">},</span>
+<span class="w">        </span><span class="nt">&quot;metrics&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;bandwidth_in&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;bandwidth_out&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;latency&quot;</span><span class="p">]</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">]</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Access Dashboard</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Dashboard URL</span>
+http://192.168.1.100:8082/monitoring
+
+<span class="c1"># API for dashboard data</span>
+curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>http://192.168.1.100:8080/api/monitoring/dashboard
+</code></pre></div>
+
+<h3 id="grafana-integration">Grafana Integration</h3>
+<p><strong>Grafana Configuration</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># docker-compose.yml for Grafana</span>
+<span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;3.8&#39;</span>
+<span class="nt">services</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">grafana</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">grafana/grafana:latest</span>
+<span class="w">    </span><span class="nt">ports</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;3000:3000&quot;</span>
+<span class="w">    </span><span class="nt">environment</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">GF_SECURITY_ADMIN_PASSWORD=admin123</span>
+<span class="w">    </span><span class="nt">volumes</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">grafana-storage:/var/lib/grafana</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">./grafana/datasources:/etc/grafana/provisioning/datasources</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">./grafana/dashboards:/etc/grafana/provisioning/dashboards</span>
+
+<span class="nt">volumes</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">grafana-storage</span><span class="p">:</span>
+</code></pre></div>
+
+<p><strong>Data Source Configuration</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># grafana/datasources/rotordream.yml</span>
+<span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="nt">datasources</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">C Pro</span>
+<span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">prometheus</span>
+<span class="w">    </span><span class="nt">url</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">http://192.168.1.100:8080/api/monitoring/prometheus</span>
+<span class="w">    </span><span class="nt">access</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">proxy</span>
+<span class="w">    </span><span class="nt">basicAuth</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">    </span><span class="nt">httpHeaderName1</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Authorization</span>
+<span class="w">    </span><span class="nt">httpHeaderValue1</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Bearer 1a2B3c4D5e6f7G8h</span>
+</code></pre></div>
+
+<h2 id="log-analysis">Log Analysis</h2>
+<h3 id="log-aggregation">Log Aggregation</h3>
+<p><strong>Log Collection</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Get system logs</span>
+curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span><span class="s2">&quot;http://192.168.1.100:8080/api/monitoring/logs?service=camera&amp;level=error&amp;limit=100&quot;</span>
+
+<span class="c1"># Response format</span>
+<span class="o">{</span>
+<span class="w">  </span><span class="s2">&quot;logs&quot;</span>:<span class="w"> </span><span class="o">[</span>
+<span class="w">    </span><span class="o">{</span>
+<span class="w">      </span><span class="s2">&quot;timestamp&quot;</span>:<span class="w"> </span><span class="s2">&quot;2025-01-15T10:30:00Z&quot;</span>,
+<span class="w">      </span><span class="s2">&quot;level&quot;</span>:<span class="w"> </span><span class="s2">&quot;error&quot;</span>,
+<span class="w">      </span><span class="s2">&quot;service&quot;</span>:<span class="w"> </span><span class="s2">&quot;camera&quot;</span>,
+<span class="w">      </span><span class="s2">&quot;message&quot;</span>:<span class="w"> </span><span class="s2">&quot;Failed to capture frame&quot;</span>,
+<span class="w">      </span><span class="s2">&quot;context&quot;</span>:<span class="w"> </span><span class="o">{</span>
+<span class="w">        </span><span class="s2">&quot;camera_id&quot;</span>:<span class="w"> </span><span class="s2">&quot;camera_001&quot;</span>,
+<span class="w">        </span><span class="s2">&quot;error_code&quot;</span>:<span class="w"> </span><span class="s2">&quot;CAPTURE_TIMEOUT&quot;</span>,
+<span class="w">        </span><span class="s2">&quot;retry_count&quot;</span>:<span class="w"> </span><span class="m">3</span>
+<span class="w">      </span><span class="o">}</span>
+<span class="w">    </span><span class="o">}</span>
+<span class="w">  </span><span class="o">]</span>
+<span class="o">}</span>
+</code></pre></div>
+
+<p><strong>Log Analysis</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Analyze error patterns</span>
+curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>http://192.168.1.100:8080/api/monitoring/logs/analysis
+
+<span class="c1"># Response includes error frequency, patterns, trends</span>
+<span class="o">{</span>
+<span class="w">  </span><span class="s2">&quot;analysis&quot;</span>:<span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="s2">&quot;error_frequency&quot;</span>:<span class="w"> </span><span class="o">{</span>
+<span class="w">      </span><span class="s2">&quot;total_errors&quot;</span>:<span class="w"> </span><span class="m">156</span>,
+<span class="w">      </span><span class="s2">&quot;errors_per_hour&quot;</span>:<span class="w"> </span><span class="m">6</span>.5,
+<span class="w">      </span><span class="s2">&quot;trend&quot;</span>:<span class="w"> </span><span class="s2">&quot;increasing&quot;</span>
+<span class="w">    </span><span class="o">}</span>,
+<span class="w">    </span><span class="s2">&quot;error_types&quot;</span>:<span class="w"> </span><span class="o">[</span>
+<span class="w">      </span><span class="o">{</span>
+<span class="w">        </span><span class="s2">&quot;type&quot;</span>:<span class="w"> </span><span class="s2">&quot;CAPTURE_TIMEOUT&quot;</span>,
+<span class="w">        </span><span class="s2">&quot;count&quot;</span>:<span class="w"> </span><span class="m">45</span>,
+<span class="w">        </span><span class="s2">&quot;percentage&quot;</span>:<span class="w"> </span><span class="m">28</span>.8
+<span class="w">      </span><span class="o">}</span>,
+<span class="w">      </span><span class="o">{</span>
+<span class="w">        </span><span class="s2">&quot;type&quot;</span>:<span class="w"> </span><span class="s2">&quot;ENCODING_ERROR&quot;</span>,
+<span class="w">        </span><span class="s2">&quot;count&quot;</span>:<span class="w"> </span><span class="m">23</span>,
+<span class="w">        </span><span class="s2">&quot;percentage&quot;</span>:<span class="w"> </span><span class="m">14</span>.7
+<span class="w">      </span><span class="o">}</span>
+<span class="w">    </span><span class="o">]</span>
+<span class="w">  </span><span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div>
+
+<h2 id="performance-tuning">Performance Tuning</h2>
+<h3 id="optimization-monitoring">Optimization Monitoring</h3>
+<p><strong>Performance Baselines</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Establish performance baseline</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/monitoring/baseline&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;duration&quot;: &quot;24h&quot;,</span>
+<span class="s1">       &quot;metrics&quot;: [&quot;cpu_usage&quot;, &quot;memory_usage&quot;, &quot;fps&quot;, &quot;bitrate&quot;]</span>
+<span class="s1">     }&#39;</span>
+
+<span class="c1"># Compare against baseline</span>
+curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>http://192.168.1.100:8080/api/monitoring/baseline/compare
+</code></pre></div>
+
+<p><strong>Load Testing</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Stress test camera system</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/monitoring/stress-test&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;test_type&quot;: &quot;concurrent_streams&quot;,</span>
+<span class="s1">       &quot;parameters&quot;: {</span>
+<span class="s1">         &quot;stream_count&quot;: 10,</span>
+<span class="s1">         &quot;duration_minutes&quot;: 30,</span>
+<span class="s1">         &quot;monitor_metrics&quot;: true</span>
+<span class="s1">       }</span>
+<span class="s1">     }&#39;</span>
+</code></pre></div>
+
+<h2 id="troubleshooting">Troubleshooting</h2>
+<h3 id="common-monitoring-issues">Common Monitoring Issues</h3>
+<p><strong>High Resource Usage</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Identify resource-heavy processes</span>
+curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>http://192.168.1.100:8080/api/monitoring/top-processes
+
+<span class="c1"># Get detailed process analysis</span>
+curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span><span class="s2">&quot;http://192.168.1.100:8080/api/monitoring/process-analysis?pid=1234&quot;</span>
+</code></pre></div>
+
+<p><strong>Monitoring System Health</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Check monitoring system status</span>
+curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>http://192.168.1.100:8080/api/monitoring/health
+
+<span class="c1"># Reset monitoring counters</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/monitoring/reset&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span>
+</code></pre></div>
+
+<h2 id="related-documentation">Related Documentation</h2>
+<ul>
+<li><a href="./performance.md">Performance Tuning</a> - System optimization guidelines</li>
+<li><a href="./troubleshooting.md">Troubleshooting</a> - Problem diagnosis and resolution</li>
+<li><a href="../api/http-api.md">API Reference</a> - Monitoring API endpoints</li>
+<li><a href="../configuration/storage-backup.md">Storage Configuration</a> - Storage monitoring</li>
+</ul>
+<hr />
+<p><em>Monitoring documentation based on modern observability practices and industry standards</em></p>
+            </div>
+            <footer class="content-footer">
+                <p>Copyright © 2025 Rotoclear</p>
+            </footer>
+        </main>
+        
+        <button class="mobile-menu-toggle" id="menuToggle" aria-label="Toggle menu">☰</button>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>
+        // Initialize Mermaid
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            securityLevel: 'loose',
+            fontFamily: 'Inter, sans-serif'
+        });
+        
+        // Syntax highlighting
+        hljs.highlightAll();
+        
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.querySelector('.sidebar');
+        
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+        });
+        
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth <= 768 && 
+                !sidebar.contains(e.target) && 
+                !menuToggle.contains(e.target) &&
+                sidebar.classList.contains('active')) {
+                sidebar.classList.remove('active');
+            }
+        });
+        
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

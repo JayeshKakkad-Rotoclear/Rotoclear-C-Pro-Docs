@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Getting Started - RotoClear Camera Server Documentation</title>
+    <link rel="stylesheet" href="/assets/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1><a href="/index.html">RotoClear Docs</a></h1>
+                <p>Camera Server Documentation</p>
+            </div>
+            <nav class="sidebar-nav">
+                <ul class="nav-menu">
+                    <li class="nav-item depth-0">
+<a href="/index.html">Home</a>
+</li>
+<li class="nav-item depth-0 active">
+<a href="/getting-started.html">Getting Started</a>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Architecture</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/architecture/overview.html">Overview</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/architecture/state-management.html">State Management</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/architecture/camera-pipeline.html">Camera Pipeline</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/architecture/metadata-sqlite.html">Metadata & SQLite</a>
+</li>
+<li class="nav-folder depth-1">
+<span class="folder-title">Decisions</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-2">
+<a href="/architecture/decisions/ADR-0001-nim-language.html">ADR-0001 Nim Language</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/architecture/decisions/ADR-0002-corun-framework.html">ADR-0002 Corun Framework</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/architecture/decisions/ADR-0003-observable-state.html">ADR-0003 Observable State</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">API Reference</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/api/README.html">Overview</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/api/websocket-api.html">WebSocket API</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/api/http-api.html">HTTP API</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/api/rtsp-streaming.html">RTSP Streaming</a>
+</li>
+<li class="nav-folder depth-1">
+<span class="folder-title">Examples</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-2">
+<a href="/api/examples/python-client.html">Python Client</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/api/examples/javascript-client.html">JavaScript Client</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/api/examples/csharp-client.html">C# Client</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Configuration</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/configuration/environments.html">Environments</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/factory-config.html">Factory Config</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/license-config.html">License Config</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/deployment-variants.html">Deployment Variants</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/camera-system.html">Camera System</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/network.html">Network</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/storage-backup.html">Storage & Backup</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/authentication.html">Authentication</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Camera System</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/camera/hardware-interface.html">Hardware Interface</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/camera/streaming.html">Streaming</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/camera/recording.html">Recording</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/camera/image-processing.html">Image Processing</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Operations</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/operations/build-and-deploy.html">Build and Deploy</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/build-deploy.html">Build & Deploy (Alt)</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/monitoring.html">Monitoring</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/performance.html">Performance</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/troubleshooting.html">Troubleshooting</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Security</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/security/authentication.html">Authentication</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/security/permissions.html">Permissions</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/security/ssl-certificates.html">SSL Certificates</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Testing</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/testing/testing-strategy.html">Strategy</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/testing/strategies.html">Strategies</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/testing/test-cases.html">Test Cases</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/testing/validation.html">Validation</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Integration</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/integration/onvif-protocol.html">ONVIF Protocol</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/integration/third-party.html">Third Party</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Reference</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/reference/glossary.html">Glossary</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/reference/requirements.html">Requirements</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/reference/state-observables.html">State Observables</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Releases</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/releases/CHANGELOG.html">Changelog</a>
+</li>
+</ul>
+</li>
+<li class="nav-item depth-0">
+<a href="/glossary.html">Glossary</a>
+</li>
+                </ul>
+            </nav>
+        </aside>
+        
+        <main class="content">
+            <div class="content-wrapper">
+                <h1 id="getting-started-with-c-pro-camera-server">Getting Started with C Pro Camera Server</h1>
+<p><strong>Quick start guide to get your C Pro camera system up and running.</strong></p>
+<h2 id="overview">Overview</h2>
+<p>This guide will help you set up, configure, and start using the C Pro camera server for the first time, whether you're working with the embedded system or setting up a development environment.</p>
+<h2 id="prerequisites">Prerequisites</h2>
+<h3 id="hardware-requirements">Hardware Requirements</h3>
+<p><strong>Minimum for Development</strong>:<br />
+- x86_64 or ARM64 processor<br />
+- 2GB RAM<br />
+- 10GB disk space</p>
+<p><strong>Recommended for Production</strong>:<br />
+- ARM64 embedded platform (Cortex-A53+)<br />
+- 4GB RAM<br />
+- Ethernet</p>
+<h3 id="software-requirements">Software Requirements</h3>
+<p><strong>Linux System</strong>:<br />
+- Ubuntu 20.04+ <br />
+- Kernel 4.9+ (for V4L2 support)</p>
+<p><strong>Runtime Dependencies</strong>:<br />
+- GStreamer 1.14+<br />
+- SQLite 3.20+<br />
+- LevelDB 1.20+<br />
+- V4L2 drivers</p>
+<p><strong>Build Dependencies</strong> (development only):<br />
+- Nim compiler 1.6+<br />
+- GCC 7+ or Clang 10+<br />
+- pkg-config<br />
+- Linux kernel headers</p>
+<h2 id="quick-start-embedded-system">Quick Start (Embedded System)</h2>
+<p>If you received a pre-configured embedded device, follow these steps:</p>
+<h3 id="1-physical-setup">1. Physical Setup</h3>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Connect hardware components</span>
+<span class="m">1</span>.<span class="w"> </span>Connect<span class="w"> </span>camera<span class="o">(</span>s<span class="o">)</span><span class="w"> </span>to<span class="w"> </span>camera<span class="w"> </span>ports
+<span class="m">2</span>.<span class="w"> </span>Connect<span class="w"> </span>Ethernet<span class="w"> </span>cable
+<span class="m">3</span>.<span class="w"> </span>Connect<span class="w"> </span>power<span class="w"> </span>supply
+<span class="m">4</span>.<span class="w"> </span>Wait<span class="w"> </span><span class="m">30</span>-60<span class="w"> </span>seconds<span class="w"> </span><span class="k">for</span><span class="w"> </span>boot
+</code></pre></div>
+
+<h3 id="2-network-configuration">2. Network Configuration</h3>
+<p><strong>Default Network Settings</strong>:<br />
+- <strong>DHCP</strong>: Enabled by default<br />
+- <strong>Hostname</strong>: <code>rotoclear-XXXXXX</code> (based on MAC address)<br />
+- <strong>Discovery</strong>: mDNS/Bonjour enabled</p>
+<p><strong>Find Your Device</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Using mDNS (Linux/Mac)</span>
+avahi-browse<span class="w"> </span>-rt<span class="w"> </span>_http._tcp
+
+<span class="c1"># Or scan your network</span>
+nmap<span class="w"> </span>-sn<span class="w"> </span><span class="m">192</span>.168.1.0/24
+
+<span class="c1"># Or check DHCP leases on your router</span>
+</code></pre></div>
+
+<h3 id="3-access-web-interface">3. Access Web Interface</h3>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Open browser and navigate to:</span>
+http://rotoclear-XXXXXX.local
+<span class="c1"># or</span>
+http://&lt;device-ip-address&gt;
+
+<span class="c1"># Default credentials:</span>
+Username:<span class="w"> </span>admin
+Password:<span class="w"> </span>admin<span class="w">  </span><span class="c1"># Change immediately!</span>
+</code></pre></div>
+
+<h3 id="4-initial-configuration">4. Initial Configuration</h3>
+<ol>
+<li>
+<p><strong>Change Default Password</strong><br />
+   - Navigate to Settings → Users<br />
+   - Update admin password<br />
+   - Click "Save Changes"</p>
+</li>
+<li>
+<p><strong>Verify Camera Detection</strong><br />
+   - Go to Camera → Settings<br />
+   - Confirm camera(s) detected<br />
+   - Adjust resolution/fps if needed</p>
+</li>
+<li>
+<p><strong>Configure Network</strong> (optional)<br />
+   - Go to Network → Settings<br />
+   - Set static IP if required<br />
+   - Configure hostname</p>
+</li>
+<li>
+<p><strong>Test Streaming</strong><br />
+   - Navigate to Live View<br />
+   - Verify video feed appears<br />
+   - Test RTSP stream: <code>rtsp://&lt;device-ip&gt;:554/stream1</code></p>
+</li>
+</ol>
+<h2 id="quick-start-development">Quick Start (Development)</h2>
+<h3 id="1-install-dependencies">1. Install Dependencies</h3>
+<p><strong>Ubuntu/Debian</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Install system dependencies</span>
+sudo<span class="w"> </span>apt<span class="w"> </span>update
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>build-essential<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>git<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>pkg-config<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>sqlite3<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>libleveldb-dev<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>gstreamer1.0-tools<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>gstreamer1.0-plugins-base<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>gstreamer1.0-plugins-good<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>gstreamer1.0-plugins-bad<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>gstreamer1.0-plugins-ugly<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>libgstreamer1.0-dev<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>libgstreamer-plugins-base1.0-dev
+
+<span class="c1"># Install Nim compiler</span>
+curl<span class="w"> </span>https://nim-lang.org/choosenim/init.sh<span class="w"> </span>-sSf<span class="w"> </span><span class="p">|</span><span class="w"> </span>sh
+<span class="nb">export</span><span class="w"> </span><span class="nv">PATH</span><span class="o">=</span><span class="nv">$HOME</span>/.nimble/bin:<span class="nv">$PATH</span>
+choosenim<span class="w"> </span>stable
+</code></pre></div>
+
+<p><strong>Verify Installation</strong>:</p>
+<div class="codehilite"><pre><span></span><code>nim<span class="w"> </span>--version<span class="w">      </span><span class="c1"># Should show Nim 1.6+</span>
+gst-inspect-1.0<span class="w">    </span><span class="c1"># Should list GStreamer plugins</span>
+</code></pre></div>
+
+<h3 id="2-clone-repository">2. Clone Repository</h3>
+<div class="codehilite"><pre><span></span><code>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/cortona-rotoclear/rotordream.git
+<span class="nb">cd</span><span class="w"> </span>rotordream
+</code></pre></div>
+
+<h3 id="3-install-nim-dependencies">3. Install Nim Dependencies</h3>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Install required Nim packages</span>
+nimble<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>corun
+
+<span class="c1"># Check tools directory exists</span>
+ls<span class="w"> </span>tools/
+</code></pre></div>
+
+<h3 id="4-build-development-version">4. Build Development Version</h3>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Build for development (with debug symbols)</span>
+nim<span class="w"> </span>c<span class="w"> </span>-d:debug<span class="w"> </span>rotordream.nim
+
+<span class="c1"># Or use the build tool</span>
+nim<span class="w"> </span>c<span class="w"> </span>-r<span class="w"> </span>tools/buildRelease.nim<span class="w"> </span>--target:local
+</code></pre></div>
+
+<h3 id="5-run-development-server">5. Run Development Server</h3>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Run with default settings</span>
+./rotordream
+
+<span class="c1"># Or with custom configuration</span>
+./rotordream<span class="w"> </span>--config<span class="o">=</span>config.json
+</code></pre></div>
+
+<p><strong>Expected Output</strong>:</p>
+<div class="codehilite"><pre><span></span><code>GStreamer initialized
+Camera client started
+State system initialized
+HTTP server listening on :80
+HTTPS server listening on :443
+RTSP server listening on :554
+</code></pre></div>
+
+<h3 id="6-access-development-interface">6. Access Development Interface</h3>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Open browser</span>
+http://localhost:80
+
+<span class="c1"># Default development credentials:</span>
+Username:<span class="w"> </span>admin
+Password:<span class="w"> </span>admin
+</code></pre></div>
+
+<h2 id="configuration">Configuration</h2>
+<h3 id="factory-configuration">Factory Configuration</h3>
+<p>The system uses build-time variant configuration. See <a href="configuration/deployment-variants.md">Deployment Variants</a> for details.</p>
+<p><strong>Configuration Files</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">rsc_config</span><span class="o">/</span>
+<span class="err">├──</span><span class="w"> </span><span class="n">config_DEFAULT</span><span class="o">/</span><span class="w">      </span><span class="c1"># Development</span>
+<span class="err">├──</span><span class="w"> </span><span class="n">config_DEMO</span><span class="o">/</span><span class="w">         </span><span class="c1"># Demo mode</span>
+<span class="err">├──</span><span class="w"> </span><span class="n">config_DEV</span><span class="o">/</span><span class="w">          </span><span class="c1"># Factory testing</span>
+<span class="err">├──</span><span class="w"> </span><span class="n">config_EDU</span><span class="o">/</span><span class="w">          </span><span class="c1"># Education variant</span>
+<span class="err">├──</span><span class="w"> </span><span class="n">config_rc_DMG</span><span class="o">/</span><span class="w">       </span><span class="c1"># Production</span>
+<span class="err">└──</span><span class="w"> </span><span class="n">config_VB</span><span class="o">/</span><span class="w">           </span><span class="c1"># OEM variant</span>
+</code></pre></div>
+
+<p><strong>Select Variant at Build</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Build with specific variant</span>
+nim<span class="w"> </span>c<span class="w"> </span>-d:variant_EDU<span class="w"> </span>rotordream.nim
+</code></pre></div>
+
+<h3 id="runtime-configuration">Runtime Configuration</h3>
+<p><strong>State Persistence</strong>: Stored in LevelDB<br />
+- <strong>Embedded</strong>: <code>/media/data/state.db</code><br />
+- <strong>Desktop</strong>: <code>./state.db</code></p>
+<p><strong>Metadata Database</strong>: SQLite<br />
+- <strong>Embedded</strong>: <code>/media/data/metadata.db</code><br />
+- <strong>Desktop</strong>: <code>./metadata.db</code></p>
+<p><strong>Media Storage</strong>:<br />
+- <strong>Embedded</strong>: <code>/media/data/videos/</code><br />
+- <strong>Desktop</strong>: <code>./videos/</code></p>
+<h2 id="basic-operations">Basic Operations</h2>
+<h3 id="startstop-services">Start/Stop Services</h3>
+<p><strong>Embedded System</strong> (systemd):</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Check status</span>
+systemctl<span class="w"> </span>status<span class="w"> </span>rotordream
+
+<span class="c1"># Start service</span>
+sudo<span class="w"> </span>systemctl<span class="w"> </span>start<span class="w"> </span>rotordream
+
+<span class="c1"># Stop service</span>
+sudo<span class="w"> </span>systemctl<span class="w"> </span>stop<span class="w"> </span>rotordream
+
+<span class="c1"># Restart service</span>
+sudo<span class="w"> </span>systemctl<span class="w"> </span>restart<span class="w"> </span>rotordream
+
+<span class="c1"># Enable auto-start on boot</span>
+sudo<span class="w"> </span>systemctl<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>rotordream
+</code></pre></div>
+
+<p><strong>Development</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Start in foreground</span>
+./rotordream
+
+<span class="c1"># Stop with Ctrl+C</span>
+
+<span class="c1"># Run in background</span>
+./rotordream<span class="w"> </span><span class="p">&amp;</span>
+
+<span class="c1"># Stop background process</span>
+killall<span class="w"> </span>rotordream
+</code></pre></div>
+
+<h3 id="check-system-status">Check System Status</h3>
+<p><strong>Via Web API</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># System info</span>
+curl<span class="w"> </span>http://localhost/api/info
+
+<span class="c1"># System status</span>
+curl<span class="w"> </span>http://localhost/api/status
+
+<span class="c1"># Camera status</span>
+curl<span class="w"> </span>http://localhost/api/camera/status
+</code></pre></div>
+
+<p><strong>Via Logs</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Embedded system</span>
+journalctl<span class="w"> </span>-u<span class="w"> </span>rotordream<span class="w"> </span>-f
+
+<span class="c1"># Development</span>
+tail<span class="w"> </span>-f<span class="w"> </span>/var/log/rotordream.log
+</code></pre></div>
+
+<h3 id="test-camera">Test Camera</h3>
+<p><strong>Verify Camera Detection</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># List V4L2 devices</span>
+v4l2-ctl<span class="w"> </span>--list-devices
+
+<span class="c1"># Get camera capabilities</span>
+v4l2-ctl<span class="w"> </span>-d<span class="w"> </span>/dev/video0<span class="w"> </span>--all
+</code></pre></div>
+
+<p><strong>Test GStreamer Pipeline</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Test camera capture</span>
+gst-launch-1.0<span class="w"> </span>v4l2src<span class="w"> </span><span class="nv">device</span><span class="o">=</span>/dev/video0<span class="w"> </span>!<span class="w"> </span>videoconvert<span class="w"> </span>!<span class="w"> </span>autovideosink
+
+<span class="c1"># Test encoding</span>
+gst-launch-1.0<span class="w"> </span>v4l2src<span class="w"> </span><span class="nv">device</span><span class="o">=</span>/dev/video0<span class="w"> </span>!<span class="w"> </span>videoconvert<span class="w"> </span>!<span class="w"> </span>x264enc<span class="w"> </span>!<span class="w"> </span>filesink<span class="w"> </span><span class="nv">location</span><span class="o">=</span>test.h264
+</code></pre></div>
+
+<h3 id="test-streaming">Test Streaming</h3>
+<p><strong>RTSP Stream</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Using VLC</span>
+vlc<span class="w"> </span>rtsp://localhost:554/stream1
+
+<span class="c1"># Using FFmpeg</span>
+ffplay<span class="w"> </span>rtsp://localhost:554/stream1
+
+<span class="c1"># Using GStreamer</span>
+gst-launch-1.0<span class="w"> </span>playbin<span class="w"> </span><span class="nv">uri</span><span class="o">=</span>rtsp://localhost:554/stream1
+</code></pre></div>
+
+<p><strong>WebSocket API</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Using websocat (install: cargo install websocat)</span>
+websocat<span class="w"> </span>ws://localhost/api/v1
+
+<span class="c1"># Send state update</span>
+<span class="o">{</span><span class="s2">&quot;light0&quot;</span>:<span class="w"> </span>true<span class="o">}</span>
+</code></pre></div>
+
+<h2 id="first-recording">First Recording</h2>
+<h3 id="via-web-interface">Via Web Interface</h3>
+<ol>
+<li>Navigate to <strong>Recording</strong> section</li>
+<li>Click <strong>Start Recording</strong></li>
+<li>Recording appears in <strong>Recordings</strong> list</li>
+<li>Click <strong>Stop Recording</strong> when done</li>
+<li>View recording in <strong>Playback</strong> section</li>
+</ol>
+<h3 id="via-api">Via API</h3>
+<p><strong>HTTP API</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Start recording</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>http://localhost/api/recording/start
+
+<span class="c1"># Stop recording</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>http://localhost/api/recording/stop
+
+<span class="c1"># List recordings</span>
+curl<span class="w"> </span>http://localhost/api/recordings
+</code></pre></div>
+
+<p><strong>WebSocket API</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1">// Connect to WebSocket</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">ws</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">WebSocket</span><span class="p">(</span><span class="s1">&#39;ws://localhost/api/v1&#39;</span><span class="p">);</span>
+
+<span class="c1">// Start recording</span>
+<span class="nx">ws</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="nb">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">({</span>
+<span class="w">  </span><span class="s2">&quot;record&quot;</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="p">}));</span>
+
+<span class="c1">// Stop recording</span>
+<span class="nx">ws</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="nb">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">({</span>
+<span class="w">  </span><span class="s2">&quot;record&quot;</span><span class="o">:</span><span class="w"> </span><span class="kc">false</span>
+<span class="p">}));</span>
+</code></pre></div>
+
+<h2 id="user-management">User Management</h2>
+<h3 id="create-additional-users">Create Additional Users</h3>
+<p><strong>Via Web Interface</strong>:<br />
+1. Settings → Users → Add User<br />
+2. Enter username, password, email<br />
+3. Assign role (Operator, Viewer, Admin)<br />
+4. Click "Create User"</p>
+<p><strong>Via API</strong>:</p>
+<div class="codehilite"><pre><span></span><code>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>http://localhost/api/users<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-u<span class="w"> </span>admin:admin<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">    &quot;username&quot;: &quot;doctor1&quot;,</span>
+<span class="s1">    &quot;password&quot;: &quot;secure_password&quot;,</span>
+<span class="s1">    &quot;email&quot;: &quot;doctor1@hospital.com&quot;,</span>
+<span class="s1">    &quot;role&quot;: &quot;operator&quot;</span>
+<span class="s1">  }&#39;</span>
+</code></pre></div>
+
+<h3 id="user-roles">User Roles</h3>
+<table>
+<thead>
+<tr>
+<th>Role</th>
+<th>Permissions</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Admin</strong></td>
+<td>Full system access, user management, configuration</td>
+</tr>
+<tr>
+<td><strong>Operator</strong></td>
+<td>Camera control, recording, streaming, tagging</td>
+</tr>
+<tr>
+<td><strong>Viewer</strong></td>
+<td>View streams, playback recordings (read-only)</td>
+</tr>
+<tr>
+<td><strong>Guest</strong></td>
+<td>Limited view-only access</td>
+</tr>
+</tbody>
+</table>
+<p>See <a href="security/permissions.md">Permissions Documentation</a> for details.</p>
+<h2 id="network-configuration">Network Configuration</h2>
+<h3 id="static-ip-configuration">Static IP Configuration</h3>
+<p><strong>Via Web Interface</strong>:<br />
+1. Network → Settings<br />
+2. Disable DHCP<br />
+3. Enter IP, Netmask, Gateway, DNS<br />
+4. Click "Apply"<br />
+5. System will restart with new network settings</p>
+<p><strong>Via Command Line</strong> (embedded):</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Edit network configuration</span>
+sudo<span class="w"> </span>nano<span class="w"> </span>/etc/network/interfaces
+
+<span class="c1"># Example static configuration:</span>
+auto<span class="w"> </span>eth0
+iface<span class="w"> </span>eth0<span class="w"> </span>inet<span class="w"> </span>static
+<span class="w">  </span>address<span class="w"> </span><span class="m">192</span>.168.1.100
+<span class="w">  </span>netmask<span class="w"> </span><span class="m">255</span>.255.255.0
+<span class="w">  </span>gateway<span class="w"> </span><span class="m">192</span>.168.1.1
+<span class="w">  </span>dns-nameservers<span class="w"> </span><span class="m">8</span>.8.8.8
+
+<span class="c1"># Apply changes</span>
+sudo<span class="w"> </span>systemctl<span class="w"> </span>restart<span class="w"> </span>networking
+</code></pre></div>
+
+<h3 id="port-forwarding">Port Forwarding</h3>
+<p>If accessing from external network, forward these ports:</p>
+<table>
+<thead>
+<tr>
+<th>Port</th>
+<th>Protocol</th>
+<th>Service</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>80</td>
+<td>TCP</td>
+<td>HTTP Web Interface</td>
+</tr>
+<tr>
+<td>443</td>
+<td>TCP</td>
+<td>HTTPS Web Interface</td>
+</tr>
+<tr>
+<td>554</td>
+<td>TCP</td>
+<td>RTSP Streaming</td>
+</tr>
+<tr>
+<td>8080</td>
+<td>TCP</td>
+<td>Alternative HTTP</td>
+</tr>
+</tbody>
+</table>
+<h2 id="troubleshooting">Troubleshooting</h2>
+<h3 id="camera-not-detected">Camera Not Detected</h3>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Check USB devices</span>
+lsusb
+
+<span class="c1"># Check V4L2 devices</span>
+ls<span class="w"> </span>-l<span class="w"> </span>/dev/video*
+
+<span class="c1"># Check permissions</span>
+sudo<span class="w"> </span>usermod<span class="w"> </span>-aG<span class="w"> </span>video<span class="w"> </span><span class="nv">$USER</span>
+
+<span class="c1"># Reboot if needed</span>
+sudo<span class="w"> </span>reboot
+</code></pre></div>
+
+<h3 id="cannot-access-web-interface">Cannot Access Web Interface</h3>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Check if service is running</span>
+systemctl<span class="w"> </span>status<span class="w"> </span>rotordream
+
+<span class="c1"># Check port availability</span>
+sudo<span class="w"> </span>netstat<span class="w"> </span>-tlnp<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>:80
+
+<span class="c1"># Check firewall</span>
+sudo<span class="w"> </span>ufw<span class="w"> </span>status
+sudo<span class="w"> </span>ufw<span class="w"> </span>allow<span class="w"> </span><span class="m">80</span>/tcp
+</code></pre></div>
+
+<h3 id="no-video-stream">No Video Stream</h3>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Check GStreamer plugins</span>
+gst-inspect-1.0<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>v4l2
+
+<span class="c1"># Test camera directly</span>
+gst-launch-1.0<span class="w"> </span>v4l2src<span class="w"> </span>!<span class="w"> </span>autovideosink
+
+<span class="c1"># Check system logs</span>
+journalctl<span class="w"> </span>-u<span class="w"> </span>rotordream<span class="w"> </span>-n<span class="w"> </span><span class="m">100</span>
+</code></pre></div>
+
+<h3 id="poor-video-quality">Poor Video Quality</h3>
+<ol>
+<li>
+<p><strong>Check Resolution Settings</strong><br />
+   - Camera → Settings → Resolution<br />
+   - Lower resolution for better performance</p>
+</li>
+<li>
+<p><strong>Check Frame Rate</strong><br />
+   - Camera → Settings → FPS<br />
+   - Try 30 FPS instead of 60 FPS</p>
+</li>
+<li>
+<p><strong>Check Network Bandwidth</strong><br />
+<code>bash
+   # Test network speed
+   iperf3 -c &lt;server-ip&gt;</code></p>
+</li>
+<li>
+<p><strong>Check CPU Usage</strong><br />
+<code>bash
+   # Monitor system resources
+   htop</code></p>
+</li>
+</ol>
+<h2 id="next-steps">Next Steps</h2>
+<h3 id="learn-more">Learn More</h3>
+<ul>
+<li><strong><a href="architecture/overview.md">Architecture Overview</a></strong>: Understand system design</li>
+<li><strong><a href="api/README.md">API Documentation</a></strong>: Integrate with external systems</li>
+<li><strong><a href="configuration/factory-config.md">Configuration Guide</a></strong>: Advanced configuration</li>
+<li><strong><a href="security/authentication.md">Security Setup</a></strong>: Secure your deployment</li>
+<li><strong><a href="operations/build-and-deploy.md">Operations Guide</a></strong>: Production deployment</li>
+</ul>
+<h3 id="explore-features">Explore Features</h3>
+<ul>
+<li><strong><a href="camera/recording.md">Recording System</a></strong>: Advanced recording features</li>
+<li><strong><a href="camera/streaming.md">Streaming Options</a></strong>: RTSP, WebRTC, ONVIF</li>
+<li><strong><a href="camera/image-processing.md">Image Processing</a></strong>: Enhancement, overlays</li>
+<li><strong><a href="camera/recording.md#tag-system">Tag Management</a></strong>: Organize recordings</li>
+</ul>
+<h3 id="get-help">Get Help</h3>
+<ul>
+<li><strong><a href="operations/troubleshooting.md">Troubleshooting Guide</a></strong>: Common issues</li>
+<li><strong><a href="glossary.md">Glossary</a></strong>: Technical terminology</li>
+<li><strong>GitHub Issues</strong>: Report bugs or request features</li>
+<li><strong>Support Email</strong>: support@rotoclear.com</li>
+</ul>
+<h2 id="common-use-cases">Common Use Cases</h2>
+<h3 id="medical-education-setup">Medical Education Setup</h3>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Build EDU variant</span>
+nim<span class="w"> </span>c<span class="w"> </span>-d:variant_EDU<span class="w"> </span>rotordream.nim
+
+<span class="c1"># Configure dual cameras</span>
+<span class="c1"># - Scope camera (main view)</span>
+<span class="c1"># - Overview camera (PIP)</span>
+
+<span class="c1"># Enable features:</span>
+<span class="c1"># - Picture-in-Picture</span>
+<span class="c1"># - Real-time tagging</span>
+<span class="c1"># - Multi-user annotation</span>
+</code></pre></div>
+
+<h3 id="production-line-inspection">Production Line Inspection</h3>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Build rc_DMG variant</span>
+nim<span class="w"> </span>c<span class="w"> </span>-d:variant_rc_DMG<span class="w"> </span>rotordream.nim
+
+<span class="c1"># Configure for continuous operation</span>
+<span class="c1"># - Enable auto-recording on motion</span>
+<span class="c1"># - Set retention policy (30 days)</span>
+<span class="c1"># - Configure network storage (SMB/NFS)</span>
+<span class="c1"># - Enable ONVIF for NVR integration</span>
+</code></pre></div>
+
+<h3 id="research-documentation">Research Documentation</h3>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Build DEFAULT variant</span>
+nim<span class="w"> </span>c<span class="w"> </span>rotordream.nim
+
+<span class="c1"># Configure for flexibility</span>
+<span class="c1"># - Enable all recording modes</span>
+<span class="c1"># - Configure detailed metadata</span>
+<span class="c1"># - Enable tag categories</span>
+<span class="c1"># - Export recordings with metadata</span>
+</code></pre></div>
+
+<h2 id="faq">FAQ</h2>
+<p><strong>Q: What cameras are supported?</strong><br />
+A: Any V4L2-compatible USB camera (UVC) or CSI camera on supported platforms.</p>
+<p><strong>Q: Can I use multiple cameras?</strong><br />
+A: Yes, the EDU and rc_DMG variants support multiple cameras with PIP.</p>
+<p><strong>Q: What video formats are supported?</strong><br />
+A: H.264/AVC (primary), MJPEG, with AVI and MP4 container formats.</p>
+<p><strong>Q: How do I backup recordings?</strong><br />
+A: Configure network storage (SMB/NFS) or use USB backup. See <a href="configuration/storage-backup.md">Storage Configuration</a>.</p>
+<p><strong>Q: Is HTTPS/SSL supported?</strong><br />
+A: Yes, see <a href="security/ssl-certificates.md">SSL Certificates</a> for setup.</p>
+<p><strong>Q: Can I integrate with my existing system?</strong><br />
+A: Yes, via HTTP REST API, WebSocket API, RTSP streaming, or ONVIF protocol. See <a href="api/README.md">API Documentation</a>.</p>
+<p><strong>Q: What's the maximum recording duration?</strong><br />
+A: Limited only by available storage. System automatically manages storage when full.</p>
+<p><strong>Q: How do I update the software?</strong><br />
+A: Via web interface (System → Update) or manually. See <a href="operations/build-and-deploy.md">Build and Deploy</a>.</p>
+<hr />
+<p><strong>Congratulations!</strong> You're now ready to start using the C Pro camera system. Explore the documentation for advanced features and configuration options.</p>
+<hr />
+<p><em>For additional support, refer to the comprehensive documentation or contact technical support.</em></p>
+            </div>
+            <footer class="content-footer">
+                <p>Copyright © 2025 Rotoclear</p>
+            </footer>
+        </main>
+        
+        <button class="mobile-menu-toggle" id="menuToggle" aria-label="Toggle menu">☰</button>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>
+        // Initialize Mermaid
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            securityLevel: 'loose',
+            fontFamily: 'Inter, sans-serif'
+        });
+        
+        // Syntax highlighting
+        hljs.highlightAll();
+        
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.querySelector('.sidebar');
+        
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+        });
+        
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth <= 768 && 
+                !sidebar.contains(e.target) && 
+                !menuToggle.contains(e.target) &&
+                sidebar.classList.contains('active')) {
+                sidebar.classList.remove('active');
+            }
+        });
+        
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTTP API - RotoClear Camera Server Documentation</title>
+    <link rel="stylesheet" href="/assets/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1><a href="/index.html">RotoClear Docs</a></h1>
+                <p>Camera Server Documentation</p>
+            </div>
+            <nav class="sidebar-nav">
+                <ul class="nav-menu">
+                    <li class="nav-item depth-0">
+<a href="/index.html">Home</a>
+</li>
+<li class="nav-item depth-0">
+<a href="/getting-started.html">Getting Started</a>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Architecture</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/architecture/overview.html">Overview</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/architecture/state-management.html">State Management</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/architecture/camera-pipeline.html">Camera Pipeline</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/architecture/metadata-sqlite.html">Metadata & SQLite</a>
+</li>
+<li class="nav-folder depth-1">
+<span class="folder-title">Decisions</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-2">
+<a href="/architecture/decisions/ADR-0001-nim-language.html">ADR-0001 Nim Language</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/architecture/decisions/ADR-0002-corun-framework.html">ADR-0002 Corun Framework</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/architecture/decisions/ADR-0003-observable-state.html">ADR-0003 Observable State</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">API Reference</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/api/README.html">Overview</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/api/websocket-api.html">WebSocket API</a>
+</li>
+<li class="nav-item depth-1 active">
+<a href="/api/http-api.html">HTTP API</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/api/rtsp-streaming.html">RTSP Streaming</a>
+</li>
+<li class="nav-folder depth-1">
+<span class="folder-title">Examples</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-2">
+<a href="/api/examples/python-client.html">Python Client</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/api/examples/javascript-client.html">JavaScript Client</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/api/examples/csharp-client.html">C# Client</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Configuration</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/configuration/environments.html">Environments</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/factory-config.html">Factory Config</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/license-config.html">License Config</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/deployment-variants.html">Deployment Variants</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/camera-system.html">Camera System</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/network.html">Network</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/storage-backup.html">Storage & Backup</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/authentication.html">Authentication</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Camera System</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/camera/hardware-interface.html">Hardware Interface</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/camera/streaming.html">Streaming</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/camera/recording.html">Recording</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/camera/image-processing.html">Image Processing</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Operations</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/operations/build-and-deploy.html">Build and Deploy</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/build-deploy.html">Build & Deploy (Alt)</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/monitoring.html">Monitoring</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/performance.html">Performance</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/troubleshooting.html">Troubleshooting</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Security</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/security/authentication.html">Authentication</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/security/permissions.html">Permissions</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/security/ssl-certificates.html">SSL Certificates</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Testing</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/testing/testing-strategy.html">Strategy</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/testing/strategies.html">Strategies</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/testing/test-cases.html">Test Cases</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/testing/validation.html">Validation</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Integration</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/integration/onvif-protocol.html">ONVIF Protocol</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/integration/third-party.html">Third Party</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Reference</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/reference/glossary.html">Glossary</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/reference/requirements.html">Requirements</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/reference/state-observables.html">State Observables</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Releases</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/releases/CHANGELOG.html">Changelog</a>
+</li>
+</ul>
+</li>
+<li class="nav-item depth-0">
+<a href="/glossary.html">Glossary</a>
+</li>
+                </ul>
+            </nav>
+        </aside>
+        
+        <main class="content">
+            <div class="content-wrapper">
+                <h1 id="http-rest-api-reference">HTTP REST API Reference</h1>
+<p><strong>RESTful endpoints for file operations, camera images, and system management.</strong></p>
+<h2 id="base-url-and-authentication">Base URL and Authentication</h2>
+<p><strong>Base URL</strong>: <code>http://&lt;device-ip&gt;:8080</code> or <code>https://&lt;device-ip&gt;:8081</code><br />
+<strong>Authentication</strong>: Bearer token or HTTP Basic Auth</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Bearer token authentication</span>
+curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span>http://192.168.1.100:8080/api/info
+
+<span class="c1"># Basic authentication</span>
+curl<span class="w"> </span>-u<span class="w"> </span><span class="s2">&quot;admin:password&quot;</span><span class="w"> </span>http://192.168.1.100:8080/api/info
+
+<span class="c1"># Query parameter authentication</span>
+curl<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/image?token=1a2B3c4D5e6f7G8h&quot;</span>
+</code></pre></div>
+
+<h2 id="camera-endpoints">Camera Endpoints</h2>
+<h3 id="get-current-image">Get Current Image</h3>
+<div class="codehilite"><pre><span></span><code><span class="err">GET /camera.jpeg</span>
+<span class="err">GET /image</span>
+</code></pre></div>
+
+<p>Returns the current camera frame as JPEG image.</p>
+<p><strong>Parameters</strong>:<br />
+- <code>token</code> (string): API authentication token<br />
+- <code>quality</code> (int, optional): JPEG quality 1-100, default 85</p>
+<p><strong>Response</strong>: Binary JPEG data<br />
+<strong>Content-Type</strong>: <code>image/jpeg</code></p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Capture current frame</span>
+curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>http://192.168.1.100:8080/camera.jpeg<span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>--output<span class="w"> </span>current_frame.jpg
+
+<span class="c1"># Capture with custom quality</span>
+curl<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/camera.jpeg?token=1a2B3c4D5e6f7G8h&amp;quality=95&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>--output<span class="w"> </span>high_quality.jpg
+</code></pre></div>
+
+<h3 id="take-snapshot">Take Snapshot</h3>
+<div class="codehilite"><pre><span></span><code><span class="err">POST /snapshot</span>
+</code></pre></div>
+
+<p>Trigger a high-resolution snapshot capture.</p>
+<p><strong>Request Body</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;filename&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;snapshot_001.jpg&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;quality&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">95</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;addTimestamp&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Response</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;success&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;filename&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;snapshot_001.jpg&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/media/data/snapshots/snapshot_001.jpg&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;size&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2048576</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2025-01-15T10:30:00Z&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="camera-status">Camera Status</h3>
+<div class="codehilite"><pre><span></span><code><span class="err">GET /api/camera/status</span>
+</code></pre></div>
+
+<p>Get current camera hardware status.</p>
+<p><strong>Response</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;cameras&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;connected&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;device&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/dev/video0&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;resolution&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1920x1080&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;framerate&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">30</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;format&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;YUYV&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;connected&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;device&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/dev/video1&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;active_camera&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;streaming&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="system-information">System Information</h2>
+<h3 id="get-system-info">Get System Info</h3>
+<div class="codehilite"><pre><span></span><code><span class="err">GET /api/info</span>
+<span class="err">GET /api/status</span>
+</code></pre></div>
+
+<p>Returns comprehensive system status and configuration.</p>
+<p><strong>Response</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1.0.0&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;build&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2025-01-15T09:00:00Z&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;uptime&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">3600</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;system&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;temperature&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">45.2</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;cpu_usage&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">12.5</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;memory&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;total&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">4096</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;available&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2048</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;used&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2048</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;disk&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;total&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">32768</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;available&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">16384</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;used&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">16384</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;camera&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;connected&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;resolution&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1920x1080&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;framerate&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">30</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;recording&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;network&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;ip&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;192.168.1.100&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;hostname&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rotoclear-cam&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;connected&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="health-check">Health Check</h3>
+<div class="codehilite"><pre><span></span><code><span class="err">GET /health</span>
+<span class="err">GET /api/health</span>
+</code></pre></div>
+
+<p>Simple health check endpoint for monitoring.</p>
+<p><strong>Response</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;healthy&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2025-01-15T10:30:00Z&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;checks&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;camera&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ok&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;storage&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ok&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;network&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ok&quot;</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="file-management">File Management</h2>
+<h3 id="upload-file">Upload File</h3>
+<div class="codehilite"><pre><span></span><code><span class="err">POST /upload</span>
+<span class="err">Content-Type: multipart/form-data</span>
+</code></pre></div>
+
+<p>Upload files to the device storage.</p>
+<p><strong>Parameters</strong>:<br />
+- <code>file</code>: File data (multipart form field)<br />
+- <code>path</code>: Target directory (optional)<br />
+- <code>overwrite</code>: Allow overwriting existing files (optional)</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Upload configuration file</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-F<span class="w"> </span><span class="s2">&quot;file=@config.json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-F<span class="w"> </span><span class="s2">&quot;path=/data/configs/&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>http://192.168.1.100:8080/upload
+
+<span class="c1"># Upload with overwrite</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-F<span class="w"> </span><span class="s2">&quot;file=@firmware.bin&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-F<span class="w"> </span><span class="s2">&quot;path=/data/firmware/&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-F<span class="w"> </span><span class="s2">&quot;overwrite=true&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>http://192.168.1.100:8080/upload
+</code></pre></div>
+
+<p><strong>Response</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;success&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;filename&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;config.json&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/data/configs/config.json&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;size&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1024</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="download-file">Download File</h3>
+<div class="codehilite"><pre><span></span><code><span class="err">GET /download/{filepath}</span>
+<span class="err">GET /files/{filepath}</span>
+</code></pre></div>
+
+<p>Download files from device storage.</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Download recording</span>
+curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>http://192.168.1.100:8080/download/recordings/video1.avi<span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>--output<span class="w"> </span>video1.avi
+
+<span class="c1"># Download with custom filename</span>
+curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>http://192.168.1.100:8080/files/logs/system.log<span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>--output<span class="w"> </span>system_backup.log
+</code></pre></div>
+
+<h3 id="list-files">List Files</h3>
+<div class="codehilite"><pre><span></span><code><span class="err">GET /files?path={directory}</span>
+<span class="err">GET /api/files?directory={path}</span>
+</code></pre></div>
+
+<p>List files and directories in specified path.</p>
+<p><strong>Parameters</strong>:<br />
+- <code>path</code> or <code>directory</code>: Directory path to list<br />
+- <code>recursive</code>: Include subdirectories (optional)<br />
+- <code>filter</code>: File extension filter (optional)</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># List recordings directory</span>
+curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span><span class="s2">&quot;http://192.168.1.100:8080/files?path=/media/data/recordings&quot;</span>
+
+<span class="c1"># List with filter</span>
+curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span><span class="s2">&quot;http://192.168.1.100:8080/files?path=/media/data&amp;filter=.avi&quot;</span>
+</code></pre></div>
+
+<p><strong>Response</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/media/data/recordings&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;files&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;recording_001.avi&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;size&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1048576</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;modified&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2025-01-15T10:30:00Z&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;file&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;mime_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;video/x-msvideo&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;snapshots&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;directory&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;modified&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2025-01-15T09:00:00Z&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;total_size&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2097152</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;file_count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;directory_count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="delete-file">Delete File</h3>
+<div class="codehilite"><pre><span></span><code><span class="err">DELETE /files/{filepath}</span>
+</code></pre></div>
+
+<p>Delete file or directory from device storage.</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Delete single file</span>
+curl<span class="w"> </span>-X<span class="w"> </span>DELETE<span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>http://192.168.1.100:8080/files/recordings/old_video.avi
+
+<span class="c1"># Delete directory (requires confirmation)</span>
+curl<span class="w"> </span>-X<span class="w"> </span>DELETE<span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span><span class="s2">&quot;http://192.168.1.100:8080/files/temp?recursive=true&quot;</span>
+</code></pre></div>
+
+<h2 id="recording-control">Recording Control</h2>
+<h3 id="start-recording">Start Recording</h3>
+<div class="codehilite"><pre><span></span><code><span class="err">POST /api/recording/start</span>
+</code></pre></div>
+
+<p>Start video recording with specified parameters.</p>
+<p><strong>Request Body</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;filename&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;experiment_001.avi&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;duration&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">300</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;quality&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;high&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;resolution&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1920x1080&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;framerate&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">30</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Response</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;success&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;recording_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rec_12345&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;filename&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;experiment_001.avi&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;estimated_size&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1073741824</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="stop-recording">Stop Recording</h3>
+<div class="codehilite"><pre><span></span><code><span class="err">POST /api/recording/stop</span>
+</code></pre></div>
+
+<p>Stop current video recording.</p>
+<p><strong>Response</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;success&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;recording_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rec_12345&quot;</span><span class="p">,</span><span class="w"> </span>
+<span class="w">  </span><span class="nt">&quot;filename&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;experiment_001.avi&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;duration&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">180</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;file_size&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">805306368</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="recording-status">Recording Status</h3>
+<div class="codehilite"><pre><span></span><code><span class="err">GET /api/recording/status</span>
+</code></pre></div>
+
+<p>Get current recording status and information.</p>
+<p><strong>Response</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;recording&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;recording_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rec_12345&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;filename&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;experiment_001.avi&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;duration&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">120</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;estimated_size&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">536870912</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;remaining_space&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">10737418240</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="configuration">Configuration</h2>
+<h3 id="get-configuration">Get Configuration</h3>
+<div class="codehilite"><pre><span></span><code><span class="err">GET /api/config</span>
+<span class="err">GET /api/config/{section}</span>
+</code></pre></div>
+
+<p>Retrieve system configuration.</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Get all configuration</span>
+curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>http://192.168.1.100:8080/api/config
+
+<span class="c1"># Get specific section</span>
+curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>http://192.168.1.100:8080/api/config/camera
+</code></pre></div>
+
+<h3 id="update-configuration">Update Configuration</h3>
+<div class="codehilite"><pre><span></span><code><span class="err">PUT /api/config/{section}</span>
+<span class="err">PATCH /api/config/{section}</span>
+</code></pre></div>
+
+<p>Update system configuration section.</p>
+<p><strong>Request Body</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;camera&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;default_resolution&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1920x1080&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;default_framerate&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">30</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;auto_exposure&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="onvif-integration">ONVIF Integration</h2>
+<h3 id="onvif-device-discovery">ONVIF Device Discovery</h3>
+<div class="codehilite"><pre><span></span><code><span class="err">GET /api/onvif/discover</span>
+</code></pre></div>
+
+<p>Discover ONVIF cameras on the network.</p>
+<p><strong>Response</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;devices&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;uuid&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;urn:uuid:12345678-1234-5678-9abc-123456789abc&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;IP Camera 1&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;hardware&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;AXIS P1375&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;location&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;192.168.1.200&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;services&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="s2">&quot;http://192.168.1.200/onvif/device_service&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="s2">&quot;http://192.168.1.200/onvif/media_service&quot;</span>
+<span class="w">      </span><span class="p">]</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="onvif-proxy">ONVIF Proxy</h3>
+<div class="codehilite"><pre><span></span><code><span class="err">POST /api/onvif/{device_id}/{service}</span>
+<span class="err">Content-Type: application/soap+xml</span>
+</code></pre></div>
+
+<p>Proxy ONVIF SOAP requests to discovered devices.</p>
+<h2 id="error-handling">Error Handling</h2>
+<h3 id="error-response-format">Error Response Format</h3>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;error&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;code&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;CAMERA_NOT_CONNECTED&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Camera device not available&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;details&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;V4L2 device /dev/video0 not found&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2025-01-15T10:30:00Z&quot;</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="http-status-codes">HTTP Status Codes</h3>
+<table>
+<thead>
+<tr>
+<th>Status</th>
+<th>Meaning</th>
+<th>Common Causes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>200</td>
+<td>Success</td>
+<td>Request completed successfully</td>
+</tr>
+<tr>
+<td>400</td>
+<td>Bad Request</td>
+<td>Invalid parameters or request format</td>
+</tr>
+<tr>
+<td>401</td>
+<td>Unauthorized</td>
+<td>Invalid or missing authentication token</td>
+</tr>
+<tr>
+<td>403</td>
+<td>Forbidden</td>
+<td>Insufficient permissions for operation</td>
+</tr>
+<tr>
+<td>404</td>
+<td>Not Found</td>
+<td>Resource or endpoint doesn't exist</td>
+</tr>
+<tr>
+<td>409</td>
+<td>Conflict</td>
+<td>Resource already exists or in use</td>
+</tr>
+<tr>
+<td>413</td>
+<td>Payload Too Large</td>
+<td>File upload exceeds size limit</td>
+</tr>
+<tr>
+<td>422</td>
+<td>Unprocessable Entity</td>
+<td>Valid format but invalid content</td>
+</tr>
+<tr>
+<td>500</td>
+<td>Internal Server Error</td>
+<td>Server-side error or exception</td>
+</tr>
+<tr>
+<td>503</td>
+<td>Service Unavailable</td>
+<td>Camera offline or system overloaded</td>
+</tr>
+</tbody>
+</table>
+<h3 id="error-codes">Error Codes</h3>
+<table>
+<thead>
+<tr>
+<th>Code</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CAMERA_NOT_CONNECTED</code></td>
+<td>Camera hardware not available</td>
+</tr>
+<tr>
+<td><code>INVALID_RESOLUTION</code></td>
+<td>Unsupported resolution format</td>
+</tr>
+<tr>
+<td><code>INSUFFICIENT_STORAGE</code></td>
+<td>Not enough disk space</td>
+</tr>
+<tr>
+<td><code>RECORDING_IN_PROGRESS</code></td>
+<td>Cannot modify settings during recording</td>
+</tr>
+<tr>
+<td><code>INVALID_CREDENTIALS</code></td>
+<td>Authentication failed</td>
+</tr>
+<tr>
+<td><code>PERMISSION_DENIED</code></td>
+<td>User lacks required permissions</td>
+</tr>
+<tr>
+<td><code>FILE_NOT_FOUND</code></td>
+<td>Requested file doesn't exist</td>
+</tr>
+<tr>
+<td><code>INVALID_FORMAT</code></td>
+<td>Unsupported file format</td>
+</tr>
+</tbody>
+</table>
+<h2 id="rate-limiting">Rate Limiting</h2>
+<p>API endpoints have the following rate limits per client IP:</p>
+<ul>
+<li><strong>Image Requests</strong>: 10 requests/second</li>
+<li><strong>File Operations</strong>: 5 requests/second  </li>
+<li><strong>API Calls</strong>: 100 requests/second</li>
+<li><strong>File Uploads</strong>: 2 requests/second</li>
+</ul>
+<p>Exceeded limits return HTTP 429 with headers:</p>
+<div class="codehilite"><pre><span></span><code><span class="kr">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">429</span> <span class="ne">Too Many Requests</span>
+<span class="na">Retry-After</span><span class="o">:</span> <span class="l">60</span>
+<span class="na">X-RateLimit-Limit</span><span class="o">:</span> <span class="l">10</span>
+<span class="na">X-RateLimit-Remaining</span><span class="o">:</span> <span class="l">0</span>
+<span class="na">X-RateLimit-Reset</span><span class="o">:</span> <span class="l">1642247400</span>
+</code></pre></div>
+
+<h2 id="content-types">Content Types</h2>
+<h3 id="request-content-types">Request Content Types</h3>
+<ul>
+<li><code>application/json</code> - API requests</li>
+<li><code>multipart/form-data</code> - File uploads</li>
+<li><code>application/x-www-form-urlencoded</code> - Form data</li>
+</ul>
+<h3 id="response-content-types">Response Content Types</h3>
+<ul>
+<li><code>application/json</code> - API responses</li>
+<li><code>image/jpeg</code> - Camera images</li>
+<li><code>video/x-msvideo</code> - AVI video files</li>
+<li><code>text/plain</code> - Log files</li>
+<li><code>application/octet-stream</code> - Binary files</li>
+</ul>
+<h2 id="related-documentation">Related Documentation</h2>
+<ul>
+<li><a href="websocket-api.md">WebSocket API</a> - Real-time bidirectional API</li>
+<li><a href="../security/authentication.md">Authentication</a> - Security and permissions</li>
+<li><a href="../operations/monitoring.md">File Management</a> - Storage and file operations</li>
+<li><a href="examples/">API Examples</a> - Code examples for integration</li>
+</ul>
+<hr />
+<p><em>HTTP API documentation derived from route handlers in <code>src/servers/routes/</code> and client examples</em></p>
+            </div>
+            <footer class="content-footer">
+                <p>Copyright © 2025 Rotoclear</p>
+            </footer>
+        </main>
+        
+        <button class="mobile-menu-toggle" id="menuToggle" aria-label="Toggle menu">☰</button>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>
+        // Initialize Mermaid
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            securityLevel: 'loose',
+            fontFamily: 'Inter, sans-serif'
+        });
+        
+        // Syntax highlighting
+        hljs.highlightAll();
+        
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.querySelector('.sidebar');
+        
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+        });
+        
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth <= 768 && 
+                !sidebar.contains(e.target) && 
+                !menuToggle.contains(e.target) &&
+                sidebar.classList.contains('active')) {
+                sidebar.classList.remove('active');
+            }
+        });
+        
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

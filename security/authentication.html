@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authentication - RotoClear Camera Server Documentation</title>
+    <link rel="stylesheet" href="/assets/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1><a href="/index.html">RotoClear Docs</a></h1>
+                <p>Camera Server Documentation</p>
+            </div>
+            <nav class="sidebar-nav">
+                <ul class="nav-menu">
+                    <li class="nav-item depth-0">
+<a href="/index.html">Home</a>
+</li>
+<li class="nav-item depth-0">
+<a href="/getting-started.html">Getting Started</a>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Architecture</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/architecture/overview.html">Overview</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/architecture/state-management.html">State Management</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/architecture/camera-pipeline.html">Camera Pipeline</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/architecture/metadata-sqlite.html">Metadata & SQLite</a>
+</li>
+<li class="nav-folder depth-1">
+<span class="folder-title">Decisions</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-2">
+<a href="/architecture/decisions/ADR-0001-nim-language.html">ADR-0001 Nim Language</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/architecture/decisions/ADR-0002-corun-framework.html">ADR-0002 Corun Framework</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/architecture/decisions/ADR-0003-observable-state.html">ADR-0003 Observable State</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">API Reference</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/api/README.html">Overview</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/api/websocket-api.html">WebSocket API</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/api/http-api.html">HTTP API</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/api/rtsp-streaming.html">RTSP Streaming</a>
+</li>
+<li class="nav-folder depth-1">
+<span class="folder-title">Examples</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-2">
+<a href="/api/examples/python-client.html">Python Client</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/api/examples/javascript-client.html">JavaScript Client</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/api/examples/csharp-client.html">C# Client</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Configuration</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/configuration/environments.html">Environments</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/factory-config.html">Factory Config</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/license-config.html">License Config</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/deployment-variants.html">Deployment Variants</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/camera-system.html">Camera System</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/network.html">Network</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/storage-backup.html">Storage & Backup</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/authentication.html">Authentication</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Camera System</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/camera/hardware-interface.html">Hardware Interface</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/camera/streaming.html">Streaming</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/camera/recording.html">Recording</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/camera/image-processing.html">Image Processing</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Operations</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/operations/build-and-deploy.html">Build and Deploy</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/build-deploy.html">Build & Deploy (Alt)</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/monitoring.html">Monitoring</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/performance.html">Performance</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/troubleshooting.html">Troubleshooting</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Security</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1 active">
+<a href="/security/authentication.html">Authentication</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/security/permissions.html">Permissions</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/security/ssl-certificates.html">SSL Certificates</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Testing</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/testing/testing-strategy.html">Strategy</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/testing/strategies.html">Strategies</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/testing/test-cases.html">Test Cases</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/testing/validation.html">Validation</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Integration</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/integration/onvif-protocol.html">ONVIF Protocol</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/integration/third-party.html">Third Party</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Reference</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/reference/glossary.html">Glossary</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/reference/requirements.html">Requirements</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/reference/state-observables.html">State Observables</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Releases</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/releases/CHANGELOG.html">Changelog</a>
+</li>
+</ul>
+</li>
+<li class="nav-item depth-0">
+<a href="/glossary.html">Glossary</a>
+</li>
+                </ul>
+            </nav>
+        </aside>
+        
+        <main class="content">
+            <div class="content-wrapper">
+                <h1 id="authentication">Authentication</h1>
+<h2 id="overview">Overview</h2>
+<p>The RotoClear camera system implements a multi-layered authentication system to secure access to device functionality, video streams, and configuration. Authentication is required for web interface, API endpoints, ONVIF services, and RTSP streams.</p>
+<h2 id="authentication-architecture">Authentication Architecture</h2>
+<div class="mermaid">
+graph TB
+    Client[Client Request] --> Auth{Authentication<br/>Required?}
+    Auth -->|Yes| Method{Auth Method}
+    Auth -->|No| Public[Public Endpoint]
+
+    Method -->|Basic| BasicAuth[HTTP Basic Auth]
+    Method -->|Digest| DigestAuth[HTTP Digest Auth]
+    Method -->|Token| TokenAuth[Bearer Token]
+    Method -->|Session| SessionAuth[Session Cookie]
+
+    BasicAuth --> Validate[Validate Credentials]
+    DigestAuth --> Validate
+    TokenAuth --> Validate
+    SessionAuth --> Validate
+
+    Validate -->|Valid| CheckPerm[Check Permissions]
+    Validate -->|Invalid| Deny[403 Forbidden]
+
+    CheckPerm -->|Authorized| Allow[Process Request]
+    CheckPerm -->|Unauthorized| Deny
+
+    style Validate fill:#9cf,stroke:#333,stroke-width:2px
+</div>
+
+<h2 id="user-management">User Management</h2>
+<h3 id="user-storage">User Storage</h3>
+<div class="codehilite"><pre><span></span><code><span class="c"># src/state/rc_user.nim</span>
+<span class="k">proc</span><span class="w"> </span><span class="nf">initUserManagement</span><span class="o">*</span><span class="p">()</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="n">initObservable</span><span class="p">(</span><span class="s">&quot;users&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">permissionRead</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">User_r</span><span class="p">,</span><span class="w"> </span><span class="n">User_rw</span><span class="p">},</span>
+<span class="w">    </span><span class="n">permissionWrite</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">User_rw</span><span class="p">},</span>
+<span class="w">    </span><span class="n">save</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kp">true</span><span class="p">,</span>
+<span class="w">    </span><span class="n">default</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">%</span><span class="p">{}</span>
+<span class="w">  </span><span class="p">)</span>
+
+<span class="w">  </span><span class="n">initObservable</span><span class="p">(</span><span class="s">&quot;userPasswords&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">permissionRead</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{},</span><span class="w">  </span><span class="c"># Never readable</span>
+<span class="w">    </span><span class="n">permissionWrite</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">User_rw</span><span class="p">},</span>
+<span class="w">    </span><span class="n">save</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kp">true</span><span class="p">,</span>
+<span class="w">    </span><span class="n">default</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">%</span><span class="p">{}</span>
+<span class="w">  </span><span class="p">)</span>
+</code></pre></div>
+
+<h3 id="default-users">Default Users</h3>
+<p><strong>Administrator</strong> (created on first boot):</p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;username&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;admin&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;role&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;administrator&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;permissions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;*&quot;</span><span class="p">],</span><span class="w">  </span><span class="c1">// All permissions</span>
+<span class="w">  </span><span class="nt">&quot;created&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2025-01-01T00:00:00Z&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;lastLogin&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Operator</strong> (optional):</p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;username&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;operator&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;role&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;operator&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;permissions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;Media_rw&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Device_r&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Storage_r&quot;</span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;created&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2025-01-01T00:00:00Z&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Viewer</strong> (read-only):</p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;username&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;viewer&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;role&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;viewer&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;permissions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;Media_r&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Device_r&quot;</span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;created&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2025-01-01T00:00:00Z&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="password-hashing">Password Hashing</h3>
+<div class="codehilite"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="n">std</span><span class="o">/</span><span class="n">sha1</span>
+<span class="kn">import</span><span class="w"> </span><span class="n">std</span><span class="o">/</span><span class="n">base64</span>
+
+<span class="k">proc</span><span class="w"> </span><span class="nf">hashPassword</span><span class="o">*</span><span class="p">(</span><span class="n">password</span><span class="p">:</span><span class="w"> </span><span class="nb">string</span><span class="p">,</span><span class="w"> </span><span class="n">salt</span><span class="p">:</span><span class="w"> </span><span class="nb">string</span><span class="p">):</span><span class="w"> </span><span class="nb">string</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="c"># Use SHA-256 with salt</span>
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">combined</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">password</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">salt</span>
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">hash</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">secureHash</span><span class="p">(</span><span class="n">combined</span><span class="p">)</span>
+<span class="w">  </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">base64</span><span class="p">.</span><span class="n">encode</span><span class="p">(</span><span class="o">$</span><span class="n">hash</span><span class="p">)</span>
+
+<span class="k">proc</span><span class="w"> </span><span class="nf">generateSalt</span><span class="o">*</span><span class="p">():</span><span class="w"> </span><span class="nb">string</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="c"># Generate random salt</span>
+<span class="w">  </span><span class="kd">var</span><span class="w"> </span><span class="n">bytes</span><span class="p">:</span><span class="w"> </span><span class="nb">array</span><span class="o">[</span><span class="mi">16</span><span class="p">,</span><span class="w"> </span><span class="n">byte</span><span class="o">]</span>
+<span class="w">  </span><span class="n">randomize</span><span class="p">()</span>
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="mf">0</span><span class="p">..</span><span class="o">&lt;</span><span class="mi">16</span><span class="p">:</span>
+<span class="w">    </span><span class="n">bytes</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rand</span><span class="p">(</span><span class="mi">255</span><span class="p">).</span><span class="n">byte</span>
+<span class="w">  </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">base64</span><span class="p">.</span><span class="n">encode</span><span class="p">(</span><span class="n">bytes</span><span class="p">)</span>
+
+<span class="k">proc</span><span class="w"> </span><span class="nf">createUser</span><span class="o">*</span><span class="p">(</span><span class="n">username</span><span class="p">,</span><span class="w"> </span><span class="n">password</span><span class="p">:</span><span class="w"> </span><span class="nb">string</span><span class="p">,</span><span class="w"> </span><span class="n">role</span><span class="p">:</span><span class="w"> </span><span class="nb">string</span><span class="p">):</span><span class="w"> </span><span class="nb">bool</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="c"># Check if user exists</span>
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">State</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;users&quot;</span><span class="p">).</span><span class="n">value</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="n">users</span><span class="p">.</span><span class="n">hasKey</span><span class="p">(</span><span class="n">username</span><span class="p">):</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="kp">false</span>
+
+<span class="w">  </span><span class="c"># Generate salt and hash password</span>
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">salt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">generateSalt</span><span class="p">()</span>
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">hash</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">hashPassword</span><span class="p">(</span><span class="n">password</span><span class="p">,</span><span class="w"> </span><span class="n">salt</span><span class="p">)</span>
+
+<span class="w">  </span><span class="c"># Store user</span>
+<span class="w">  </span><span class="n">users</span><span class="o">[</span><span class="n">username</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">%</span><span class="p">{</span>
+<span class="w">    </span><span class="s">&quot;role&quot;</span><span class="p">:</span><span class="w"> </span><span class="o">%</span><span class="n">role</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;salt&quot;</span><span class="p">:</span><span class="w"> </span><span class="o">%</span><span class="n">salt</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;created&quot;</span><span class="p">:</span><span class="w"> </span><span class="o">%</span><span class="n">now</span><span class="p">().</span><span class="n">format</span><span class="p">(</span><span class="s">&quot;yyyy-MM-dd&#39;T&#39;HH:mm:ss&#39;Z&#39;&quot;</span><span class="p">)</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span><span class="n">State</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;users&quot;</span><span class="p">).</span><span class="n">updateValue</span><span class="p">(</span><span class="n">users</span><span class="p">)</span>
+
+<span class="w">  </span><span class="c"># Store password hash separately</span>
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">passwords</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">State</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;userPasswords&quot;</span><span class="p">).</span><span class="n">value</span>
+<span class="w">  </span><span class="n">passwords</span><span class="o">[</span><span class="n">username</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">%</span><span class="n">hash</span>
+<span class="w">  </span><span class="n">State</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;userPasswords&quot;</span><span class="p">).</span><span class="n">updateValue</span><span class="p">(</span><span class="n">passwords</span><span class="p">)</span>
+
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="kp">true</span>
+</code></pre></div>
+
+<h2 id="authentication-methods">Authentication Methods</h2>
+<h3 id="http-basic-authentication">HTTP Basic Authentication</h3>
+<p>Used for:<br />
+- Web interface login<br />
+- RTSP streams<br />
+- REST API calls<br />
+- ONVIF services</p>
+<p><strong>Implementation</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">proc</span><span class="w"> </span><span class="nf">validateBasicAuth</span><span class="o">*</span><span class="p">(</span><span class="n">authHeader</span><span class="p">:</span><span class="w"> </span><span class="nb">string</span><span class="p">):</span><span class="w"> </span><span class="n">Option</span><span class="o">[</span><span class="nb">string</span><span class="o">]</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="c"># Parse &quot;Basic base64(username:password)&quot;</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="n">authHeader</span><span class="p">.</span><span class="n">startsWith</span><span class="p">(</span><span class="s">&quot;Basic &quot;</span><span class="p">):</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">none</span><span class="p">(</span><span class="nb">string</span><span class="p">)</span>
+
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">encoded</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">authHeader</span><span class="o">[</span><span class="mf">6</span><span class="p">..^</span><span class="mi">1</span><span class="o">]</span>
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">decoded</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">base64</span><span class="p">.</span><span class="n">decode</span><span class="p">(</span><span class="n">encoded</span><span class="p">)</span>
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">parts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">decoded</span><span class="p">.</span><span class="n">split</span><span class="p">(</span><span class="sc">&#39;:&#39;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="n">parts</span><span class="p">.</span><span class="n">len</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">2</span><span class="p">:</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">none</span><span class="p">(</span><span class="nb">string</span><span class="p">)</span>
+
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">username</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">parts</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span>
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">password</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">parts</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span>
+
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="n">validateCredentials</span><span class="p">(</span><span class="n">username</span><span class="p">,</span><span class="w"> </span><span class="n">password</span><span class="p">):</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">some</span><span class="p">(</span><span class="n">username</span><span class="p">)</span>
+
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">none</span><span class="p">(</span><span class="nb">string</span><span class="p">)</span>
+
+<span class="k">proc</span><span class="w"> </span><span class="nf">validateCredentials</span><span class="o">*</span><span class="p">(</span><span class="n">username</span><span class="p">,</span><span class="w"> </span><span class="n">password</span><span class="p">:</span><span class="w"> </span><span class="nb">string</span><span class="p">):</span><span class="w"> </span><span class="nb">bool</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">State</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;users&quot;</span><span class="p">).</span><span class="n">value</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="n">users</span><span class="p">.</span><span class="n">hasKey</span><span class="p">(</span><span class="n">username</span><span class="p">):</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="kp">false</span>
+
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">salt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">users</span><span class="o">[</span><span class="n">username</span><span class="o">][</span><span class="s">&quot;salt&quot;</span><span class="o">]</span><span class="p">.</span><span class="n">getStr</span>
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">expectedHash</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">State</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;userPasswords&quot;</span><span class="p">).</span><span class="n">value</span><span class="o">[</span><span class="n">username</span><span class="o">]</span><span class="p">.</span><span class="n">getStr</span>
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">actualHash</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">hashPassword</span><span class="p">(</span><span class="n">password</span><span class="p">,</span><span class="w"> </span><span class="n">salt</span><span class="p">)</span>
+
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">expectedHash</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">actualHash</span>
+</code></pre></div>
+
+<h3 id="http-digest-authentication">HTTP Digest Authentication</h3>
+<p>Used for:<br />
+- ONVIF authentication<br />
+- Enhanced security for RTSP</p>
+<p><strong>Implementation</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">proc</span><span class="w"> </span><span class="nf">validateDigestAuth</span><span class="o">*</span><span class="p">(</span><span class="n">authHeader</span><span class="p">:</span><span class="w"> </span><span class="nb">string</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="p">:</span><span class="w"> </span><span class="nb">string</span><span class="p">,</span><span class="w"> </span><span class="n">uri</span><span class="p">:</span><span class="w"> </span><span class="nb">string</span><span class="p">):</span><span class="w"> </span><span class="n">Option</span><span class="o">[</span><span class="nb">string</span><span class="o">]</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="c"># Parse digest authentication header</span>
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">params</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">parseDigestParams</span><span class="p">(</span><span class="n">authHeader</span><span class="p">)</span>
+
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">username</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">params</span><span class="p">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="s">&quot;username&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">)</span>
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">realm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">params</span><span class="p">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="s">&quot;realm&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;RotoClear&quot;</span><span class="p">)</span>
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">nonce</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">params</span><span class="p">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="s">&quot;nonce&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">)</span>
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">params</span><span class="p">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="s">&quot;response&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">)</span>
+
+<span class="w">  </span><span class="c"># Calculate expected response</span>
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">State</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;users&quot;</span><span class="p">).</span><span class="n">value</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="n">users</span><span class="p">.</span><span class="n">hasKey</span><span class="p">(</span><span class="n">username</span><span class="p">):</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">none</span><span class="p">(</span><span class="nb">string</span><span class="p">)</span>
+
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">password</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">getPassword</span><span class="p">(</span><span class="n">username</span><span class="p">)</span><span class="w">  </span><span class="c"># Internal function</span>
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">ha1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">secureHash</span><span class="p">(</span><span class="n">username</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="s">&quot;:&quot;</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">realm</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="s">&quot;:&quot;</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">password</span><span class="p">)</span>
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">ha2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">secureHash</span><span class="p">(</span><span class="k">method</span><span class="w"> </span><span class="err">&amp; &quot;:&quot; &amp; </span><span class="nf">uri</span><span class="p">)</span>
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">expectedResponse</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">secureHash</span><span class="p">(</span><span class="o">$</span><span class="n">ha1</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="s">&quot;:&quot;</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">nonce</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="s">&quot;:&quot;</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="o">$</span><span class="n">ha2</span><span class="p">)</span>
+
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="o">$</span><span class="n">expectedResponse</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">response</span><span class="p">:</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">some</span><span class="p">(</span><span class="n">username</span><span class="p">)</span>
+
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">none</span><span class="p">(</span><span class="nb">string</span><span class="p">)</span>
+</code></pre></div>
+
+<h3 id="bearer-token-authentication">Bearer Token Authentication</h3>
+<p>Used for:<br />
+- API tokens<br />
+- Long-lived access<br />
+- Service-to-service communication</p>
+<p><strong>Token Generation</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="n">std</span><span class="o">/</span><span class="n">times</span>
+<span class="kn">import</span><span class="w"> </span><span class="n">std</span><span class="o">/</span><span class="n">random</span>
+
+<span class="k">type</span>
+<span class="w">  </span><span class="n">ApiToken</span><span class="o">*</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">object</span>
+<span class="w">    </span><span class="n">token</span><span class="o">*</span><span class="p">:</span><span class="w"> </span><span class="nb">string</span>
+<span class="w">    </span><span class="n">username</span><span class="o">*</span><span class="p">:</span><span class="w"> </span><span class="nb">string</span>
+<span class="w">    </span><span class="n">created</span><span class="o">*</span><span class="p">:</span><span class="w"> </span><span class="n">Time</span>
+<span class="w">    </span><span class="n">expires</span><span class="o">*</span><span class="p">:</span><span class="w"> </span><span class="n">Time</span>
+<span class="w">    </span><span class="n">permissions</span><span class="o">*</span><span class="p">:</span><span class="w"> </span><span class="nb">set</span><span class="o">[</span><span class="n">StatePermission</span><span class="o">]</span>
+
+<span class="k">proc</span><span class="w"> </span><span class="nf">generateApiToken</span><span class="o">*</span><span class="p">(</span><span class="n">username</span><span class="p">:</span><span class="w"> </span><span class="nb">string</span><span class="p">,</span><span class="w"> </span><span class="n">durationDays</span><span class="p">:</span><span class="w"> </span><span class="nb">int</span><span class="p">):</span><span class="w"> </span><span class="n">ApiToken</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="c"># Generate random token</span>
+<span class="w">  </span><span class="n">randomize</span><span class="p">()</span>
+<span class="w">  </span><span class="kd">var</span><span class="w"> </span><span class="n">tokenBytes</span><span class="p">:</span><span class="w"> </span><span class="nb">array</span><span class="o">[</span><span class="mi">32</span><span class="p">,</span><span class="w"> </span><span class="n">byte</span><span class="o">]</span>
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="mf">0</span><span class="p">..</span><span class="o">&lt;</span><span class="mi">32</span><span class="p">:</span>
+<span class="w">    </span><span class="n">tokenBytes</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rand</span><span class="p">(</span><span class="mi">255</span><span class="p">).</span><span class="n">byte</span>
+
+<span class="w">  </span><span class="n">result</span><span class="p">.</span><span class="n">token</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">base64</span><span class="p">.</span><span class="n">encode</span><span class="p">(</span><span class="n">tokenBytes</span><span class="p">)</span>
+<span class="w">  </span><span class="n">result</span><span class="p">.</span><span class="n">username</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">username</span>
+<span class="w">  </span><span class="n">result</span><span class="p">.</span><span class="n">created</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">now</span><span class="p">()</span>
+<span class="w">  </span><span class="n">result</span><span class="p">.</span><span class="n">expires</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">now</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">initDuration</span><span class="p">(</span><span class="n">days</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">durationDays</span><span class="p">)</span>
+
+<span class="w">  </span><span class="c"># Copy user permissions</span>
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">user</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">State</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;users&quot;</span><span class="p">).</span><span class="n">value</span><span class="o">[</span><span class="n">username</span><span class="o">]</span>
+<span class="w">  </span><span class="n">result</span><span class="p">.</span><span class="n">permissions</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">getUserPermissions</span><span class="p">(</span><span class="n">username</span><span class="p">)</span>
+
+<span class="k">proc</span><span class="w"> </span><span class="nf">validateBearerToken</span><span class="o">*</span><span class="p">(</span><span class="n">authHeader</span><span class="p">:</span><span class="w"> </span><span class="nb">string</span><span class="p">):</span><span class="w"> </span><span class="n">Option</span><span class="o">[</span><span class="nb">string</span><span class="o">]</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="n">authHeader</span><span class="p">.</span><span class="n">startsWith</span><span class="p">(</span><span class="s">&quot;Bearer &quot;</span><span class="p">):</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">none</span><span class="p">(</span><span class="nb">string</span><span class="p">)</span>
+
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">token</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">authHeader</span><span class="o">[</span><span class="mf">7</span><span class="p">..^</span><span class="mi">1</span><span class="o">]</span>
+
+<span class="w">  </span><span class="c"># Look up token</span>
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">tokens</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">State</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;apiTokens&quot;</span><span class="p">).</span><span class="n">value</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="n">tokens</span><span class="p">.</span><span class="n">hasKey</span><span class="p">(</span><span class="n">token</span><span class="p">):</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">none</span><span class="p">(</span><span class="nb">string</span><span class="p">)</span>
+
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">tokenData</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tokens</span><span class="o">[</span><span class="n">token</span><span class="o">]</span>
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">expires</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tokenData</span><span class="o">[</span><span class="s">&quot;expires&quot;</span><span class="o">]</span><span class="p">.</span><span class="n">getInt</span>
+
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="n">now</span><span class="p">().</span><span class="n">toUnix</span><span class="p">()</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">expires</span><span class="p">:</span>
+<span class="w">    </span><span class="c"># Token expired</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">none</span><span class="p">(</span><span class="nb">string</span><span class="p">)</span>
+
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">some</span><span class="p">(</span><span class="n">tokenData</span><span class="o">[</span><span class="s">&quot;username&quot;</span><span class="o">]</span><span class="p">.</span><span class="n">getStr</span><span class="p">)</span>
+</code></pre></div>
+
+<h3 id="session-cookie-authentication">Session Cookie Authentication</h3>
+<p>Used for:<br />
+- Web interface persistence<br />
+- WebSocket connections</p>
+<p><strong>Session Management</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c"># src/servers/clients.nim</span>
+<span class="k">type</span>
+<span class="w">  </span><span class="n">SessionData</span><span class="o">*</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">object</span>
+<span class="w">    </span><span class="n">id</span><span class="o">*</span><span class="p">:</span><span class="w"> </span><span class="nb">string</span>
+<span class="w">    </span><span class="n">username</span><span class="o">*</span><span class="p">:</span><span class="w"> </span><span class="nb">string</span>
+<span class="w">    </span><span class="n">created</span><span class="o">*</span><span class="p">:</span><span class="w"> </span><span class="n">Time</span>
+<span class="w">    </span><span class="n">lastActivity</span><span class="o">*</span><span class="p">:</span><span class="w"> </span><span class="n">Time</span>
+<span class="w">    </span><span class="n">ipAddress</span><span class="o">*</span><span class="p">:</span><span class="w"> </span><span class="nb">string</span>
+
+<span class="kd">var</span><span class="w"> </span><span class="n">sessions</span><span class="o">*</span><span class="p">:</span><span class="w"> </span><span class="n">Table</span><span class="o">[</span><span class="nb">string</span><span class="p">,</span><span class="w"> </span><span class="n">SessionData</span><span class="o">]</span>
+
+<span class="k">proc</span><span class="w"> </span><span class="nf">createSession</span><span class="o">*</span><span class="p">(</span><span class="n">username</span><span class="p">:</span><span class="w"> </span><span class="nb">string</span><span class="p">,</span><span class="w"> </span><span class="n">ipAddress</span><span class="p">:</span><span class="w"> </span><span class="nb">string</span><span class="p">):</span><span class="w"> </span><span class="nb">string</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">sessionId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">generateSecureRandomString</span><span class="p">(</span><span class="mi">32</span><span class="p">)</span>
+
+<span class="w">  </span><span class="n">sessions</span><span class="o">[</span><span class="n">sessionId</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SessionData</span><span class="p">(</span>
+<span class="w">    </span><span class="n">id</span><span class="p">:</span><span class="w"> </span><span class="n">sessionId</span><span class="p">,</span>
+<span class="w">    </span><span class="n">username</span><span class="p">:</span><span class="w"> </span><span class="n">username</span><span class="p">,</span>
+<span class="w">    </span><span class="n">created</span><span class="p">:</span><span class="w"> </span><span class="n">now</span><span class="p">(),</span>
+<span class="w">    </span><span class="n">lastActivity</span><span class="p">:</span><span class="w"> </span><span class="n">now</span><span class="p">(),</span>
+<span class="w">    </span><span class="n">ipAddress</span><span class="p">:</span><span class="w"> </span><span class="n">ipAddress</span>
+<span class="w">  </span><span class="p">)</span>
+
+<span class="w">  </span><span class="c"># Save sessions to LocalStorage</span>
+<span class="w">  </span><span class="n">saveSessionsToStorage</span><span class="p">()</span>
+
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">sessionId</span>
+
+<span class="k">proc</span><span class="w"> </span><span class="nf">validateSession</span><span class="o">*</span><span class="p">(</span><span class="n">sessionId</span><span class="p">:</span><span class="w"> </span><span class="nb">string</span><span class="p">):</span><span class="w"> </span><span class="n">Option</span><span class="o">[</span><span class="nb">string</span><span class="o">]</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="n">sessions</span><span class="p">.</span><span class="n">hasKey</span><span class="p">(</span><span class="n">sessionId</span><span class="p">):</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">none</span><span class="p">(</span><span class="nb">string</span><span class="p">)</span>
+
+<span class="w">  </span><span class="kd">var</span><span class="w"> </span><span class="n">session</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sessions</span><span class="o">[</span><span class="n">sessionId</span><span class="o">]</span>
+
+<span class="w">  </span><span class="c"># Check session timeout (30 minutes of inactivity)</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">now</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">session</span><span class="p">.</span><span class="n">lastActivity</span><span class="p">).</span><span class="n">inMinutes</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">30</span><span class="p">:</span>
+<span class="w">    </span><span class="n">sessions</span><span class="p">.</span><span class="n">del</span><span class="p">(</span><span class="n">sessionId</span><span class="p">)</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">none</span><span class="p">(</span><span class="nb">string</span><span class="p">)</span>
+
+<span class="w">  </span><span class="c"># Update last activity</span>
+<span class="w">  </span><span class="n">session</span><span class="p">.</span><span class="n">lastActivity</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">now</span><span class="p">()</span>
+<span class="w">  </span><span class="n">sessions</span><span class="o">[</span><span class="n">sessionId</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">session</span>
+
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">some</span><span class="p">(</span><span class="n">session</span><span class="p">.</span><span class="n">username</span><span class="p">)</span>
+</code></pre></div>
+
+<h2 id="authorization-permissions">Authorization &amp; Permissions</h2>
+<h3 id="permission-model">Permission Model</h3>
+<div class="codehilite"><pre><span></span><code><span class="c"># src/state/permissions.nim</span>
+<span class="k">type</span>
+<span class="w">  </span><span class="n">StatePermission</span><span class="o">*</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">enum</span>
+<span class="w">    </span><span class="c"># Device permissions</span>
+<span class="w">    </span><span class="n">Device_r</span><span class="w">     </span><span class="c"># Read device info</span>
+<span class="w">    </span><span class="n">Device_rw</span><span class="w">    </span><span class="c"># Control device</span>
+
+<span class="w">    </span><span class="c"># Media permissions</span>
+<span class="w">    </span><span class="n">Media_r</span><span class="w">      </span><span class="c"># View media</span>
+<span class="w">    </span><span class="n">Media_rw</span><span class="w">     </span><span class="c"># Record/delete media</span>
+
+<span class="w">    </span><span class="c"># User permissions</span>
+<span class="w">    </span><span class="n">User_r</span><span class="w">       </span><span class="c"># View users</span>
+<span class="w">    </span><span class="n">User_rw</span><span class="w">      </span><span class="c"># Manage users</span>
+
+<span class="w">    </span><span class="c"># Network permissions</span>
+<span class="w">    </span><span class="n">Network_r</span><span class="w">    </span><span class="c"># View network settings</span>
+<span class="w">    </span><span class="n">Network_rw</span><span class="w">   </span><span class="c"># Configure network</span>
+
+<span class="w">    </span><span class="c"># Storage permissions</span>
+<span class="w">    </span><span class="n">Storage_r</span><span class="w">    </span><span class="c"># View storage info</span>
+<span class="w">    </span><span class="n">Storage_rw</span><span class="w">   </span><span class="c"># Manage storage</span>
+
+<span class="w">    </span><span class="c"># System permissions</span>
+<span class="w">    </span><span class="n">System_r</span><span class="w">     </span><span class="c"># View system info</span>
+<span class="w">    </span><span class="n">System_rw</span><span class="w">    </span><span class="c"># System configuration</span>
+
+<span class="w">    </span><span class="c"># Firmware permissions</span>
+<span class="w">    </span><span class="n">FirmwareUpdate_r</span><span class="w">   </span><span class="c"># View firmware info</span>
+<span class="w">    </span><span class="n">FirmwareUpdate_rw</span><span class="w">  </span><span class="c"># Update firmware</span>
+
+<span class="w">    </span><span class="c"># Reboot permission</span>
+<span class="w">    </span><span class="n">Reboot_rw</span><span class="w">    </span><span class="c"># Reboot system</span>
+
+<span class="w">  </span><span class="n">StatePermissions</span><span class="o">*</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">set</span><span class="o">[</span><span class="n">StatePermission</span><span class="o">]</span>
+</code></pre></div>
+
+<h3 id="role-based-access">Role-Based Access</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">proc</span><span class="w"> </span><span class="nf">getRolePermissions</span><span class="o">*</span><span class="p">(</span><span class="n">role</span><span class="p">:</span><span class="w"> </span><span class="nb">string</span><span class="p">):</span><span class="w"> </span><span class="n">StatePermissions</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="k">case</span><span class="w"> </span><span class="n">role</span><span class="p">:</span>
+<span class="w">  </span><span class="k">of</span><span class="w"> </span><span class="nl">&quot;administrator&quot;</span><span class="o">:</span>
+<span class="w">    </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="n">Device_r</span><span class="p">,</span><span class="w"> </span><span class="n">Device_rw</span><span class="p">,</span>
+<span class="w">      </span><span class="n">Media_r</span><span class="p">,</span><span class="w"> </span><span class="n">Media_rw</span><span class="p">,</span>
+<span class="w">      </span><span class="n">User_r</span><span class="p">,</span><span class="w"> </span><span class="n">User_rw</span><span class="p">,</span>
+<span class="w">      </span><span class="n">Network_r</span><span class="p">,</span><span class="w"> </span><span class="n">Network_rw</span><span class="p">,</span>
+<span class="w">      </span><span class="n">Storage_r</span><span class="p">,</span><span class="w"> </span><span class="n">Storage_rw</span><span class="p">,</span>
+<span class="w">      </span><span class="n">System_r</span><span class="p">,</span><span class="w"> </span><span class="n">System_rw</span><span class="p">,</span>
+<span class="w">      </span><span class="n">FirmwareUpdate_r</span><span class="p">,</span><span class="w"> </span><span class="n">FirmwareUpdate_rw</span><span class="p">,</span>
+<span class="w">      </span><span class="n">Reboot_rw</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">  </span><span class="k">of</span><span class="w"> </span><span class="nl">&quot;operator&quot;</span><span class="o">:</span>
+<span class="w">    </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="n">Device_r</span><span class="p">,</span><span class="w"> </span><span class="n">Device_rw</span><span class="p">,</span>
+<span class="w">      </span><span class="n">Media_r</span><span class="p">,</span><span class="w"> </span><span class="n">Media_rw</span><span class="p">,</span>
+<span class="w">      </span><span class="n">Storage_r</span><span class="p">,</span>
+<span class="w">      </span><span class="n">System_r</span><span class="p">,</span>
+<span class="w">      </span><span class="n">Reboot_rw</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">  </span><span class="k">of</span><span class="w"> </span><span class="nl">&quot;viewer&quot;</span><span class="o">:</span>
+<span class="w">    </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="n">Device_r</span><span class="p">,</span>
+<span class="w">      </span><span class="n">Media_r</span><span class="p">,</span>
+<span class="w">      </span><span class="n">Storage_r</span><span class="p">,</span>
+<span class="w">      </span><span class="n">System_r</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">  </span><span class="k">else</span><span class="p">:</span>
+<span class="w">    </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{}</span>
+</code></pre></div>
+
+<h3 id="permission-checking">Permission Checking</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">proc</span><span class="w"> </span><span class="nf">hasPermission</span><span class="o">*</span><span class="p">(</span><span class="n">username</span><span class="p">:</span><span class="w"> </span><span class="nb">string</span><span class="p">,</span><span class="w"> </span><span class="n">permission</span><span class="p">:</span><span class="w"> </span><span class="n">StatePermission</span><span class="p">):</span><span class="w"> </span><span class="nb">bool</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">State</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;users&quot;</span><span class="p">).</span><span class="n">value</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="n">users</span><span class="p">.</span><span class="n">hasKey</span><span class="p">(</span><span class="n">username</span><span class="p">):</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="kp">false</span>
+
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">role</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">users</span><span class="o">[</span><span class="n">username</span><span class="o">][</span><span class="s">&quot;role&quot;</span><span class="o">]</span><span class="p">.</span><span class="n">getStr</span>
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">permissions</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">getRolePermissions</span><span class="p">(</span><span class="n">role</span><span class="p">)</span>
+
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">permission</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">permissions</span>
+
+<span class="k">proc</span><span class="w"> </span><span class="nf">checkStatePermission</span><span class="o">*</span><span class="p">(</span><span class="n">observable</span><span class="p">:</span><span class="w"> </span><span class="n">Observable</span><span class="p">,</span><span class="w"> </span><span class="n">username</span><span class="p">:</span><span class="w"> </span><span class="nb">string</span><span class="p">,</span><span class="w"> </span><span class="n">write</span><span class="p">:</span><span class="w"> </span><span class="nb">bool</span><span class="p">):</span><span class="w"> </span><span class="nb">bool</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">permissions</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">getUserPermissions</span><span class="p">(</span><span class="n">username</span><span class="p">)</span>
+
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="n">write</span><span class="p">:</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">permissions</span><span class="p">.</span><span class="n">canWrite</span><span class="p">(</span><span class="n">observable</span><span class="p">)</span>
+<span class="w">  </span><span class="k">else</span><span class="p">:</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">permissions</span><span class="p">.</span><span class="n">canRead</span><span class="p">(</span><span class="n">observable</span><span class="p">)</span>
+</code></pre></div>
+
+<h2 id="password-policies">Password Policies</h2>
+<h3 id="password-requirements">Password Requirements</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">proc</span><span class="w"> </span><span class="nf">validatePasswordStrength</span><span class="o">*</span><span class="p">(</span><span class="n">password</span><span class="p">:</span><span class="w"> </span><span class="nb">string</span><span class="p">):</span><span class="w"> </span><span class="p">(</span><span class="nb">bool</span><span class="p">,</span><span class="w"> </span><span class="nb">string</span><span class="p">)</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="c"># Minimum length</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="n">password</span><span class="p">.</span><span class="n">len</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">8</span><span class="p">:</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="p">(</span><span class="kp">false</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Password must be at least 8 characters&quot;</span><span class="p">)</span>
+
+<span class="w">  </span><span class="c"># Require uppercase</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="n">password</span><span class="p">.</span><span class="n">anyIt</span><span class="p">(</span><span class="n">it</span><span class="p">.</span><span class="n">isUpperAscii</span><span class="p">):</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="p">(</span><span class="kp">false</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Password must contain uppercase letter&quot;</span><span class="p">)</span>
+
+<span class="w">  </span><span class="c"># Require lowercase</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="n">password</span><span class="p">.</span><span class="n">anyIt</span><span class="p">(</span><span class="n">it</span><span class="p">.</span><span class="n">isLowerAscii</span><span class="p">):</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="p">(</span><span class="kp">false</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Password must contain lowercase letter&quot;</span><span class="p">)</span>
+
+<span class="w">  </span><span class="c"># Require digit</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="n">password</span><span class="p">.</span><span class="n">anyIt</span><span class="p">(</span><span class="n">it</span><span class="p">.</span><span class="n">isDigit</span><span class="p">):</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="p">(</span><span class="kp">false</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Password must contain digit&quot;</span><span class="p">)</span>
+
+<span class="w">  </span><span class="c"># Require special character</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="n">password</span><span class="p">.</span><span class="n">anyIt</span><span class="p">(</span><span class="ow">not</span><span class="w"> </span><span class="n">it</span><span class="p">.</span><span class="n">isAlphaNumeric</span><span class="p">):</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="p">(</span><span class="kp">false</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Password must contain special character&quot;</span><span class="p">)</span>
+
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">(</span><span class="kp">true</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<h3 id="password-change">Password Change</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">proc</span><span class="w"> </span><span class="nf">changePassword</span><span class="o">*</span><span class="p">(</span><span class="n">username</span><span class="p">:</span><span class="w"> </span><span class="nb">string</span><span class="p">,</span><span class="w"> </span><span class="n">oldPassword</span><span class="p">:</span><span class="w"> </span><span class="nb">string</span><span class="p">,</span><span class="w"> </span><span class="n">newPassword</span><span class="p">:</span><span class="w"> </span><span class="nb">string</span><span class="p">):</span><span class="w"> </span><span class="nb">bool</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="c"># Validate old password</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="n">validateCredentials</span><span class="p">(</span><span class="n">username</span><span class="p">,</span><span class="w"> </span><span class="n">oldPassword</span><span class="p">):</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="kp">false</span>
+
+<span class="w">  </span><span class="c"># Validate new password strength</span>
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="p">(</span><span class="n">valid</span><span class="p">,</span><span class="w"> </span><span class="n">msg</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">validatePasswordStrength</span><span class="p">(</span><span class="n">newPassword</span><span class="p">)</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="n">valid</span><span class="p">:</span>
+<span class="w">    </span><span class="n">StateLogger</span><span class="p">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;Password change failed: &quot;</span><span class="p">,</span><span class="w"> </span><span class="n">msg</span><span class="p">)</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="kp">false</span>
+
+<span class="w">  </span><span class="c"># Generate new salt and hash</span>
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">salt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">generateSalt</span><span class="p">()</span>
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">hash</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">hashPassword</span><span class="p">(</span><span class="n">newPassword</span><span class="p">,</span><span class="w"> </span><span class="n">salt</span><span class="p">)</span>
+
+<span class="w">  </span><span class="c"># Update user</span>
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">State</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;users&quot;</span><span class="p">).</span><span class="n">value</span>
+<span class="w">  </span><span class="n">users</span><span class="o">[</span><span class="n">username</span><span class="o">][</span><span class="s">&quot;salt&quot;</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">%</span><span class="n">salt</span>
+<span class="w">  </span><span class="n">State</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;users&quot;</span><span class="p">).</span><span class="n">updateValue</span><span class="p">(</span><span class="n">users</span><span class="p">)</span>
+
+<span class="w">  </span><span class="c"># Update password</span>
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">passwords</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">State</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;userPasswords&quot;</span><span class="p">).</span><span class="n">value</span>
+<span class="w">  </span><span class="n">passwords</span><span class="o">[</span><span class="n">username</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">%</span><span class="n">hash</span>
+<span class="w">  </span><span class="n">State</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;userPasswords&quot;</span><span class="p">).</span><span class="n">updateValue</span><span class="p">(</span><span class="n">passwords</span><span class="p">)</span>
+
+<span class="w">  </span><span class="c"># Invalidate all sessions for this user</span>
+<span class="w">  </span><span class="n">invalidateUserSessions</span><span class="p">(</span><span class="n">username</span><span class="p">)</span>
+
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="kp">true</span>
+</code></pre></div>
+
+<h2 id="api-authentication-examples">API Authentication Examples</h2>
+<h3 id="curl-with-basic-auth">cURL with Basic Auth</h3>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Login and get session</span>
+curl<span class="w"> </span>-u<span class="w"> </span>admin:password<span class="w"> </span>http://rotoclear.local:8080/api/login
+
+<span class="c1"># Access protected endpoint</span>
+curl<span class="w"> </span>-u<span class="w"> </span>admin:password<span class="w"> </span>http://rotoclear.local:8080/api/recording/start
+</code></pre></div>
+
+<h3 id="python-with-bearer-token">Python with Bearer Token</h3>
+<div class="codehilite"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
+
+<span class="c1"># Get API token</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+    <span class="s1">&#39;http://rotoclear.local:8080/api/token&#39;</span><span class="p">,</span>
+    <span class="n">auth</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;admin&#39;</span><span class="p">,</span> <span class="s1">&#39;password&#39;</span><span class="p">),</span>
+    <span class="n">json</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;duration_days&#39;</span><span class="p">:</span> <span class="mi">30</span><span class="p">}</span>
+<span class="p">)</span>
+<span class="n">token</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s1">&#39;token&#39;</span><span class="p">]</span>
+
+<span class="c1"># Use token for subsequent requests</span>
+<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Authorization&#39;</span><span class="p">:</span> <span class="sa">f</span><span class="s1">&#39;Bearer </span><span class="si">{</span><span class="n">token</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">}</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+    <span class="s1">&#39;http://rotoclear.local:8080/api/system/info&#39;</span><span class="p">,</span>
+    <span class="n">headers</span><span class="o">=</span><span class="n">headers</span>
+<span class="p">)</span>
+</code></pre></div>
+
+<h3 id="javascript-with-session">JavaScript with Session</h3>
+<div class="codehilite"><pre><span></span><code><span class="c1">// Login</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">fetch</span><span class="p">(</span><span class="s1">&#39;/api/login&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">method</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;POST&#39;</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">headers</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="s1">&#39;Content-Type&#39;</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;application/json&#39;</span><span class="p">},</span>
+<span class="w">    </span><span class="nx">body</span><span class="o">:</span><span class="w"> </span><span class="nb">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">({</span>
+<span class="w">        </span><span class="nx">username</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;admin&#39;</span><span class="p">,</span>
+<span class="w">        </span><span class="nx">password</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;password&#39;</span>
+<span class="w">    </span><span class="p">}),</span>
+<span class="w">    </span><span class="nx">credentials</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;include&#39;</span><span class="w">  </span><span class="c1">// Include cookies</span>
+<span class="p">});</span>
+
+<span class="c1">// Session cookie is automatically stored</span>
+
+<span class="c1">// Subsequent requests include session cookie</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">fetch</span><span class="p">(</span><span class="s1">&#39;/api/recording/list&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">credentials</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;include&#39;</span>
+<span class="p">});</span>
+</code></pre></div>
+
+<h2 id="security-best-practices">Security Best Practices</h2>
+<h3 id="secure-defaults">Secure Defaults</h3>
+<ul>
+<li>Default admin password must be changed on first login</li>
+<li>Passwords never transmitted in plain text (HTTPS required)</li>
+<li>Sessions expire after 30 minutes of inactivity</li>
+<li>Failed login attempts are logged and rate-limited</li>
+</ul>
+<h3 id="rate-limiting">Rate Limiting</h3>
+<div class="codehilite"><pre><span></span><code><span class="kd">var</span><span class="w"> </span><span class="n">loginAttempts</span><span class="p">:</span><span class="w"> </span><span class="n">Table</span><span class="o">[</span><span class="nb">string</span><span class="p">,</span><span class="w"> </span><span class="nb">seq</span><span class="o">[</span><span class="n">Time</span><span class="o">]]</span>
+
+<span class="k">proc</span><span class="w"> </span><span class="nf">checkRateLimit</span><span class="o">*</span><span class="p">(</span><span class="n">ipAddress</span><span class="p">:</span><span class="w"> </span><span class="nb">string</span><span class="p">):</span><span class="w"> </span><span class="nb">bool</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">now</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">now</span><span class="p">()</span>
+
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="n">loginAttempts</span><span class="p">.</span><span class="n">hasKey</span><span class="p">(</span><span class="n">ipAddress</span><span class="p">):</span>
+<span class="w">    </span><span class="n">loginAttempts</span><span class="o">[</span><span class="n">ipAddress</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">@[]</span>
+
+<span class="w">  </span><span class="c"># Remove attempts older than 15 minutes</span>
+<span class="w">  </span><span class="n">loginAttempts</span><span class="o">[</span><span class="n">ipAddress</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">loginAttempts</span><span class="o">[</span><span class="n">ipAddress</span><span class="o">]</span><span class="p">.</span><span class="n">filterIt</span><span class="p">(</span>
+<span class="w">    </span><span class="p">(</span><span class="n">now</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">it</span><span class="p">).</span><span class="n">inMinutes</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">15</span>
+<span class="w">  </span><span class="p">)</span>
+
+<span class="w">  </span><span class="c"># Check if too many attempts</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="n">loginAttempts</span><span class="o">[</span><span class="n">ipAddress</span><span class="o">]</span><span class="p">.</span><span class="n">len</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">5</span><span class="p">:</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="kp">false</span>
+
+<span class="w">  </span><span class="c"># Add this attempt</span>
+<span class="w">  </span><span class="n">loginAttempts</span><span class="o">[</span><span class="n">ipAddress</span><span class="o">]</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">now</span><span class="p">)</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="kp">true</span>
+</code></pre></div>
+
+<h3 id="audit-logging">Audit Logging</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">proc</span><span class="w"> </span><span class="nf">auditLog</span><span class="o">*</span><span class="p">(</span><span class="n">username</span><span class="p">:</span><span class="w"> </span><span class="nb">string</span><span class="p">,</span><span class="w"> </span><span class="n">action</span><span class="p">:</span><span class="w"> </span><span class="nb">string</span><span class="p">,</span><span class="w"> </span><span class="n">success</span><span class="p">:</span><span class="w"> </span><span class="nb">bool</span><span class="p">,</span><span class="w"> </span><span class="n">details</span><span class="p">:</span><span class="w"> </span><span class="n">JsonNode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kp">nil</span><span class="p">)</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="n">StateLogger</span><span class="p">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;AUDIT&quot;</span><span class="p">,</span><span class="w"> </span><span class="o">%</span><span class="p">{</span>
+<span class="w">    </span><span class="s">&quot;timestamp&quot;</span><span class="p">:</span><span class="w"> </span><span class="o">%</span><span class="n">now</span><span class="p">().</span><span class="n">format</span><span class="p">(</span><span class="s">&quot;yyyy-MM-dd&#39;T&#39;HH:mm:ss&#39;Z&#39;&quot;</span><span class="p">),</span>
+<span class="w">    </span><span class="s">&quot;username&quot;</span><span class="p">:</span><span class="w"> </span><span class="o">%</span><span class="n">username</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;action&quot;</span><span class="p">:</span><span class="w"> </span><span class="o">%</span><span class="n">action</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;success&quot;</span><span class="p">:</span><span class="w"> </span><span class="o">%</span><span class="n">success</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;details&quot;</span><span class="p">:</span><span class="w"> </span><span class="n">details</span>
+<span class="w">  </span><span class="p">})</span>
+
+<span class="c"># Log authentication attempts</span>
+<span class="n">auditLog</span><span class="p">(</span><span class="s">&quot;admin&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;login&quot;</span><span class="p">,</span><span class="w"> </span><span class="kp">true</span><span class="p">,</span><span class="w"> </span><span class="o">%</span><span class="p">{</span><span class="s">&quot;ip&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;192.168.1.100&quot;</span><span class="p">})</span>
+<span class="n">auditLog</span><span class="p">(</span><span class="s">&quot;unknown&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;login&quot;</span><span class="p">,</span><span class="w"> </span><span class="kp">false</span><span class="p">,</span><span class="w"> </span><span class="o">%</span><span class="p">{</span><span class="s">&quot;ip&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;192.168.1.200&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;reason&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;invalid_credentials&quot;</span><span class="p">})</span>
+</code></pre></div>
+
+<h2 id="troubleshooting">Troubleshooting</h2>
+<h3 id="cannot-login">Cannot Login</h3>
+<p><strong>Symptoms</strong>: Login fails with correct credentials.</p>
+<p><strong>Solutions</strong>:<br />
+- Verify username and password<br />
+- Check if account is locked (too many failed attempts)<br />
+- Verify user exists: check <code>users</code> observable<br />
+- Review audit logs for login attempts<br />
+- Try admin account if available</p>
+<h3 id="session-expires-too-quickly">Session Expires Too Quickly</h3>
+<p><strong>Symptoms</strong>: Logged out frequently.</p>
+<p><strong>Solutions</strong>:<br />
+- Check session timeout settings<br />
+- Verify system time is correct<br />
+- Review browser cookie settings<br />
+- Check for multiple browser tabs causing conflicts</p>
+<h3 id="permission-denied">Permission Denied</h3>
+<p><strong>Symptoms</strong>: 403 Forbidden errors despite being logged in.</p>
+<p><strong>Solutions</strong>:<br />
+- Verify user role and permissions<br />
+- Check observable permission requirements<br />
+- Review audit logs for authorization failures<br />
+- Ensure using correct authentication method</p>
+<h2 id="related-documentation">Related Documentation</h2>
+<ul>
+<li><a href="permissions.md">Permissions</a></li>
+<li><a href="ssl-certificates.md">SSL Certificates</a></li>
+<li><a href="../operations/user-management.md">User Management</a></li>
+<li><a href="../api/http-api.md">API Reference</a></li>
+</ul>
+            </div>
+            <footer class="content-footer">
+                <p>Copyright © 2025 Rotoclear</p>
+            </footer>
+        </main>
+        
+        <button class="mobile-menu-toggle" id="menuToggle" aria-label="Toggle menu">☰</button>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>
+        // Initialize Mermaid
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            securityLevel: 'loose',
+            fontFamily: 'Inter, sans-serif'
+        });
+        
+        // Syntax highlighting
+        hljs.highlightAll();
+        
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.querySelector('.sidebar');
+        
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+        });
+        
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth <= 768 && 
+                !sidebar.contains(e.target) && 
+                !menuToggle.contains(e.target) &&
+                sidebar.classList.contains('active')) {
+                sidebar.classList.remove('active');
+            }
+        });
+        
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

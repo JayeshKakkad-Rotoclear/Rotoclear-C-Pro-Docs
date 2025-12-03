@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Storage & Backup - RotoClear Camera Server Documentation</title>
+    <link rel="stylesheet" href="/assets/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1><a href="/index.html">RotoClear Docs</a></h1>
+                <p>Camera Server Documentation</p>
+            </div>
+            <nav class="sidebar-nav">
+                <ul class="nav-menu">
+                    <li class="nav-item depth-0">
+<a href="/index.html">Home</a>
+</li>
+<li class="nav-item depth-0">
+<a href="/getting-started.html">Getting Started</a>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Architecture</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/architecture/overview.html">Overview</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/architecture/state-management.html">State Management</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/architecture/camera-pipeline.html">Camera Pipeline</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/architecture/metadata-sqlite.html">Metadata & SQLite</a>
+</li>
+<li class="nav-folder depth-1">
+<span class="folder-title">Decisions</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-2">
+<a href="/architecture/decisions/ADR-0001-nim-language.html">ADR-0001 Nim Language</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/architecture/decisions/ADR-0002-corun-framework.html">ADR-0002 Corun Framework</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/architecture/decisions/ADR-0003-observable-state.html">ADR-0003 Observable State</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">API Reference</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/api/README.html">Overview</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/api/websocket-api.html">WebSocket API</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/api/http-api.html">HTTP API</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/api/rtsp-streaming.html">RTSP Streaming</a>
+</li>
+<li class="nav-folder depth-1">
+<span class="folder-title">Examples</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-2">
+<a href="/api/examples/python-client.html">Python Client</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/api/examples/javascript-client.html">JavaScript Client</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/api/examples/csharp-client.html">C# Client</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Configuration</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/configuration/environments.html">Environments</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/factory-config.html">Factory Config</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/license-config.html">License Config</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/deployment-variants.html">Deployment Variants</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/camera-system.html">Camera System</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/network.html">Network</a>
+</li>
+<li class="nav-item depth-1 active">
+<a href="/configuration/storage-backup.html">Storage & Backup</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/authentication.html">Authentication</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Camera System</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/camera/hardware-interface.html">Hardware Interface</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/camera/streaming.html">Streaming</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/camera/recording.html">Recording</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/camera/image-processing.html">Image Processing</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Operations</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/operations/build-and-deploy.html">Build and Deploy</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/build-deploy.html">Build & Deploy (Alt)</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/monitoring.html">Monitoring</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/performance.html">Performance</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/troubleshooting.html">Troubleshooting</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Security</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/security/authentication.html">Authentication</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/security/permissions.html">Permissions</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/security/ssl-certificates.html">SSL Certificates</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Testing</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/testing/testing-strategy.html">Strategy</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/testing/strategies.html">Strategies</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/testing/test-cases.html">Test Cases</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/testing/validation.html">Validation</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Integration</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/integration/onvif-protocol.html">ONVIF Protocol</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/integration/third-party.html">Third Party</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Reference</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/reference/glossary.html">Glossary</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/reference/requirements.html">Requirements</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/reference/state-observables.html">State Observables</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Releases</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/releases/CHANGELOG.html">Changelog</a>
+</li>
+</ul>
+</li>
+<li class="nav-item depth-0">
+<a href="/glossary.html">Glossary</a>
+</li>
+                </ul>
+            </nav>
+        </aside>
+        
+        <main class="content">
+            <div class="content-wrapper">
+                <h1 id="storage-and-backup-configuration">Storage and Backup Configuration</h1>
+<p><strong>Comprehensive storage management, backup strategies, and data retention policies.</strong></p>
+<h2 id="overview">Overview</h2>
+<p>The C Pro storage system manages video recordings, snapshots, logs, and configuration data with automated backup capabilities and intelligent space management.</p>
+<div class="mermaid">
+graph TB
+    A[Storage Manager] --> B{Storage Types}
+
+    B -->|Primary| C[Internal Storage]
+    B -->|External| D[USB/SD Storage]
+    B -->|Network| E[SMB/NFS Shares]
+    B -->|Cloud| F[Remote Backup]
+
+    C --> G[Data Categories]
+    D --> G
+    E --> G
+    F --> H[Backup Manager]
+
+    G --> I[Video Recordings]
+    G --> J[Image Snapshots]
+    G --> K[System Logs]
+    G --> L[Configuration]
+
+    I --> M[Retention Policy]
+    J --> M
+    K --> N[Log Rotation]
+    L --> O[Config Backup]
+
+    M --> P[Auto Cleanup]
+    N --> P
+    O --> H
+
+    H --> Q[Scheduled Backup]
+    H --> R[Incremental Sync]
+    H --> S[Compression]
+</div>
+
+<h2 id="storage-architecture">Storage Architecture</h2>
+<h3 id="file-system-structure">File System Structure</h3>
+<p><strong>Default Directory Layout</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="o">/</span><span class="n">media</span><span class="o">/</span><span class="n">data</span><span class="o">/</span>
+<span class="err">├──</span><span class="w"> </span><span class="n">recordings</span><span class="o">/</span><span class="w">          </span><span class="c1"># Video recordings</span>
+<span class="err">│</span><span class="w">   </span><span class="err">├──</span><span class="w"> </span><span class="n">continuous</span><span class="o">/</span><span class="w">      </span><span class="c1"># Continuous recording segments</span>
+<span class="err">│</span><span class="w">   </span><span class="err">├──</span><span class="w"> </span><span class="n">triggered</span><span class="o">/</span><span class="w">       </span><span class="c1"># Event-triggered recordings</span>
+<span class="err">│</span><span class="w">   </span><span class="err">└──</span><span class="w"> </span><span class="n">manual</span><span class="o">/</span><span class="w">          </span><span class="c1"># Manually initiated recordings</span>
+<span class="err">├──</span><span class="w"> </span><span class="n">snapshots</span><span class="o">/</span><span class="w">           </span><span class="c1"># Image captures</span>
+<span class="err">│</span><span class="w">   </span><span class="err">├──</span><span class="w"> </span><span class="n">manual</span><span class="o">/</span><span class="w">          </span><span class="c1"># User-initiated snapshots</span>
+<span class="err">│</span><span class="w">   </span><span class="err">├──</span><span class="w"> </span><span class="n">scheduled</span><span class="o">/</span><span class="w">       </span><span class="c1"># Time-lapse snapshots</span>
+<span class="err">│</span><span class="w">   </span><span class="err">└──</span><span class="w"> </span><span class="n">event</span><span class="o">/</span><span class="w">           </span><span class="c1"># Event-triggered snapshots</span>
+<span class="err">├──</span><span class="w"> </span><span class="n">logs</span><span class="o">/</span><span class="w">                </span><span class="c1"># System and application logs</span>
+<span class="err">│</span><span class="w">   </span><span class="err">├──</span><span class="w"> </span><span class="n">system</span><span class="o">/</span><span class="w">          </span><span class="c1"># System-level logs</span>
+<span class="err">│</span><span class="w">   </span><span class="err">├──</span><span class="w"> </span><span class="n">camera</span><span class="o">/</span><span class="w">          </span><span class="c1"># Camera-specific logs</span>
+<span class="err">│</span><span class="w">   </span><span class="err">└──</span><span class="w"> </span><span class="n">network</span><span class="o">/</span><span class="w">         </span><span class="c1"># Network activity logs</span>
+<span class="err">├──</span><span class="w"> </span><span class="n">config</span><span class="o">/</span><span class="w">              </span><span class="c1"># Configuration backups</span>
+<span class="err">│</span><span class="w">   </span><span class="err">├──</span><span class="w"> </span><span class="n">current</span><span class="o">/</span><span class="w">         </span><span class="c1"># Active configuration</span>
+<span class="err">│</span><span class="w">   </span><span class="err">├──</span><span class="w"> </span><span class="n">backup</span><span class="o">/</span><span class="w">          </span><span class="c1"># Configuration history</span>
+<span class="err">│</span><span class="w">   </span><span class="err">└──</span><span class="w"> </span><span class="n">factory</span><span class="o">/</span><span class="w">         </span><span class="c1"># Factory defaults</span>
+<span class="err">├──</span><span class="w"> </span><span class="n">cache</span><span class="o">/</span><span class="w">               </span><span class="c1"># Temporary files and cache</span>
+<span class="err">│</span><span class="w">   </span><span class="err">├──</span><span class="w"> </span><span class="n">thumbnails</span><span class="o">/</span><span class="w">      </span><span class="c1"># Video/image thumbnails</span>
+<span class="err">│</span><span class="w">   </span><span class="err">├──</span><span class="w"> </span><span class="n">processing</span><span class="o">/</span><span class="w">      </span><span class="c1"># Processing temporary files</span>
+<span class="err">│</span><span class="w">   </span><span class="err">└──</span><span class="w"> </span><span class="n">uploads</span><span class="o">/</span><span class="w">         </span><span class="c1"># Upload staging area</span>
+<span class="err">└──</span><span class="w"> </span><span class="n">exports</span><span class="o">/</span><span class="w">             </span><span class="c1"># Data exports and reports</span>
+<span class="w">    </span><span class="err">├──</span><span class="w"> </span><span class="n">logs</span><span class="o">/</span><span class="w">            </span><span class="c1"># Exported log files</span>
+<span class="w">    </span><span class="err">├──</span><span class="w"> </span><span class="n">data</span><span class="o">/</span><span class="w">            </span><span class="c1"># Exported datasets</span>
+<span class="w">    </span><span class="err">└──</span><span class="w"> </span><span class="n">reports</span><span class="o">/</span><span class="w">         </span><span class="c1"># System reports</span>
+</code></pre></div>
+
+<h3 id="storage-devices">Storage Devices</h3>
+<p><strong>Primary Storage Configuration</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># /etc/rotordream/storage.conf</span>
+<span class="k">[primary]</span>
+<span class="na">device</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">/dev/mmcblk0p2</span>
+<span class="na">mount_point</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">/media/data</span>
+<span class="na">filesystem</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">ext4</span>
+<span class="na">auto_mount</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">true</span>
+<span class="na">check_interval</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">300</span>
+
+<span class="c1"># Space management</span>
+<span class="na">warning_threshold</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">85</span><span class="w">      </span><span class="c1"># Warn at 85% full</span>
+<span class="na">critical_threshold</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">95</span><span class="w">     </span><span class="c1"># Critical at 95% full</span>
+<span class="na">auto_cleanup</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">true</span>
+<span class="na">cleanup_priority</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">oldest_first</span>
+
+<span class="k">[recordings]</span>
+<span class="na">path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">/media/data/recordings</span>
+<span class="na">max_size_gb</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">50</span>
+<span class="na">retention_days</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">30</span>
+<span class="na">segment_duration</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">900</span><span class="w">      </span><span class="c1"># 15 minutes</span>
+<span class="na">max_segments</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">2000</span>
+
+<span class="k">[snapshots]</span>
+<span class="na">path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">/media/data/snapshots</span>
+<span class="na">max_size_gb</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">10</span>
+<span class="na">retention_days</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">60</span>
+<span class="na">max_files</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">10000</span>
+</code></pre></div>
+
+<p><strong>External Storage</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">[external]</span>
+<span class="na">enabled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">true</span>
+<span class="na">auto_detect</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">true</span>
+<span class="na">mount_base</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">/media/external</span>
+<span class="na">supported_fs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">ext4,ntfs,vfat,exfat</span>
+
+<span class="c1"># USB storage</span>
+<span class="k">[usb_storage]</span>
+<span class="na">enabled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">true</span>
+<span class="na">auto_backup</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">true</span>
+<span class="na">backup_schedule</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;0 2 * * *&quot;</span><span class="w">  </span><span class="c1"># Daily at 2 AM</span>
+<span class="na">sync_mode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">incremental</span>
+
+<span class="c1"># Network storage</span>
+<span class="k">[network_storage]</span>
+<span class="na">enabled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">false</span>
+<span class="na">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">smb</span>
+<span class="na">server</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">192.168.1.200</span>
+<span class="na">share</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">camera_storage</span>
+<span class="na">username</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">camera_user</span>
+<span class="na">password_file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">/etc/rotordream/smb_password</span>
+<span class="na">mount_options</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">vers=3.0,uid=1000,gid=1000</span>
+</code></pre></div>
+
+<h2 id="storage-monitoring">Storage Monitoring</h2>
+<h3 id="space-management">Space Management</h3>
+<p><strong>Real-time Monitoring</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Check storage usage via API</span>
+curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>http://192.168.1.100:8080/api/storage/status
+
+<span class="c1"># Response format</span>
+<span class="o">{</span>
+<span class="w">  </span><span class="s2">&quot;storage&quot;</span>:<span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="s2">&quot;total_space&quot;</span>:<span class="w"> </span><span class="m">34359738368</span>,
+<span class="w">    </span><span class="s2">&quot;used_space&quot;</span>:<span class="w"> </span><span class="m">17179869184</span>,
+<span class="w">    </span><span class="s2">&quot;available_space&quot;</span>:<span class="w"> </span><span class="m">17179869184</span>,
+<span class="w">    </span><span class="s2">&quot;usage_percent&quot;</span>:<span class="w"> </span><span class="m">50</span>.0,
+<span class="w">    </span><span class="s2">&quot;warning_level&quot;</span>:<span class="w"> </span><span class="s2">&quot;normal&quot;</span>
+<span class="w">  </span><span class="o">}</span>,
+<span class="w">  </span><span class="s2">&quot;categories&quot;</span>:<span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="s2">&quot;recordings&quot;</span>:<span class="w"> </span><span class="o">{</span>
+<span class="w">      </span><span class="s2">&quot;size&quot;</span>:<span class="w"> </span><span class="m">15032385536</span>,
+<span class="w">      </span><span class="s2">&quot;files&quot;</span>:<span class="w"> </span><span class="m">156</span>,
+<span class="w">      </span><span class="s2">&quot;oldest&quot;</span>:<span class="w"> </span><span class="s2">&quot;2025-01-08T10:30:00Z&quot;</span>,
+<span class="w">      </span><span class="s2">&quot;newest&quot;</span>:<span class="w"> </span><span class="s2">&quot;2025-01-15T10:30:00Z&quot;</span>
+<span class="w">    </span><span class="o">}</span>,
+<span class="w">    </span><span class="s2">&quot;snapshots&quot;</span>:<span class="w"> </span><span class="o">{</span>
+<span class="w">      </span><span class="s2">&quot;size&quot;</span>:<span class="w"> </span><span class="m">1073741824</span>,
+<span class="w">      </span><span class="s2">&quot;files&quot;</span>:<span class="w"> </span><span class="m">423</span>,
+<span class="w">      </span><span class="s2">&quot;oldest&quot;</span>:<span class="w"> </span><span class="s2">&quot;2025-01-01T00:00:00Z&quot;</span>,
+<span class="w">      </span><span class="s2">&quot;newest&quot;</span>:<span class="w"> </span><span class="s2">&quot;2025-01-15T10:30:00Z&quot;</span>
+<span class="w">    </span><span class="o">}</span>,
+<span class="w">    </span><span class="s2">&quot;logs&quot;</span>:<span class="w"> </span><span class="o">{</span>
+<span class="w">      </span><span class="s2">&quot;size&quot;</span>:<span class="w"> </span><span class="m">134217728</span>,
+<span class="w">      </span><span class="s2">&quot;files&quot;</span>:<span class="w"> </span><span class="m">89</span>,
+<span class="w">      </span><span class="s2">&quot;oldest&quot;</span>:<span class="w"> </span><span class="s2">&quot;2025-01-01T00:00:00Z&quot;</span>,
+<span class="w">      </span><span class="s2">&quot;newest&quot;</span>:<span class="w"> </span><span class="s2">&quot;2025-01-15T10:30:00Z&quot;</span>
+<span class="w">    </span><span class="o">}</span>
+<span class="w">  </span><span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div>
+
+<p><strong>Automated Cleanup</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Configure cleanup policies</span>
+curl<span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/storage/cleanup&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;enabled&quot;: true,</span>
+<span class="s1">       &quot;trigger_threshold&quot;: 85,</span>
+<span class="s1">       &quot;target_threshold&quot;: 70,</span>
+<span class="s1">       &quot;policies&quot;: [</span>
+<span class="s1">         {</span>
+<span class="s1">           &quot;category&quot;: &quot;recordings&quot;,</span>
+<span class="s1">           &quot;method&quot;: &quot;oldest_first&quot;,</span>
+<span class="s1">           &quot;preserve_minimum&quot;: 10,</span>
+<span class="s1">           &quot;preserve_recent_hours&quot;: 24</span>
+<span class="s1">         },</span>
+<span class="s1">         {</span>
+<span class="s1">           &quot;category&quot;: &quot;snapshots&quot;, </span>
+<span class="s1">           &quot;method&quot;: &quot;least_accessed&quot;,</span>
+<span class="s1">           &quot;preserve_minimum&quot;: 50</span>
+<span class="s1">         }</span>
+<span class="s1">       ]</span>
+<span class="s1">     }&#39;</span>
+
+<span class="c1"># Manual cleanup</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/storage/cleanup&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;category&quot;: &quot;recordings&quot;,</span>
+<span class="s1">       &quot;older_than_days&quot;: 7,</span>
+<span class="s1">       &quot;dry_run&quot;: false</span>
+<span class="s1">     }&#39;</span>
+</code></pre></div>
+
+<h3 id="health-monitoring">Health Monitoring</h3>
+<p><strong>File System Health</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Check file system integrity</span>
+fsck<span class="w"> </span>-n<span class="w"> </span>/dev/mmcblk0p2
+
+<span class="c1"># Monitor I/O statistics</span>
+iostat<span class="w"> </span>-x<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="m">5</span>
+
+<span class="c1"># Check SMART data (if supported)</span>
+smartctl<span class="w"> </span>-a<span class="w"> </span>/dev/mmcblk0
+
+<span class="c1"># Check mount status</span>
+mount<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>/media/data
+df<span class="w"> </span>-h<span class="w"> </span>/media/data
+</code></pre></div>
+
+<p><strong>Storage Health API</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Get detailed health information</span>
+curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>http://192.168.1.100:8080/api/storage/health
+
+<span class="c1"># Response includes</span>
+<span class="o">{</span>
+<span class="w">  </span><span class="s2">&quot;health&quot;</span>:<span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="s2">&quot;filesystem&quot;</span>:<span class="w"> </span><span class="s2">&quot;healthy&quot;</span>,
+<span class="w">    </span><span class="s2">&quot;write_speed&quot;</span>:<span class="w"> </span><span class="m">15</span>.2,
+<span class="w">    </span><span class="s2">&quot;read_speed&quot;</span>:<span class="w"> </span><span class="m">23</span>.5,
+<span class="w">    </span><span class="s2">&quot;error_count&quot;</span>:<span class="w"> </span><span class="m">0</span>,
+<span class="w">    </span><span class="s2">&quot;temperature&quot;</span>:<span class="w"> </span><span class="m">42</span>,
+<span class="w">    </span><span class="s2">&quot;smart_status&quot;</span>:<span class="w"> </span><span class="s2">&quot;passed&quot;</span>
+<span class="w">  </span><span class="o">}</span>,
+<span class="w">  </span><span class="s2">&quot;performance&quot;</span>:<span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="s2">&quot;avg_write_latency_ms&quot;</span>:<span class="w"> </span><span class="m">12</span>.3,
+<span class="w">    </span><span class="s2">&quot;avg_read_latency_ms&quot;</span>:<span class="w"> </span><span class="m">8</span>.1,
+<span class="w">    </span><span class="s2">&quot;iops_read&quot;</span>:<span class="w"> </span><span class="m">150</span>,
+<span class="w">    </span><span class="s2">&quot;iops_write&quot;</span>:<span class="w"> </span><span class="m">100</span>
+<span class="w">  </span><span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div>
+
+<h2 id="backup-configuration">Backup Configuration</h2>
+<h3 id="local-backup">Local Backup</h3>
+<p><strong>USB/External Drive Backup</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Configure USB backup</span>
+curl<span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/backup/config&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;backup_type&quot;: &quot;usb&quot;,</span>
+<span class="s1">       &quot;enabled&quot;: true,</span>
+<span class="s1">       &quot;schedule&quot;: &quot;0 2 * * *&quot;,</span>
+<span class="s1">       &quot;include_categories&quot;: [&quot;recordings&quot;, &quot;snapshots&quot;, &quot;config&quot;],</span>
+<span class="s1">       &quot;compression&quot;: true,</span>
+<span class="s1">       &quot;encryption&quot;: false,</span>
+<span class="s1">       &quot;retention_copies&quot;: 7</span>
+<span class="s1">     }&#39;</span>
+
+<span class="c1"># Manual backup</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/backup/start&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;backup_type&quot;: &quot;usb&quot;,</span>
+<span class="s1">       &quot;categories&quot;: [&quot;recordings&quot;],</span>
+<span class="s1">       &quot;date_range&quot;: {</span>
+<span class="s1">         &quot;start&quot;: &quot;2025-01-14T00:00:00Z&quot;,</span>
+<span class="s1">         &quot;end&quot;: &quot;2025-01-15T23:59:59Z&quot;</span>
+<span class="s1">       }</span>
+<span class="s1">     }&#39;</span>
+</code></pre></div>
+
+<p><strong>Rsync Configuration</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># /etc/rotordream/backup-rsync.conf</span>
+<span class="o">[</span>rsync<span class="o">]</span>
+<span class="nv">enabled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span>
+<span class="nv">schedule</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;0 3 * * *&quot;</span>
+<span class="nb">source</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>/media/data/
+<span class="nv">destination</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>/media/external/backup/
+<span class="nv">options</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>-avz<span class="w"> </span>--delete<span class="w"> </span>--exclude<span class="o">=</span>cache/<span class="w"> </span>--exclude<span class="o">=</span>*.tmp
+
+<span class="c1"># Include/exclude patterns</span>
+<span class="nv">include_patterns</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>*.avi,*.jpg,*.log,*.conf
+<span class="nv">exclude_patterns</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>*.tmp,*.lock,cache/*
+
+<span class="c1"># Bandwidth limiting</span>
+<span class="nv">bandwidth_limit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10000</span><span class="w">  </span><span class="c1"># KB/s</span>
+</code></pre></div>
+
+<h3 id="network-backup">Network Backup</h3>
+<p><strong>SMB/CIFS Backup</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Mount network share</span>
+sudo<span class="w"> </span>mount<span class="w"> </span>-t<span class="w"> </span>cifs<span class="w"> </span>//192.168.1.200/camera_backup<span class="w"> </span>/mnt/network_backup<span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-o<span class="w"> </span><span class="nv">username</span><span class="o">=</span>backup_user,password_file<span class="o">=</span>/etc/rotordream/smb_password,vers<span class="o">=</span><span class="m">3</span>.0
+
+<span class="c1"># Configure network backup</span>
+curl<span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/backup/config&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;backup_type&quot;: &quot;network&quot;,</span>
+<span class="s1">       &quot;enabled&quot;: true,</span>
+<span class="s1">       &quot;server&quot;: &quot;192.168.1.200&quot;,</span>
+<span class="s1">       &quot;share&quot;: &quot;camera_backup&quot;,</span>
+<span class="s1">       &quot;credentials&quot;: {</span>
+<span class="s1">         &quot;username&quot;: &quot;backup_user&quot;,</span>
+<span class="s1">         &quot;password_file&quot;: &quot;/etc/rotordream/smb_password&quot;</span>
+<span class="s1">       },</span>
+<span class="s1">       &quot;schedule&quot;: &quot;0 1 * * *&quot;,</span>
+<span class="s1">       &quot;compression&quot;: true,</span>
+<span class="s1">       &quot;incremental&quot;: true</span>
+<span class="s1">     }&#39;</span>
+</code></pre></div>
+
+<p><strong>FTP/SFTP Backup</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Configure SFTP backup</span>
+curl<span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/backup/config&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;backup_type&quot;: &quot;sftp&quot;,</span>
+<span class="s1">       &quot;enabled&quot;: true,</span>
+<span class="s1">       &quot;server&quot;: &quot;backup.example.com&quot;,</span>
+<span class="s1">       &quot;port&quot;: 22,</span>
+<span class="s1">       &quot;username&quot;: &quot;camera_backup&quot;,</span>
+<span class="s1">       &quot;key_file&quot;: &quot;/etc/rotordream/ssh_backup_key&quot;,</span>
+<span class="s1">       &quot;remote_path&quot;: &quot;/backups/camera001/&quot;,</span>
+<span class="s1">       &quot;schedule&quot;: &quot;0 4 * * 0&quot;,</span>
+<span class="s1">       &quot;compression&quot;: true,</span>
+<span class="s1">       &quot;encryption&quot;: true</span>
+<span class="s1">     }&#39;</span>
+</code></pre></div>
+
+<h3 id="cloud-backup">Cloud Backup</h3>
+<p><strong>S3-Compatible Storage</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Configure S3 backup</span>
+curl<span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/backup/config&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;backup_type&quot;: &quot;s3&quot;,</span>
+<span class="s1">       &quot;enabled&quot;: true,</span>
+<span class="s1">       &quot;endpoint&quot;: &quot;s3.amazonaws.com&quot;,</span>
+<span class="s1">       &quot;bucket&quot;: &quot;camera-backups&quot;,</span>
+<span class="s1">       &quot;region&quot;: &quot;us-east-1&quot;,</span>
+<span class="s1">       &quot;access_key&quot;: &quot;AKIAIOSFODNN7EXAMPLE&quot;,</span>
+<span class="s1">       &quot;secret_key_file&quot;: &quot;/etc/rotordream/s3_secret&quot;,</span>
+<span class="s1">       &quot;prefix&quot;: &quot;camera001/&quot;,</span>
+<span class="s1">       &quot;schedule&quot;: &quot;0 5 * * 0&quot;,</span>
+<span class="s1">       &quot;storage_class&quot;: &quot;STANDARD_IA&quot;,</span>
+<span class="s1">       &quot;encryption&quot;: &quot;AES256&quot;</span>
+<span class="s1">     }&#39;</span>
+</code></pre></div>
+
+<h3 id="backup-monitoring">Backup Monitoring</h3>
+<p><strong>Backup Status</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Get backup status</span>
+curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>http://192.168.1.100:8080/api/backup/status
+
+<span class="c1"># Response includes</span>
+<span class="o">{</span>
+<span class="w">  </span><span class="s2">&quot;backup_status&quot;</span>:<span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="s2">&quot;last_backup&quot;</span>:<span class="w"> </span><span class="s2">&quot;2025-01-15T02:00:00Z&quot;</span>,
+<span class="w">    </span><span class="s2">&quot;last_backup_status&quot;</span>:<span class="w"> </span><span class="s2">&quot;success&quot;</span>,
+<span class="w">    </span><span class="s2">&quot;last_backup_size&quot;</span>:<span class="w"> </span><span class="m">2147483648</span>,
+<span class="w">    </span><span class="s2">&quot;last_backup_duration&quot;</span>:<span class="w"> </span><span class="m">1800</span>,
+<span class="w">    </span><span class="s2">&quot;next_backup&quot;</span>:<span class="w"> </span><span class="s2">&quot;2025-01-16T02:00:00Z&quot;</span>,
+<span class="w">    </span><span class="s2">&quot;backup_type&quot;</span>:<span class="w"> </span><span class="s2">&quot;usb&quot;</span>
+<span class="w">  </span><span class="o">}</span>,
+<span class="w">  </span><span class="s2">&quot;backup_history&quot;</span>:<span class="w"> </span><span class="o">[</span>
+<span class="w">    </span><span class="o">{</span>
+<span class="w">      </span><span class="s2">&quot;timestamp&quot;</span>:<span class="w"> </span><span class="s2">&quot;2025-01-15T02:00:00Z&quot;</span>,
+<span class="w">      </span><span class="s2">&quot;status&quot;</span>:<span class="w"> </span><span class="s2">&quot;success&quot;</span>,
+<span class="w">      </span><span class="s2">&quot;size&quot;</span>:<span class="w"> </span><span class="m">2147483648</span>,
+<span class="w">      </span><span class="s2">&quot;duration&quot;</span>:<span class="w"> </span><span class="m">1800</span>,
+<span class="w">      </span><span class="s2">&quot;files_backed_up&quot;</span>:<span class="w"> </span><span class="m">156</span>,
+<span class="w">      </span><span class="s2">&quot;backup_type&quot;</span>:<span class="w"> </span><span class="s2">&quot;usb&quot;</span>
+<span class="w">    </span><span class="o">}</span>
+<span class="w">  </span><span class="o">]</span>
+<span class="o">}</span>
+
+<span class="c1"># List backup jobs</span>
+curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>http://192.168.1.100:8080/api/backup/jobs
+</code></pre></div>
+
+<h2 id="data-retention-policies">Data Retention Policies</h2>
+<h3 id="retention-configuration">Retention Configuration</h3>
+<p><strong>Policy Definition</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;retention_policies&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;recordings&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;default_retention_days&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">30</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;rules&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;critical_events&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;pattern&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;*_critical_*&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;retention_days&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">365</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;priority&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;high&quot;</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;manual_recordings&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;source&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;manual&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;retention_days&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">90</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;priority&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;medium&quot;</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;continuous_recordings&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;source&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;continuous&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;retention_days&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">14</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;priority&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;low&quot;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">      </span><span class="p">]</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;snapshots&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;default_retention_days&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">60</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;rules&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;high_quality&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;quality&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&gt;= 95&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;retention_days&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">180</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;thumbnails&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;thumbnail&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;retention_days&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">30</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">      </span><span class="p">]</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;logs&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;default_retention_days&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">90</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;rules&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;error_logs&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;level&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;error&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;retention_days&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">365</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;debug_logs&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;level&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;debug&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;retention_days&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">7</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">      </span><span class="p">]</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Apply Retention Policies</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Set retention policy</span>
+curl<span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/storage/retention&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;category&quot;: &quot;recordings&quot;,</span>
+<span class="s1">       &quot;default_days&quot;: 30,</span>
+<span class="s1">       &quot;rules&quot;: [</span>
+<span class="s1">         {</span>
+<span class="s1">           &quot;pattern&quot;: &quot;*_important_*&quot;,</span>
+<span class="s1">           &quot;retention_days&quot;: 365</span>
+<span class="s1">         }</span>
+<span class="s1">       ]</span>
+<span class="s1">     }&#39;</span>
+
+<span class="c1"># Check retention status</span>
+curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>http://192.168.1.100:8080/api/storage/retention/status
+</code></pre></div>
+
+<h2 id="data-export-and-import">Data Export and Import</h2>
+<h3 id="export-operations">Export Operations</h3>
+<p><strong>Bulk Data Export</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Export recordings by date range</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/storage/export&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;export_type&quot;: &quot;recordings&quot;,</span>
+<span class="s1">       &quot;date_range&quot;: {</span>
+<span class="s1">         &quot;start&quot;: &quot;2025-01-10T00:00:00Z&quot;,</span>
+<span class="s1">         &quot;end&quot;: &quot;2025-01-15T23:59:59Z&quot;</span>
+<span class="s1">       },</span>
+<span class="s1">       &quot;format&quot;: &quot;zip&quot;,</span>
+<span class="s1">       &quot;include_metadata&quot;: true,</span>
+<span class="s1">       &quot;destination&quot;: &quot;/media/external/exports/&quot;</span>
+<span class="s1">     }&#39;</span>
+
+<span class="c1"># Export system configuration</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/storage/export&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;export_type&quot;: &quot;configuration&quot;,</span>
+<span class="s1">       &quot;include_logs&quot;: true,</span>
+<span class="s1">       &quot;format&quot;: &quot;tar.gz&quot;,</span>
+<span class="s1">       &quot;destination&quot;: &quot;/media/external/config_backup/&quot;</span>
+<span class="s1">     }&#39;</span>
+</code></pre></div>
+
+<p><strong>Export Status</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Check export progress</span>
+curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>http://192.168.1.100:8080/api/storage/export/status
+
+<span class="c1"># Download exported archive</span>
+curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>http://192.168.1.100:8080/api/storage/export/download/export_20250115.zip<span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>--output<span class="w"> </span>export_20250115.zip
+</code></pre></div>
+
+<h3 id="import-operations">Import Operations</h3>
+<p><strong>Data Import</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Import recordings archive</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/storage/import&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-F<span class="w"> </span><span class="s2">&quot;file=@recordings_backup.zip&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-F<span class="w"> </span><span class="s2">&quot;import_type=recordings&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-F<span class="w"> </span><span class="s2">&quot;overwrite=false&quot;</span>
+
+<span class="c1"># Import configuration</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/storage/import&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-F<span class="w"> </span><span class="s2">&quot;file=@config_backup.tar.gz&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-F<span class="w"> </span><span class="s2">&quot;import_type=configuration&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-F<span class="w"> </span><span class="s2">&quot;restore_mode=merge&quot;</span>
+</code></pre></div>
+
+<h2 id="performance-optimization">Performance Optimization</h2>
+<h3 id="io-optimization">I/O Optimization</h3>
+<p><strong>File System Tuning</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Optimize ext4 for video workloads</span>
+tune2fs<span class="w"> </span>-o<span class="w"> </span>journal_data_writeback<span class="w"> </span>/dev/mmcblk0p2
+tune2fs<span class="w"> </span>-E<span class="w"> </span><span class="nv">stride</span><span class="o">=</span><span class="m">16</span>,stripe-width<span class="o">=</span><span class="m">64</span><span class="w"> </span>/dev/mmcblk0p2
+
+<span class="c1"># Mount options for performance</span>
+mount<span class="w"> </span>-o<span class="w"> </span>remount,noatime,nodiratime,commit<span class="o">=</span><span class="m">60</span><span class="w"> </span>/media/data
+
+<span class="c1"># Scheduler optimization</span>
+<span class="nb">echo</span><span class="w"> </span>deadline<span class="w"> </span>&gt;<span class="w"> </span>/sys/block/mmcblk0/queue/scheduler
+<span class="nb">echo</span><span class="w"> </span><span class="m">4096</span><span class="w"> </span>&gt;<span class="w"> </span>/sys/block/mmcblk0/queue/read_ahead_kb
+</code></pre></div>
+
+<p><strong>Memory Management</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Adjust dirty page parameters for sustained writes</span>
+<span class="nb">echo</span><span class="w"> </span><span class="m">5</span><span class="w"> </span>&gt;<span class="w"> </span>/proc/sys/vm/dirty_background_ratio
+<span class="nb">echo</span><span class="w"> </span><span class="m">20</span><span class="w"> </span>&gt;<span class="w"> </span>/proc/sys/vm/dirty_ratio
+<span class="nb">echo</span><span class="w"> </span><span class="m">1500</span><span class="w"> </span>&gt;<span class="w"> </span>/proc/sys/vm/dirty_expire_centisecs
+<span class="nb">echo</span><span class="w"> </span><span class="m">500</span><span class="w"> </span>&gt;<span class="w"> </span>/proc/sys/vm/dirty_writeback_centisecs
+</code></pre></div>
+
+<h3 id="storage-performance-monitoring">Storage Performance Monitoring</h3>
+<p><strong>Performance Metrics</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Monitor I/O performance</span>
+iostat<span class="w"> </span>-x<span class="w"> </span><span class="m">1</span>
+
+<span class="c1"># Check write patterns</span>
+iotop<span class="w"> </span>-o
+
+<span class="c1"># Monitor file system cache</span>
+cat<span class="w"> </span>/proc/meminfo<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-E<span class="w"> </span><span class="s1">&#39;(Dirty|Writeback|Cached)&#39;</span>
+
+<span class="c1"># Storage benchmark</span>
+dd<span class="w"> </span><span class="k">if</span><span class="o">=</span>/dev/zero<span class="w"> </span><span class="nv">of</span><span class="o">=</span>/media/data/test_write<span class="w"> </span><span class="nv">bs</span><span class="o">=</span>1M<span class="w"> </span><span class="nv">count</span><span class="o">=</span><span class="m">1000</span><span class="w"> </span><span class="nv">oflag</span><span class="o">=</span>sync
+dd<span class="w"> </span><span class="k">if</span><span class="o">=</span>/media/data/test_write<span class="w"> </span><span class="nv">of</span><span class="o">=</span>/dev/null<span class="w"> </span><span class="nv">bs</span><span class="o">=</span>1M
+</code></pre></div>
+
+<h2 id="troubleshooting">Troubleshooting</h2>
+<h3 id="common-storage-issues">Common Storage Issues</h3>
+<p><strong>Disk Full</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Emergency cleanup</span>
+find<span class="w"> </span>/media/data/cache<span class="w"> </span>-type<span class="w"> </span>f<span class="w"> </span>-mtime<span class="w"> </span>+1<span class="w"> </span>-delete
+find<span class="w"> </span>/media/data/recordings<span class="w"> </span>-name<span class="w"> </span><span class="s2">&quot;*.tmp&quot;</span><span class="w"> </span>-delete
+
+<span class="c1"># Check for large files</span>
+du<span class="w"> </span>-ah<span class="w"> </span>/media/data<span class="w"> </span><span class="p">|</span><span class="w"> </span>sort<span class="w"> </span>-rh<span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-20
+
+<span class="c1"># Find files by size</span>
+find<span class="w"> </span>/media/data<span class="w"> </span>-size<span class="w"> </span>+100M<span class="w"> </span>-type<span class="w"> </span>f<span class="w"> </span>-exec<span class="w"> </span>ls<span class="w"> </span>-lh<span class="w"> </span><span class="o">{}</span><span class="w"> </span><span class="se">\;</span>
+</code></pre></div>
+
+<p><strong>Backup Failures</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Check backup logs</span>
+tail<span class="w"> </span>-f<span class="w"> </span>/var/log/rotordream/backup.log
+
+<span class="c1"># Test backup destination</span>
+rsync<span class="w"> </span>-avz<span class="w"> </span>--dry-run<span class="w"> </span>/media/data/test/<span class="w"> </span>/media/external/test/
+
+<span class="c1"># Check network connectivity</span>
+ping<span class="w"> </span>-c<span class="w"> </span><span class="m">4</span><span class="w"> </span><span class="m">192</span>.168.1.200
+nc<span class="w"> </span>-zv<span class="w"> </span><span class="m">192</span>.168.1.200<span class="w"> </span><span class="m">445</span><span class="w">  </span><span class="c1"># SMB</span>
+nc<span class="w"> </span>-zv<span class="w"> </span>backup.example.com<span class="w"> </span><span class="m">22</span><span class="w">  </span><span class="c1"># SSH/SFTP</span>
+</code></pre></div>
+
+<p><strong>Corruption Recovery</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># File system check and repair</span>
+umount<span class="w"> </span>/media/data
+fsck<span class="w"> </span>-f<span class="w"> </span>/dev/mmcblk0p2
+mount<span class="w"> </span>/media/data
+
+<span class="c1"># Recover from backup</span>
+rsync<span class="w"> </span>-avz<span class="w"> </span>/media/external/backup/<span class="w"> </span>/media/data/
+
+<span class="c1"># Check file integrity</span>
+find<span class="w"> </span>/media/data<span class="w"> </span>-name<span class="w"> </span><span class="s2">&quot;*.avi&quot;</span><span class="w"> </span>-exec<span class="w"> </span>ffprobe<span class="w"> </span><span class="o">{}</span><span class="w"> </span><span class="se">\;</span><span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-i<span class="w"> </span>error
+</code></pre></div>
+
+<h2 id="related-documentation">Related Documentation</h2>
+<ul>
+<li><a href="../operations/performance.md">Performance Tuning</a> - System performance optimization</li>
+<li><a href="../operations/monitoring.md">Monitoring</a> - Storage monitoring and alerting</li>
+<li><a href="../security/authentication.md">Security</a> - Backup encryption and security</li>
+<li><a href="../api/http-api.md">API Reference</a> - Storage management API endpoints</li>
+</ul>
+<hr />
+<p><em>Storage configuration documentation based on ext4, rsync, and standard Linux storage tools</em></p>
+            </div>
+            <footer class="content-footer">
+                <p>Copyright © 2025 Rotoclear</p>
+            </footer>
+        </main>
+        
+        <button class="mobile-menu-toggle" id="menuToggle" aria-label="Toggle menu">☰</button>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>
+        // Initialize Mermaid
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            securityLevel: 'loose',
+            fontFamily: 'Inter, sans-serif'
+        });
+        
+        // Syntax highlighting
+        hljs.highlightAll();
+        
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.querySelector('.sidebar');
+        
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+        });
+        
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth <= 768 && 
+                !sidebar.contains(e.target) && 
+                !menuToggle.contains(e.target) &&
+                sidebar.classList.contains('active')) {
+                sidebar.classList.remove('active');
+            }
+        });
+        
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

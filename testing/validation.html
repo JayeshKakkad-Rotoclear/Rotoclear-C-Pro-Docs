@@ -1,0 +1,1607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Validation - RotoClear Camera Server Documentation</title>
+    <link rel="stylesheet" href="/assets/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1><a href="/index.html">RotoClear Docs</a></h1>
+                <p>Camera Server Documentation</p>
+            </div>
+            <nav class="sidebar-nav">
+                <ul class="nav-menu">
+                    <li class="nav-item depth-0">
+<a href="/index.html">Home</a>
+</li>
+<li class="nav-item depth-0">
+<a href="/getting-started.html">Getting Started</a>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Architecture</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/architecture/overview.html">Overview</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/architecture/state-management.html">State Management</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/architecture/camera-pipeline.html">Camera Pipeline</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/architecture/metadata-sqlite.html">Metadata & SQLite</a>
+</li>
+<li class="nav-folder depth-1">
+<span class="folder-title">Decisions</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-2">
+<a href="/architecture/decisions/ADR-0001-nim-language.html">ADR-0001 Nim Language</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/architecture/decisions/ADR-0002-corun-framework.html">ADR-0002 Corun Framework</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/architecture/decisions/ADR-0003-observable-state.html">ADR-0003 Observable State</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">API Reference</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/api/README.html">Overview</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/api/websocket-api.html">WebSocket API</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/api/http-api.html">HTTP API</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/api/rtsp-streaming.html">RTSP Streaming</a>
+</li>
+<li class="nav-folder depth-1">
+<span class="folder-title">Examples</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-2">
+<a href="/api/examples/python-client.html">Python Client</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/api/examples/javascript-client.html">JavaScript Client</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/api/examples/csharp-client.html">C# Client</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Configuration</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/configuration/environments.html">Environments</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/factory-config.html">Factory Config</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/license-config.html">License Config</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/deployment-variants.html">Deployment Variants</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/camera-system.html">Camera System</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/network.html">Network</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/storage-backup.html">Storage & Backup</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/authentication.html">Authentication</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Camera System</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/camera/hardware-interface.html">Hardware Interface</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/camera/streaming.html">Streaming</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/camera/recording.html">Recording</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/camera/image-processing.html">Image Processing</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Operations</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/operations/build-and-deploy.html">Build and Deploy</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/build-deploy.html">Build & Deploy (Alt)</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/monitoring.html">Monitoring</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/performance.html">Performance</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/troubleshooting.html">Troubleshooting</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Security</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/security/authentication.html">Authentication</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/security/permissions.html">Permissions</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/security/ssl-certificates.html">SSL Certificates</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Testing</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/testing/testing-strategy.html">Strategy</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/testing/strategies.html">Strategies</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/testing/test-cases.html">Test Cases</a>
+</li>
+<li class="nav-item depth-1 active">
+<a href="/testing/validation.html">Validation</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Integration</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/integration/onvif-protocol.html">ONVIF Protocol</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/integration/third-party.html">Third Party</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Reference</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/reference/glossary.html">Glossary</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/reference/requirements.html">Requirements</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/reference/state-observables.html">State Observables</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Releases</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/releases/CHANGELOG.html">Changelog</a>
+</li>
+</ul>
+</li>
+<li class="nav-item depth-0">
+<a href="/glossary.html">Glossary</a>
+</li>
+                </ul>
+            </nav>
+        </aside>
+        
+        <main class="content">
+            <div class="content-wrapper">
+                <h1 id="validation-procedures">Validation Procedures</h1>
+<p><strong>Comprehensive validation methodologies for ensuring C Pro system compliance, functionality, and quality standards.</strong></p>
+<h2 id="overview">Overview</h2>
+<p>Validation procedures ensure the C Pro system meets all specified requirements, performs reliably under various conditions, and complies with relevant standards and regulations.</p>
+<div class="mermaid">
+graph TB
+    A[Validation Procedures] --> B{Validation Types}
+
+    B -->|Requirements| C[Requirements Validation]
+    B -->|Design| D[Design Validation]
+    B -->|Implementation| E[Implementation Validation]
+    B -->|Deployment| F[Deployment Validation]
+
+    C --> C1[Functional Requirements]
+    C --> C2[Non-Functional Requirements]
+    C --> C3[Compliance Requirements]
+    C --> C4[User Requirements]
+
+    D --> D1[Architecture Review]
+    D --> D2[Interface Design]
+    D --> D3[Security Design]
+    D --> D4[Performance Design]
+
+    E --> E1[Code Review]
+    E --> E2[Unit Validation]
+    E --> E3[Integration Validation]
+    E --> E4[System Validation]
+
+    F --> F1[Installation Validation]
+    F --> F2[Operational Validation]
+    F --> F3[Performance Validation]
+    F --> F4[Security Validation]
+</div>
+
+<h2 id="requirements-validation">Requirements Validation</h2>
+<h3 id="functional-requirements-validation">Functional Requirements Validation</h3>
+<h4 id="frv-001-camera-control-validation">FRV-001: Camera Control Validation</h4>
+<p><strong>Objective</strong>: Validate camera control functionality meets requirements<br />
+<strong>Scope</strong>: All camera operation features<br />
+<strong>Methods</strong>: Functional testing, user acceptance testing</p>
+<p><strong>Validation Criteria</strong>:<br />
+- Camera initialization within 5 seconds<br />
+- Resolution changes applied correctly<br />
+- Frame rate adjustments work as specified<br />
+- All supported formats function properly</p>
+<p><strong>Validation Procedure</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c"># functional_validation.nim</span>
+<span class="kn">import</span><span class="w"> </span><span class="n">unittest2</span><span class="p">,</span><span class="w"> </span><span class="n">asynctest</span>
+<span class="kn">import</span><span class="w"> </span><span class="p">..</span><span class="o">/</span><span class="n">src</span><span class="o">/</span><span class="n">camserver</span><span class="o">/</span><span class="n">cam</span>
+
+<span class="n">suite</span><span class="w"> </span><span class="s">&quot;Camera Control Validation&quot;</span><span class="p">:</span>
+
+<span class="w">  </span><span class="n">asyncTest</span><span class="w"> </span><span class="s">&quot;FRV-001-01: Camera Initialization&quot;</span><span class="p">:</span>
+<span class="w">    </span><span class="c"># Requirement: System shall initialize camera within 5 seconds</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">startTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">epochTime</span><span class="p">()</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">camera</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">newCamera</span><span class="p">()</span>
+<span class="w">    </span><span class="n">await</span><span class="w"> </span><span class="n">camera</span><span class="p">.</span><span class="n">initialize</span><span class="p">()</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">initTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">epochTime</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">startTime</span>
+
+<span class="w">    </span><span class="n">check</span><span class="w"> </span><span class="n">camera</span><span class="p">.</span><span class="n">status</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">CameraStatus</span><span class="p">.</span><span class="n">Ready</span>
+<span class="w">    </span><span class="n">check</span><span class="w"> </span><span class="n">initTime</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mf">5.0</span>
+<span class="w">    </span><span class="n">echo</span><span class="w"> </span><span class="s">f&quot;Camera initialization time: {initTime:.2f}s&quot;</span>
+
+<span class="w">  </span><span class="n">asyncTest</span><span class="w"> </span><span class="s">&quot;FRV-001-02: Resolution Configuration&quot;</span><span class="p">:</span>
+<span class="w">    </span><span class="c"># Requirement: System shall support resolution changes</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">camera</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">newCamera</span><span class="p">()</span>
+<span class="w">    </span><span class="n">await</span><span class="w"> </span><span class="n">camera</span><span class="p">.</span><span class="n">initialize</span><span class="p">()</span>
+
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">testResolutions</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">[</span>
+<span class="w">      </span><span class="n">Resolution</span><span class="p">(</span><span class="n">width</span><span class="p">:</span><span class="w"> </span><span class="mi">1920</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="p">:</span><span class="w"> </span><span class="mi">1080</span><span class="p">),</span>
+<span class="w">      </span><span class="n">Resolution</span><span class="p">(</span><span class="n">width</span><span class="p">:</span><span class="w"> </span><span class="mi">1280</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="p">:</span><span class="w"> </span><span class="mi">720</span><span class="p">),</span>
+<span class="w">      </span><span class="n">Resolution</span><span class="p">(</span><span class="n">width</span><span class="p">:</span><span class="w"> </span><span class="mi">640</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="p">:</span><span class="w"> </span><span class="mi">480</span><span class="p">)</span>
+<span class="w">    </span><span class="o">]</span>
+
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">resolution</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">testResolutions</span><span class="p">:</span>
+<span class="w">      </span><span class="n">await</span><span class="w"> </span><span class="n">camera</span><span class="p">.</span><span class="n">setResolution</span><span class="p">(</span><span class="n">resolution</span><span class="p">)</span>
+<span class="w">      </span><span class="k">let</span><span class="w"> </span><span class="n">currentRes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">camera</span><span class="p">.</span><span class="n">getCurrentResolution</span><span class="p">()</span>
+<span class="w">      </span><span class="n">check</span><span class="w"> </span><span class="n">currentRes</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">resolution</span>
+<span class="w">      </span><span class="n">echo</span><span class="w"> </span><span class="s">f&quot;Validated resolution: {resolution.width}x{resolution.height}&quot;</span>
+</code></pre></div>
+
+<p><strong>Documentation Requirements</strong>:<br />
+- Test execution records<br />
+- Requirement traceability matrix<br />
+- Validation report with pass/fail status<br />
+- Evidence of requirement compliance</p>
+<h4 id="frv-002-api-functionality-validation">FRV-002: API Functionality Validation</h4>
+<p><strong>Objective</strong>: Validate API meets functional specifications<br />
+<strong>Scope</strong>: All REST and WebSocket APIs<br />
+<strong>Methods</strong>: API testing, integration testing</p>
+<p><strong>Validation Criteria</strong>:<br />
+- All endpoints respond correctly<br />
+- Request/response formats match specification<br />
+- Error handling meets requirements<br />
+- Performance within specified limits</p>
+<p><strong>Validation Procedure</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="ch">#!/usr/bin/env python3</span>
+<span class="c1"># api_validation.py</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">websocket</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Dict</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">APIValidator</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">base_url</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">auth_token</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">base_url</span> <span class="o">=</span> <span class="n">base_url</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">auth_token</span> <span class="o">=</span> <span class="n">auth_token</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Authorization&#39;</span><span class="p">:</span> <span class="sa">f</span><span class="s1">&#39;Bearer </span><span class="si">{</span><span class="n">auth_token</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">}</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">validate_endpoint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">method</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">endpoint</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> 
+                         <span class="n">expected_status</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">payload</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Validate single API endpoint&quot;&quot;&quot;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">base_url</span><span class="si">}{</span><span class="n">endpoint</span><span class="si">}</span><span class="s2">&quot;</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;GET&#39;</span><span class="p">:</span>
+                <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;POST&#39;</span><span class="p">:</span>
+                <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">payload</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;PUT&#39;</span><span class="p">:</span>
+                <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">payload</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;DELETE&#39;</span><span class="p">:</span>
+                <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">)</span>
+
+            <span class="c1"># Validate status code</span>
+            <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">!=</span> <span class="n">expected_status</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;FAIL: </span><span class="si">{</span><span class="n">method</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">endpoint</span><span class="si">}</span><span class="s2"> - Expected </span><span class="si">{</span><span class="n">expected_status</span><span class="si">}</span><span class="s2">, got </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="k">return</span> <span class="kc">False</span>
+
+            <span class="c1"># Validate response format</span>
+            <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;content-type&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;application/json&#39;</span><span class="p">):</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+                <span class="k">except</span> <span class="n">json</span><span class="o">.</span><span class="n">JSONDecodeError</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;FAIL: </span><span class="si">{</span><span class="n">method</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">endpoint</span><span class="si">}</span><span class="s2"> - Invalid JSON response&quot;</span><span class="p">)</span>
+                    <span class="k">return</span> <span class="kc">False</span>
+
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;PASS: </span><span class="si">{</span><span class="n">method</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">endpoint</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">True</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ERROR: </span><span class="si">{</span><span class="n">method</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">endpoint</span><span class="si">}</span><span class="s2"> - </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">validate_api_specifications</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">bool</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Validate all API endpoints against specifications&quot;&quot;&quot;</span>
+        <span class="n">api_specs</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="p">{</span><span class="s1">&#39;method&#39;</span><span class="p">:</span> <span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="s1">&#39;endpoint&#39;</span><span class="p">:</span> <span class="s1">&#39;/api/status&#39;</span><span class="p">,</span> <span class="s1">&#39;expected&#39;</span><span class="p">:</span> <span class="mi">200</span><span class="p">},</span>
+            <span class="p">{</span><span class="s1">&#39;method&#39;</span><span class="p">:</span> <span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="s1">&#39;endpoint&#39;</span><span class="p">:</span> <span class="s1">&#39;/api/camera/info&#39;</span><span class="p">,</span> <span class="s1">&#39;expected&#39;</span><span class="p">:</span> <span class="mi">200</span><span class="p">},</span>
+            <span class="p">{</span><span class="s1">&#39;method&#39;</span><span class="p">:</span> <span class="s1">&#39;POST&#39;</span><span class="p">,</span> <span class="s1">&#39;endpoint&#39;</span><span class="p">:</span> <span class="s1">&#39;/api/camera/start&#39;</span><span class="p">,</span> <span class="s1">&#39;expected&#39;</span><span class="p">:</span> <span class="mi">200</span><span class="p">},</span>
+            <span class="p">{</span><span class="s1">&#39;method&#39;</span><span class="p">:</span> <span class="s1">&#39;POST&#39;</span><span class="p">,</span> <span class="s1">&#39;endpoint&#39;</span><span class="p">:</span> <span class="s1">&#39;/api/camera/stop&#39;</span><span class="p">,</span> <span class="s1">&#39;expected&#39;</span><span class="p">:</span> <span class="mi">200</span><span class="p">},</span>
+            <span class="p">{</span><span class="s1">&#39;method&#39;</span><span class="p">:</span> <span class="s1">&#39;PUT&#39;</span><span class="p">,</span> <span class="s1">&#39;endpoint&#39;</span><span class="p">:</span> <span class="s1">&#39;/api/camera/settings&#39;</span><span class="p">,</span> <span class="s1">&#39;expected&#39;</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span>
+             <span class="s1">&#39;payload&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;resolution&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;width&#39;</span><span class="p">:</span> <span class="mi">1280</span><span class="p">,</span> <span class="s1">&#39;height&#39;</span><span class="p">:</span> <span class="mi">720</span><span class="p">}}},</span>
+            <span class="p">{</span><span class="s1">&#39;method&#39;</span><span class="p">:</span> <span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="s1">&#39;endpoint&#39;</span><span class="p">:</span> <span class="s1">&#39;/api/recordings&#39;</span><span class="p">,</span> <span class="s1">&#39;expected&#39;</span><span class="p">:</span> <span class="mi">200</span><span class="p">},</span>
+            <span class="p">{</span><span class="s1">&#39;method&#39;</span><span class="p">:</span> <span class="s1">&#39;POST&#39;</span><span class="p">,</span> <span class="s1">&#39;endpoint&#39;</span><span class="p">:</span> <span class="s1">&#39;/api/auth/login&#39;</span><span class="p">,</span> <span class="s1">&#39;expected&#39;</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span>
+             <span class="s1">&#39;payload&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;username&#39;</span><span class="p">:</span> <span class="s1">&#39;test&#39;</span><span class="p">,</span> <span class="s1">&#39;password&#39;</span><span class="p">:</span> <span class="s1">&#39;test&#39;</span><span class="p">}},</span>
+        <span class="p">]</span>
+
+        <span class="n">results</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">spec</span> <span class="ow">in</span> <span class="n">api_specs</span><span class="p">:</span>
+            <span class="n">endpoint_id</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">spec</span><span class="p">[</span><span class="s1">&#39;method&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">spec</span><span class="p">[</span><span class="s1">&#39;endpoint&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="n">results</span><span class="p">[</span><span class="n">endpoint_id</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">validate_endpoint</span><span class="p">(</span>
+                <span class="n">spec</span><span class="p">[</span><span class="s1">&#39;method&#39;</span><span class="p">],</span> 
+                <span class="n">spec</span><span class="p">[</span><span class="s1">&#39;endpoint&#39;</span><span class="p">],</span> 
+                <span class="n">spec</span><span class="p">[</span><span class="s1">&#39;expected&#39;</span><span class="p">],</span>
+                <span class="n">spec</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;payload&#39;</span><span class="p">)</span>
+            <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">results</span>
+
+<span class="c1"># Validation execution</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">validator</span> <span class="o">=</span> <span class="n">APIValidator</span><span class="p">(</span><span class="s2">&quot;http://192.168.1.100:8080&quot;</span><span class="p">,</span> <span class="s2">&quot;test_token&quot;</span><span class="p">)</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">validator</span><span class="o">.</span><span class="n">validate_api_specifications</span><span class="p">()</span>
+
+    <span class="n">total_tests</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+    <span class="n">passed_tests</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="mi">1</span> <span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">results</span><span class="o">.</span><span class="n">values</span><span class="p">()</span> <span class="k">if</span> <span class="n">result</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">API Validation Results:&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Total Tests: </span><span class="si">{</span><span class="n">total_tests</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Passed: </span><span class="si">{</span><span class="n">passed_tests</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Failed: </span><span class="si">{</span><span class="n">total_tests</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">passed_tests</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Pass Rate: </span><span class="si">{</span><span class="p">(</span><span class="n">passed_tests</span><span class="o">/</span><span class="n">total_tests</span><span class="p">)</span><span class="o">*</span><span class="mi">100</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<h3 id="non-functional-requirements-validation">Non-Functional Requirements Validation</h3>
+<h4 id="nfr-001-performance-requirements-validation">NFR-001: Performance Requirements Validation</h4>
+<p><strong>Objective</strong>: Validate system performance meets specified requirements<br />
+<strong>Scope</strong>: All performance criteria<br />
+<strong>Methods</strong>: Load testing, stress testing, benchmarking</p>
+<p><strong>Performance Requirements</strong>:<br />
+- Stream latency &lt; 500ms<br />
+- API response time &lt; 100ms for GET requests<br />
+- System supports minimum 4 concurrent streams<br />
+- Memory usage &lt; 512MB under normal load<br />
+- CPU usage &lt; 80% during streaming</p>
+<p><strong>Validation Procedure</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c"># performance_validation.nim</span>
+<span class="kn">import</span><span class="w"> </span><span class="n">unittest2</span><span class="p">,</span><span class="w"> </span><span class="n">asynctest</span><span class="p">,</span><span class="w"> </span><span class="n">times</span><span class="p">,</span><span class="w"> </span><span class="n">httpclient</span>
+<span class="kn">import</span><span class="w"> </span><span class="p">..</span><span class="o">/</span><span class="n">src</span><span class="o">/</span><span class="n">performance_monitor</span>
+
+<span class="n">suite</span><span class="w"> </span><span class="s">&quot;Performance Requirements Validation&quot;</span><span class="p">:</span>
+
+<span class="w">  </span><span class="n">asyncTest</span><span class="w"> </span><span class="s">&quot;NFR-001-01: Stream Latency Validation&quot;</span><span class="p">:</span>
+<span class="w">    </span><span class="c"># Requirement: Stream latency shall not exceed 500ms</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">monitor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">newPerformanceMonitor</span><span class="p">()</span>
+
+<span class="w">    </span><span class="c"># Start streaming</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">camera</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">newCamera</span><span class="p">()</span>
+<span class="w">    </span><span class="n">await</span><span class="w"> </span><span class="n">camera</span><span class="p">.</span><span class="n">start</span><span class="p">()</span>
+
+<span class="w">    </span><span class="c"># Measure end-to-end latency</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">latencyResults</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">await</span><span class="w"> </span><span class="n">monitor</span><span class="p">.</span><span class="n">measureStreamLatency</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="w">  </span><span class="c"># 10 samples</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">avgLatency</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">latencyResults</span><span class="p">.</span><span class="n">sum</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">latencyResults</span><span class="p">.</span><span class="n">len</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">maxLatency</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">latencyResults</span><span class="p">.</span><span class="n">max</span>
+
+<span class="w">    </span><span class="n">check</span><span class="w"> </span><span class="n">avgLatency</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mf">500.0</span>
+<span class="w">    </span><span class="n">check</span><span class="w"> </span><span class="n">maxLatency</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mf">750.0</span><span class="w">  </span><span class="c"># Allow some tolerance for worst case</span>
+
+<span class="w">    </span><span class="n">echo</span><span class="w"> </span><span class="s">f&quot;Average latency: {avgLatency:.1f}ms&quot;</span>
+<span class="w">    </span><span class="n">echo</span><span class="w"> </span><span class="s">f&quot;Maximum latency: {maxLatency:.1f}ms&quot;</span>
+
+<span class="w">  </span><span class="n">asyncTest</span><span class="w"> </span><span class="s">&quot;NFR-001-02: API Response Time Validation&quot;</span><span class="p">:</span>
+<span class="w">    </span><span class="c"># Requirement: API GET requests shall respond within 100ms</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">client</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">newAsyncHttpClient</span><span class="p">()</span>
+
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">endpoints</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">[</span>
+<span class="w">      </span><span class="s">&quot;/api/status&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="s">&quot;/api/camera/info&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="s">&quot;/api/camera/settings&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="s">&quot;/api/recordings&quot;</span>
+<span class="w">    </span><span class="o">]</span>
+
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">endpoint</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">endpoints</span><span class="p">:</span>
+<span class="w">      </span><span class="k">let</span><span class="w"> </span><span class="n">responseTimes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">newSeq</span><span class="o">[</span><span class="nb">float</span><span class="o">]</span><span class="p">()</span>
+
+<span class="w">      </span><span class="c"># Measure response time for 20 requests</span>
+<span class="w">      </span><span class="k">for</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="mf">1</span><span class="p">..</span><span class="mi">20</span><span class="p">:</span>
+<span class="w">        </span><span class="k">let</span><span class="w"> </span><span class="n">startTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">epochTime</span><span class="p">()</span>
+<span class="w">        </span><span class="k">let</span><span class="w"> </span><span class="n">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">await</span><span class="w"> </span><span class="n">client</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">f&quot;http://localhost:8080{endpoint}&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="k">let</span><span class="w"> </span><span class="n">responseTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">epochTime</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">startTime</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">1000</span><span class="w">  </span><span class="c"># Convert to ms</span>
+
+<span class="w">        </span><span class="n">responseTimes</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">responseTime</span><span class="p">)</span>
+<span class="w">        </span><span class="n">check</span><span class="w"> </span><span class="n">response</span><span class="p">.</span><span class="n">code</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">Http200</span>
+
+<span class="w">      </span><span class="k">let</span><span class="w"> </span><span class="n">avgResponseTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">responseTimes</span><span class="p">.</span><span class="n">sum</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">responseTimes</span><span class="p">.</span><span class="n">len</span>
+<span class="w">      </span><span class="k">let</span><span class="w"> </span><span class="n">maxResponseTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">responseTimes</span><span class="p">.</span><span class="n">max</span>
+
+<span class="w">      </span><span class="n">check</span><span class="w"> </span><span class="n">avgResponseTime</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mf">100.0</span>
+<span class="w">      </span><span class="n">echo</span><span class="w"> </span><span class="s">f&quot;{endpoint} - Avg: {avgResponseTime:.1f}ms, Max: {maxResponseTime:.1f}ms&quot;</span>
+
+<span class="w">  </span><span class="n">asyncTest</span><span class="w"> </span><span class="s">&quot;NFR-001-03: Concurrent Streams Validation&quot;</span><span class="p">:</span>
+<span class="w">    </span><span class="c"># Requirement: System shall support minimum 4 concurrent streams</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">requiredStreams</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span>
+<span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="n">cameras</span><span class="p">:</span><span class="w"> </span><span class="nb">seq</span><span class="o">[</span><span class="n">Camera</span><span class="o">]</span>
+
+<span class="w">    </span><span class="c"># Start multiple camera streams</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="mf">1</span><span class="p">..</span><span class="n">requiredStreams</span><span class="p">:</span>
+<span class="w">      </span><span class="k">let</span><span class="w"> </span><span class="n">camera</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">newCamera</span><span class="p">()</span>
+<span class="w">      </span><span class="n">await</span><span class="w"> </span><span class="n">camera</span><span class="p">.</span><span class="n">start</span><span class="p">()</span>
+<span class="w">      </span><span class="n">cameras</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">camera</span><span class="p">)</span>
+
+<span class="w">    </span><span class="c"># Verify all streams are active</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">camera</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">cameras</span><span class="p">:</span>
+<span class="w">      </span><span class="n">check</span><span class="w"> </span><span class="n">camera</span><span class="p">.</span><span class="n">status</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">CameraStatus</span><span class="p">.</span><span class="n">Streaming</span>
+<span class="w">      </span><span class="n">echo</span><span class="w"> </span><span class="s">f&quot;Stream {i+1}: Active&quot;</span>
+
+<span class="w">    </span><span class="c"># Measure system performance with concurrent streams</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">monitor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">newPerformanceMonitor</span><span class="p">()</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">perfMetrics</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">await</span><span class="w"> </span><span class="n">monitor</span><span class="p">.</span><span class="n">collectMetrics</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span><span class="w">  </span><span class="c"># 30 second sample</span>
+
+<span class="w">    </span><span class="n">check</span><span class="w"> </span><span class="n">perfMetrics</span><span class="p">.</span><span class="n">cpuUsage</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mf">80.0</span>
+<span class="w">    </span><span class="n">check</span><span class="w"> </span><span class="n">perfMetrics</span><span class="p">.</span><span class="n">memoryUsage</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mf">512.0</span><span class="w">  </span><span class="c"># MB</span>
+
+<span class="w">    </span><span class="n">echo</span><span class="w"> </span><span class="s">f&quot;CPU usage: {perfMetrics.cpuUsage:.1f}%&quot;</span>
+<span class="w">    </span><span class="n">echo</span><span class="w"> </span><span class="s">f&quot;Memory usage: {perfMetrics.memoryUsage:.1f}MB&quot;</span>
+</code></pre></div>
+
+<h4 id="nfr-002-security-requirements-validation">NFR-002: Security Requirements Validation</h4>
+<p><strong>Objective</strong>: Validate security requirements compliance<br />
+<strong>Scope</strong>: Authentication, authorization, encryption<br />
+<strong>Methods</strong>: Security testing, penetration testing</p>
+<p><strong>Security Requirements</strong>:<br />
+- All communications encrypted with TLS 1.2+<br />
+- Password policy enforced (8+ characters, complexity)<br />
+- Session timeout after 30 minutes inactivity<br />
+- Failed login attempts locked after 5 tries<br />
+- All API endpoints require authentication</p>
+<p><strong>Validation Procedure</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="ch">#!/usr/bin/env python3</span>
+<span class="c1"># security_validation.py</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">ssl</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">socket</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">urllib.parse</span><span class="w"> </span><span class="kn">import</span> <span class="n">urlparse</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">SecurityValidator</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">base_url</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">base_url</span> <span class="o">=</span> <span class="n">base_url</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">validate_tls_configuration</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Validate TLS configuration meets requirements&quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">parsed_url</span> <span class="o">=</span> <span class="n">urlparse</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">base_url</span><span class="p">)</span>
+            <span class="n">hostname</span> <span class="o">=</span> <span class="n">parsed_url</span><span class="o">.</span><span class="n">hostname</span>
+            <span class="n">port</span> <span class="o">=</span> <span class="n">parsed_url</span><span class="o">.</span><span class="n">port</span> <span class="ow">or</span> <span class="p">(</span><span class="mi">443</span> <span class="k">if</span> <span class="n">parsed_url</span><span class="o">.</span><span class="n">scheme</span> <span class="o">==</span> <span class="s1">&#39;https&#39;</span> <span class="k">else</span> <span class="mi">80</span><span class="p">)</span>
+
+            <span class="n">context</span> <span class="o">=</span> <span class="n">ssl</span><span class="o">.</span><span class="n">create_default_context</span><span class="p">()</span>
+
+            <span class="k">with</span> <span class="n">socket</span><span class="o">.</span><span class="n">create_connection</span><span class="p">((</span><span class="n">hostname</span><span class="p">,</span> <span class="n">port</span><span class="p">),</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span> <span class="k">as</span> <span class="n">sock</span><span class="p">:</span>
+                <span class="k">with</span> <span class="n">context</span><span class="o">.</span><span class="n">wrap_socket</span><span class="p">(</span><span class="n">sock</span><span class="p">,</span> <span class="n">server_hostname</span><span class="o">=</span><span class="n">hostname</span><span class="p">)</span> <span class="k">as</span> <span class="n">ssock</span><span class="p">:</span>
+                    <span class="c1"># Check TLS version</span>
+                    <span class="n">tls_version</span> <span class="o">=</span> <span class="n">ssock</span><span class="o">.</span><span class="n">version</span><span class="p">()</span>
+                    <span class="k">if</span> <span class="n">tls_version</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;TLSv1.2&#39;</span><span class="p">,</span> <span class="s1">&#39;TLSv1.3&#39;</span><span class="p">]:</span>
+                        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;FAIL: Insufficient TLS version: </span><span class="si">{</span><span class="n">tls_version</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                        <span class="k">return</span> <span class="kc">False</span>
+
+                    <span class="c1"># Check cipher suite</span>
+                    <span class="n">cipher</span> <span class="o">=</span> <span class="n">ssock</span><span class="o">.</span><span class="n">cipher</span><span class="p">()</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;TLS Version: </span><span class="si">{</span><span class="n">tls_version</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Cipher Suite: </span><span class="si">{</span><span class="n">cipher</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+                    <span class="k">return</span> <span class="kc">True</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;TLS validation error: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">validate_authentication_requirements</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Validate authentication and authorization&quot;&quot;&quot;</span>
+        <span class="n">test_results</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="c1"># Test 1: Unauthenticated access denied</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">base_url</span><span class="si">}</span><span class="s2">/api/camera/settings&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">401</span><span class="p">:</span>
+                <span class="n">test_results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;PASS: Unauthenticated access properly denied&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">test_results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;FAIL: Unauthenticated access allowed (status: </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">test_results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ERROR: Authentication test failed: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Test 2: Invalid credentials rejected</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">base_url</span><span class="si">}</span><span class="s2">/api/auth/login&quot;</span><span class="p">,</span> 
+                                   <span class="n">json</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;username&quot;</span><span class="p">:</span> <span class="s2">&quot;invalid&quot;</span><span class="p">,</span> <span class="s2">&quot;password&quot;</span><span class="p">:</span> <span class="s2">&quot;invalid&quot;</span><span class="p">})</span>
+            <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">401</span><span class="p">:</span>
+                <span class="n">test_results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;PASS: Invalid credentials properly rejected&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">test_results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;FAIL: Invalid credentials accepted (status: </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">test_results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ERROR: Invalid credentials test failed: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Test 3: Password policy enforcement</span>
+        <span class="n">weak_passwords</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;123&quot;</span><span class="p">,</span> <span class="s2">&quot;password&quot;</span><span class="p">,</span> <span class="s2">&quot;abc123&quot;</span><span class="p">]</span>
+
+        <span class="k">for</span> <span class="n">weak_pass</span> <span class="ow">in</span> <span class="n">weak_passwords</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">base_url</span><span class="si">}</span><span class="s2">/api/auth/register&quot;</span><span class="p">,</span>
+                                       <span class="n">json</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;username&quot;</span><span class="p">:</span> <span class="s2">&quot;testuser&quot;</span><span class="p">,</span> 
+                                            <span class="s2">&quot;password&quot;</span><span class="p">:</span> <span class="n">weak_pass</span><span class="p">,</span>
+                                            <span class="s2">&quot;email&quot;</span><span class="p">:</span> <span class="s2">&quot;test@example.com&quot;</span><span class="p">})</span>
+                <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">400</span><span class="p">:</span>
+                    <span class="n">test_results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;PASS: Weak password &#39;</span><span class="si">{</span><span class="n">weak_pass</span><span class="si">}</span><span class="s2">&#39; rejected&quot;</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">test_results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;FAIL: Weak password &#39;</span><span class="si">{</span><span class="n">weak_pass</span><span class="si">}</span><span class="s2">&#39; accepted&quot;</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="n">test_results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ERROR: Password policy test failed: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="nb">all</span><span class="p">(</span><span class="n">test_results</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">validate_session_management</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Validate session timeout and management&quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Login to get session token</span>
+            <span class="n">login_response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">base_url</span><span class="si">}</span><span class="s2">/api/auth/login&quot;</span><span class="p">,</span>
+                                         <span class="n">json</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;username&quot;</span><span class="p">:</span> <span class="s2">&quot;testuser&quot;</span><span class="p">,</span> <span class="s2">&quot;password&quot;</span><span class="p">:</span> <span class="s2">&quot;testpass&quot;</span><span class="p">})</span>
+
+            <span class="k">if</span> <span class="n">login_response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">!=</span> <span class="mi">200</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;FAIL: Could not establish test session&quot;</span><span class="p">)</span>
+                <span class="k">return</span> <span class="kc">False</span>
+
+            <span class="n">token</span> <span class="o">=</span> <span class="n">login_response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;token&#39;</span><span class="p">)</span>
+            <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Authorization&#39;</span><span class="p">:</span> <span class="sa">f</span><span class="s1">&#39;Bearer </span><span class="si">{</span><span class="n">token</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">}</span>
+
+            <span class="c1"># Test immediate access</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">base_url</span><span class="si">}</span><span class="s2">/api/camera/status&quot;</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">!=</span> <span class="mi">200</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;FAIL: Valid token immediately rejected&quot;</span><span class="p">)</span>
+                <span class="k">return</span> <span class="kc">False</span>
+
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;PASS: Valid session token accepted&quot;</span><span class="p">)</span>
+
+            <span class="c1"># Note: Full session timeout testing would require 30+ minute wait</span>
+            <span class="c1"># In practice, this would be tested with shortened timeout in test environment</span>
+
+            <span class="k">return</span> <span class="kc">True</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ERROR: Session management test failed: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+<span class="c1"># Validation execution</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">validator</span> <span class="o">=</span> <span class="n">SecurityValidator</span><span class="p">(</span><span class="s2">&quot;https://192.168.1.100:8080&quot;</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=== Security Validation Results ===&quot;</span><span class="p">)</span>
+
+    <span class="n">tls_valid</span> <span class="o">=</span> <span class="n">validator</span><span class="o">.</span><span class="n">validate_tls_configuration</span><span class="p">()</span>
+    <span class="n">auth_valid</span> <span class="o">=</span> <span class="n">validator</span><span class="o">.</span><span class="n">validate_authentication_requirements</span><span class="p">()</span>
+    <span class="n">session_valid</span> <span class="o">=</span> <span class="n">validator</span><span class="o">.</span><span class="n">validate_session_management</span><span class="p">()</span>
+
+    <span class="n">overall_result</span> <span class="o">=</span> <span class="n">tls_valid</span> <span class="ow">and</span> <span class="n">auth_valid</span> <span class="ow">and</span> <span class="n">session_valid</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">TLS Configuration: </span><span class="si">{</span><span class="s1">&#39;PASS&#39;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">tls_valid</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">&#39;FAIL&#39;</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Authentication: </span><span class="si">{</span><span class="s1">&#39;PASS&#39;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">auth_valid</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">&#39;FAIL&#39;</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Session Management: </span><span class="si">{</span><span class="s1">&#39;PASS&#39;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">session_valid</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">&#39;FAIL&#39;</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Overall Security Validation: </span><span class="si">{</span><span class="s1">&#39;PASS&#39;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">overall_result</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">&#39;FAIL&#39;</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<h2 id="design-validation">Design Validation</h2>
+<h3 id="architecture-review-validation">Architecture Review Validation</h3>
+<h4 id="dv-001-system-architecture-validation">DV-001: System Architecture Validation</h4>
+<p><strong>Objective</strong>: Validate system architecture meets design requirements<br />
+<strong>Scope</strong>: Component architecture, interfaces, data flow<br />
+<strong>Methods</strong>: Design review, architecture assessment</p>
+<p><strong>Validation Checklist</strong>:<br />
+- [ ] Modular architecture with clear separation of concerns<br />
+- [ ] Proper abstraction layers implemented<br />
+- [ ] Interface contracts defined and followed<br />
+- [ ] Error handling consistent across components<br />
+- [ ] Logging and monitoring integrated<br />
+- [ ] Configuration management centralized<br />
+- [ ] Security considerations addressed<br />
+- [ ] Performance requirements achievable</p>
+<p><strong>Architecture Validation Report Template</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="gh"># Architecture Validation Report</span>
+
+<span class="gu">## System Overview</span>
+<span class="k">-</span><span class="w"> </span><span class="gs">**System Name**</span>: C Pro Camera System
+<span class="k">-</span><span class="w"> </span><span class="gs">**Version**</span>: 1.0.0
+<span class="k">-</span><span class="w"> </span><span class="gs">**Validation Date**</span>: [Date]
+<span class="k">-</span><span class="w"> </span><span class="gs">**Validator**</span>: [Name]
+
+<span class="gu">## Architecture Components Review</span>
+
+<span class="gu">### Camera Module</span>
+<span class="k">-</span><span class="w"> </span><span class="gs">**Implementation**</span>: ✅ Follows modular design
+<span class="k">-</span><span class="w"> </span><span class="gs">**Interface Compliance**</span>: ✅ Implements ICameraController
+<span class="k">-</span><span class="w"> </span><span class="gs">**Error Handling**</span>: ✅ Proper exception handling
+<span class="k">-</span><span class="w"> </span><span class="gs">**Testing Coverage**</span>: ✅ &gt;90% code coverage
+
+<span class="gu">### API Layer</span>
+<span class="k">-</span><span class="w"> </span><span class="gs">**RESTful Design**</span>: ✅ Follows REST principles
+<span class="k">-</span><span class="w"> </span><span class="gs">**OpenAPI Specification**</span>: ✅ Complete and accurate
+<span class="k">-</span><span class="w"> </span><span class="gs">**Versioning Strategy**</span>: ✅ Implemented
+<span class="k">-</span><span class="w"> </span><span class="gs">**Rate Limiting**</span>: ✅ Implemented
+
+<span class="gu">### Data Layer</span>
+<span class="k">-</span><span class="w"> </span><span class="gs">**Database Design**</span>: ✅ Normalized schema
+<span class="k">-</span><span class="w"> </span><span class="gs">**Connection Pooling**</span>: ✅ Implemented
+<span class="k">-</span><span class="w"> </span><span class="gs">**Transaction Management**</span>: ✅ ACID compliance
+<span class="k">-</span><span class="w"> </span><span class="gs">**Migration Support**</span>: ✅ Versioned migrations
+
+<span class="gu">## Validation Results</span>
+<span class="k">-</span><span class="w"> </span><span class="gs">**Overall Score**</span>: 95/100
+<span class="k">-</span><span class="w"> </span><span class="gs">**Critical Issues**</span>: 0
+<span class="k">-</span><span class="w"> </span><span class="gs">**Major Issues**</span>: 1
+<span class="k">-</span><span class="w"> </span><span class="gs">**Minor Issues**</span>: 3
+<span class="k">-</span><span class="w"> </span><span class="gs">**Recommendations**</span>: 5
+
+<span class="gu">## Action Items</span>
+<span class="k">1.</span> [Issue description and resolution plan]
+<span class="k">2.</span> [Issue description and resolution plan]
+</code></pre></div>
+
+<h3 id="interface-validation">Interface Validation</h3>
+<h4 id="dv-002-api-interface-validation">DV-002: API Interface Validation</h4>
+<p><strong>Objective</strong>: Validate API interfaces match specifications<br />
+<strong>Scope</strong>: REST API, WebSocket API, ONVIF interface<br />
+<strong>Methods</strong>: Contract testing, schema validation</p>
+<p><strong>Validation Procedure</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="ch">#!/usr/bin/env python3</span>
+<span class="c1"># interface_validation.py</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">jsonschema</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">InterfaceValidator</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">base_url</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">schema_dir</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">base_url</span> <span class="o">=</span> <span class="n">base_url</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">schema_dir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">schema_dir</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">load_schema</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">schema_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Load JSON schema for validation&quot;&quot;&quot;</span>
+        <span class="n">schema_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">schema_dir</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">schema_name</span><span class="si">}</span><span class="s2">.json&quot;</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">schema_path</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">validate_response_schema</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">endpoint</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">method</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> 
+                               <span class="n">response_data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">schema_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Validate API response against schema&quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">schema</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">load_schema</span><span class="p">(</span><span class="n">schema_name</span><span class="p">)</span>
+            <span class="n">jsonschema</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">response_data</span><span class="p">,</span> <span class="n">schema</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;PASS: </span><span class="si">{</span><span class="n">method</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">endpoint</span><span class="si">}</span><span class="s2"> - Schema validation successful&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">except</span> <span class="n">jsonschema</span><span class="o">.</span><span class="n">ValidationError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;FAIL: </span><span class="si">{</span><span class="n">method</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">endpoint</span><span class="si">}</span><span class="s2"> - Schema validation failed: </span><span class="si">{</span><span class="n">e</span><span class="o">.</span><span class="n">message</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ERROR: </span><span class="si">{</span><span class="n">method</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">endpoint</span><span class="si">}</span><span class="s2"> - Schema validation error: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">validate_api_contracts</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Validate all API contracts&quot;&quot;&quot;</span>
+        <span class="n">contracts</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="p">{</span>
+                <span class="s1">&#39;endpoint&#39;</span><span class="p">:</span> <span class="s1">&#39;/api/status&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;method&#39;</span><span class="p">:</span> <span class="s1">&#39;GET&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;schema&#39;</span><span class="p">:</span> <span class="s1">&#39;status_response&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;expected_fields&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">,</span> <span class="s1">&#39;timestamp&#39;</span><span class="p">,</span> <span class="s1">&#39;version&#39;</span><span class="p">]</span>
+            <span class="p">},</span>
+            <span class="p">{</span>
+                <span class="s1">&#39;endpoint&#39;</span><span class="p">:</span> <span class="s1">&#39;/api/camera/info&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;method&#39;</span><span class="p">:</span> <span class="s1">&#39;GET&#39;</span><span class="p">,</span> 
+                <span class="s1">&#39;schema&#39;</span><span class="p">:</span> <span class="s1">&#39;camera_info_response&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;expected_fields&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;device&#39;</span><span class="p">,</span> <span class="s1">&#39;capabilities&#39;</span><span class="p">,</span> <span class="s1">&#39;current_settings&#39;</span><span class="p">]</span>
+            <span class="p">},</span>
+            <span class="p">{</span>
+                <span class="s1">&#39;endpoint&#39;</span><span class="p">:</span> <span class="s1">&#39;/api/recordings&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;method&#39;</span><span class="p">:</span> <span class="s1">&#39;GET&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;schema&#39;</span><span class="p">:</span> <span class="s1">&#39;recordings_list_response&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;expected_fields&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;recordings&#39;</span><span class="p">,</span> <span class="s1">&#39;total_count&#39;</span><span class="p">,</span> <span class="s1">&#39;pagination&#39;</span><span class="p">]</span>
+            <span class="p">}</span>
+        <span class="p">]</span>
+
+        <span class="n">results</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="k">for</span> <span class="n">contract</span> <span class="ow">in</span> <span class="n">contracts</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">base_url</span><span class="si">}{</span><span class="n">contract</span><span class="p">[</span><span class="s1">&#39;endpoint&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
+                    <span class="n">response_data</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+
+                    <span class="c1"># Validate schema</span>
+                    <span class="n">schema_valid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">validate_response_schema</span><span class="p">(</span>
+                        <span class="n">contract</span><span class="p">[</span><span class="s1">&#39;endpoint&#39;</span><span class="p">],</span>
+                        <span class="n">contract</span><span class="p">[</span><span class="s1">&#39;method&#39;</span><span class="p">],</span>
+                        <span class="n">response_data</span><span class="p">,</span>
+                        <span class="n">contract</span><span class="p">[</span><span class="s1">&#39;schema&#39;</span><span class="p">]</span>
+                    <span class="p">)</span>
+
+                    <span class="c1"># Validate required fields</span>
+                    <span class="n">fields_valid</span> <span class="o">=</span> <span class="nb">all</span><span class="p">(</span>
+                        <span class="n">field</span> <span class="ow">in</span> <span class="n">response_data</span> 
+                        <span class="k">for</span> <span class="n">field</span> <span class="ow">in</span> <span class="n">contract</span><span class="p">[</span><span class="s1">&#39;expected_fields&#39;</span><span class="p">]</span>
+                    <span class="p">)</span>
+
+                    <span class="n">results</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">contract</span><span class="p">[</span><span class="s1">&#39;method&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">contract</span><span class="p">[</span><span class="s1">&#39;endpoint&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+                        <span class="s1">&#39;schema_valid&#39;</span><span class="p">:</span> <span class="n">schema_valid</span><span class="p">,</span>
+                        <span class="s1">&#39;fields_valid&#39;</span><span class="p">:</span> <span class="n">fields_valid</span><span class="p">,</span>
+                        <span class="s1">&#39;overall_valid&#39;</span><span class="p">:</span> <span class="n">schema_valid</span> <span class="ow">and</span> <span class="n">fields_valid</span>
+                    <span class="p">}</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">results</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">contract</span><span class="p">[</span><span class="s1">&#39;method&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">contract</span><span class="p">[</span><span class="s1">&#39;endpoint&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+                        <span class="s1">&#39;error&#39;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;HTTP </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                        <span class="s1">&#39;overall_valid&#39;</span><span class="p">:</span> <span class="kc">False</span>
+                    <span class="p">}</span>
+
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="n">results</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">contract</span><span class="p">[</span><span class="s1">&#39;method&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">contract</span><span class="p">[</span><span class="s1">&#39;endpoint&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+                    <span class="s1">&#39;error&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">),</span>
+                    <span class="s1">&#39;overall_valid&#39;</span><span class="p">:</span> <span class="kc">False</span>
+                <span class="p">}</span>
+
+        <span class="k">return</span> <span class="n">results</span>
+
+<span class="c1"># Schema files (examples)</span>
+<span class="n">status_response_schema</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;object&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;required&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;status&quot;</span><span class="p">,</span> <span class="s2">&quot;timestamp&quot;</span><span class="p">,</span> <span class="s2">&quot;version&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;properties&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;enum&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;online&quot;</span><span class="p">,</span> <span class="s2">&quot;offline&quot;</span><span class="p">,</span> <span class="s2">&quot;error&quot;</span><span class="p">]},</span>
+        <span class="s2">&quot;timestamp&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;date-time&quot;</span><span class="p">},</span>
+        <span class="s2">&quot;version&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">},</span>
+        <span class="s2">&quot;uptime&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;number&quot;</span><span class="p">},</span>
+        <span class="s2">&quot;system_info&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;object&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;properties&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;cpu_usage&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;number&quot;</span><span class="p">,</span> <span class="s2">&quot;minimum&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;maximum&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">},</span>
+                <span class="s2">&quot;memory_usage&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;number&quot;</span><span class="p">,</span> <span class="s2">&quot;minimum&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">},</span>
+                <span class="s2">&quot;disk_usage&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;number&quot;</span><span class="p">,</span> <span class="s2">&quot;minimum&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;maximum&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">camera_info_schema</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;object&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;required&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;device&quot;</span><span class="p">,</span> <span class="s2">&quot;capabilities&quot;</span><span class="p">,</span> <span class="s2">&quot;current_settings&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;properties&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;device&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;object&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;required&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;path&quot;</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="s2">&quot;driver&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;properties&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;path&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">},</span>
+                <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">},</span>
+                <span class="s2">&quot;driver&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;capabilities&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;object&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;required&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;resolutions&quot;</span><span class="p">,</span> <span class="s2">&quot;formats&quot;</span><span class="p">,</span> <span class="s2">&quot;frame_rates&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;properties&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;resolutions&quot;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;array&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;items&quot;</span><span class="p">:</span> <span class="p">{</span>
+                        <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;object&quot;</span><span class="p">,</span>
+                        <span class="s2">&quot;required&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;width&quot;</span><span class="p">,</span> <span class="s2">&quot;height&quot;</span><span class="p">],</span>
+                        <span class="s2">&quot;properties&quot;</span><span class="p">:</span> <span class="p">{</span>
+                            <span class="s2">&quot;width&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;integer&quot;</span><span class="p">,</span> <span class="s2">&quot;minimum&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span>
+                            <span class="s2">&quot;height&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;integer&quot;</span><span class="p">,</span> <span class="s2">&quot;minimum&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}</span>
+                        <span class="p">}</span>
+                    <span class="p">}</span>
+                <span class="p">},</span>
+                <span class="s2">&quot;formats&quot;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;array&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;items&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">}</span>
+                <span class="p">},</span>
+                <span class="s2">&quot;frame_rates&quot;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;array&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;items&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;integer&quot;</span><span class="p">,</span> <span class="s2">&quot;minimum&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="implementation-validation">Implementation Validation</h2>
+<h3 id="code-quality-validation">Code Quality Validation</h3>
+<h4 id="iv-001-code-review-validation">IV-001: Code Review Validation</h4>
+<p><strong>Objective</strong>: Validate code quality meets standards<br />
+<strong>Scope</strong>: All source code modules<br />
+<strong>Methods</strong>: Static analysis, code review, quality metrics</p>
+<p><strong>Code Quality Checklist</strong>:<br />
+- [ ] Coding standards compliance<br />
+- [ ] Proper error handling<br />
+- [ ] Memory management (no leaks)<br />
+- [ ] Thread safety considerations<br />
+- [ ] Documentation completeness<br />
+- [ ] Test coverage &gt;80%<br />
+- [ ] No critical security vulnerabilities<br />
+- [ ] Performance considerations</p>
+<p><strong>Automated Code Quality Validation</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c"># code_quality_validator.nim</span>
+<span class="kn">import</span><span class="w"> </span><span class="n">os</span><span class="p">,</span><span class="w"> </span><span class="n">strutils</span><span class="p">,</span><span class="w"> </span><span class="n">sequtils</span><span class="p">,</span><span class="w"> </span><span class="n">re</span>
+
+<span class="k">type</span>
+<span class="w">  </span><span class="n">CodeQualityMetrics</span><span class="o">*</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">object</span>
+<span class="w">    </span><span class="n">totalLines</span><span class="o">*</span><span class="p">:</span><span class="w"> </span><span class="nb">int</span>
+<span class="w">    </span><span class="n">codeLines</span><span class="o">*</span><span class="p">:</span><span class="w"> </span><span class="nb">int</span>
+<span class="w">    </span><span class="n">commentLines</span><span class="o">*</span><span class="p">:</span><span class="w"> </span><span class="nb">int</span>
+<span class="w">    </span><span class="n">blankLines</span><span class="o">*</span><span class="p">:</span><span class="w"> </span><span class="nb">int</span>
+<span class="w">    </span><span class="n">functions</span><span class="o">*</span><span class="p">:</span><span class="w"> </span><span class="nb">int</span>
+<span class="w">    </span><span class="n">classes</span><span class="o">*</span><span class="p">:</span><span class="w"> </span><span class="nb">int</span>
+<span class="w">    </span><span class="n">complexityScore</span><span class="o">*</span><span class="p">:</span><span class="w"> </span><span class="nb">float</span>
+<span class="w">    </span><span class="n">documentationCoverage</span><span class="o">*</span><span class="p">:</span><span class="w"> </span><span class="nb">float</span>
+
+<span class="k">proc</span><span class="w"> </span><span class="nf">analyzeFile</span><span class="o">*</span><span class="p">(</span><span class="n">filePath</span><span class="p">:</span><span class="w"> </span><span class="nb">string</span><span class="p">):</span><span class="w"> </span><span class="n">CodeQualityMetrics</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="sd">## Analyze code quality metrics for a single file</span>
+<span class="w">  </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CodeQualityMetrics</span><span class="p">()</span>
+
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="n">fileExists</span><span class="p">(</span><span class="n">filePath</span><span class="p">):</span>
+<span class="w">    </span><span class="k">return</span>
+
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">content</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">readFile</span><span class="p">(</span><span class="n">filePath</span><span class="p">)</span>
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">lines</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">content</span><span class="p">.</span><span class="n">splitLines</span><span class="p">()</span>
+
+<span class="w">  </span><span class="n">result</span><span class="p">.</span><span class="n">totalLines</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lines</span><span class="p">.</span><span class="n">len</span>
+
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="n">line</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">lines</span><span class="p">:</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">trimmedLine</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">line</span><span class="p">.</span><span class="n">strip</span><span class="p">()</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">trimmedLine</span><span class="p">.</span><span class="n">len</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">:</span>
+<span class="w">      </span><span class="n">result</span><span class="p">.</span><span class="n">blankLines</span><span class="p">.</span><span class="n">inc</span>
+<span class="w">    </span><span class="k">elif</span><span class="w"> </span><span class="n">trimmedLine</span><span class="p">.</span><span class="n">startsWith</span><span class="p">(</span><span class="s">&quot;#&quot;</span><span class="p">):</span>
+<span class="w">      </span><span class="n">result</span><span class="p">.</span><span class="n">commentLines</span><span class="p">.</span><span class="n">inc</span>
+<span class="w">    </span><span class="k">else</span><span class="p">:</span>
+<span class="w">      </span><span class="n">result</span><span class="p">.</span><span class="n">codeLines</span><span class="p">.</span><span class="n">inc</span>
+
+<span class="w">      </span><span class="c"># Count functions</span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="n">trimmedLine</span><span class="p">.</span><span class="n">contains</span><span class="p">(</span><span class="s">re&quot;proc\s+\w+&quot;</span><span class="p">):</span>
+<span class="w">        </span><span class="n">result</span><span class="p">.</span><span class="n">functions</span><span class="p">.</span><span class="n">inc</span>
+
+<span class="w">      </span><span class="c"># Count types/classes</span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="n">trimmedLine</span><span class="p">.</span><span class="n">contains</span><span class="p">(</span><span class="s">re&quot;type\s+\w+&quot;</span><span class="p">):</span>
+<span class="w">        </span><span class="n">result</span><span class="p">.</span><span class="n">classes</span><span class="p">.</span><span class="n">inc</span>
+
+<span class="w">  </span><span class="c"># Calculate complexity score (simplified)</span>
+<span class="w">  </span><span class="n">result</span><span class="p">.</span><span class="n">complexityScore</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">calculateComplexity</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
+
+<span class="w">  </span><span class="c"># Calculate documentation coverage</span>
+<span class="w">  </span><span class="n">result</span><span class="p">.</span><span class="n">documentationCoverage</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">result</span><span class="p">.</span><span class="n">functions</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">:</span>
+<span class="w">      </span><span class="n">countDocumentedFunctions</span><span class="p">(</span><span class="n">content</span><span class="p">).</span><span class="nb">float</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">result</span><span class="p">.</span><span class="n">functions</span><span class="p">.</span><span class="nb">float</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">100</span>
+<span class="w">    </span><span class="k">else</span><span class="p">:</span>
+<span class="w">      </span><span class="mf">100.0</span>
+
+<span class="k">proc</span><span class="w"> </span><span class="nf">validateCodeQuality</span><span class="o">*</span><span class="p">(</span><span class="n">projectPath</span><span class="p">:</span><span class="w"> </span><span class="nb">string</span><span class="p">):</span><span class="w"> </span><span class="nb">bool</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="sd">## Validate code quality for entire project</span>
+<span class="w">  </span><span class="kd">var</span><span class="w"> </span><span class="n">totalMetrics</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CodeQualityMetrics</span><span class="p">()</span>
+<span class="w">  </span><span class="kd">var</span><span class="w"> </span><span class="n">fileCount</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="n">file</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">walkDirRec</span><span class="p">(</span><span class="n">projectPath</span><span class="p">):</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">file</span><span class="p">.</span><span class="n">endsWith</span><span class="p">(</span><span class="s">&quot;.nim&quot;</span><span class="p">):</span>
+<span class="w">      </span><span class="k">let</span><span class="w"> </span><span class="n">metrics</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">analyzeFile</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+<span class="w">      </span><span class="n">fileCount</span><span class="p">.</span><span class="n">inc</span>
+
+<span class="w">      </span><span class="c"># Aggregate metrics</span>
+<span class="w">      </span><span class="n">totalMetrics</span><span class="p">.</span><span class="n">totalLines</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">metrics</span><span class="p">.</span><span class="n">totalLines</span>
+<span class="w">      </span><span class="n">totalMetrics</span><span class="p">.</span><span class="n">codeLines</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">metrics</span><span class="p">.</span><span class="n">codeLines</span>
+<span class="w">      </span><span class="n">totalMetrics</span><span class="p">.</span><span class="n">commentLines</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">metrics</span><span class="p">.</span><span class="n">commentLines</span>
+<span class="w">      </span><span class="n">totalMetrics</span><span class="p">.</span><span class="n">blankLines</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">metrics</span><span class="p">.</span><span class="n">blankLines</span>
+<span class="w">      </span><span class="n">totalMetrics</span><span class="p">.</span><span class="n">functions</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">metrics</span><span class="p">.</span><span class="n">functions</span>
+<span class="w">      </span><span class="n">totalMetrics</span><span class="p">.</span><span class="n">classes</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">metrics</span><span class="p">.</span><span class="n">classes</span>
+<span class="w">      </span><span class="n">totalMetrics</span><span class="p">.</span><span class="n">complexityScore</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">metrics</span><span class="p">.</span><span class="n">complexityScore</span>
+<span class="w">      </span><span class="n">totalMetrics</span><span class="p">.</span><span class="n">documentationCoverage</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">metrics</span><span class="p">.</span><span class="n">documentationCoverage</span>
+
+<span class="w">  </span><span class="c"># Calculate averages</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="n">fileCount</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">:</span>
+<span class="w">    </span><span class="n">totalMetrics</span><span class="p">.</span><span class="n">complexityScore</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">totalMetrics</span><span class="p">.</span><span class="n">complexityScore</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">fileCount</span><span class="p">.</span><span class="nb">float</span>
+<span class="w">    </span><span class="n">totalMetrics</span><span class="p">.</span><span class="n">documentationCoverage</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">totalMetrics</span><span class="p">.</span><span class="n">documentationCoverage</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">fileCount</span><span class="p">.</span><span class="nb">float</span>
+
+<span class="w">  </span><span class="c"># Validation criteria</span>
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">commentRatio</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">totalMetrics</span><span class="p">.</span><span class="n">commentLines</span><span class="p">.</span><span class="nb">float</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">totalMetrics</span><span class="p">.</span><span class="n">totalLines</span><span class="p">.</span><span class="nb">float</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">100</span>
+
+<span class="w">  </span><span class="n">echo</span><span class="w"> </span><span class="s">f&quot;Code Quality Validation Results:&quot;</span>
+<span class="w">  </span><span class="n">echo</span><span class="w"> </span><span class="s">f&quot;Total Files: {fileCount}&quot;</span>
+<span class="w">  </span><span class="n">echo</span><span class="w"> </span><span class="s">f&quot;Total Lines: {totalMetrics.totalLines}&quot;</span>
+<span class="w">  </span><span class="n">echo</span><span class="w"> </span><span class="s">f&quot;Code Lines: {totalMetrics.codeLines}&quot;</span>
+<span class="w">  </span><span class="n">echo</span><span class="w"> </span><span class="s">f&quot;Comment Ratio: {commentRatio:.1f}%&quot;</span>
+<span class="w">  </span><span class="n">echo</span><span class="w"> </span><span class="s">f&quot;Average Complexity: {totalMetrics.complexityScore:.1f}&quot;</span>
+<span class="w">  </span><span class="n">echo</span><span class="w"> </span><span class="s">f&quot;Documentation Coverage: {totalMetrics.documentationCoverage:.1f}%&quot;</span>
+
+<span class="w">  </span><span class="c"># Validation criteria</span>
+<span class="w">  </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">commentRatio</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mf">20.0</span><span class="w"> </span><span class="ow">and</span><span class="w">  </span><span class="c"># At least 20% comments</span>
+<span class="w">           </span><span class="n">totalMetrics</span><span class="p">.</span><span class="n">complexityScore</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mf">10.0</span><span class="w"> </span><span class="ow">and</span><span class="w">  </span><span class="c"># Complexity not too high</span>
+<span class="w">           </span><span class="n">totalMetrics</span><span class="p">.</span><span class="n">documentationCoverage</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mf">80.0</span><span class="w">  </span><span class="c"># 80% documentation coverage</span>
+
+<span class="w">  </span><span class="n">echo</span><span class="w"> </span><span class="s">f&quot;Code Quality Validation: {&#39;PASS&#39; if result else &#39;FAIL&#39;}&quot;</span>
+</code></pre></div>
+
+<h3 id="unit-test-validation">Unit Test Validation</h3>
+<h4 id="iv-002-test-coverage-validation">IV-002: Test Coverage Validation</h4>
+<p><strong>Objective</strong>: Validate test coverage meets requirements<br />
+<strong>Scope</strong>: All source code modules<br />
+<strong>Methods</strong>: Coverage analysis, test execution</p>
+<p><strong>Coverage Requirements</strong>:<br />
+- Overall coverage &gt;80%<br />
+- Critical modules coverage &gt;95%<br />
+- New code coverage &gt;90%<br />
+- No uncovered error paths</p>
+<p><strong>Test Coverage Validation</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="ch">#!/bin/bash</span>
+<span class="c1"># test_coverage_validation.sh</span>
+
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;=== Test Coverage Validation ===&quot;</span>
+
+<span class="c1"># Run tests with coverage</span>
+nimble<span class="w"> </span><span class="nb">test</span><span class="w"> </span>--coverage
+
+<span class="c1"># Generate coverage report</span>
+genhtml<span class="w"> </span>coverage.info<span class="w"> </span>--output-directory<span class="w"> </span>coverage_html
+
+<span class="c1"># Parse coverage results</span>
+<span class="nv">COVERAGE</span><span class="o">=</span><span class="k">$(</span>grep<span class="w"> </span>-o<span class="w"> </span><span class="s1">&#39;lines......: [0-9.]*%&#39;</span><span class="w"> </span>coverage_html/index.html<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-o<span class="w"> </span><span class="s1">&#39;[0-9.]*&#39;</span><span class="k">)</span>
+
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Overall Coverage: </span><span class="si">${</span><span class="nv">COVERAGE</span><span class="si">}</span><span class="s2">%&quot;</span>
+
+<span class="c1"># Validate coverage requirements</span>
+<span class="k">if</span><span class="w"> </span><span class="o">((</span><span class="w"> </span><span class="k">$(</span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$COVERAGE</span><span class="s2"> &gt;= 80.0&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>bc<span class="w"> </span>-l<span class="k">)</span><span class="w"> </span><span class="o">))</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;PASS: Coverage meets minimum requirement (80%)&quot;</span>
+<span class="w">    </span><span class="nv">COVERAGE_PASS</span><span class="o">=</span><span class="nb">true</span>
+<span class="k">else</span>
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;FAIL: Coverage below minimum requirement (80%)&quot;</span>
+<span class="w">    </span><span class="nv">COVERAGE_PASS</span><span class="o">=</span><span class="nb">false</span>
+<span class="k">fi</span>
+
+<span class="c1"># Check critical module coverage</span>
+<span class="nv">CRITICAL_MODULES</span><span class="o">=(</span><span class="s2">&quot;src/camserver/cam.nim&quot;</span><span class="w"> </span><span class="s2">&quot;src/servers/httpapi.nim&quot;</span><span class="w"> </span><span class="s2">&quot;src/state/observable.nim&quot;</span><span class="o">)</span>
+
+<span class="k">for</span><span class="w"> </span>module<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">CRITICAL_MODULES</span><span class="p">[@]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<span class="w">    </span><span class="nv">MODULE_COVERAGE</span><span class="o">=</span><span class="k">$(</span>lcov<span class="w"> </span>--summary<span class="w"> </span>coverage.info<span class="w"> </span>--include<span class="w"> </span><span class="s2">&quot;*</span><span class="si">${</span><span class="nv">module</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s2">&quot;lines......&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-o<span class="w"> </span><span class="s1">&#39;[0-9.]*%&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-o<span class="w"> </span><span class="s1">&#39;[0-9.]*&#39;</span><span class="k">)</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">((</span><span class="w"> </span><span class="k">$(</span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$MODULE_COVERAGE</span><span class="s2"> &gt;= 95.0&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>bc<span class="w"> </span>-l<span class="k">)</span><span class="w"> </span><span class="o">))</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;PASS: </span><span class="si">${</span><span class="nv">module</span><span class="si">}</span><span class="s2"> coverage: </span><span class="si">${</span><span class="nv">MODULE_COVERAGE</span><span class="si">}</span><span class="s2">%&quot;</span>
+<span class="w">    </span><span class="k">else</span>
+<span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;FAIL: </span><span class="si">${</span><span class="nv">module</span><span class="si">}</span><span class="s2"> coverage: </span><span class="si">${</span><span class="nv">MODULE_COVERAGE</span><span class="si">}</span><span class="s2">% (requires 95%)&quot;</span>
+<span class="w">        </span><span class="nv">COVERAGE_PASS</span><span class="o">=</span><span class="nb">false</span>
+<span class="w">    </span><span class="k">fi</span>
+<span class="k">done</span>
+
+<span class="c1"># Generate coverage badge</span>
+<span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$COVERAGE_PASS</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">    </span><span class="nv">BADGE_COLOR</span><span class="o">=</span><span class="s2">&quot;brightgreen&quot;</span>
+<span class="k">else</span>
+<span class="w">    </span><span class="nv">BADGE_COLOR</span><span class="o">=</span><span class="s2">&quot;red&quot;</span>
+<span class="k">fi</span>
+
+curl<span class="w"> </span>-s<span class="w"> </span><span class="s2">&quot;https://img.shields.io/badge/coverage-</span><span class="si">${</span><span class="nv">COVERAGE</span><span class="si">}</span><span class="s2">%25-</span><span class="si">${</span><span class="nv">BADGE_COLOR</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span>&gt;<span class="w"> </span>coverage_badge.svg
+
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Coverage validation: </span><span class="k">$(</span><span class="o">[</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$COVERAGE_PASS</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="w"> </span><span class="o">]</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;PASS&quot;</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;FAIL&quot;</span><span class="k">)</span><span class="s2">&quot;</span>
+</code></pre></div>
+
+<h2 id="deployment-validation">Deployment Validation</h2>
+<h3 id="installation-validation">Installation Validation</h3>
+<h4 id="dep-001-installation-procedure-validation">DEP-001: Installation Procedure Validation</h4>
+<p><strong>Objective</strong>: Validate installation procedures work correctly<br />
+<strong>Scope</strong>: All deployment scenarios<br />
+<strong>Methods</strong>: Installation testing, automated deployment</p>
+<p><strong>Installation Scenarios</strong>:<br />
+- Fresh installation on clean system<br />
+- Upgrade from previous version<br />
+- Docker container deployment<br />
+- Kubernetes deployment<br />
+- Development environment setup</p>
+<p><strong>Installation Validation Script</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="ch">#!/bin/bash</span>
+<span class="c1"># installation_validation.sh</span>
+
+<span class="nb">set</span><span class="w"> </span>-e
+
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;=== Installation Validation ===&quot;</span>
+
+<span class="c1"># Function to validate installation</span>
+validate_installation<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="nb">local</span><span class="w"> </span><span class="nv">install_type</span><span class="o">=</span><span class="nv">$1</span>
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Validating </span><span class="nv">$install_type</span><span class="s2"> installation...&quot;</span>
+
+<span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="nv">$install_type</span><span class="w"> </span><span class="k">in</span>
+<span class="w">        </span><span class="s2">&quot;fresh&quot;</span><span class="o">)</span>
+<span class="w">            </span>validate_fresh_installation
+<span class="w">            </span><span class="p">;;</span>
+<span class="w">        </span><span class="s2">&quot;upgrade&quot;</span><span class="o">)</span>
+<span class="w">            </span>validate_upgrade_installation
+<span class="w">            </span><span class="p">;;</span>
+<span class="w">        </span><span class="s2">&quot;docker&quot;</span><span class="o">)</span>
+<span class="w">            </span>validate_docker_installation
+<span class="w">            </span><span class="p">;;</span>
+<span class="w">        </span><span class="s2">&quot;kubernetes&quot;</span><span class="o">)</span>
+<span class="w">            </span>validate_kubernetes_installation
+<span class="w">            </span><span class="p">;;</span>
+<span class="w">        </span>*<span class="o">)</span>
+<span class="w">            </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Unknown installation type: </span><span class="nv">$install_type</span><span class="s2">&quot;</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="m">1</span>
+<span class="w">            </span><span class="p">;;</span>
+<span class="w">    </span><span class="k">esac</span>
+<span class="o">}</span>
+
+validate_fresh_installation<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Testing fresh installation...&quot;</span>
+
+<span class="w">    </span><span class="c1"># Test system requirements</span>
+<span class="w">    </span>check_system_requirements
+
+<span class="w">    </span><span class="c1"># Test installation script</span>
+<span class="w">    </span>./install.sh<span class="w"> </span>--fresh<span class="w"> </span>--config-file<span class="w"> </span>test_config.json
+
+<span class="w">    </span><span class="c1"># Validate service startup</span>
+<span class="w">    </span>sleep<span class="w"> </span><span class="m">10</span>
+<span class="w">    </span>check_service_health
+
+<span class="w">    </span><span class="c1"># Validate configuration</span>
+<span class="w">    </span>check_configuration_applied
+
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Fresh installation validation: PASS&quot;</span>
+<span class="o">}</span>
+
+validate_docker_installation<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Testing Docker installation...&quot;</span>
+
+<span class="w">    </span><span class="c1"># Build Docker image</span>
+<span class="w">    </span>docker<span class="w"> </span>build<span class="w"> </span>-t<span class="w"> </span>rotordream:test<span class="w"> </span>.
+
+<span class="w">    </span><span class="c1"># Run container</span>
+<span class="w">    </span>docker<span class="w"> </span>run<span class="w"> </span>-d<span class="w"> </span>--name<span class="w"> </span>rotordream-test<span class="w"> </span><span class="se">\</span>
+<span class="w">        </span>-p<span class="w"> </span><span class="m">8080</span>:8080<span class="w"> </span>-p<span class="w"> </span><span class="m">554</span>:554<span class="w"> </span><span class="se">\</span>
+<span class="w">        </span>--device<span class="o">=</span>/dev/video0<span class="w"> </span><span class="se">\</span>
+<span class="w">        </span>rotordream:test
+
+<span class="w">    </span><span class="c1"># Wait for startup</span>
+<span class="w">    </span>sleep<span class="w"> </span><span class="m">15</span>
+
+<span class="w">    </span><span class="c1"># Check container health</span>
+<span class="w">    </span><span class="nv">HEALTH</span><span class="o">=</span><span class="k">$(</span>docker<span class="w"> </span>inspect<span class="w"> </span>--format<span class="o">=</span><span class="s1">&#39;{{.State.Health.Status}}&#39;</span><span class="w"> </span>rotordream-test<span class="k">)</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$HEALTH</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;healthy&quot;</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Docker container health: PASS&quot;</span>
+<span class="w">    </span><span class="k">else</span>
+<span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Docker container health: FAIL (</span><span class="nv">$HEALTH</span><span class="s2">)&quot;</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="m">1</span>
+<span class="w">    </span><span class="k">fi</span>
+
+<span class="w">    </span><span class="c1"># Test API accessibility</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span>curl<span class="w"> </span>-f<span class="w"> </span>http://localhost:8080/api/status<span class="w"> </span>&gt;<span class="w"> </span>/dev/null<span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;API accessibility: PASS&quot;</span>
+<span class="w">    </span><span class="k">else</span>
+<span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;API accessibility: FAIL&quot;</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="m">1</span>
+<span class="w">    </span><span class="k">fi</span>
+
+<span class="w">    </span><span class="c1"># Cleanup</span>
+<span class="w">    </span>docker<span class="w"> </span>stop<span class="w"> </span>rotordream-test
+<span class="w">    </span>docker<span class="w"> </span>rm<span class="w"> </span>rotordream-test
+
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Docker installation validation: PASS&quot;</span>
+<span class="o">}</span>
+
+check_system_requirements<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Checking system requirements...&quot;</span>
+
+<span class="w">    </span><span class="c1"># Check OS version</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span>-f<span class="w"> </span>/etc/os-release<span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">        </span>.<span class="w"> </span>/etc/os-release
+<span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;OS: </span><span class="nv">$NAME</span><span class="s2"> </span><span class="nv">$VERSION</span><span class="s2">&quot;</span>
+<span class="w">    </span><span class="k">fi</span>
+
+<span class="w">    </span><span class="c1"># Check required packages</span>
+<span class="w">    </span><span class="nv">REQUIRED_PACKAGES</span><span class="o">=(</span><span class="s2">&quot;gstreamer1.0&quot;</span><span class="w"> </span><span class="s2">&quot;v4l-utils&quot;</span><span class="w"> </span><span class="s2">&quot;ffmpeg&quot;</span><span class="o">)</span>
+
+<span class="w">    </span><span class="k">for</span><span class="w"> </span>package<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">REQUIRED_PACKAGES</span><span class="p">[@]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span>dpkg<span class="w"> </span>-l<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-q<span class="w"> </span><span class="nv">$package</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">            </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Package </span><span class="nv">$package</span><span class="s2">: FOUND&quot;</span>
+<span class="w">        </span><span class="k">else</span>
+<span class="w">            </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Package </span><span class="nv">$package</span><span class="s2">: MISSING&quot;</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="m">1</span>
+<span class="w">        </span><span class="k">fi</span>
+<span class="w">    </span><span class="k">done</span>
+
+<span class="w">    </span><span class="c1"># Check hardware requirements</span>
+<span class="w">    </span><span class="nv">TOTAL_RAM</span><span class="o">=</span><span class="k">$(</span>free<span class="w"> </span>-m<span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">&#39;NR==2{printf &quot;%.0f&quot;, $2/1024}&#39;</span><span class="k">)</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="nv">$TOTAL_RAM</span><span class="w"> </span>-ge<span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;RAM: </span><span class="si">${</span><span class="nv">TOTAL_RAM</span><span class="si">}</span><span class="s2">GB (PASS)&quot;</span>
+<span class="w">    </span><span class="k">else</span>
+<span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;RAM: </span><span class="si">${</span><span class="nv">TOTAL_RAM</span><span class="si">}</span><span class="s2">GB (FAIL - minimum 2GB required)&quot;</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="m">1</span>
+<span class="w">    </span><span class="k">fi</span>
+
+<span class="w">    </span><span class="c1"># Check camera device</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span>-e<span class="w"> </span>/dev/video0<span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Camera device: FOUND&quot;</span>
+<span class="w">    </span><span class="k">else</span>
+<span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Camera device: NOT FOUND (will use simulator)&quot;</span>
+<span class="w">    </span><span class="k">fi</span>
+<span class="o">}</span>
+
+check_service_health<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Checking service health...&quot;</span>
+
+<span class="w">    </span><span class="c1"># Check process running</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span>pgrep<span class="w"> </span>-f<span class="w"> </span>rotordream<span class="w"> </span>&gt;<span class="w"> </span>/dev/null<span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Process running: PASS&quot;</span>
+<span class="w">    </span><span class="k">else</span>
+<span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Process running: FAIL&quot;</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="m">1</span>
+<span class="w">    </span><span class="k">fi</span>
+
+<span class="w">    </span><span class="c1"># Check API endpoint</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span>i<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="o">{</span><span class="m">1</span>..30<span class="o">}</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span>curl<span class="w"> </span>-f<span class="w"> </span>http://localhost:8080/api/status<span class="w"> </span>&gt;<span class="w"> </span>/dev/null<span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">            </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;API endpoint: PASS&quot;</span>
+<span class="w">            </span><span class="k">break</span>
+<span class="w">        </span><span class="k">fi</span>
+<span class="w">        </span>sleep<span class="w"> </span><span class="m">1</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="nv">$i</span><span class="w"> </span>-eq<span class="w"> </span><span class="m">30</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">            </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;API endpoint: FAIL (timeout)&quot;</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="m">1</span>
+<span class="w">        </span><span class="k">fi</span>
+<span class="w">    </span><span class="k">done</span>
+
+<span class="w">    </span><span class="c1"># Check RTSP endpoint</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span>nc<span class="w"> </span>-z<span class="w"> </span>localhost<span class="w"> </span><span class="m">554</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;RTSP endpoint: PASS&quot;</span>
+<span class="w">    </span><span class="k">else</span>
+<span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;RTSP endpoint: FAIL&quot;</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="m">1</span>
+<span class="w">    </span><span class="k">fi</span>
+<span class="o">}</span>
+
+check_configuration_applied<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Checking configuration...&quot;</span>
+
+<span class="w">    </span><span class="c1"># Verify configuration file exists</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span>-f<span class="w"> </span>/etc/rotordream/config.json<span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Configuration file: FOUND&quot;</span>
+<span class="w">    </span><span class="k">else</span>
+<span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Configuration file: MISSING&quot;</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="m">1</span>
+<span class="w">    </span><span class="k">fi</span>
+
+<span class="w">    </span><span class="c1"># Verify configuration values applied</span>
+<span class="w">    </span><span class="nv">API_RESPONSE</span><span class="o">=</span><span class="k">$(</span>curl<span class="w"> </span>-s<span class="w"> </span>http://localhost:8080/api/status<span class="k">)</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="nv">$API_RESPONSE</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span>-e<span class="w"> </span><span class="s1">&#39;.status&#39;</span><span class="w"> </span>&gt;<span class="w"> </span>/dev/null<span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Configuration applied: PASS&quot;</span>
+<span class="w">    </span><span class="k">else</span>
+<span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Configuration applied: FAIL&quot;</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="m">1</span>
+<span class="w">    </span><span class="k">fi</span>
+<span class="o">}</span>
+
+<span class="c1"># Run validation based on arguments</span>
+<span class="nv">INSTALL_TYPE</span><span class="o">=</span><span class="si">${</span><span class="nv">1</span><span class="k">:-</span><span class="s2">&quot;fresh&quot;</span><span class="si">}</span>
+validate_installation<span class="w"> </span><span class="nv">$INSTALL_TYPE</span>
+
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Installation validation completed: PASS&quot;</span>
+</code></pre></div>
+
+<h3 id="operational-validation">Operational Validation</h3>
+<h4 id="dep-002-operational-readiness-validation">DEP-002: Operational Readiness Validation</h4>
+<p><strong>Objective</strong>: Validate system ready for production operation<br />
+<strong>Scope</strong>: All operational aspects<br />
+<strong>Methods</strong>: Operational testing, monitoring validation</p>
+<p><strong>Operational Readiness Checklist</strong>:<br />
+- [ ] System starts automatically on boot<br />
+- [ ] All services running and healthy<br />
+- [ ] Monitoring and alerting configured<br />
+- [ ] Backup procedures functional<br />
+- [ ] Security configurations applied<br />
+- [ ] Documentation complete and accessible<br />
+- [ ] Support procedures defined<br />
+- [ ] Performance within acceptable limits</p>
+<p><strong>Operational Validation Script</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="ch">#!/usr/bin/env python3</span>
+<span class="c1"># operational_validation.py</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">subprocess</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">OperationalValidator</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">system_url</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">system_url</span> <span class="o">=</span> <span class="n">system_url</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">validation_results</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">validate_system_startup</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Validate system startup and service availability&quot;&quot;&quot;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Validating system startup...&quot;</span><span class="p">)</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Check if system responds</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">system_url</span><span class="si">}</span><span class="s2">/api/status&quot;</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
+                <span class="n">status_data</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+                <span class="n">uptime</span> <span class="o">=</span> <span class="n">status_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;uptime&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+                <span class="c1"># System should be up for at least 30 seconds</span>
+                <span class="k">if</span> <span class="n">uptime</span> <span class="o">&gt;=</span> <span class="mi">30</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;PASS: System uptime: </span><span class="si">{</span><span class="n">uptime</span><span class="si">}</span><span class="s2">s&quot;</span><span class="p">)</span>
+                    <span class="k">return</span> <span class="kc">True</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;FAIL: System uptime too low: </span><span class="si">{</span><span class="n">uptime</span><span class="si">}</span><span class="s2">s&quot;</span><span class="p">)</span>
+                    <span class="k">return</span> <span class="kc">False</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;FAIL: System status check failed: </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ERROR: System startup validation failed: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">validate_monitoring_setup</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Validate monitoring and alerting configuration&quot;&quot;&quot;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Validating monitoring setup...&quot;</span><span class="p">)</span>
+
+        <span class="n">checks</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="c1"># Check metrics endpoint</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">system_url</span><span class="si">}</span><span class="s2">/metrics&quot;</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;PASS: Metrics endpoint accessible&quot;</span><span class="p">)</span>
+                <span class="n">checks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;FAIL: Metrics endpoint not accessible: </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">checks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ERROR: Metrics endpoint check failed: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">checks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="c1"># Check health endpoint</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">system_url</span><span class="si">}</span><span class="s2">/health&quot;</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
+                <span class="n">health_data</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+                <span class="k">if</span> <span class="n">health_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;status&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;healthy&#39;</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;PASS: Health endpoint reports healthy&quot;</span><span class="p">)</span>
+                    <span class="n">checks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;FAIL: Health endpoint reports: </span><span class="si">{</span><span class="n">health_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;status&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                    <span class="n">checks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;FAIL: Health endpoint not accessible: </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">checks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ERROR: Health endpoint check failed: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">checks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="nb">all</span><span class="p">(</span><span class="n">checks</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">validate_backup_procedures</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Validate backup procedures&quot;&quot;&quot;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Validating backup procedures...&quot;</span><span class="p">)</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Test configuration backup</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">system_url</span><span class="si">}</span><span class="s2">/api/admin/backup/config&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
+                <span class="n">backup_info</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+                <span class="k">if</span> <span class="s1">&#39;backup_file&#39;</span> <span class="ow">in</span> <span class="n">backup_info</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;PASS: Configuration backup successful&quot;</span><span class="p">)</span>
+                    <span class="k">return</span> <span class="kc">True</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;FAIL: Configuration backup incomplete&quot;</span><span class="p">)</span>
+                    <span class="k">return</span> <span class="kc">False</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;FAIL: Configuration backup failed: </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ERROR: Backup validation failed: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">validate_security_configuration</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Validate security configuration&quot;&quot;&quot;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Validating security configuration...&quot;</span><span class="p">)</span>
+
+        <span class="n">checks</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="c1"># Check HTTPS enforcement</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">http_url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">system_url</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;https://&#39;</span><span class="p">,</span> <span class="s1">&#39;http://&#39;</span><span class="p">)</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">http_url</span><span class="si">}</span><span class="s2">/api/status&quot;</span><span class="p">,</span> <span class="n">allow_redirects</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">301</span><span class="p">,</span> <span class="mi">302</span><span class="p">]:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;PASS: HTTP to HTTPS redirect configured&quot;</span><span class="p">)</span>
+                <span class="n">checks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;FAIL: HTTP to HTTPS redirect not configured&quot;</span><span class="p">)</span>
+                <span class="n">checks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;WARNING: HTTP redirect check failed: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">checks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># May be HTTPS-only setup</span>
+
+        <span class="c1"># Check authentication requirement</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">system_url</span><span class="si">}</span><span class="s2">/api/admin/users&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">401</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;PASS: Authentication required for protected endpoints&quot;</span><span class="p">)</span>
+                <span class="n">checks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;FAIL: Authentication not required for protected endpoints&quot;</span><span class="p">)</span>
+                <span class="n">checks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ERROR: Authentication check failed: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">checks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="nb">all</span><span class="p">(</span><span class="n">checks</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">validate_performance_baseline</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Validate performance meets baseline requirements&quot;&quot;&quot;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Validating performance baseline...&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Measure API response times</span>
+        <span class="n">response_times</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+            <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">system_url</span><span class="si">}</span><span class="s2">/api/status&quot;</span><span class="p">)</span>
+                <span class="n">response_time</span> <span class="o">=</span> <span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span><span class="p">)</span> <span class="o">*</span> <span class="mi">1000</span>  <span class="c1"># Convert to ms</span>
+                <span class="n">response_times</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">response_time</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ERROR: Performance test request </span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2"> failed: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="n">avg_response_time</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">response_times</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">response_times</span><span class="p">)</span>
+        <span class="n">max_response_time</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">response_times</span><span class="p">)</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Average API response time: </span><span class="si">{</span><span class="n">avg_response_time</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">ms&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Maximum API response time: </span><span class="si">{</span><span class="n">max_response_time</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">ms&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Performance criteria</span>
+        <span class="k">if</span> <span class="n">avg_response_time</span> <span class="o">&lt;=</span> <span class="mi">100</span> <span class="ow">and</span> <span class="n">max_response_time</span> <span class="o">&lt;=</span> <span class="mi">200</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;PASS: API performance within acceptable limits&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;FAIL: API performance exceeds acceptable limits&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">run_full_validation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Run complete operational validation&quot;&quot;&quot;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=== Operational Validation Started ===&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;System URL: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">system_url</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Validation Time: </span><span class="si">{</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">isoformat</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">()</span>
+
+        <span class="n">validations</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="p">(</span><span class="s2">&quot;System Startup&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">validate_system_startup</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">&quot;Monitoring Setup&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">validate_monitoring_setup</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">&quot;Backup Procedures&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">validate_backup_procedures</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">&quot;Security Configuration&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">validate_security_configuration</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">&quot;Performance Baseline&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">validate_performance_baseline</span><span class="p">)</span>
+        <span class="p">]</span>
+
+        <span class="n">results</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="k">for</span> <span class="n">validation_name</span><span class="p">,</span> <span class="n">validation_func</span> <span class="ow">in</span> <span class="n">validations</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="n">validation_func</span><span class="p">()</span>
+                <span class="n">results</span><span class="p">[</span><span class="n">validation_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">result</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">validation_name</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="s1">&#39;PASS&#39;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">&#39;FAIL&#39;</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="n">results</span><span class="p">[</span><span class="n">validation_name</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">validation_name</span><span class="si">}</span><span class="s2">: ERROR - </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">()</span>
+
+        <span class="c1"># Overall result</span>
+        <span class="n">overall_pass</span> <span class="o">=</span> <span class="nb">all</span><span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+        <span class="n">results</span><span class="p">[</span><span class="s1">&#39;Overall&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">overall_pass</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=== Operational Validation Summary ===&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">validation</span><span class="p">,</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">results</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">status</span> <span class="o">=</span> <span class="s2">&quot;PASS&quot;</span> <span class="k">if</span> <span class="n">result</span> <span class="k">else</span> <span class="s2">&quot;FAIL&quot;</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">validation</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">status</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Operational Readiness: </span><span class="si">{</span><span class="s1">&#39;VALIDATED&#39;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">overall_pass</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">&#39;NOT READY&#39;</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">results</span>
+
+<span class="c1"># Run operational validation</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+
+    <span class="n">system_url</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="k">else</span> <span class="s2">&quot;https://192.168.1.100:8080&quot;</span>
+
+    <span class="n">validator</span> <span class="o">=</span> <span class="n">OperationalValidator</span><span class="p">(</span><span class="n">system_url</span><span class="p">)</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">validator</span><span class="o">.</span><span class="n">run_full_validation</span><span class="p">()</span>
+
+    <span class="c1"># Exit with appropriate code</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">0</span> <span class="k">if</span> <span class="n">results</span><span class="p">[</span><span class="s1">&#39;Overall&#39;</span><span class="p">]</span> <span class="k">else</span> <span class="mi">1</span><span class="p">)</span>
+</code></pre></div>
+
+<h2 id="validation-documentation">Validation Documentation</h2>
+<h3 id="validation-report-template">Validation Report Template</h3>
+<div class="codehilite"><pre><span></span><code><span class="gh"># System Validation Report</span>
+
+<span class="gu">## Executive Summary</span>
+<span class="k">-</span><span class="w"> </span><span class="gs">**System**</span>: C Pro Camera System v1.0.0
+<span class="k">-</span><span class="w"> </span><span class="gs">**Validation Period**</span>: [Start Date] - [End Date]
+<span class="k">-</span><span class="w"> </span><span class="gs">**Validation Team**</span>: [Team Members]
+<span class="k">-</span><span class="w"> </span><span class="gs">**Overall Status**</span>: PASS/FAIL
+<span class="k">-</span><span class="w"> </span><span class="gs">**Compliance Level**</span>: [Percentage]
+
+<span class="gu">## Validation Scope</span>
+<span class="k">-</span><span class="w"> </span>Functional Requirements Validation
+<span class="k">-</span><span class="w"> </span>Non-Functional Requirements Validation
+<span class="k">-</span><span class="w"> </span>Design Validation
+<span class="k">-</span><span class="w"> </span>Implementation Validation
+<span class="k">-</span><span class="w"> </span>Deployment Validation
+
+<span class="gu">## Validation Results Summary</span>
+
+| Validation Area | Tests Executed | Passed | Failed | Pass Rate |
+|----------------|---------------|---------|--------|-----------|
+| Functional     | 45            | 43      | 2      | 95.6%     |
+| Performance    | 15            | 14      | 1      | 93.3%     |
+| Security       | 20            | 20      | 0      | 100%      |
+| Integration    | 30            | 28      | 2      | 93.3%     |
+| Deployment     | 10            | 10      | 0      | 100%      |
+| <span class="gs">**Total**</span>      | <span class="gs">**120**</span>       | <span class="gs">**115**</span> | <span class="gs">**5**</span>  | <span class="gs">**95.8%**</span> |
+
+<span class="gu">## Critical Issues</span>
+<span class="k">1.</span> [Issue description, impact, and resolution status]
+<span class="k">2.</span> [Issue description, impact, and resolution status]
+
+<span class="gu">## Recommendations</span>
+<span class="k">1.</span> [Recommendation for improvement]
+<span class="k">2.</span> [Recommendation for improvement]
+
+<span class="gu">## Validation Evidence</span>
+<span class="k">-</span><span class="w"> </span>Test execution logs: [Location]
+<span class="k">-</span><span class="w"> </span>Performance metrics: [Location]
+<span class="k">-</span><span class="w"> </span>Security scan results: [Location]
+<span class="k">-</span><span class="w"> </span>Code coverage reports: [Location]
+
+<span class="gu">## Approval</span>
+<span class="k">-</span><span class="w"> </span><span class="gs">**Validation Lead**</span>: [Name, Signature, Date]
+<span class="k">-</span><span class="w"> </span><span class="gs">**Technical Lead**</span>: [Name, Signature, Date]
+<span class="k">-</span><span class="w"> </span><span class="gs">**Project Manager**</span>: [Name, Signature, Date]
+</code></pre></div>
+
+<h2 id="related-documentation">Related Documentation</h2>
+<ul>
+<li><a href="./strategies.md">Testing Strategies</a> - Testing methodologies</li>
+<li><a href="./test-cases.md">Test Cases</a> - Detailed test specifications  </li>
+<li><a href="../operations/performance.md">Performance</a> - Performance validation</li>
+<li><a href="../security/overview.md">Security</a> - Security validation</li>
+</ul>
+<hr />
+<p><em>Comprehensive validation procedures ensuring system quality, compliance, and operational readiness</em></p>
+            </div>
+            <footer class="content-footer">
+                <p>Copyright © 2025 Rotoclear</p>
+            </footer>
+        </main>
+        
+        <button class="mobile-menu-toggle" id="menuToggle" aria-label="Toggle menu">☰</button>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>
+        // Initialize Mermaid
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            securityLevel: 'loose',
+            fontFamily: 'Inter, sans-serif'
+        });
+        
+        // Syntax highlighting
+        hljs.highlightAll();
+        
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.querySelector('.sidebar');
+        
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+        });
+        
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth <= 768 && 
+                !sidebar.contains(e.target) && 
+                !menuToggle.contains(e.target) &&
+                sidebar.classList.contains('active')) {
+                sidebar.classList.remove('active');
+            }
+        });
+        
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Troubleshooting - RotoClear Camera Server Documentation</title>
+    <link rel="stylesheet" href="/assets/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1><a href="/index.html">RotoClear Docs</a></h1>
+                <p>Camera Server Documentation</p>
+            </div>
+            <nav class="sidebar-nav">
+                <ul class="nav-menu">
+                    <li class="nav-item depth-0">
+<a href="/index.html">Home</a>
+</li>
+<li class="nav-item depth-0">
+<a href="/getting-started.html">Getting Started</a>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Architecture</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/architecture/overview.html">Overview</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/architecture/state-management.html">State Management</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/architecture/camera-pipeline.html">Camera Pipeline</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/architecture/metadata-sqlite.html">Metadata & SQLite</a>
+</li>
+<li class="nav-folder depth-1">
+<span class="folder-title">Decisions</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-2">
+<a href="/architecture/decisions/ADR-0001-nim-language.html">ADR-0001 Nim Language</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/architecture/decisions/ADR-0002-corun-framework.html">ADR-0002 Corun Framework</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/architecture/decisions/ADR-0003-observable-state.html">ADR-0003 Observable State</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">API Reference</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/api/README.html">Overview</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/api/websocket-api.html">WebSocket API</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/api/http-api.html">HTTP API</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/api/rtsp-streaming.html">RTSP Streaming</a>
+</li>
+<li class="nav-folder depth-1">
+<span class="folder-title">Examples</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-2">
+<a href="/api/examples/python-client.html">Python Client</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/api/examples/javascript-client.html">JavaScript Client</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/api/examples/csharp-client.html">C# Client</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Configuration</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/configuration/environments.html">Environments</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/factory-config.html">Factory Config</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/license-config.html">License Config</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/deployment-variants.html">Deployment Variants</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/camera-system.html">Camera System</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/network.html">Network</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/storage-backup.html">Storage & Backup</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/authentication.html">Authentication</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Camera System</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/camera/hardware-interface.html">Hardware Interface</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/camera/streaming.html">Streaming</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/camera/recording.html">Recording</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/camera/image-processing.html">Image Processing</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Operations</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/operations/build-and-deploy.html">Build and Deploy</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/build-deploy.html">Build & Deploy (Alt)</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/monitoring.html">Monitoring</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/performance.html">Performance</a>
+</li>
+<li class="nav-item depth-1 active">
+<a href="/operations/troubleshooting.html">Troubleshooting</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Security</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/security/authentication.html">Authentication</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/security/permissions.html">Permissions</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/security/ssl-certificates.html">SSL Certificates</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Testing</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/testing/testing-strategy.html">Strategy</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/testing/strategies.html">Strategies</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/testing/test-cases.html">Test Cases</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/testing/validation.html">Validation</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Integration</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/integration/onvif-protocol.html">ONVIF Protocol</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/integration/third-party.html">Third Party</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Reference</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/reference/glossary.html">Glossary</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/reference/requirements.html">Requirements</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/reference/state-observables.html">State Observables</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Releases</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/releases/CHANGELOG.html">Changelog</a>
+</li>
+</ul>
+</li>
+<li class="nav-item depth-0">
+<a href="/glossary.html">Glossary</a>
+</li>
+                </ul>
+            </nav>
+        </aside>
+        
+        <main class="content">
+            <div class="content-wrapper">
+                <h1 id="troubleshooting-guide">Troubleshooting Guide</h1>
+<p><strong>Comprehensive troubleshooting procedures for common issues, diagnostic tools, and resolution strategies.</strong></p>
+<h2 id="overview">Overview</h2>
+<p>This guide provides systematic approaches to diagnose and resolve common problems in the C Pro camera system, from basic connectivity issues to complex performance problems.</p>
+<div class="mermaid">
+graph TB
+    A[Issue Reported] --> B{Initial Assessment}
+
+    B -->|Hardware| C[Hardware Diagnostics]
+    B -->|Software| D[Software Diagnostics]
+    B -->|Network| E[Network Diagnostics]
+    B -->|Performance| F[Performance Analysis]
+
+    C --> G[Component Testing]
+    D --> H[Log Analysis]
+    E --> I[Connectivity Testing]
+    F --> J[Resource Monitoring]
+
+    G --> K[Issue Classification]
+    H --> K
+    I --> K
+    J --> K
+
+    K --> L{Resolution Strategy}
+    L -->|Configuration| M[Config Changes]
+    L -->|Hardware| N[Hardware Replacement]
+    L -->|Software| O[Software Updates]
+    L -->|Reset| P[System Reset]
+
+    M --> Q[Validation]
+    N --> Q
+    O --> Q
+    P --> Q
+
+    Q --> R[Documentation]
+    R --> S[Prevention Measures]
+</div>
+
+<h2 id="common-issues-and-solutions">Common Issues and Solutions</h2>
+<h3 id="camera-not-responding">Camera Not Responding</h3>
+<p><strong>Symptoms</strong>:<br />
+- API endpoints return timeout errors<br />
+- No video stream available<br />
+- Camera status shows as offline</p>
+<p><strong>Diagnostic Steps</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Check camera service status</span>
+curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>http://192.168.1.100:8080/api/camera/status
+
+<span class="c1"># Check camera hardware connectivity</span>
+curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>http://192.168.1.100:8080/api/camera/hardware/detect
+
+<span class="c1"># Check system logs for camera errors</span>
+curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span><span class="s2">&quot;http://192.168.1.100:8080/api/logs?service=camera&amp;level=error&amp;limit=50&quot;</span>
+</code></pre></div>
+
+<p><strong>Resolution Steps</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># 1. Restart camera service</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/camera/restart&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span>
+
+<span class="c1"># 2. Reset camera hardware</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/camera/hardware/reset&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span>
+
+<span class="c1"># 3. Reinitialize camera with default settings</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/camera/initialize&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;use_defaults&quot;: true,</span>
+<span class="s1">       &quot;force_reset&quot;: true</span>
+<span class="s1">     }&#39;</span>
+
+<span class="c1"># 4. Check for hardware issues</span>
+curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>http://192.168.1.100:8080/api/diagnostics/hardware/camera
+</code></pre></div>
+
+<h3 id="network-connectivity-issues">Network Connectivity Issues</h3>
+<p><strong>Symptoms</strong>:<br />
+- Cannot access web interface<br />
+- API calls fail with connection errors<br />
+- Streaming interruptions</p>
+<p><strong>Network Diagnostics</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Test basic connectivity</span>
+ping<span class="w"> </span>-c<span class="w"> </span><span class="m">4</span><span class="w"> </span><span class="m">192</span>.168.1.100
+
+<span class="c1"># Check port accessibility</span>
+nmap<span class="w"> </span>-p<span class="w"> </span><span class="m">8080</span>,443,554,8081<span class="w"> </span><span class="m">192</span>.168.1.100
+
+<span class="c1"># Test API connectivity</span>
+curl<span class="w"> </span>-v<span class="w"> </span>http://192.168.1.100:8080/api/status
+
+<span class="c1"># Check DNS resolution (if using hostname)</span>
+nslookup<span class="w"> </span>camera.local
+</code></pre></div>
+
+<p><strong>Network Interface Diagnostics</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Get network interface status</span>
+curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>http://192.168.1.100:8080/api/network/interfaces
+
+<span class="c1"># Test network performance</span>
+curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>http://192.168.1.100:8080/api/network/test
+
+<span class="c1"># Check network configuration</span>
+curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>http://192.168.1.100:8080/api/network/config
+</code></pre></div>
+
+<p><strong>Resolution Steps</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># 1. Reset network configuration</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/network/reset&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span>
+
+<span class="c1"># 2. Reconfigure network interface</span>
+curl<span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/network/interfaces/eth0&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;method&quot;: &quot;static&quot;,</span>
+<span class="s1">       &quot;ip_address&quot;: &quot;192.168.1.100&quot;,</span>
+<span class="s1">       &quot;netmask&quot;: &quot;255.255.255.0&quot;,</span>
+<span class="s1">       &quot;gateway&quot;: &quot;192.168.1.1&quot;,</span>
+<span class="s1">       &quot;dns_servers&quot;: [&quot;8.8.8.8&quot;, &quot;8.8.4.4&quot;]</span>
+<span class="s1">     }&#39;</span>
+
+<span class="c1"># 3. Restart network services</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/network/restart&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span>
+</code></pre></div>
+
+<h3 id="video-stream-problems">Video Stream Problems</h3>
+<p><strong>Symptoms</strong>:<br />
+- No video output<br />
+- Poor video quality<br />
+- Stuttering or frame drops<br />
+- Encoding errors</p>
+<p><strong>Stream Diagnostics</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Check stream status</span>
+curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>http://192.168.1.100:8080/api/streaming/status
+
+<span class="c1"># Test stream endpoints</span>
+curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>http://192.168.1.100:8080/api/streaming/endpoints
+
+<span class="c1"># Check encoding performance</span>
+curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>http://192.168.1.100:8080/api/camera/encoding/status
+
+<span class="c1"># Analyze stream quality</span>
+curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>http://192.168.1.100:8080/api/streaming/quality/analysis
+</code></pre></div>
+
+<p><strong>Resolution Steps</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># 1. Reset video pipeline</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/camera/pipeline/reset&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span>
+
+<span class="c1"># 2. Adjust encoding parameters</span>
+curl<span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/camera/encoding&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;bitrate&quot;: 3000,</span>
+<span class="s1">       &quot;quality&quot;: &quot;medium&quot;,</span>
+<span class="s1">       &quot;frame_rate&quot;: 25,</span>
+<span class="s1">       &quot;resolution&quot;: &quot;1280x720&quot;</span>
+<span class="s1">     }&#39;</span>
+
+<span class="c1"># 3. Optimize for current conditions</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/camera/optimize&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;target&quot;: &quot;quality&quot;,</span>
+<span class="s1">       &quot;auto_adjust&quot;: true</span>
+<span class="s1">     }&#39;</span>
+</code></pre></div>
+
+<h3 id="high-resource-usage">High Resource Usage</h3>
+<p><strong>Symptoms</strong>:<br />
+- High CPU usage (&gt;80%)<br />
+- Memory exhaustion<br />
+- Storage full warnings<br />
+- System slowdown</p>
+<p><strong>Resource Diagnostics</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Check system resources</span>
+curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>http://192.168.1.100:8080/api/system/resources
+
+<span class="c1"># Identify resource-heavy processes</span>
+curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>http://192.168.1.100:8080/api/system/processes/top
+
+<span class="c1"># Check memory usage patterns</span>
+curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>http://192.168.1.100:8080/api/system/memory/analysis
+
+<span class="c1"># Storage usage breakdown</span>
+curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>http://192.168.1.100:8080/api/storage/usage/breakdown
+</code></pre></div>
+
+<p><strong>Resolution Steps</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># 1. Free up resources immediately</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/system/cleanup&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;clear_cache&quot;: true,</span>
+<span class="s1">       &quot;cleanup_temp&quot;: true,</span>
+<span class="s1">       &quot;compress_logs&quot;: true</span>
+<span class="s1">     }&#39;</span>
+
+<span class="c1"># 2. Optimize performance settings</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/performance/optimize&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;target&quot;: &quot;resource_usage&quot;,</span>
+<span class="s1">       &quot;aggressive&quot;: false</span>
+<span class="s1">     }&#39;</span>
+
+<span class="c1"># 3. Adjust quality settings to reduce load</span>
+curl<span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/camera/quality&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;resolution&quot;: &quot;1280x720&quot;,</span>
+<span class="s1">       &quot;frame_rate&quot;: 20,</span>
+<span class="s1">       &quot;bitrate&quot;: 2000</span>
+<span class="s1">     }&#39;</span>
+</code></pre></div>
+
+<h2 id="diagnostic-tools">Diagnostic Tools</h2>
+<h3 id="system-health-check">System Health Check</h3>
+<p><strong>Comprehensive Health Assessment</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Run full system health check</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/diagnostics/health-check&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;components&quot;: [&quot;hardware&quot;, &quot;software&quot;, &quot;network&quot;, &quot;storage&quot;],</span>
+<span class="s1">       &quot;detailed&quot;: true</span>
+<span class="s1">     }&#39;</span>
+
+<span class="c1"># Response format</span>
+<span class="o">{</span>
+<span class="w">  </span><span class="s2">&quot;health_check&quot;</span>:<span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="s2">&quot;overall_status&quot;</span>:<span class="w"> </span><span class="s2">&quot;warning&quot;</span>,
+<span class="w">    </span><span class="s2">&quot;timestamp&quot;</span>:<span class="w"> </span><span class="s2">&quot;2025-01-15T10:30:00Z&quot;</span>,
+<span class="w">    </span><span class="s2">&quot;components&quot;</span>:<span class="w"> </span><span class="o">{</span>
+<span class="w">      </span><span class="s2">&quot;hardware&quot;</span>:<span class="w"> </span><span class="o">{</span>
+<span class="w">        </span><span class="s2">&quot;status&quot;</span>:<span class="w"> </span><span class="s2">&quot;healthy&quot;</span>,
+<span class="w">        </span><span class="s2">&quot;cpu_temperature&quot;</span>:<span class="w"> </span><span class="m">52</span>.3,
+<span class="w">        </span><span class="s2">&quot;memory_errors&quot;</span>:<span class="w"> </span><span class="m">0</span>,
+<span class="w">        </span><span class="s2">&quot;storage_health&quot;</span>:<span class="w"> </span><span class="s2">&quot;good&quot;</span>
+<span class="w">      </span><span class="o">}</span>,
+<span class="w">      </span><span class="s2">&quot;software&quot;</span>:<span class="w"> </span><span class="o">{</span>
+<span class="w">        </span><span class="s2">&quot;status&quot;</span>:<span class="w"> </span><span class="s2">&quot;healthy&quot;</span>,
+<span class="w">        </span><span class="s2">&quot;service_status&quot;</span>:<span class="w"> </span><span class="s2">&quot;running&quot;</span>,
+<span class="w">        </span><span class="s2">&quot;process_count&quot;</span>:<span class="w"> </span><span class="m">15</span>,
+<span class="w">        </span><span class="s2">&quot;memory_leaks&quot;</span>:<span class="w"> </span><span class="nb">false</span>
+<span class="w">      </span><span class="o">}</span>,
+<span class="w">      </span><span class="s2">&quot;network&quot;</span>:<span class="w"> </span><span class="o">{</span>
+<span class="w">        </span><span class="s2">&quot;status&quot;</span>:<span class="w"> </span><span class="s2">&quot;warning&quot;</span>,
+<span class="w">        </span><span class="s2">&quot;interface_status&quot;</span>:<span class="w"> </span><span class="s2">&quot;up&quot;</span>,
+<span class="w">        </span><span class="s2">&quot;packet_loss&quot;</span>:<span class="w"> </span><span class="m">0</span>.5,
+<span class="w">        </span><span class="s2">&quot;latency_ms&quot;</span>:<span class="w"> </span><span class="m">85</span>.2
+<span class="w">      </span><span class="o">}</span>,
+<span class="w">      </span><span class="s2">&quot;storage&quot;</span>:<span class="w"> </span><span class="o">{</span>
+<span class="w">        </span><span class="s2">&quot;status&quot;</span>:<span class="w"> </span><span class="s2">&quot;healthy&quot;</span>,
+<span class="w">        </span><span class="s2">&quot;usage_percent&quot;</span>:<span class="w"> </span><span class="m">75</span>.2,
+<span class="w">        </span><span class="s2">&quot;write_speed&quot;</span>:<span class="w"> </span><span class="s2">&quot;normal&quot;</span>,
+<span class="w">        </span><span class="s2">&quot;errors&quot;</span>:<span class="w"> </span><span class="m">0</span>
+<span class="w">      </span><span class="o">}</span>
+<span class="w">    </span><span class="o">}</span>
+<span class="w">  </span><span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div>
+
+<h3 id="log-analysis-tools">Log Analysis Tools</h3>
+<p><strong>Automated Log Analysis</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Analyze logs for error patterns</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/diagnostics/log-analysis&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;time_range&quot;: &quot;24h&quot;,</span>
+<span class="s1">       &quot;log_levels&quot;: [&quot;error&quot;, &quot;warning&quot;],</span>
+<span class="s1">       &quot;analyze_patterns&quot;: true</span>
+<span class="s1">     }&#39;</span>
+
+<span class="c1"># Get specific error details</span>
+curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span><span class="s2">&quot;http://192.168.1.100:8080/api/logs/errors?type=camera&amp;count=10&quot;</span>
+
+<span class="c1"># Search logs for specific issues</span>
+curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span><span class="s2">&quot;http://192.168.1.100:8080/api/logs/search?query=timeout&amp;service=network&quot;</span>
+</code></pre></div>
+
+<h3 id="performance-profiling">Performance Profiling</h3>
+<p><strong>Real-time Performance Analysis</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Start performance profiling</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/diagnostics/profiling/start&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;duration_seconds&quot;: 300,</span>
+<span class="s1">       &quot;components&quot;: [&quot;cpu&quot;, &quot;memory&quot;, &quot;io&quot;, &quot;network&quot;],</span>
+<span class="s1">       &quot;sampling_rate&quot;: &quot;1s&quot;</span>
+<span class="s1">     }&#39;</span>
+
+<span class="c1"># Get profiling results</span>
+curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>http://192.168.1.100:8080/api/diagnostics/profiling/results
+
+<span class="c1"># Generate performance report</span>
+curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>http://192.168.1.100:8080/api/diagnostics/performance-report
+</code></pre></div>
+
+<h3 id="hardware-testing">Hardware Testing</h3>
+<p><strong>Hardware Component Tests</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Test camera hardware</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/diagnostics/hardware/camera-test&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;test_type&quot;: &quot;comprehensive&quot;,</span>
+<span class="s1">       &quot;include_capture&quot;: true,</span>
+<span class="s1">       &quot;duration_seconds&quot;: 60</span>
+<span class="s1">     }&#39;</span>
+
+<span class="c1"># Test storage performance</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/diagnostics/hardware/storage-test&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;test_type&quot;: &quot;read_write&quot;,</span>
+<span class="s1">       &quot;file_size_mb&quot;: 100,</span>
+<span class="s1">       &quot;iterations&quot;: 5</span>
+<span class="s1">     }&#39;</span>
+
+<span class="c1"># Test network interfaces</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/diagnostics/hardware/network-test&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;test_type&quot;: &quot;throughput&quot;,</span>
+<span class="s1">       &quot;target_host&quot;: &quot;192.168.1.1&quot;,</span>
+<span class="s1">       &quot;duration_seconds&quot;: 30</span>
+<span class="s1">     }&#39;</span>
+</code></pre></div>
+
+<h2 id="error-code-reference">Error Code Reference</h2>
+<h3 id="camera-error-codes">Camera Error Codes</h3>
+<p><strong>Error Code Definitions</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;camera_errors&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;CAM_001&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Camera initialization failed&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;severity&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;critical&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;causes&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;Hardware disconnected&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Driver issues&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Permission problems&quot;</span><span class="p">],</span>
+<span class="w">      </span><span class="nt">&quot;solutions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;Check connections&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Restart service&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Check permissions&quot;</span><span class="p">]</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;CAM_002&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Frame capture timeout&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;severity&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;warning&quot;</span><span class="p">,</span><span class="w"> </span>
+<span class="w">      </span><span class="nt">&quot;causes&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;Hardware overload&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;USB bandwidth limit&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Driver instability&quot;</span><span class="p">],</span>
+<span class="w">      </span><span class="nt">&quot;solutions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;Reduce frame rate&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Check USB connections&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Update drivers&quot;</span><span class="p">]</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;CAM_003&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Encoding failure&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;severity&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;error&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;causes&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;Insufficient resources&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Codec issues&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Hardware acceleration&quot;</span><span class="p">],</span>
+<span class="w">      </span><span class="nt">&quot;solutions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;Reduce quality&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Check CPU usage&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Disable hardware encoding&quot;</span><span class="p">]</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Error Code Lookup</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Get error code information</span>
+curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span><span class="s2">&quot;http://192.168.1.100:8080/api/diagnostics/error-codes/CAM_001&quot;</span>
+
+<span class="c1"># Search for errors by symptom</span>
+curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span><span class="s2">&quot;http://192.168.1.100:8080/api/diagnostics/error-search?symptom=frame+drops&quot;</span>
+</code></pre></div>
+
+<h3 id="network-error-codes">Network Error Codes</h3>
+<p><strong>Network-specific Errors</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;network_errors&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;NET_001&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Connection timeout&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;severity&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;warning&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;causes&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;Network congestion&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Firewall blocking&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Service overload&quot;</span><span class="p">],</span>
+<span class="w">      </span><span class="nt">&quot;solutions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;Check network&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Review firewall&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Restart services&quot;</span><span class="p">]</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;NET_002&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Streaming buffer overflow&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;severity&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;error&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;causes&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;High bitrate&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Network limitations&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Client processing&quot;</span><span class="p">],</span>
+<span class="w">      </span><span class="nt">&quot;solutions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;Reduce bitrate&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Check bandwidth&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Optimize network&quot;</span><span class="p">]</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="system-error-codes">System Error Codes</h3>
+<p><strong>System-level Errors</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;system_errors&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;SYS_001&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Insufficient memory&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;severity&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;critical&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;causes&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;Memory leak&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;High load&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Configuration&quot;</span><span class="p">],</span>
+<span class="w">      </span><span class="nt">&quot;solutions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;Restart service&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Check processes&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Adjust settings&quot;</span><span class="p">]</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;SYS_002&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Storage full&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;severity&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;critical&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;causes&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;Excessive recording&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Failed cleanup&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Large files&quot;</span><span class="p">],</span>
+<span class="w">      </span><span class="nt">&quot;solutions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;Clean storage&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Adjust retention&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Check cleanup&quot;</span><span class="p">]</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="recovery-procedures">Recovery Procedures</h2>
+<h3 id="service-recovery">Service Recovery</h3>
+<p><strong>Automatic Recovery</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Enable automatic recovery</span>
+curl<span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/system/recovery/config&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;auto_recovery&quot;: true,</span>
+<span class="s1">       &quot;recovery_attempts&quot;: 3,</span>
+<span class="s1">       &quot;recovery_delay_seconds&quot;: 30,</span>
+<span class="s1">       &quot;escalation_enabled&quot;: true</span>
+<span class="s1">     }&#39;</span>
+
+<span class="c1"># Manual service recovery</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/system/recovery/service&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;service&quot;: &quot;camera&quot;,</span>
+<span class="s1">       &quot;recovery_method&quot;: &quot;restart&quot;,</span>
+<span class="s1">       &quot;preserve_state&quot;: true</span>
+<span class="s1">     }&#39;</span>
+</code></pre></div>
+
+<h3 id="configuration-recovery">Configuration Recovery</h3>
+<p><strong>Backup and Restore Configuration</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Create configuration backup</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/system/backup/config&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;backup_name&quot;: &quot;pre_troubleshoot&quot;,</span>
+<span class="s1">       &quot;include_logs&quot;: false</span>
+<span class="s1">     }&#39;</span>
+
+<span class="c1"># Restore from backup</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/system/restore/config&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;backup_name&quot;: &quot;pre_troubleshoot&quot;,</span>
+<span class="s1">       &quot;restart_services&quot;: true</span>
+<span class="s1">     }&#39;</span>
+
+<span class="c1"># Reset to factory defaults</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/system/factory-reset&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;preserve_network&quot;: true,</span>
+<span class="s1">       &quot;preserve_users&quot;: true,</span>
+<span class="s1">       &quot;confirm&quot;: true</span>
+<span class="s1">     }&#39;</span>
+</code></pre></div>
+
+<h3 id="data-recovery">Data Recovery</h3>
+<p><strong>Recording Recovery</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Check for corrupted recordings</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/storage/verify&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;check_integrity&quot;: true,</span>
+<span class="s1">       &quot;repair_files&quot;: true</span>
+<span class="s1">     }&#39;</span>
+
+<span class="c1"># Recover from backup</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/storage/recover&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;source&quot;: &quot;backup&quot;,</span>
+<span class="s1">       &quot;date_range&quot;: {</span>
+<span class="s1">         &quot;start&quot;: &quot;2025-01-14T00:00:00Z&quot;,</span>
+<span class="s1">         &quot;end&quot;: &quot;2025-01-15T00:00:00Z&quot;</span>
+<span class="s1">       }</span>
+<span class="s1">     }&#39;</span>
+</code></pre></div>
+
+<h2 id="maintenance-procedures">Maintenance Procedures</h2>
+<h3 id="preventive-maintenance">Preventive Maintenance</h3>
+<p><strong>Regular Maintenance Tasks</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Schedule maintenance</span>
+curl<span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/maintenance/schedule&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;tasks&quot;: [</span>
+<span class="s1">         {</span>
+<span class="s1">           &quot;name&quot;: &quot;log_cleanup&quot;,</span>
+<span class="s1">           &quot;schedule&quot;: &quot;0 2 * * 0&quot;,</span>
+<span class="s1">           &quot;enabled&quot;: true</span>
+<span class="s1">         },</span>
+<span class="s1">         {</span>
+<span class="s1">           &quot;name&quot;: &quot;storage_optimization&quot;,</span>
+<span class="s1">           &quot;schedule&quot;: &quot;0 3 * * 0&quot;,</span>
+<span class="s1">           &quot;enabled&quot;: true</span>
+<span class="s1">         },</span>
+<span class="s1">         {</span>
+<span class="s1">           &quot;name&quot;: &quot;health_check&quot;,</span>
+<span class="s1">           &quot;schedule&quot;: &quot;0 */6 * * *&quot;,</span>
+<span class="s1">           &quot;enabled&quot;: true</span>
+<span class="s1">         }</span>
+<span class="s1">       ]</span>
+<span class="s1">     }&#39;</span>
+
+<span class="c1"># Run maintenance manually</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/maintenance/run&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;tasks&quot;: [&quot;cleanup&quot;, &quot;optimization&quot;, &quot;verification&quot;],</span>
+<span class="s1">       &quot;maintenance_window&quot;: 30</span>
+<span class="s1">     }&#39;</span>
+</code></pre></div>
+
+<h3 id="system-updates">System Updates</h3>
+<p><strong>Update Procedures</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Check for updates</span>
+curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>http://192.168.1.100:8080/api/system/updates/check
+
+<span class="c1"># Download and install updates</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/system/updates/install&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;update_id&quot;: &quot;v1.2.3&quot;,</span>
+<span class="s1">       &quot;backup_config&quot;: true,</span>
+<span class="s1">       &quot;restart_after&quot;: true</span>
+<span class="s1">     }&#39;</span>
+
+<span class="c1"># Rollback to previous version</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/system/updates/rollback&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;target_version&quot;: &quot;v1.2.2&quot;,</span>
+<span class="s1">       &quot;preserve_data&quot;: true</span>
+<span class="s1">     }&#39;</span>
+</code></pre></div>
+
+<h2 id="escalation-procedures">Escalation Procedures</h2>
+<h3 id="support-information-collection">Support Information Collection</h3>
+<p><strong>Diagnostic Data Collection</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Generate support bundle</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/support/bundle&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;include_logs&quot;: true,</span>
+<span class="s1">       &quot;include_config&quot;: true,</span>
+<span class="s1">       &quot;include_metrics&quot;: true,</span>
+<span class="s1">       &quot;time_range&quot;: &quot;24h&quot;,</span>
+<span class="s1">       &quot;anonymize&quot;: true</span>
+<span class="s1">     }&#39;</span>
+
+<span class="c1"># Download support bundle</span>
+curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>http://192.168.1.100:8080/api/support/bundle/download/support_20250115.zip<span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>--output<span class="w"> </span>support_bundle.zip
+</code></pre></div>
+
+<p><strong>Remote Access Setup</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Enable remote support access</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/support/remote-access&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;duration_hours&quot;: 4,</span>
+<span class="s1">       &quot;access_level&quot;: &quot;diagnostic&quot;,</span>
+<span class="s1">       &quot;allow_configuration&quot;: false</span>
+<span class="s1">     }&#39;</span>
+</code></pre></div>
+
+<h2 id="prevention-strategies">Prevention Strategies</h2>
+<h3 id="monitoring-and-alerting">Monitoring and Alerting</h3>
+<p><strong>Proactive Monitoring Setup</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Configure predictive alerts</span>
+curl<span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/monitoring/predictive&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;enabled&quot;: true,</span>
+<span class="s1">       &quot;prediction_window&quot;: &quot;4h&quot;,</span>
+<span class="s1">       &quot;confidence_threshold&quot;: 0.8,</span>
+<span class="s1">       &quot;alert_early&quot;: true</span>
+<span class="s1">     }&#39;</span>
+
+<span class="c1"># Set up health monitoring</span>
+curl<span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/monitoring/health&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;check_interval&quot;: 300,</span>
+<span class="s1">       &quot;alert_thresholds&quot;: {</span>
+<span class="s1">         &quot;cpu_usage&quot;: 80,</span>
+<span class="s1">         &quot;memory_usage&quot;: 85,</span>
+<span class="s1">         &quot;storage_usage&quot;: 90,</span>
+<span class="s1">         &quot;error_rate&quot;: 5</span>
+<span class="s1">       }</span>
+<span class="s1">     }&#39;</span>
+</code></pre></div>
+
+<h3 id="best-practices">Best Practices</h3>
+<p><strong>System Hardening</strong>:<br />
+- Regular firmware and software updates<br />
+- Proper environmental controls (temperature, power)<br />
+- Network security configuration<br />
+- Regular backup verification<br />
+- Performance baseline establishment<br />
+- Documentation of all changes</p>
+<p><strong>Operational Procedures</strong>:<br />
+- Change management process<br />
+- Regular health checks<br />
+- Capacity planning<br />
+- Incident response procedures<br />
+- Staff training on common issues</p>
+<h2 id="related-documentation">Related Documentation</h2>
+<ul>
+<li><a href="./monitoring.md">Monitoring</a> - System monitoring and alerting</li>
+<li><a href="./performance.md">Performance Tuning</a> - Performance optimization</li>
+<li><a href="../configuration/authentication.md">Security Configuration</a> - Security troubleshooting</li>
+<li><a href="../api/http-api.md">API Reference</a> - Diagnostic API endpoints</li>
+</ul>
+<hr />
+<p><em>Troubleshooting documentation based on systematic problem-solving methodologies and best practices</em></p>
+            </div>
+            <footer class="content-footer">
+                <p>Copyright © 2025 Rotoclear</p>
+            </footer>
+        </main>
+        
+        <button class="mobile-menu-toggle" id="menuToggle" aria-label="Toggle menu">☰</button>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>
+        // Initialize Mermaid
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            securityLevel: 'loose',
+            fontFamily: 'Inter, sans-serif'
+        });
+        
+        // Syntax highlighting
+        hljs.highlightAll();
+        
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.querySelector('.sidebar');
+        
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+        });
+        
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth <= 768 && 
+                !sidebar.contains(e.target) && 
+                !menuToggle.contains(e.target) &&
+                sidebar.classList.contains('active')) {
+                sidebar.classList.remove('active');
+            }
+        });
+        
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glossary - RotoClear Camera Server Documentation</title>
+    <link rel="stylesheet" href="/assets/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1><a href="/index.html">RotoClear Docs</a></h1>
+                <p>Camera Server Documentation</p>
+            </div>
+            <nav class="sidebar-nav">
+                <ul class="nav-menu">
+                    <li class="nav-item depth-0">
+<a href="/index.html">Home</a>
+</li>
+<li class="nav-item depth-0">
+<a href="/getting-started.html">Getting Started</a>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Architecture</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/architecture/overview.html">Overview</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/architecture/state-management.html">State Management</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/architecture/camera-pipeline.html">Camera Pipeline</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/architecture/metadata-sqlite.html">Metadata & SQLite</a>
+</li>
+<li class="nav-folder depth-1">
+<span class="folder-title">Decisions</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-2">
+<a href="/architecture/decisions/ADR-0001-nim-language.html">ADR-0001 Nim Language</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/architecture/decisions/ADR-0002-corun-framework.html">ADR-0002 Corun Framework</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/architecture/decisions/ADR-0003-observable-state.html">ADR-0003 Observable State</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">API Reference</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/api/README.html">Overview</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/api/websocket-api.html">WebSocket API</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/api/http-api.html">HTTP API</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/api/rtsp-streaming.html">RTSP Streaming</a>
+</li>
+<li class="nav-folder depth-1">
+<span class="folder-title">Examples</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-2">
+<a href="/api/examples/python-client.html">Python Client</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/api/examples/javascript-client.html">JavaScript Client</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/api/examples/csharp-client.html">C# Client</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Configuration</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/configuration/environments.html">Environments</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/factory-config.html">Factory Config</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/license-config.html">License Config</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/deployment-variants.html">Deployment Variants</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/camera-system.html">Camera System</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/network.html">Network</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/storage-backup.html">Storage & Backup</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/authentication.html">Authentication</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Camera System</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/camera/hardware-interface.html">Hardware Interface</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/camera/streaming.html">Streaming</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/camera/recording.html">Recording</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/camera/image-processing.html">Image Processing</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Operations</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/operations/build-and-deploy.html">Build and Deploy</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/build-deploy.html">Build & Deploy (Alt)</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/monitoring.html">Monitoring</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/performance.html">Performance</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/troubleshooting.html">Troubleshooting</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Security</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/security/authentication.html">Authentication</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/security/permissions.html">Permissions</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/security/ssl-certificates.html">SSL Certificates</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Testing</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/testing/testing-strategy.html">Strategy</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/testing/strategies.html">Strategies</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/testing/test-cases.html">Test Cases</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/testing/validation.html">Validation</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Integration</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/integration/onvif-protocol.html">ONVIF Protocol</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/integration/third-party.html">Third Party</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Reference</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1 active">
+<a href="/reference/glossary.html">Glossary</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/reference/requirements.html">Requirements</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/reference/state-observables.html">State Observables</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Releases</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/releases/CHANGELOG.html">Changelog</a>
+</li>
+</ul>
+</li>
+<li class="nav-item depth-0">
+<a href="/glossary.html">Glossary</a>
+</li>
+                </ul>
+            </nav>
+        </aside>
+        
+        <main class="content">
+            <div class="content-wrapper">
+                <h1 id="glossary">Glossary</h1>
+<p><strong>Comprehensive glossary of terms, acronyms, and technical definitions used in the C Pro camera system documentation and implementation.</strong></p>
+<h2 id="a">A</h2>
+<p><strong>API (Application Programming Interface)</strong><br />
+A set of protocols, routines, and tools for building software applications. C Pro provides REST APIs, WebSocket APIs, and ONVIF APIs for system integration.</p>
+<p><strong>AES (Advanced Encryption Standard)</strong><br />
+A symmetric encryption algorithm used to secure data transmission and storage in the C Pro system.</p>
+<p><strong>Authentication</strong><br />
+The process of verifying the identity of a user or system component before granting access to resources.</p>
+<p><strong>Authorization</strong><br />
+The process of determining what resources a user or system component is allowed to access after authentication.</p>
+<p><strong>Asyncio</strong><br />
+An asynchronous programming framework that allows concurrent execution of tasks without blocking the main thread.</p>
+<h2 id="b">B</h2>
+<p><strong>Bitrate</strong><br />
+The amount of data processed per unit of time in video streaming, typically measured in bits per second (bps).</p>
+<p><strong>Buffer</strong><br />
+A temporary storage area used to hold data while it's being transferred between different parts of the system.</p>
+<p><strong>Bandwidth</strong><br />
+The maximum rate of data transfer across a network connection, typically measured in bits per second (bps).</p>
+<h2 id="c">C</h2>
+<p><strong>Codec</strong><br />
+A software component that encodes and decodes digital video and audio data. Common codecs include H.264, H.265, and MJPEG.</p>
+<p><strong>Concurrency</strong><br />
+The ability to handle multiple operations simultaneously without blocking other operations.</p>
+<p><strong>Configuration Management</strong><br />
+The process of systematically handling changes to system configuration to maintain integrity over time.</p>
+<p><strong>Container</strong><br />
+A lightweight, standalone package that includes everything needed to run an application: code, runtime, system tools, libraries, and settings.</p>
+<p><strong>CRUD (Create, Read, Update, Delete)</strong><br />
+The four basic operations that can be performed on data storage systems.</p>
+<h2 id="d">D</h2>
+<p><strong>Database</strong><br />
+A structured collection of data stored electronically in a computer system, used by C Pro to store configuration, user data, and recording metadata.</p>
+<p><strong>Docker</strong><br />
+A containerization platform that packages applications and their dependencies into portable containers.</p>
+<p><strong>DNS (Domain Name System)</strong><br />
+A hierarchical system that translates human-readable domain names into IP addresses.</p>
+<p><strong>DRM (Digital Rights Management)</strong><br />
+Technologies used to control access to copyrighted digital content.</p>
+<h2 id="e">E</h2>
+<p><strong>Encryption</strong><br />
+The process of converting data into a coded format to prevent unauthorized access.</p>
+<p><strong>Endpoint</strong><br />
+A specific URL where an API can be accessed by a client application.</p>
+<p><strong>Event-Driven Architecture</strong><br />
+A software architecture pattern where components communicate through events rather than direct method calls.</p>
+<p><strong>Edge Computing</strong><br />
+Computing that occurs at or near the physical location where data is collected and analyzed.</p>
+<h2 id="f">F</h2>
+<p><strong>FFmpeg</strong><br />
+A comprehensive multimedia framework capable of decoding, encoding, transcoding, muxing, demuxing, streaming, filtering and playing video and audio content.</p>
+<p><strong>Frame Rate (FPS - Frames Per Second)</strong><br />
+The frequency at which consecutive images (frames) are captured or displayed in video content.</p>
+<p><strong>Firewall</strong><br />
+A network security system that monitors and controls incoming and outgoing network traffic based on predetermined security rules.</p>
+<h2 id="g">G</h2>
+<p><strong>GStreamer</strong><br />
+An open-source multimedia framework that allows construction of graphs of media-handling components, used extensively in C Pro for video processing.</p>
+<p><strong>GPU (Graphics Processing Unit)</strong><br />
+A specialized processor designed to accelerate graphics rendering and parallel processing tasks.</p>
+<p><strong>GUID (Globally Unique Identifier)</strong><br />
+A 128-bit number used to identify information in computer systems, ensuring uniqueness across all systems.</p>
+<h2 id="h">H</h2>
+<p><strong>H.264 (Advanced Video Coding)</strong><br />
+A video compression standard that provides high-quality video at lower bitrates than previous standards.</p>
+<p><strong>H.265 (High Efficiency Video Coding)</strong><br />
+A video compression standard that offers improved compression efficiency over H.264.</p>
+<p><strong>HTTP (Hypertext Transfer Protocol)</strong><br />
+The foundation of data communication on the World Wide Web, used for C Pro's REST API.</p>
+<p><strong>HTTPS (HTTP Secure)</strong><br />
+An extension of HTTP that uses encryption to secure communication between client and server.</p>
+<p><strong>Health Check</strong><br />
+A mechanism to verify that a service or component is running correctly and responding to requests.</p>
+<h2 id="i">I</h2>
+<p><strong>IP (Internet Protocol)</strong><br />
+A set of rules governing the format of data sent via the internet or local network.</p>
+<p><strong>IP Camera</strong><br />
+A digital video camera that can send and receive data via a computer network and the internet.</p>
+<p><strong>IoT (Internet of Things)</strong><br />
+A network of physical devices embedded with sensors, software, and connectivity to exchange data.</p>
+<p><strong>ISO (International Organization for Standardization)</strong><br />
+An international standard-setting body that develops and publishes technical standards.</p>
+<h2 id="j">J</h2>
+<p><strong>JSON (JavaScript Object Notation)</strong><br />
+A lightweight data-interchange format that is easy for humans to read and write.</p>
+<p><strong>JWT (JSON Web Token)</strong><br />
+A compact, URL-safe means of representing claims to be transferred between two parties, used for authentication in C Pro.</p>
+<p><strong>JPEG (Joint Photographic Experts Group)</strong><br />
+A lossy compression method for digital images, commonly used for snapshot images.</p>
+<h2 id="k">K</h2>
+<p><strong>Kernel</strong><br />
+The core component of an operating system that manages system resources and hardware communication.</p>
+<p><strong>Kubernetes</strong><br />
+An open-source container orchestration platform for automating deployment, scaling, and management of containerized applications.</p>
+<p><strong>Key Frame (I-Frame)</strong><br />
+A complete image frame in video compression that can be decoded independently without reference to other frames.</p>
+<h2 id="l">L</h2>
+<p><strong>LDAP (Lightweight Directory Access Protocol)</strong><br />
+An application protocol for accessing and maintaining distributed directory information services.</p>
+<p><strong>Load Balancing</strong><br />
+The process of distributing incoming network traffic across multiple servers to ensure no single server becomes overwhelmed.</p>
+<p><strong>Logging</strong><br />
+The practice of recording events, errors, and system activities for monitoring, debugging, and auditing purposes.</p>
+<p><strong>Latency</strong><br />
+The time delay between a request and response in a system, critical for real-time video streaming.</p>
+<h2 id="m">M</h2>
+<p><strong>Microservice</strong><br />
+An architectural approach where applications are built as a collection of small, independent services.</p>
+<p><strong>MJPEG (Motion JPEG)</strong><br />
+A video compression format where each frame is compressed separately as a JPEG image.</p>
+<p><strong>Monitoring</strong><br />
+The practice of continuously observing system performance, health, and behavior.</p>
+<p><strong>MQTT (Message Queuing Telemetry Transport)</strong><br />
+A lightweight messaging protocol designed for small sensors and mobile devices optimized for high-latency networks.</p>
+<h2 id="n">N</h2>
+<p><strong>NAT (Network Address Translation)</strong><br />
+A method of remapping IP address space by modifying network address information in packet headers.</p>
+<p><strong>Nim</strong><br />
+A systems programming language that combines successful concepts from mature languages like Python, Ada and Modula, used to implement C Pro.</p>
+<p><strong>NTP (Network Time Protocol)</strong><br />
+A networking protocol for clock synchronization between computer systems over packet-switched networks.</p>
+<p><strong>NVR (Network Video Recorder)</strong><br />
+A computer system that records video in a digital format to a disk drive, USB flash drive, SD memory card or other mass storage device.</p>
+<h2 id="o">O</h2>
+<p><strong>OAuth</strong><br />
+An open standard for access delegation, commonly used for token-based authentication and authorization.</p>
+<p><strong>ONVIF (Open Network Video Interface Forum)</strong><br />
+A global standard for IP-based physical security products, ensuring interoperability between different manufacturers.</p>
+<p><strong>ORM (Object-Relational Mapping)</strong><br />
+A programming technique for converting data between incompatible type systems using object-oriented programming languages.</p>
+<p><strong>Observable Pattern</strong><br />
+A software design pattern where an object maintains a list of dependents and notifies them of state changes.</p>
+<h2 id="p">P</h2>
+<p><strong>P-Frame (Predicted Frame)</strong><br />
+A video frame that contains only the changes from the previous frame, reducing data size.</p>
+<p><strong>Payload</strong><br />
+The actual data transmitted in a network packet, excluding headers and metadata.</p>
+<p><strong>Pipeline</strong><br />
+A series of data processing elements connected in series, where the output of one element is the input of the next.</p>
+<p><strong>PTZ (Pan-Tilt-Zoom)</strong><br />
+Camera functionality that allows remote control of the camera's orientation and zoom level.</p>
+<p><strong>Prometheus</strong><br />
+An open-source monitoring system with a dimensional data model and flexible query language.</p>
+<h2 id="q">Q</h2>
+<p><strong>Quality of Service (QoS)</strong><br />
+A set of technologies that work on a network to guarantee its ability to dependably run high-priority applications and traffic.</p>
+<p><strong>Query</strong><br />
+A request for information from a database or system, typically using a structured query language.</p>
+<p><strong>Queue</strong><br />
+A data structure that follows the first-in, first-out (FIFO) principle for managing tasks or messages.</p>
+<h2 id="r">R</h2>
+<p><strong>REST (Representational State Transfer)</strong><br />
+An architectural style for designing networked applications, used extensively in C Pro's API design.</p>
+<p><strong>RTSP (Real Time Streaming Protocol)</strong><br />
+A network control protocol designed for use in entertainment and communications systems to control streaming media servers.</p>
+<p><strong>RTP (Real-time Transport Protocol)</strong><br />
+A network protocol for delivering audio and video over IP networks.</p>
+<p><strong>Resolution</strong><br />
+The number of pixels in each dimension that can be displayed in a video image (e.g., 1920x1080).</p>
+<p><strong>Redis</strong><br />
+An in-memory data structure store used as a database, cache, and message broker.</p>
+<h2 id="s">S</h2>
+<p><strong>SAML (Security Assertion Markup Language)</strong><br />
+An open standard for exchanging authentication and authorization data between parties.</p>
+<p><strong>SDK (Software Development Kit)</strong><br />
+A collection of software development tools for creating applications for a specific platform.</p>
+<p><strong>SSL/TLS (Secure Sockets Layer/Transport Layer Security)</strong><br />
+Cryptographic protocols designed to provide communications security over a computer network.</p>
+<p><strong>SOAP (Simple Object Access Protocol)</strong><br />
+A messaging protocol specification for exchanging structured information using XML, used in ONVIF implementations.</p>
+<p><strong>Streaming</strong><br />
+The continuous transmission of audio or video files from a server to a client.</p>
+<h2 id="t">T</h2>
+<p><strong>TCP (Transmission Control Protocol)</strong><br />
+A connection-oriented protocol that provides reliable, ordered, and error-checked delivery of data.</p>
+<p><strong>Thread</strong><br />
+A separate flow of execution within a program, allowing concurrent operations.</p>
+<p><strong>Thumbnail</strong><br />
+A reduced-size version of an image or video frame used for quick preview purposes.</p>
+<p><strong>Token</strong><br />
+A piece of data that represents the right to access a resource or perform an operation.</p>
+<p><strong>Transcoding</strong><br />
+The process of converting video or audio from one format to another.</p>
+<h2 id="u">U</h2>
+<p><strong>UDP (User Datagram Protocol)</strong><br />
+A connectionless protocol that allows data to be sent without establishing a connection.</p>
+<p><strong>URI (Uniform Resource Identifier)</strong><br />
+A string of characters that unambiguously identifies a particular resource.</p>
+<p><strong>URL (Uniform Resource Locator)</strong><br />
+A reference to a web resource that specifies its location on a computer network.</p>
+<p><strong>UUID (Universally Unique Identifier)</strong><br />
+A 128-bit number used to identify information in computer systems.</p>
+<p><strong>UPnP (Universal Plug and Play)</strong><br />
+A set of networking protocols that allows devices to discover each other and establish functional network services.</p>
+<h2 id="v">V</h2>
+<p><strong>V4L2 (Video4Linux2)</strong><br />
+A Linux kernel framework that provides APIs for video capture and output devices.</p>
+<p><strong>VMS (Video Management System)</strong><br />
+Software that provides a centralized platform for managing multiple video feeds and recording devices.</p>
+<p><strong>VPN (Virtual Private Network)</strong><br />
+A secure connection between two or more devices over the internet that creates a private network.</p>
+<p><strong>Validation</strong><br />
+The process of checking that a system meets specified requirements and functions correctly.</p>
+<p><strong>Video Analytics</strong><br />
+The technology of analyzing video content to detect and determine temporal and spatial events.</p>
+<h2 id="w">W</h2>
+<p><strong>Webhook</strong><br />
+A user-defined HTTP callback that is triggered by specific events in a system.</p>
+<p><strong>WebSocket</strong><br />
+A communication protocol that provides full-duplex communication channels over a single TCP connection.</p>
+<p><strong>WSDL (Web Services Description Language)</strong><br />
+An XML-based interface description language used for describing web services.</p>
+<p><strong>WS-Discovery</strong><br />
+A protocol that defines a multicast discovery protocol to locate services on a local network.</p>
+<h2 id="x">X</h2>
+<p><strong>XML (eXtensible Markup Language)</strong><br />
+A markup language that defines rules for encoding documents in a format that is both human-readable and machine-readable.</p>
+<p><strong>XSS (Cross-Site Scripting)</strong><br />
+A type of security vulnerability typically found in web applications.</p>
+<h2 id="y">Y</h2>
+<p><strong>YAML (YAML Ain't Markup Language)</strong><br />
+A human-readable data serialization standard commonly used for configuration files.</p>
+<h2 id="z">Z</h2>
+<p><strong>Zone</strong><br />
+A defined area within a camera's field of view that can be configured for specific monitoring or analysis rules.</p>
+<p><strong>Zoom</strong><br />
+The ability to magnify a portion of the video image, either optically (optical zoom) or digitally (digital zoom).</p>
+<hr />
+<h2 id="technical-acronyms-reference">Technical Acronyms Reference</h2>
+<table>
+<thead>
+<tr>
+<th>Acronym</th>
+<th>Full Form</th>
+<th>Context</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ADR</td>
+<td>Architecture Decision Record</td>
+<td>Documentation</td>
+</tr>
+<tr>
+<td>AES</td>
+<td>Advanced Encryption Standard</td>
+<td>Security</td>
+</tr>
+<tr>
+<td>API</td>
+<td>Application Programming Interface</td>
+<td>Integration</td>
+</tr>
+<tr>
+<td>ASCII</td>
+<td>American Standard Code for Information Interchange</td>
+<td>Encoding</td>
+</tr>
+<tr>
+<td>CRUD</td>
+<td>Create, Read, Update, Delete</td>
+<td>Database Operations</td>
+</tr>
+<tr>
+<td>DNS</td>
+<td>Domain Name System</td>
+<td>Networking</td>
+</tr>
+<tr>
+<td>FPS</td>
+<td>Frames Per Second</td>
+<td>Video</td>
+</tr>
+<tr>
+<td>GPU</td>
+<td>Graphics Processing Unit</td>
+<td>Hardware</td>
+</tr>
+<tr>
+<td>GUID</td>
+<td>Globally Unique Identifier</td>
+<td>Data</td>
+</tr>
+<tr>
+<td>HTML</td>
+<td>HyperText Markup Language</td>
+<td>Web</td>
+</tr>
+<tr>
+<td>HTTP</td>
+<td>HyperText Transfer Protocol</td>
+<td>Web</td>
+</tr>
+<tr>
+<td>HTTPS</td>
+<td>HTTP Secure</td>
+<td>Security</td>
+</tr>
+<tr>
+<td>IP</td>
+<td>Internet Protocol</td>
+<td>Networking</td>
+</tr>
+<tr>
+<td>JSON</td>
+<td>JavaScript Object Notation</td>
+<td>Data Format</td>
+</tr>
+<tr>
+<td>JWT</td>
+<td>JSON Web Token</td>
+<td>Authentication</td>
+</tr>
+<tr>
+<td>LDAP</td>
+<td>Lightweight Directory Access Protocol</td>
+<td>Authentication</td>
+</tr>
+<tr>
+<td>MJPEG</td>
+<td>Motion JPEG</td>
+<td>Video Compression</td>
+</tr>
+<tr>
+<td>MQTT</td>
+<td>Message Queuing Telemetry Transport</td>
+<td>Messaging</td>
+</tr>
+<tr>
+<td>NAT</td>
+<td>Network Address Translation</td>
+<td>Networking</td>
+</tr>
+<tr>
+<td>NTP</td>
+<td>Network Time Protocol</td>
+<td>Time Synchronization</td>
+</tr>
+<tr>
+<td>NVR</td>
+<td>Network Video Recorder</td>
+<td>Video Storage</td>
+</tr>
+<tr>
+<td>ONVIF</td>
+<td>Open Network Video Interface Forum</td>
+<td>Standard</td>
+</tr>
+<tr>
+<td>ORM</td>
+<td>Object-Relational Mapping</td>
+<td>Database</td>
+</tr>
+<tr>
+<td>PTZ</td>
+<td>Pan-Tilt-Zoom</td>
+<td>Camera Control</td>
+</tr>
+<tr>
+<td>QoS</td>
+<td>Quality of Service</td>
+<td>Networking</td>
+</tr>
+<tr>
+<td>REST</td>
+<td>Representational State Transfer</td>
+<td>API Architecture</td>
+</tr>
+<tr>
+<td>RGB</td>
+<td>Red, Green, Blue</td>
+<td>Color Model</td>
+</tr>
+<tr>
+<td>RTSP</td>
+<td>Real Time Streaming Protocol</td>
+<td>Streaming</td>
+</tr>
+<tr>
+<td>RTP</td>
+<td>Real-time Transport Protocol</td>
+<td>Streaming</td>
+</tr>
+<tr>
+<td>SAML</td>
+<td>Security Assertion Markup Language</td>
+<td>Authentication</td>
+</tr>
+<tr>
+<td>SDK</td>
+<td>Software Development Kit</td>
+<td>Development</td>
+</tr>
+<tr>
+<td>SOAP</td>
+<td>Simple Object Access Protocol</td>
+<td>Web Services</td>
+</tr>
+<tr>
+<td>SQL</td>
+<td>Structured Query Language</td>
+<td>Database</td>
+</tr>
+<tr>
+<td>SSL</td>
+<td>Secure Sockets Layer</td>
+<td>Security</td>
+</tr>
+<tr>
+<td>TCP</td>
+<td>Transmission Control Protocol</td>
+<td>Networking</td>
+</tr>
+<tr>
+<td>TLS</td>
+<td>Transport Layer Security</td>
+<td>Security</td>
+</tr>
+<tr>
+<td>UDP</td>
+<td>User Datagram Protocol</td>
+<td>Networking</td>
+</tr>
+<tr>
+<td>UI</td>
+<td>User Interface</td>
+<td>Interface</td>
+</tr>
+<tr>
+<td>UPnP</td>
+<td>Universal Plug and Play</td>
+<td>Networking</td>
+</tr>
+<tr>
+<td>URI</td>
+<td>Uniform Resource Identifier</td>
+<td>Web</td>
+</tr>
+<tr>
+<td>URL</td>
+<td>Uniform Resource Locator</td>
+<td>Web</td>
+</tr>
+<tr>
+<td>UUID</td>
+<td>Universally Unique Identifier</td>
+<td>Data</td>
+</tr>
+<tr>
+<td>V4L2</td>
+<td>Video4Linux2</td>
+<td>Linux Video API</td>
+</tr>
+<tr>
+<td>VMS</td>
+<td>Video Management System</td>
+<td>Video Management</td>
+</tr>
+<tr>
+<td>VPN</td>
+<td>Virtual Private Network</td>
+<td>Security</td>
+</tr>
+<tr>
+<td>WSDL</td>
+<td>Web Services Description Language</td>
+<td>Web Services</td>
+</tr>
+<tr>
+<td>XML</td>
+<td>eXtensible Markup Language</td>
+<td>Data Format</td>
+</tr>
+<tr>
+<td>XSS</td>
+<td>Cross-Site Scripting</td>
+<td>Security Vulnerability</td>
+</tr>
+<tr>
+<td>YAML</td>
+<td>YAML Ain't Markup Language</td>
+<td>Configuration</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="units-and-measurements">Units and Measurements</h2>
+<table>
+<thead>
+<tr>
+<th>Unit</th>
+<th>Description</th>
+<th>Common Values</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>bps</td>
+<td>Bits per second</td>
+<td>1 Kbps = 1,000 bps</td>
+</tr>
+<tr>
+<td>Bps</td>
+<td>Bytes per second</td>
+<td>1 KBps = 1,024 bytes/sec</td>
+</tr>
+<tr>
+<td>fps</td>
+<td>Frames per second</td>
+<td>15, 25, 30, 60 fps</td>
+</tr>
+<tr>
+<td>Hz</td>
+<td>Hertz (frequency)</td>
+<td>50 Hz, 60 Hz</td>
+</tr>
+<tr>
+<td>KB</td>
+<td>Kilobyte</td>
+<td>1 KB = 1,024 bytes</td>
+</tr>
+<tr>
+<td>MB</td>
+<td>Megabyte</td>
+<td>1 MB = 1,024 KB</td>
+</tr>
+<tr>
+<td>GB</td>
+<td>Gigabyte</td>
+<td>1 GB = 1,024 MB</td>
+</tr>
+<tr>
+<td>TB</td>
+<td>Terabyte</td>
+<td>1 TB = 1,024 GB</td>
+</tr>
+<tr>
+<td>ms</td>
+<td>Millisecond</td>
+<td>1/1,000 second</td>
+</tr>
+<tr>
+<td>μs</td>
+<td>Microsecond</td>
+<td>1/1,000,000 second</td>
+</tr>
+<tr>
+<td>px</td>
+<td>Pixel</td>
+<td>Picture element</td>
+</tr>
+<tr>
+<td>dB</td>
+<td>Decibel</td>
+<td>Audio/signal level</td>
+</tr>
+<tr>
+<td>°C</td>
+<td>Degrees Celsius</td>
+<td>Temperature</td>
+</tr>
+<tr>
+<td>V</td>
+<td>Volt</td>
+<td>Electrical potential</td>
+</tr>
+<tr>
+<td>A</td>
+<td>Ampere</td>
+<td>Electrical current</td>
+</tr>
+<tr>
+<td>W</td>
+<td>Watt</td>
+<td>Power consumption</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="status-codes-reference">Status Codes Reference</h2>
+<h3 id="http-status-codes">HTTP Status Codes</h3>
+<table>
+<thead>
+<tr>
+<th>Code</th>
+<th>Meaning</th>
+<th>Usage in C Pro</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>200</td>
+<td>OK</td>
+<td>Successful request</td>
+</tr>
+<tr>
+<td>201</td>
+<td>Created</td>
+<td>Resource created successfully</td>
+</tr>
+<tr>
+<td>204</td>
+<td>No Content</td>
+<td>Successful deletion</td>
+</tr>
+<tr>
+<td>400</td>
+<td>Bad Request</td>
+<td>Invalid request parameters</td>
+</tr>
+<tr>
+<td>401</td>
+<td>Unauthorized</td>
+<td>Authentication required</td>
+</tr>
+<tr>
+<td>403</td>
+<td>Forbidden</td>
+<td>Insufficient permissions</td>
+</tr>
+<tr>
+<td>404</td>
+<td>Not Found</td>
+<td>Resource not found</td>
+</tr>
+<tr>
+<td>409</td>
+<td>Conflict</td>
+<td>Resource conflict</td>
+</tr>
+<tr>
+<td>422</td>
+<td>Unprocessable Entity</td>
+<td>Validation error</td>
+</tr>
+<tr>
+<td>429</td>
+<td>Too Many Requests</td>
+<td>Rate limit exceeded</td>
+</tr>
+<tr>
+<td>500</td>
+<td>Internal Server Error</td>
+<td>Server error</td>
+</tr>
+<tr>
+<td>503</td>
+<td>Service Unavailable</td>
+<td>Service temporarily unavailable</td>
+</tr>
+</tbody>
+</table>
+<h3 id="rtsp-status-codes">RTSP Status Codes</h3>
+<table>
+<thead>
+<tr>
+<th>Code</th>
+<th>Meaning</th>
+<th>Usage</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>200</td>
+<td>OK</td>
+<td>Request successful</td>
+</tr>
+<tr>
+<td>400</td>
+<td>Bad Request</td>
+<td>Malformed request</td>
+</tr>
+<tr>
+<td>401</td>
+<td>Unauthorized</td>
+<td>Authentication required</td>
+</tr>
+<tr>
+<td>404</td>
+<td>Not Found</td>
+<td>Stream not found</td>
+</tr>
+<tr>
+<td>451</td>
+<td>Parameter Not Understood</td>
+<td>Invalid parameter</td>
+</tr>
+<tr>
+<td>453</td>
+<td>Not Enough Bandwidth</td>
+<td>Insufficient bandwidth</td>
+</tr>
+<tr>
+<td>461</td>
+<td>Unsupported Transport</td>
+<td>Transport not supported</td>
+</tr>
+</tbody>
+</table>
+<h3 id="camera-status-codes">Camera Status Codes</h3>
+<table>
+<thead>
+<tr>
+<th>Status</th>
+<th>Description</th>
+<th>Actions Available</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>disconnected</code></td>
+<td>Camera not connected</td>
+<td>Connect, Configure</td>
+</tr>
+<tr>
+<td><code>ready</code></td>
+<td>Camera ready for operation</td>
+<td>Start, Configure</td>
+</tr>
+<tr>
+<td><code>streaming</code></td>
+<td>Camera actively streaming</td>
+<td>Stop, Snapshot, Record</td>
+</tr>
+<tr>
+<td><code>recording</code></td>
+<td>Camera recording video</td>
+<td>Stop Recording</td>
+</tr>
+<tr>
+<td><code>error</code></td>
+<td>Camera in error state</td>
+<td>Reset, Diagnose</td>
+</tr>
+<tr>
+<td><code>maintenance</code></td>
+<td>Camera in maintenance mode</td>
+<td>Exit Maintenance</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><em>Comprehensive glossary providing definitions and context for all technical terms used in the C Pro system</em></p>
+            </div>
+            <footer class="content-footer">
+                <p>Copyright © 2025 Rotoclear</p>
+            </footer>
+        </main>
+        
+        <button class="mobile-menu-toggle" id="menuToggle" aria-label="Toggle menu">☰</button>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>
+        // Initialize Mermaid
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            securityLevel: 'loose',
+            fontFamily: 'Inter, sans-serif'
+        });
+        
+        // Syntax highlighting
+        hljs.highlightAll();
+        
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.querySelector('.sidebar');
+        
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+        });
+        
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth <= 768 && 
+                !sidebar.contains(e.target) && 
+                !menuToggle.contains(e.target) &&
+                sidebar.classList.contains('active')) {
+                sidebar.classList.remove('active');
+            }
+        });
+        
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

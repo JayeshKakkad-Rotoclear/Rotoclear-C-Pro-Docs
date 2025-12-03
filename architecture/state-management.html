@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>State Management - RotoClear Camera Server Documentation</title>
+    <link rel="stylesheet" href="/assets/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1><a href="/index.html">RotoClear Docs</a></h1>
+                <p>Camera Server Documentation</p>
+            </div>
+            <nav class="sidebar-nav">
+                <ul class="nav-menu">
+                    <li class="nav-item depth-0">
+<a href="/index.html">Home</a>
+</li>
+<li class="nav-item depth-0">
+<a href="/getting-started.html">Getting Started</a>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Architecture</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/architecture/overview.html">Overview</a>
+</li>
+<li class="nav-item depth-1 active">
+<a href="/architecture/state-management.html">State Management</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/architecture/camera-pipeline.html">Camera Pipeline</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/architecture/metadata-sqlite.html">Metadata & SQLite</a>
+</li>
+<li class="nav-folder depth-1">
+<span class="folder-title">Decisions</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-2">
+<a href="/architecture/decisions/ADR-0001-nim-language.html">ADR-0001 Nim Language</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/architecture/decisions/ADR-0002-corun-framework.html">ADR-0002 Corun Framework</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/architecture/decisions/ADR-0003-observable-state.html">ADR-0003 Observable State</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">API Reference</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/api/README.html">Overview</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/api/websocket-api.html">WebSocket API</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/api/http-api.html">HTTP API</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/api/rtsp-streaming.html">RTSP Streaming</a>
+</li>
+<li class="nav-folder depth-1">
+<span class="folder-title">Examples</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-2">
+<a href="/api/examples/python-client.html">Python Client</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/api/examples/javascript-client.html">JavaScript Client</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/api/examples/csharp-client.html">C# Client</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Configuration</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/configuration/environments.html">Environments</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/factory-config.html">Factory Config</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/license-config.html">License Config</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/deployment-variants.html">Deployment Variants</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/camera-system.html">Camera System</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/network.html">Network</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/storage-backup.html">Storage & Backup</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/authentication.html">Authentication</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Camera System</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/camera/hardware-interface.html">Hardware Interface</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/camera/streaming.html">Streaming</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/camera/recording.html">Recording</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/camera/image-processing.html">Image Processing</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Operations</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/operations/build-and-deploy.html">Build and Deploy</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/build-deploy.html">Build & Deploy (Alt)</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/monitoring.html">Monitoring</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/performance.html">Performance</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/troubleshooting.html">Troubleshooting</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Security</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/security/authentication.html">Authentication</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/security/permissions.html">Permissions</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/security/ssl-certificates.html">SSL Certificates</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Testing</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/testing/testing-strategy.html">Strategy</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/testing/strategies.html">Strategies</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/testing/test-cases.html">Test Cases</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/testing/validation.html">Validation</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Integration</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/integration/onvif-protocol.html">ONVIF Protocol</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/integration/third-party.html">Third Party</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Reference</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/reference/glossary.html">Glossary</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/reference/requirements.html">Requirements</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/reference/state-observables.html">State Observables</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Releases</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/releases/CHANGELOG.html">Changelog</a>
+</li>
+</ul>
+</li>
+<li class="nav-item depth-0">
+<a href="/glossary.html">Glossary</a>
+</li>
+                </ul>
+            </nav>
+        </aside>
+        
+        <main class="content">
+            <div class="content-wrapper">
+                <h1 id="state-management-architecture">State Management Architecture</h1>
+<p><strong>Reactive state management system using Observable pattern for real-time synchronization.</strong></p>
+<h2 id="overview">Overview</h2>
+<p>The RotoClear camera server implements a centralized observable state management system that enables real-time synchronization between the server and all connected clients.</p>
+<div class="mermaid">
+graph TB
+    A[State Module] --> B[Observable Value]
+    B --> C[Change Notification]
+    C --> D[WebSocket Broadcast]
+    D --> E[Connected Clients]
+
+    F[HTTP API] --> A
+    G[Camera Events] --> A
+    H[System Events] --> A
+</div>
+
+<h2 id="core-components">Core Components</h2>
+<h3 id="observable-pattern-implementation">Observable Pattern Implementation</h3>
+<p>Located in <code>src/state/observable.nim</code>:</p>
+<ul>
+<li><strong>GetUnsafeObservable</strong>: Retrieve current state value</li>
+<li><strong>SetUnsafeObservable</strong>: Update state value with validation</li>
+<li><strong>StateObservable</strong>: Core observable type with change notifications</li>
+<li><strong>StatePermission</strong>: Granular permission system for state access</li>
+</ul>
+<h3 id="state-modules">State Modules</h3>
+<p>The system includes 40+ specialized state modules in <code>src/state/</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Module</th>
+<th>Purpose</th>
+<th>Key States</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>rc_light</code></td>
+<td>LED lighting control</td>
+<td>light0, light1</td>
+</tr>
+<tr>
+<td><code>rc_camera_heads</code></td>
+<td>Camera head management</td>
+<td>cam0Exists, cam1Exists</td>
+</tr>
+<tr>
+<td><code>rc_image_settings</code></td>
+<td>Image quality settings</td>
+<td>brightness, contrast, exposure</td>
+</tr>
+<tr>
+<td><code>rc_recording</code></td>
+<td>Video recording control</td>
+<td>record, takePicture</td>
+</tr>
+<tr>
+<td><code>rc_stream_settings</code></td>
+<td>Stream configuration</td>
+<td>resolution, fps, quality</td>
+</tr>
+<tr>
+<td><code>rc_network</code></td>
+<td>Network configuration</td>
+<td>ipAddress, hostname</td>
+</tr>
+<tr>
+<td><code>rc_user</code></td>
+<td>User management</td>
+<td>sessions, permissions</td>
+</tr>
+</tbody>
+</table>
+<h2 id="state-synchronization-flow">State Synchronization Flow</h2>
+<div class="mermaid">
+sequenceDiagram
+    participant Client
+    participant WebSocket
+    participant StateModule
+    participant Hardware
+
+    Client->>WebSocket: {"light0": true}
+    WebSocket->>StateModule: SetUnsafeObservable("light0", true)
+    StateModule->>Hardware: Apply hardware change
+    StateModule->>StateModule: Notify observers
+    StateModule->>WebSocket: Broadcast state change
+    WebSocket->>Client: {"light0": true, "info": ["light0"]}
+</div>
+
+<h2 id="api-integration">API Integration</h2>
+<h3 id="websocket-state-api">WebSocket State API</h3>
+<p>From <code>src/servers/websocketApiV1Handler.nim</code>:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">proc</span><span class="w"> </span><span class="nf">evaluateApiV1Setter</span><span class="o">*</span><span class="p">(</span><span class="n">reqKeys</span><span class="p">:</span><span class="w"> </span><span class="n">JsonNode</span><span class="p">,</span><span class="w"> </span><span class="n">info</span><span class="p">:</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nb">seq</span><span class="o">[</span><span class="nb">string</span><span class="o">]</span><span class="p">)</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="n">val</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">reqKeys</span><span class="p">.</span><span class="n">pairs</span><span class="p">:</span>
+<span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="n">key</span><span class="p">:</span>
+<span class="w">    </span><span class="k">of</span><span class="w"> </span><span class="nl">&quot;cam1-light&quot;</span><span class="o">:</span>
+<span class="w">      </span><span class="n">SetUnsafeObservable</span><span class="p">(</span><span class="s">&quot;light0&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">val</span><span class="p">)</span>
+<span class="w">      </span><span class="n">info</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="s">&quot;cam1-light&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="k">of</span><span class="w"> </span><span class="nl">&quot;brightness&quot;</span><span class="o">:</span>
+<span class="w">      </span><span class="n">SetUnsafeObservable</span><span class="p">(</span><span class="s">&quot;brightness&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">val</span><span class="p">)</span>
+<span class="w">      </span><span class="n">info</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="s">&quot;brightness&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="c"># ... additional state mappings</span>
+</code></pre></div>
+
+<h3 id="state-broadcasting">State Broadcasting</h3>
+<p>All state changes are automatically broadcast to connected WebSocket clients:</p>
+<div class="codehilite"><pre><span></span><code><span class="c"># Automatic notification system</span>
+<span class="k">proc</span><span class="w"> </span><span class="nf">notifyStateChange</span><span class="p">(</span><span class="n">stateKey</span><span class="p">:</span><span class="w"> </span><span class="nb">string</span><span class="p">,</span><span class="w"> </span><span class="n">newValue</span><span class="p">:</span><span class="w"> </span><span class="n">JsonNode</span><span class="p">)</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="n">client</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">connectedClients</span><span class="p">:</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">client</span><span class="p">.</span><span class="n">hasPermission</span><span class="p">(</span><span class="n">getStatePermission</span><span class="p">(</span><span class="n">stateKey</span><span class="p">)):</span>
+<span class="w">      </span><span class="n">await</span><span class="w"> </span><span class="n">client</span><span class="p">.</span><span class="n">send</span><span class="p">(</span><span class="o">%*</span><span class="p">{</span>
+<span class="w">        </span><span class="s">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;stateChange&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="s">&quot;state&quot;</span><span class="p">:</span><span class="w"> </span><span class="n">stateKey</span><span class="p">,</span>
+<span class="w">        </span><span class="s">&quot;value&quot;</span><span class="p">:</span><span class="w"> </span><span class="n">newValue</span>
+<span class="w">      </span><span class="p">})</span>
+</code></pre></div>
+
+<h2 id="permission-system">Permission System</h2>
+<p>State access is controlled through granular permissions from <code>src/state/permissions.nim</code>:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">type</span><span class="w"> </span><span class="n">StatePermission</span><span class="o">*</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">enum</span>
+<span class="w">  </span><span class="n">StreamSettings_r</span><span class="p">,</span><span class="w"> </span><span class="n">StreamSettings_rw</span>
+<span class="w">  </span><span class="n">HeadFeatures_r</span><span class="p">,</span><span class="w"> </span><span class="n">HeadFeatures_rw</span>
+<span class="w">  </span><span class="n">Recording_rw</span>
+<span class="w">  </span><span class="n">Media_r</span><span class="p">,</span><span class="w"> </span><span class="n">Media_rw</span>
+<span class="w">  </span><span class="n">NetworkSettings_r</span><span class="p">,</span><span class="w"> </span><span class="n">NetworkSettings_rw</span>
+</code></pre></div>
+
+<h3 id="permission-enforcement">Permission Enforcement</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">proc</span><span class="w"> </span><span class="nf">setValue</span><span class="o">*</span><span class="p">(</span><span class="n">stateKey</span><span class="p">:</span><span class="w"> </span><span class="nb">string</span><span class="p">,</span><span class="w"> </span><span class="n">value</span><span class="p">:</span><span class="w"> </span><span class="n">JsonNode</span><span class="p">,</span><span class="w"> </span><span class="n">user</span><span class="p">:</span><span class="w"> </span><span class="n">UserContext</span><span class="p">)</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">requiredPermission</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">getStatePermission</span><span class="p">(</span><span class="n">stateKey</span><span class="p">)</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="n">user</span><span class="p">.</span><span class="n">hasPermission</span><span class="p">(</span><span class="n">requiredPermission</span><span class="p">):</span>
+<span class="w">    </span><span class="k">raise</span><span class="w"> </span><span class="n">newException</span><span class="p">(</span><span class="n">PermissionError</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Access denied&quot;</span><span class="p">)</span>
+
+<span class="w">  </span><span class="n">SetUnsafeObservable</span><span class="p">(</span><span class="n">stateKey</span><span class="p">,</span><span class="w"> </span><span class="n">value</span><span class="p">)</span>
+</code></pre></div>
+
+<h2 id="state-persistence">State Persistence</h2>
+<p>Critical state values are automatically persisted to configuration files:</p>
+<h3 id="factory-configuration">Factory Configuration</h3>
+<p>Core system settings in <code>factory_config.json</code>:<br />
+- Server ports and protocols<br />
+- Hardware feature enablement<br />
+- Performance settings</p>
+<h3 id="license-configuration">License Configuration</h3>
+<p>Feature licensing in <code>license_config.json</code>:<br />
+- Enabled capabilities<br />
+- Quality limitations<br />
+- Access restrictions</p>
+<h2 id="real-time-features">Real-time Features</h2>
+<h3 id="instant-updates">Instant Updates</h3>
+<ul>
+<li><strong>WebSocket Push</strong>: State changes broadcast in &lt;10ms</li>
+<li><strong>Selective Updates</strong>: Only changed values transmitted</li>
+<li><strong>Multi-client Sync</strong>: All connected clients receive updates</li>
+</ul>
+<h3 id="state-queries">State Queries</h3>
+<div class="codehilite"><pre><span></span><code><span class="c1">// Request specific state values</span>
+<span class="nx">ws</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="nb">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">({</span>
+<span class="w">  </span><span class="s2">&quot;info&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;cam1-light&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;brightness&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;record&quot;</span><span class="p">]</span>
+<span class="p">}));</span>
+
+<span class="c1">// Response with current values</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="s2">&quot;cam1-light&quot;</span><span class="o">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">  </span><span class="s2">&quot;brightness&quot;</span><span class="o">:</span><span class="w"> </span><span class="mf">50</span><span class="p">,</span>
+<span class="w">  </span><span class="s2">&quot;record&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;stop&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="performance-characteristics">Performance Characteristics</h2>
+<ul>
+<li><strong>Memory Usage</strong>: ~2MB for complete state system</li>
+<li><strong>Update Latency</strong>: &lt;1ms for state changes</li>
+<li><strong>Broadcast Time</strong>: &lt;10ms to all connected clients</li>
+<li><strong>Concurrent Clients</strong>: Tested with 25+ simultaneous connections</li>
+</ul>
+<h2 id="error-handling">Error Handling</h2>
+<h3 id="validation">Validation</h3>
+<div class="codehilite"><pre><span></span><code><span class="c"># Type-safe state updates</span>
+<span class="k">proc</span><span class="w"> </span><span class="nf">validateStateValue</span><span class="p">(</span><span class="n">key</span><span class="p">:</span><span class="w"> </span><span class="nb">string</span><span class="p">,</span><span class="w"> </span><span class="n">value</span><span class="p">:</span><span class="w"> </span><span class="n">JsonNode</span><span class="p">):</span><span class="w"> </span><span class="nb">bool</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="k">case</span><span class="w"> </span><span class="n">key</span><span class="p">:</span>
+<span class="w">  </span><span class="k">of</span><span class="w"> </span><span class="nl">&quot;brightness&quot;</span><span class="o">:</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">value</span><span class="p">.</span><span class="n">getInt</span><span class="p">()</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="mf">0</span><span class="p">..</span><span class="mi">100</span>
+<span class="w">  </span><span class="k">of</span><span class="w"> </span><span class="nl">&quot;resolution&quot;</span><span class="o">:</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">value</span><span class="p">.</span><span class="n">getStr</span><span class="p">()</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="o">[</span><span class="s">&quot;1920x1080&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;1280x720&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;640x480&quot;</span><span class="o">]</span>
+<span class="w">  </span><span class="k">else</span><span class="p">:</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="kp">true</span>
+</code></pre></div>
+
+<h3 id="error-recovery">Error Recovery</h3>
+<ul>
+<li>Invalid state changes are rejected with error messages</li>
+<li>State inconsistencies trigger automatic correction</li>
+<li>Hardware failures result in safe fallback states</li>
+</ul>
+<h2 id="development-guide">Development Guide</h2>
+<h3 id="adding-new-state">Adding New State</h3>
+<ol>
+<li>Create observable in appropriate state module</li>
+<li>Add API mapping in <code>websocketApiV1Handler.nim</code></li>
+<li>Define permissions in <code>permissions.nim</code></li>
+<li>Add persistence if needed</li>
+<li>Update client documentation</li>
+</ol>
+<h3 id="state-module-structure">State Module Structure</h3>
+<div class="codehilite"><pre><span></span><code><span class="c"># Example new state module</span>
+<span class="kn">import</span><span class="w"> </span><span class="p">..</span><span class="o">/</span><span class="n">observable</span>
+
+<span class="kd">var</span><span class="w"> </span><span class="n">customState</span><span class="o">*</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">newObservable</span><span class="p">(</span><span class="s">&quot;defaultValue&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">StatePermission</span><span class="p">.</span><span class="n">readWrite</span><span class="p">)</span>
+
+<span class="k">proc</span><span class="w"> </span><span class="nf">initCustomState</span><span class="o">*</span><span class="p">()</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="n">customState</span><span class="p">.</span><span class="n">addObserver</span><span class="p">(</span><span class="n">proc</span><span class="p">(</span><span class="n">oldVal</span><span class="p">,</span><span class="w"> </span><span class="n">newVal</span><span class="p">:</span><span class="w"> </span><span class="nb">string</span><span class="p">)</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="c"># React to state changes</span>
+<span class="w">    </span><span class="n">applyHardwareChange</span><span class="p">(</span><span class="n">newVal</span><span class="p">)</span>
+<span class="w">  </span><span class="p">)</span>
+</code></pre></div>
+
+<h2 id="related-documentation">Related Documentation</h2>
+<ul>
+<li><a href="../reference/state-observables.md">Observable Pattern Implementation</a></li>
+<li><a href="../api/websocket-api.md">WebSocket API</a></li>
+<li><a href="../security/permissions.md">Permission System</a></li>
+<li><a href="overview.md">Architecture Overview</a></li>
+</ul>
+<hr />
+<p><em>State management documentation derived from <code>src/state/</code> modules and WebSocket API handler</em></p>
+            </div>
+            <footer class="content-footer">
+                <p>Copyright © 2025 Rotoclear</p>
+            </footer>
+        </main>
+        
+        <button class="mobile-menu-toggle" id="menuToggle" aria-label="Toggle menu">☰</button>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>
+        // Initialize Mermaid
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            securityLevel: 'loose',
+            fontFamily: 'Inter, sans-serif'
+        });
+        
+        // Syntax highlighting
+        hljs.highlightAll();
+        
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.querySelector('.sidebar');
+        
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+        });
+        
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth <= 768 && 
+                !sidebar.contains(e.target) && 
+                !menuToggle.contains(e.target) &&
+                sidebar.classList.contains('active')) {
+                sidebar.classList.remove('active');
+            }
+        });
+        
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

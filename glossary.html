@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glossary - RotoClear Camera Server Documentation</title>
+    <link rel="stylesheet" href="/assets/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1><a href="/index.html">RotoClear Docs</a></h1>
+                <p>Camera Server Documentation</p>
+            </div>
+            <nav class="sidebar-nav">
+                <ul class="nav-menu">
+                    <li class="nav-item depth-0">
+<a href="/index.html">Home</a>
+</li>
+<li class="nav-item depth-0">
+<a href="/getting-started.html">Getting Started</a>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Architecture</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/architecture/overview.html">Overview</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/architecture/state-management.html">State Management</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/architecture/camera-pipeline.html">Camera Pipeline</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/architecture/metadata-sqlite.html">Metadata & SQLite</a>
+</li>
+<li class="nav-folder depth-1">
+<span class="folder-title">Decisions</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-2">
+<a href="/architecture/decisions/ADR-0001-nim-language.html">ADR-0001 Nim Language</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/architecture/decisions/ADR-0002-corun-framework.html">ADR-0002 Corun Framework</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/architecture/decisions/ADR-0003-observable-state.html">ADR-0003 Observable State</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">API Reference</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/api/README.html">Overview</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/api/websocket-api.html">WebSocket API</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/api/http-api.html">HTTP API</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/api/rtsp-streaming.html">RTSP Streaming</a>
+</li>
+<li class="nav-folder depth-1">
+<span class="folder-title">Examples</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-2">
+<a href="/api/examples/python-client.html">Python Client</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/api/examples/javascript-client.html">JavaScript Client</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/api/examples/csharp-client.html">C# Client</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Configuration</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/configuration/environments.html">Environments</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/factory-config.html">Factory Config</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/license-config.html">License Config</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/deployment-variants.html">Deployment Variants</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/camera-system.html">Camera System</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/network.html">Network</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/storage-backup.html">Storage & Backup</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/authentication.html">Authentication</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Camera System</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/camera/hardware-interface.html">Hardware Interface</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/camera/streaming.html">Streaming</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/camera/recording.html">Recording</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/camera/image-processing.html">Image Processing</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Operations</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/operations/build-and-deploy.html">Build and Deploy</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/build-deploy.html">Build & Deploy (Alt)</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/monitoring.html">Monitoring</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/performance.html">Performance</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/troubleshooting.html">Troubleshooting</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Security</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/security/authentication.html">Authentication</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/security/permissions.html">Permissions</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/security/ssl-certificates.html">SSL Certificates</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Testing</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/testing/testing-strategy.html">Strategy</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/testing/strategies.html">Strategies</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/testing/test-cases.html">Test Cases</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/testing/validation.html">Validation</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Integration</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/integration/onvif-protocol.html">ONVIF Protocol</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/integration/third-party.html">Third Party</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Reference</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/reference/glossary.html">Glossary</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/reference/requirements.html">Requirements</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/reference/state-observables.html">State Observables</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Releases</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/releases/CHANGELOG.html">Changelog</a>
+</li>
+</ul>
+</li>
+<li class="nav-item depth-0 active">
+<a href="/glossary.html">Glossary</a>
+</li>
+                </ul>
+            </nav>
+        </aside>
+        
+        <main class="content">
+            <div class="content-wrapper">
+                <h1 id="glossary">Glossary</h1>
+<p><strong>Technical terms and acronyms used in the Rotoclear Camera Server documentation.</strong></p>
+<h2 id="project-specific-terms">Project-Specific Terms</h2>
+<p><strong>Rotoclear C Pro:</strong> Industrial imaging device with rotating disc mechanism for enhanced image quality.</p>
+<p><strong>Camera Head:</strong> Physical camera module that can be attached to the Rotoclear system. Supports multiple sensors.</p>
+<p><strong>Disc Rotation:</strong> Mechanical rotation of the imaging disc at configurable RPM for image enhancement.</p>
+<p><strong>Factory Configuration:</strong> JSON-based configuration file that defines core system behavior and hardware settings.</p>
+<p><strong>License Configuration:</strong> Feature licensing system that enables/disables specific capabilities based on deployment variant.</p>
+<p><strong>Observable State:</strong> Reactive state management pattern where state changes trigger notifications to subscribers.</p>
+<p><strong>Version Flavor:</strong> Deployment variant identifier (DEV, DEMO, EDU, VB, DMG) that determines configuration and features.</p>
+<h2 id="technical-acronyms">Technical Acronyms</h2>
+<p><strong>API:</strong> Application Programming Interface - standardized interface for software communication.</p>
+<p><strong>ARM64:</strong> 64-bit ARM processor architecture used in embedded Rotoclear devices.</p>
+<p><strong>AVI:</strong> Audio Video Interleave - video file format used for recordings.</p>
+<p><strong>C4:</strong> Context, Container, Component, Class - architectural documentation framework.</p>
+<p><strong>DMG:</strong> Specific deployment variant/configuration of the Rotoclear system.</p>
+<p><strong>EDU:</strong> Educational deployment variant with specific feature set for educational institutions.</p>
+<p><strong>FPGA:</strong> Field-Programmable Gate Array - reconfigurable hardware component.</p>
+<p><strong>GStreamer:</strong> Multimedia framework for handling video/audio streams and processing.</p>
+<p><strong>HTTP/HTTPS:</strong> HyperText Transfer Protocol (Secure) - web communication protocols.</p>
+<p><strong>JPEG:</strong> Joint Photographic Experts Group - compressed image format.</p>
+<p><strong>JSON:</strong> JavaScript Object Notation - human-readable data interchange format.</p>
+<p><strong>ONVIF:</strong> Open Network Video Interface Forum - standardized protocol for IP cameras.</p>
+<p><strong>ORC:</strong> Nim's reference counting garbage collector optimized for real-time systems.</p>
+<p><strong>PIP:</strong> Picture-in-Picture - display mode showing multiple camera feeds simultaneously.</p>
+<p><strong>RPM:</strong> Revolutions Per Minute - measurement unit for disc rotation speed.</p>
+<p><strong>RTSP:</strong> Real Time Streaming Protocol - network protocol for media streaming.</p>
+<p><strong>SSH:</strong> Secure Shell - encrypted network protocol for remote device access.</p>
+<p><strong>SSL/TLS:</strong> Secure Sockets Layer/Transport Layer Security - encryption protocols for secure communication.</p>
+<p><strong>V4L2:</strong> Video4Linux version 2 - Linux kernel interface for video capture devices.</p>
+<p><strong>WebRTC:</strong> Web Real-Time Communication - browser-based real-time video/audio communication.</p>
+<p><strong>WebSocket:</strong> Full-duplex communication protocol over TCP for real-time web applications.</p>
+<h2 id="development-terms">Development Terms</h2>
+<p><strong>ADR:</strong> Architecture Decision Record - document capturing important architectural decisions.</p>
+<p><strong>CI/CD:</strong> Continuous Integration/Continuous Deployment - automated build and deployment processes.</p>
+<p><strong>Cross-compilation:</strong> Building software for a different target platform than the development platform.</p>
+<p><strong>DoD:</strong> Definition of Done - criteria that must be met for work to be considered complete.</p>
+<p><strong>DoR:</strong> Definition of Ready - criteria that must be met before work can begin.</p>
+<p><strong>Embedded System:</strong> Computer system with dedicated function within larger mechanical/electrical system.</p>
+<p><strong>Hot Reload:</strong> Development feature allowing code changes without full application restart.</p>
+<p><strong>Mock:</strong> Simulated object/service used for testing instead of real dependencies.</p>
+<p><strong>ORM:</strong> Object-Relational Mapping - technique for database interaction using object-oriented paradigms.</p>
+<p><strong>SDK:</strong> Software Development Kit - collection of tools for developing applications.</p>
+<p><strong>SLA:</strong> Service Level Agreement - commitment between service provider and client.</p>
+<p><strong>Unit Test:</strong> Automated test verifying individual software components in isolation.</p>
+<p><strong>WIP:</strong> Work In Progress - tasks currently being worked on but not yet complete.</p>
+<h2 id="network-and-protocol-terms">Network and Protocol Terms</h2>
+<p><strong>Basic Auth:</strong> Simple HTTP authentication scheme using username and password.</p>
+<p><strong>DHCP:</strong> Dynamic Host Configuration Protocol - automatic IP address assignment.</p>
+<p><strong>DNS:</strong> Domain Name System - hierarchical naming system for network resources.</p>
+<p><strong>Gateway:</strong> Network device connecting different networks (e.g., local network to internet).</p>
+<p><strong>IP Address:</strong> Internet Protocol address - unique identifier for network devices.</p>
+<p><strong>MAC Address:</strong> Media Access Control address - unique hardware identifier for network interfaces.</p>
+<p><strong>Netmask:</strong> Network mask defining which portion of IP address represents network vs. host.</p>
+<p><strong>Port:</strong> Communication endpoint for network services (e.g., port 80 for HTTP).</p>
+<p><strong>SMB/CIFS:</strong> Server Message Block/Common Internet File System - network file sharing protocol.</p>
+<p><strong>TCP/UDP:</strong> Transmission Control Protocol/User Datagram Protocol - core internet protocols.</p>
+<p><strong>URL/URI:</strong> Uniform Resource Locator/Identifier - web address format.</p>
+<h2 id="camera-and-media-terms">Camera and Media Terms</h2>
+<p><strong>Codec:</strong> Compression/decompression algorithm for video/audio data.</p>
+<p><strong>Exposure:</strong> Amount of light reaching camera sensor, affecting image brightness.</p>
+<p><strong>FPS:</strong> Frames Per Second - video frame rate measurement.</p>
+<p><strong>Gain:</strong> Camera sensor amplification, similar to ISO in photography.</p>
+<p><strong>Pipeline:</strong> Series of connected processing stages for media data (GStreamer concept).</p>
+<p><strong>Resolution:</strong> Image dimensions in pixels (width × height).</p>
+<p><strong>Sensor:</strong> Light-sensitive electronic component that captures images.</p>
+<p><strong>Timestamp:</strong> Date/time information embedded in images or videos.</p>
+<p><strong>White Balance:</strong> Color correction adjusting for different lighting conditions.</p>
+<h2 id="system-administration-terms">System Administration Terms</h2>
+<p><strong>Daemon:</strong> Background service running continuously on Unix-like systems.</p>
+<p><strong>Log Rotation:</strong> Automatic management of log files to prevent disk space issues.</p>
+<p><strong>Process ID (PID):</strong> Unique identifier for running system processes.</p>
+<p><strong>Service:</strong> System background process managed by service manager (systemd).</p>
+<p><strong>Syslog:</strong> Standard logging system for Unix-like operating systems.</p>
+<p><strong>Systemctl:</strong> Command-line utility for controlling systemd services.</p>
+<p><strong>Uptime:</strong> Time duration system has been running since last boot.</p>
+<h2 id="build-and-deployment-terms">Build and Deployment Terms</h2>
+<p><strong>Artifact:</strong> File or package produced by build process (e.g., compiled binary).</p>
+<p><strong>Build Cache:</strong> Stored intermediate build results to speed up subsequent builds.</p>
+<p><strong>Cross-platform:</strong> Software designed to work on multiple operating systems or architectures.</p>
+<p><strong>Link-time Optimization (LTO):</strong> Compiler optimization performed during linking phase.</p>
+<p><strong>Makefile:</strong> Build automation script defining compilation rules and dependencies.</p>
+<p><strong>Package Manager:</strong> Tool for installing, updating, and managing software packages.</p>
+<p><strong>Release Build:</strong> Optimized build configuration for production deployment.</p>
+<p><strong>Staging Environment:</strong> Pre-production environment for testing before live deployment.</p>
+<p><strong>Target Platform:</strong> Specific hardware/software environment where application will run.</p>
+<h2 id="security-terms">Security Terms</h2>
+<p><strong>API Token:</strong> Authentication credential for programmatic API access.</p>
+<p><strong>Certificate:</strong> Digital document verifying identity for secure communications.</p>
+<p><strong>Encryption:</strong> Process of encoding data to prevent unauthorized access.</p>
+<p><strong>Firewall:</strong> Network security system controlling incoming/outgoing traffic.</p>
+<p><strong>Hash:</strong> Fixed-size string produced by cryptographic hash function.</p>
+<p><strong>Permissions:</strong> Access control mechanism defining what actions users/processes can perform.</p>
+<p><strong>Private Key:</strong> Secret cryptographic key used for decryption and digital signing.</p>
+<p><strong>Public Key:</strong> Publicly shareable cryptographic key used for encryption and verification.</p>
+<p><strong>Salt:</strong> Random data added to passwords before hashing for security.</p>
+<p><strong>Two-Factor Authentication (2FA):</strong> Security method requiring two different authentication factors.</p>
+<h2 id="quality-assurance-terms">Quality Assurance Terms</h2>
+<p><strong>Acceptance Test:</strong> Testing to verify system meets business requirements.</p>
+<p><strong>Assertion:</strong> Statement in test code verifying expected behavior or outcome.</p>
+<p><strong>Code Coverage:</strong> Measurement of how much code is executed during testing.</p>
+<p><strong>Integration Test:</strong> Testing interaction between different system components.</p>
+<p><strong>Load Test:</strong> Testing system behavior under expected operational conditions.</p>
+<p><strong>Regression Test:</strong> Testing to ensure new changes don't break existing functionality.</p>
+<p><strong>Smoke Test:</strong> Basic testing to verify fundamental functionality works.</p>
+<p><strong>Stress Test:</strong> Testing system behavior under extreme or peak load conditions.</p>
+<p><strong>Test Fixture:</strong> Fixed state used as baseline for running tests.</p>
+<p><strong>Test Suite:</strong> Collection of test cases designed to test software program.</p>
+<hr />
+            </div>
+            <footer class="content-footer">
+                <p>Copyright © 2025 Rotoclear</p>
+            </footer>
+        </main>
+        
+        <button class="mobile-menu-toggle" id="menuToggle" aria-label="Toggle menu">☰</button>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>
+        // Initialize Mermaid
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            securityLevel: 'loose',
+            fontFamily: 'Inter, sans-serif'
+        });
+        
+        // Syntax highlighting
+        hljs.highlightAll();
+        
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.querySelector('.sidebar');
+        
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+        });
+        
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth <= 768 && 
+                !sidebar.contains(e.target) && 
+                !menuToggle.contains(e.target) &&
+                sidebar.classList.contains('active')) {
+                sidebar.classList.remove('active');
+            }
+        });
+        
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

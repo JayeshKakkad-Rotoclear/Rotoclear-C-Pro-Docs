@@ -1,0 +1,1309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Build & Deploy (Alt) - RotoClear Camera Server Documentation</title>
+    <link rel="stylesheet" href="/assets/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1><a href="/index.html">RotoClear Docs</a></h1>
+                <p>Camera Server Documentation</p>
+            </div>
+            <nav class="sidebar-nav">
+                <ul class="nav-menu">
+                    <li class="nav-item depth-0">
+<a href="/index.html">Home</a>
+</li>
+<li class="nav-item depth-0">
+<a href="/getting-started.html">Getting Started</a>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Architecture</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/architecture/overview.html">Overview</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/architecture/state-management.html">State Management</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/architecture/camera-pipeline.html">Camera Pipeline</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/architecture/metadata-sqlite.html">Metadata & SQLite</a>
+</li>
+<li class="nav-folder depth-1">
+<span class="folder-title">Decisions</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-2">
+<a href="/architecture/decisions/ADR-0001-nim-language.html">ADR-0001 Nim Language</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/architecture/decisions/ADR-0002-corun-framework.html">ADR-0002 Corun Framework</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/architecture/decisions/ADR-0003-observable-state.html">ADR-0003 Observable State</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">API Reference</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/api/README.html">Overview</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/api/websocket-api.html">WebSocket API</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/api/http-api.html">HTTP API</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/api/rtsp-streaming.html">RTSP Streaming</a>
+</li>
+<li class="nav-folder depth-1">
+<span class="folder-title">Examples</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-2">
+<a href="/api/examples/python-client.html">Python Client</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/api/examples/javascript-client.html">JavaScript Client</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/api/examples/csharp-client.html">C# Client</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Configuration</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/configuration/environments.html">Environments</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/factory-config.html">Factory Config</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/license-config.html">License Config</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/deployment-variants.html">Deployment Variants</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/camera-system.html">Camera System</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/network.html">Network</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/storage-backup.html">Storage & Backup</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/authentication.html">Authentication</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Camera System</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/camera/hardware-interface.html">Hardware Interface</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/camera/streaming.html">Streaming</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/camera/recording.html">Recording</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/camera/image-processing.html">Image Processing</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Operations</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/operations/build-and-deploy.html">Build and Deploy</a>
+</li>
+<li class="nav-item depth-1 active">
+<a href="/operations/build-deploy.html">Build & Deploy (Alt)</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/monitoring.html">Monitoring</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/performance.html">Performance</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/troubleshooting.html">Troubleshooting</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Security</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/security/authentication.html">Authentication</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/security/permissions.html">Permissions</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/security/ssl-certificates.html">SSL Certificates</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Testing</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/testing/testing-strategy.html">Strategy</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/testing/strategies.html">Strategies</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/testing/test-cases.html">Test Cases</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/testing/validation.html">Validation</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Integration</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/integration/onvif-protocol.html">ONVIF Protocol</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/integration/third-party.html">Third Party</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Reference</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/reference/glossary.html">Glossary</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/reference/requirements.html">Requirements</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/reference/state-observables.html">State Observables</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Releases</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/releases/CHANGELOG.html">Changelog</a>
+</li>
+</ul>
+</li>
+<li class="nav-item depth-0">
+<a href="/glossary.html">Glossary</a>
+</li>
+                </ul>
+            </nav>
+        </aside>
+        
+        <main class="content">
+            <div class="content-wrapper">
+                <h1 id="build-and-deployment-guide">Build and Deployment Guide</h1>
+<p><strong>Comprehensive guide for building, testing, and deploying C Pro camera system.</strong></p>
+<h2 id="overview">Overview</h2>
+<p>This guide covers the complete build and deployment process, from source compilation to production deployment, including continuous integration and deployment strategies.</p>
+<div class="mermaid">
+graph TB
+    A[Source Code] --> B{Build Pipeline}
+
+    B -->|Compile| C[Nim Compilation]
+    B -->|Assets| D[Asset Processing]
+    B -->|Config| E[Configuration Build]
+
+    C --> F[Unit Testing]
+    D --> F
+    E --> F
+
+    F --> G{Quality Gates}
+    G -->|Pass| H[Package Creation]
+    G -->|Fail| I[Build Failed]
+
+    H --> J[Integration Testing]
+    J --> K{Deployment Strategy}
+
+    K -->|Dev| L[Development Deploy]
+    K -->|Staging| M[Staging Deploy]
+    K -->|Production| N[Production Deploy]
+
+    L --> O[Smoke Testing]
+    M --> O
+    N --> O
+
+    O --> P{Health Check}
+    P -->|Success| Q[Deployment Complete]
+    P -->|Failure| R[Rollback]
+
+    R --> S[Previous Version]
+    Q --> T[Monitoring]
+</div>
+
+<h2 id="development-environment-setup">Development Environment Setup</h2>
+<h3 id="prerequisites">Prerequisites</h3>
+<p><strong>System Requirements</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Ubuntu/Debian</span>
+sudo<span class="w"> </span>apt<span class="w"> </span>update
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>build-essential<span class="w"> </span>git<span class="w"> </span>curl<span class="w"> </span>wget
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>libssl-dev<span class="w"> </span>libusb-1.0-0-dev
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>pkg-config<span class="w"> </span>cmake<span class="w"> </span>ninja-build
+
+<span class="c1"># Install Nim compiler</span>
+curl<span class="w"> </span>https://nim-lang.org/choosenim/init.sh<span class="w"> </span>-sSf<span class="w"> </span><span class="p">|</span><span class="w"> </span>sh
+<span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;export PATH=$HOME/.nimble/bin:$PATH&#39;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>~/.bashrc
+<span class="nb">source</span><span class="w"> </span>~/.bashrc
+
+<span class="c1"># Verify installation</span>
+nim<span class="w"> </span>--version
+nimble<span class="w"> </span>--version
+</code></pre></div>
+
+<p><strong>Dependencies Installation</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Install system dependencies</span>
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>libv4l-dev<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>libgstreamer1.0-dev<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>libgstreamer-plugins-base1.0-dev<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>libavformat-dev<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>libavcodec-dev<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>libavutil-dev
+
+<span class="c1"># Install Nim packages</span>
+nimble<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>httpbeast
+nimble<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>ws
+nimble<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>json
+nimble<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>yaml
+nimble<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>crunchy
+</code></pre></div>
+
+<h3 id="build-configuration">Build Configuration</h3>
+<p><strong>Project Structure</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">rotordream</span><span class="o">/</span>
+<span class="err">├──</span><span class="w"> </span><span class="n">src</span><span class="o">/</span><span class="w">                    </span><span class="c1"># Source code</span>
+<span class="err">├──</span><span class="w"> </span><span class="n">tests</span><span class="o">/</span><span class="w">                  </span><span class="c1"># Test files</span>
+<span class="err">├──</span><span class="w"> </span><span class="n">config</span><span class="o">/</span><span class="w">                 </span><span class="c1"># Configuration files</span>
+<span class="err">├──</span><span class="w"> </span><span class="n">assets</span><span class="o">/</span><span class="w">                 </span><span class="c1"># Static assets</span>
+<span class="err">├──</span><span class="w"> </span><span class="n">tools</span><span class="o">/</span><span class="w">                  </span><span class="c1"># Build tools</span>
+<span class="err">├──</span><span class="w"> </span><span class="n">docs</span><span class="o">/</span><span class="w">                   </span><span class="c1"># Documentation</span>
+<span class="err">├──</span><span class="w"> </span><span class="n">rotordream</span><span class="o">.</span><span class="n">nimble</span><span class="w">       </span><span class="c1"># Package definition</span>
+<span class="err">├──</span><span class="w"> </span><span class="n">config</span><span class="o">.</span><span class="n">nims</span><span class="w">             </span><span class="c1"># Nim configuration</span>
+<span class="err">├──</span><span class="w"> </span><span class="n">nim</span><span class="o">.</span><span class="n">cfg</span><span class="w">                 </span><span class="c1"># Compiler settings</span>
+<span class="err">└──</span><span class="w"> </span><span class="n">Makefile</span><span class="w">               </span><span class="c1"># Build automation</span>
+</code></pre></div>
+
+<p><strong>Build Configuration Files</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c"># config.nims</span>
+<span class="k">when</span><span class="w"> </span><span class="n">defined</span><span class="p">(</span><span class="n">release</span><span class="p">):</span>
+<span class="w">  </span><span class="o">--</span><span class="n">opt</span><span class="p">:</span><span class="n">speed</span>
+<span class="w">  </span><span class="o">--</span><span class="n">define</span><span class="p">:</span><span class="n">release</span>
+<span class="w">  </span><span class="o">--</span><span class="n">passC</span><span class="p">:</span><span class="s">&quot;-march=native&quot;</span>
+<span class="w">  </span><span class="o">--</span><span class="n">passC</span><span class="p">:</span><span class="s">&quot;-mtune=native&quot;</span>
+<span class="w">  </span><span class="o">--</span><span class="n">gc</span><span class="p">:</span><span class="n">arc</span>
+
+<span class="k">when</span><span class="w"> </span><span class="n">defined</span><span class="p">(</span><span class="n">debug</span><span class="p">):</span>
+<span class="w">  </span><span class="o">--</span><span class="n">debuginfo</span>
+<span class="w">  </span><span class="o">--</span><span class="n">lineDir</span><span class="p">:</span><span class="n">on</span>
+<span class="w">  </span><span class="o">--</span><span class="n">stackTrace</span><span class="p">:</span><span class="n">on</span>
+<span class="w">  </span><span class="o">--</span><span class="n">linetrace</span><span class="p">:</span><span class="n">on</span>
+
+<span class="c"># Enable threading</span>
+<span class="o">--</span><span class="n">threads</span><span class="p">:</span><span class="n">on</span>
+<span class="o">--</span><span class="n">tlsEmulation</span><span class="p">:</span><span class="n">off</span>
+
+<span class="c"># Link libraries</span>
+<span class="o">--</span><span class="n">passL</span><span class="p">:</span><span class="s">&quot;-lv4l2&quot;</span>
+<span class="o">--</span><span class="n">passL</span><span class="p">:</span><span class="s">&quot;-lgstreamer-1.0&quot;</span>
+<span class="o">--</span><span class="n">passL</span><span class="p">:</span><span class="s">&quot;-lgobject-2.0&quot;</span>
+<span class="o">--</span><span class="n">passL</span><span class="p">:</span><span class="s">&quot;-lglib-2.0&quot;</span>
+</code></pre></div>
+
+<h2 id="build-process">Build Process</h2>
+<h3 id="local-development-build">Local Development Build</h3>
+<p><strong>Quick Development Build</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Clone repository</span>
+git<span class="w"> </span>clone<span class="w"> </span>https://github.com/company/rotordream.git
+<span class="nb">cd</span><span class="w"> </span>rotordream
+
+<span class="c1"># Build for development</span>
+nimble<span class="w"> </span>build
+
+<span class="c1"># Run with development configuration</span>
+./rotordream<span class="w"> </span>--config<span class="w"> </span>config/development.ini
+
+<span class="c1"># Build with debug information</span>
+nim<span class="w"> </span>c<span class="w"> </span>-d:debug<span class="w"> </span>--debuginfo<span class="w"> </span>--lineDir:on<span class="w"> </span>src/rotordream.nim
+</code></pre></div>
+
+<p><strong>Development Tasks</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Run tests</span>
+nimble<span class="w"> </span><span class="nb">test</span>
+
+<span class="c1"># Run specific test</span>
+nim<span class="w"> </span>c<span class="w"> </span>-r<span class="w"> </span>tests/test_camera.nim
+
+<span class="c1"># Check code formatting</span>
+nim<span class="w"> </span>fmt<span class="w"> </span>src/
+
+<span class="c1"># Run linter</span>
+nim<span class="w"> </span>check<span class="w"> </span>src/rotordream.nim
+
+<span class="c1"># Generate documentation</span>
+nim<span class="w"> </span>doc<span class="w"> </span>--project<span class="w"> </span>--out:docs/api<span class="w"> </span>src/rotordream.nim
+</code></pre></div>
+
+<h3 id="production-build">Production Build</h3>
+<p><strong>Optimized Build</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Build for production with optimizations</span>
+nim<span class="w"> </span>c<span class="w"> </span>-d:release<span class="w"> </span>--opt:speed<span class="w"> </span>--app:console<span class="w"> </span>--cpu:amd64<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--os:linux<span class="w"> </span>--gc:arc<span class="w"> </span>--threads:on<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--passC:<span class="s2">&quot;-march=native -mtune=native -O3&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--passL:<span class="s2">&quot;-s -static-libgcc&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--out:bin/rotordream<span class="w"> </span>src/rotordream.nim
+
+<span class="c1"># Cross-compile for ARM</span>
+nim<span class="w"> </span>c<span class="w"> </span>-d:release<span class="w"> </span>--opt:speed<span class="w"> </span>--cpu:arm64<span class="w"> </span>--os:linux<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--passC:<span class="s2">&quot;-march=armv8-a -mtune=cortex-a72&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--out:bin/rotordream-arm64<span class="w"> </span>src/rotordream.nim
+
+<span class="c1"># Build with specific features</span>
+nim<span class="w"> </span>c<span class="w"> </span>-d:release<span class="w"> </span>-d:ssl<span class="w"> </span>-d:camera_v4l2<span class="w"> </span>-d:streaming_gst<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--out:bin/rotordream-full<span class="w"> </span>src/rotordream.nim
+</code></pre></div>
+
+<p><strong>Build Scripts</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="ch">#!/bin/bash</span>
+<span class="c1"># tools/build.sh</span>
+
+<span class="nb">set</span><span class="w"> </span>-e
+
+<span class="nv">BUILD_TYPE</span><span class="o">=</span><span class="si">${</span><span class="nv">1</span><span class="k">:-</span><span class="nv">release</span><span class="si">}</span>
+<span class="nv">TARGET_ARCH</span><span class="o">=</span><span class="si">${</span><span class="nv">2</span><span class="k">:-</span><span class="nv">x86_64</span><span class="si">}</span>
+<span class="nv">OUTPUT_DIR</span><span class="o">=</span><span class="s2">&quot;build/</span><span class="si">${</span><span class="nv">TARGET_ARCH</span><span class="si">}</span><span class="s2">&quot;</span>
+
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Building C Pro (</span><span class="si">${</span><span class="nv">BUILD_TYPE</span><span class="si">}</span><span class="s2">) for </span><span class="si">${</span><span class="nv">TARGET_ARCH</span><span class="si">}</span><span class="s2">&quot;</span>
+
+<span class="c1"># Create output directory</span>
+mkdir<span class="w"> </span>-p<span class="w"> </span><span class="si">${</span><span class="nv">OUTPUT_DIR</span><span class="si">}</span>
+
+<span class="c1"># Build flags</span>
+<span class="nv">FLAGS</span><span class="o">=</span><span class="s2">&quot;&quot;</span>
+<span class="k">case</span><span class="w"> </span><span class="si">${</span><span class="nv">BUILD_TYPE</span><span class="si">}</span><span class="w"> </span><span class="k">in</span>
+<span class="w">    </span>debug<span class="o">)</span>
+<span class="w">        </span><span class="nv">FLAGS</span><span class="o">=</span><span class="s2">&quot;-d:debug --debuginfo --lineDir:on&quot;</span>
+<span class="w">        </span><span class="p">;;</span>
+<span class="w">    </span>release<span class="o">)</span>
+<span class="w">        </span><span class="nv">FLAGS</span><span class="o">=</span><span class="s2">&quot;-d:release --opt:speed&quot;</span>
+<span class="w">        </span><span class="p">;;</span>
+<span class="w">    </span>*<span class="o">)</span>
+<span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Unknown build type: </span><span class="si">${</span><span class="nv">BUILD_TYPE</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="w">        </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span>
+<span class="w">        </span><span class="p">;;</span>
+<span class="k">esac</span>
+
+<span class="c1"># Architecture-specific flags</span>
+<span class="k">case</span><span class="w"> </span><span class="si">${</span><span class="nv">TARGET_ARCH</span><span class="si">}</span><span class="w"> </span><span class="k">in</span>
+<span class="w">    </span>x86_64<span class="o">)</span>
+<span class="w">        </span><span class="nv">FLAGS</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">FLAGS</span><span class="si">}</span><span class="s2"> --cpu:amd64 --passC:&#39;-march=native -mtune=native&#39;&quot;</span>
+<span class="w">        </span><span class="p">;;</span>
+<span class="w">    </span>arm64<span class="o">)</span>
+<span class="w">        </span><span class="nv">FLAGS</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">FLAGS</span><span class="si">}</span><span class="s2"> --cpu:arm64 --passC:&#39;-march=armv8-a&#39;&quot;</span>
+<span class="w">        </span><span class="p">;;</span>
+<span class="w">    </span>armhf<span class="o">)</span>
+<span class="w">        </span><span class="nv">FLAGS</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">FLAGS</span><span class="si">}</span><span class="s2"> --cpu:arm --passC:&#39;-march=armv7-a&#39;&quot;</span>
+<span class="w">        </span><span class="p">;;</span>
+<span class="k">esac</span>
+
+<span class="c1"># Compile</span>
+nim<span class="w"> </span>c<span class="w"> </span><span class="si">${</span><span class="nv">FLAGS</span><span class="si">}</span><span class="w"> </span>--out:<span class="si">${</span><span class="nv">OUTPUT_DIR</span><span class="si">}</span>/rotordream<span class="w"> </span>src/rotordream.nim
+
+<span class="c1"># Copy assets</span>
+cp<span class="w"> </span>-r<span class="w"> </span>assets<span class="w"> </span><span class="si">${</span><span class="nv">OUTPUT_DIR</span><span class="si">}</span>/
+cp<span class="w"> </span>-r<span class="w"> </span>config<span class="w"> </span><span class="si">${</span><span class="nv">OUTPUT_DIR</span><span class="si">}</span>/
+
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Build complete: </span><span class="si">${</span><span class="nv">OUTPUT_DIR</span><span class="si">}</span><span class="s2">/rotordream&quot;</span>
+</code></pre></div>
+
+<h2 id="testing">Testing</h2>
+<h3 id="unit-testing">Unit Testing</h3>
+<p><strong>Test Structure</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c"># tests/test_camera.nim</span>
+<span class="kn">import</span><span class="w"> </span><span class="n">unittest</span><span class="p">,</span><span class="w"> </span><span class="n">asynctest</span>
+<span class="kn">import</span><span class="w"> </span><span class="p">..</span><span class="o">/</span><span class="n">src</span><span class="o">/</span><span class="n">camera</span>
+
+<span class="n">suite</span><span class="w"> </span><span class="s">&quot;Camera Tests&quot;</span><span class="p">:</span>
+<span class="w">  </span><span class="n">setup</span><span class="p">:</span>
+<span class="w">    </span><span class="k">discard</span>
+
+<span class="w">  </span><span class="n">teardown</span><span class="p">:</span>
+<span class="w">    </span><span class="k">discard</span>
+
+<span class="w">  </span><span class="n">test</span><span class="w"> </span><span class="s">&quot;camera initialization&quot;</span><span class="p">:</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">camera</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">newCamera</span><span class="p">()</span>
+<span class="w">    </span><span class="n">check</span><span class="w"> </span><span class="n">camera</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kp">nil</span>
+
+<span class="w">  </span><span class="n">test</span><span class="w"> </span><span class="s">&quot;camera capture&quot;</span><span class="p">:</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">camera</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">newCamera</span><span class="p">()</span>
+<span class="w">    </span><span class="n">camera</span><span class="p">.</span><span class="n">initialize</span><span class="p">()</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">frame</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">await</span><span class="w"> </span><span class="n">camera</span><span class="p">.</span><span class="n">captureFrame</span><span class="p">()</span>
+<span class="w">    </span><span class="n">check</span><span class="w"> </span><span class="n">frame</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="n">len</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span>
+
+<span class="w">  </span><span class="n">test</span><span class="w"> </span><span class="s">&quot;camera settings&quot;</span><span class="p">:</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">camera</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">newCamera</span><span class="p">()</span>
+<span class="w">    </span><span class="n">camera</span><span class="p">.</span><span class="n">setResolution</span><span class="p">(</span><span class="mi">1920</span><span class="p">,</span><span class="w"> </span><span class="mi">1080</span><span class="p">)</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="p">(</span><span class="n">width</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">camera</span><span class="p">.</span><span class="n">getResolution</span><span class="p">()</span>
+<span class="w">    </span><span class="n">check</span><span class="w"> </span><span class="n">width</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1920</span>
+<span class="w">    </span><span class="n">check</span><span class="w"> </span><span class="n">height</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1080</span>
+</code></pre></div>
+
+<p><strong>Running Tests</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Run all tests</span>
+nimble<span class="w"> </span><span class="nb">test</span>
+
+<span class="c1"># Run specific test suite</span>
+nim<span class="w"> </span>c<span class="w"> </span>-r<span class="w"> </span>tests/test_camera.nim
+
+<span class="c1"># Run tests with coverage</span>
+nim<span class="w"> </span>c<span class="w"> </span>--passC:<span class="s2">&quot;-fprofile-arcs -ftest-coverage&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--passL:<span class="s2">&quot;-lgcov&quot;</span><span class="w"> </span>-r<span class="w"> </span>tests/test_camera.nim
+
+<span class="c1"># Generate coverage report</span>
+gcov<span class="w"> </span>tests/test_camera.nim
+</code></pre></div>
+
+<h3 id="integration-testing">Integration Testing</h3>
+<p><strong>Integration Test Setup</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="ch">#!/bin/bash</span>
+<span class="c1"># tests/integration/run_tests.sh</span>
+
+<span class="c1"># Start test environment</span>
+docker-compose<span class="w"> </span>-f<span class="w"> </span>tests/docker-compose.test.yml<span class="w"> </span>up<span class="w"> </span>-d
+
+<span class="c1"># Wait for services</span>
+sleep<span class="w"> </span><span class="m">10</span>
+
+<span class="c1"># Run API tests</span>
+<span class="nb">cd</span><span class="w"> </span>tests/integration
+python<span class="w"> </span>test_api.py
+python<span class="w"> </span>test_streaming.py
+python<span class="w"> </span>test_recording.py
+
+<span class="c1"># Cleanup</span>
+docker-compose<span class="w"> </span>-f<span class="w"> </span>tests/docker-compose.test.yml<span class="w"> </span>down
+</code></pre></div>
+
+<p><strong>API Integration Tests</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># tests/integration/test_api.py</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">unittest</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">APIIntegrationTest</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+    <span class="n">BASE_URL</span> <span class="o">=</span> <span class="s2">&quot;http://localhost:8080/api&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># Wait for service to be ready</span>
+        <span class="n">timeout</span> <span class="o">=</span> <span class="mi">30</span>
+        <span class="k">while</span> <span class="n">timeout</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">BASE_URL</span><span class="si">}</span><span class="s2">/status&quot;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
+                    <span class="k">break</span>
+            <span class="k">except</span> <span class="n">requests</span><span class="o">.</span><span class="n">ConnectionError</span><span class="p">:</span>
+                <span class="k">pass</span>
+            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">timeout</span> <span class="o">-=</span> <span class="mi">1</span>
+
+        <span class="k">if</span> <span class="n">timeout</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fail</span><span class="p">(</span><span class="s2">&quot;Service did not start in time&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_system_status</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">BASE_URL</span><span class="si">}</span><span class="s2">/status&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s2">&quot;status&quot;</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_camera_info</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">BASE_URL</span><span class="si">}</span><span class="s2">/camera/info&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s2">&quot;camera&quot;</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_streaming_endpoints</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">BASE_URL</span><span class="si">}</span><span class="s2">/streaming/endpoints&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s2">&quot;rtsp_url&quot;</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">unittest</span><span class="o">.</span><span class="n">main</span><span class="p">()</span>
+</code></pre></div>
+
+<h3 id="performance-testing">Performance Testing</h3>
+<p><strong>Load Testing</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="ch">#!/bin/bash</span>
+<span class="c1"># tests/performance/load_test.sh</span>
+
+<span class="c1"># API load test</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Starting API load test...&quot;</span>
+ab<span class="w"> </span>-n<span class="w"> </span><span class="m">1000</span><span class="w"> </span>-c<span class="w"> </span><span class="m">10</span><span class="w"> </span>http://localhost:8080/api/status
+
+<span class="c1"># Streaming load test</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Starting streaming load test...&quot;</span>
+<span class="k">for</span><span class="w"> </span>i<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="o">{</span><span class="m">1</span>..10<span class="o">}</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<span class="w">    </span>ffmpeg<span class="w"> </span>-f<span class="w"> </span>lavfi<span class="w"> </span>-i<span class="w"> </span>testsrc<span class="w"> </span>-t<span class="w"> </span><span class="m">30</span><span class="w"> </span>-f<span class="w"> </span>rtsp<span class="w"> </span>rtsp://localhost:554/test_<span class="nv">$i</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="k">done</span>
+<span class="nb">wait</span>
+
+<span class="c1"># Memory usage test</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Starting memory usage test...&quot;</span>
+valgrind<span class="w"> </span>--tool<span class="o">=</span>memcheck<span class="w"> </span>--leak-check<span class="o">=</span>full<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>./bin/rotordream<span class="w"> </span>--config<span class="w"> </span>tests/test.ini<span class="w"> </span><span class="p">&amp;</span>
+<span class="nv">PID</span><span class="o">=</span><span class="nv">$!</span>
+sleep<span class="w"> </span><span class="m">60</span>
+<span class="nb">kill</span><span class="w"> </span><span class="nv">$PID</span>
+</code></pre></div>
+
+<h2 id="packaging">Packaging</h2>
+<h3 id="debian-package">Debian Package</h3>
+<p><strong>Package Structure</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">rotordream_1</span><span class="o">.</span><span class="mf">0.0</span><span class="o">/</span>
+<span class="err">├──</span><span class="w"> </span><span class="n">DEBIAN</span><span class="o">/</span>
+<span class="err">│</span><span class="w">   </span><span class="err">├──</span><span class="w"> </span><span class="n">control</span>
+<span class="err">│</span><span class="w">   </span><span class="err">├──</span><span class="w"> </span><span class="n">postinst</span>
+<span class="err">│</span><span class="w">   </span><span class="err">├──</span><span class="w"> </span><span class="n">prerm</span>
+<span class="err">│</span><span class="w">   </span><span class="err">└──</span><span class="w"> </span><span class="n">postrm</span>
+<span class="err">├──</span><span class="w"> </span><span class="n">usr</span><span class="o">/</span>
+<span class="err">│</span><span class="w">   </span><span class="err">├──</span><span class="w"> </span><span class="n">bin</span><span class="o">/</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">   </span><span class="err">└──</span><span class="w"> </span><span class="n">rotordream</span>
+<span class="err">│</span><span class="w">   </span><span class="err">├──</span><span class="w"> </span><span class="n">lib</span><span class="o">/</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">   </span><span class="err">└──</span><span class="w"> </span><span class="n">rotordream</span><span class="o">/</span>
+<span class="err">│</span><span class="w">   </span><span class="err">└──</span><span class="w"> </span><span class="n">share</span><span class="o">/</span>
+<span class="err">│</span><span class="w">       </span><span class="err">├──</span><span class="w"> </span><span class="n">doc</span><span class="o">/</span><span class="n">rotordream</span><span class="o">/</span>
+<span class="err">│</span><span class="w">       </span><span class="err">└──</span><span class="w"> </span><span class="n">man</span><span class="o">/</span><span class="n">man1</span><span class="o">/</span>
+<span class="err">├──</span><span class="w"> </span><span class="n">etc</span><span class="o">/</span>
+<span class="err">│</span><span class="w">   </span><span class="err">├──</span><span class="w"> </span><span class="n">rotordream</span><span class="o">/</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">   </span><span class="err">├──</span><span class="w"> </span><span class="n">config</span><span class="o">.</span><span class="n">ini</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">   </span><span class="err">└──</span><span class="w"> </span><span class="n">logging</span><span class="o">.</span><span class="n">conf</span>
+<span class="err">│</span><span class="w">   </span><span class="err">└──</span><span class="w"> </span><span class="n">systemd</span><span class="o">/</span><span class="n">system</span><span class="o">/</span>
+<span class="err">│</span><span class="w">       </span><span class="err">└──</span><span class="w"> </span><span class="n">rotordream</span><span class="o">.</span><span class="n">service</span>
+<span class="err">└──</span><span class="w"> </span><span class="k">var</span><span class="o">/</span>
+<span class="w">    </span><span class="err">└──</span><span class="w"> </span><span class="n">lib</span><span class="o">/</span><span class="n">rotordream</span><span class="o">/</span>
+</code></pre></div>
+
+<p><strong>Control File</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="err">#</span><span class="w"> </span><span class="n">DEBIAN</span><span class="o">/</span><span class="n">control</span>
+<span class="nl">Package</span><span class="p">:</span><span class="w"> </span><span class="n">rotordream</span>
+<span class="nl">Version</span><span class="p">:</span><span class="w"> </span><span class="mf">1.0.0</span>
+<span class="k">Section</span><span class="err">:</span><span class="w"> </span><span class="n">video</span>
+<span class="nl">Priority</span><span class="p">:</span><span class="w"> </span><span class="n">optional</span>
+<span class="nl">Architecture</span><span class="p">:</span><span class="w"> </span><span class="n">amd64</span>
+<span class="nl">Depends</span><span class="p">:</span><span class="w"> </span><span class="n">libv4l</span><span class="o">-</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">libgstreamer1</span><span class="mf">.0</span><span class="o">-</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">libssl1</span><span class="mf">.1</span>
+<span class="nl">Maintainer</span><span class="p">:</span><span class="w"> </span><span class="n">Rotoclear</span><span class="w"> </span><span class="n">Team</span><span class="w"> </span><span class="o">&lt;</span><span class="n">support</span><span class="nv">@rotordream</span><span class="p">.</span><span class="n">com</span><span class="o">&gt;</span>
+<span class="nl">Description</span><span class="p">:</span><span class="w"> </span><span class="n">Professional</span><span class="w"> </span><span class="n">camera</span><span class="w"> </span><span class="n">management</span><span class="w"> </span><span class="k">system</span>
+<span class="w"> </span><span class="n">C</span><span class="w"> </span><span class="n">Pro</span><span class="w"> </span><span class="n">provides</span><span class="w"> </span><span class="n">comprehensive</span><span class="w"> </span><span class="n">camera</span><span class="w"> </span><span class="n">control</span><span class="p">,</span><span class="w"> </span><span class="n">streaming</span><span class="p">,</span>
+<span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="n">recording</span><span class="w"> </span><span class="n">capabilities</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">professional</span><span class="w"> </span><span class="n">applications</span><span class="p">.</span>
+</code></pre></div>
+
+<p><strong>Build Package</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="ch">#!/bin/bash</span>
+<span class="c1"># tools/build_deb.sh</span>
+
+<span class="nv">VERSION</span><span class="o">=</span><span class="s2">&quot;1.0.0&quot;</span>
+<span class="nv">ARCH</span><span class="o">=</span><span class="s2">&quot;amd64&quot;</span>
+<span class="nv">PACKAGE_NAME</span><span class="o">=</span><span class="s2">&quot;rotordream_</span><span class="si">${</span><span class="nv">VERSION</span><span class="si">}</span><span class="s2">_</span><span class="si">${</span><span class="nv">ARCH</span><span class="si">}</span><span class="s2">&quot;</span>
+
+<span class="c1"># Create package directory structure</span>
+mkdir<span class="w"> </span>-p<span class="w"> </span><span class="si">${</span><span class="nv">PACKAGE_NAME</span><span class="si">}</span>/<span class="o">{</span>DEBIAN,usr/bin,usr/lib/rotordream,etc/rotordream,etc/systemd/system<span class="o">}</span>
+
+<span class="c1"># Copy binary</span>
+cp<span class="w"> </span>bin/rotordream<span class="w"> </span><span class="si">${</span><span class="nv">PACKAGE_NAME</span><span class="si">}</span>/usr/bin/
+
+<span class="c1"># Copy configuration</span>
+cp<span class="w"> </span>config/*.ini<span class="w"> </span><span class="si">${</span><span class="nv">PACKAGE_NAME</span><span class="si">}</span>/etc/rotordream/
+cp<span class="w"> </span>config/rotordream.service<span class="w"> </span><span class="si">${</span><span class="nv">PACKAGE_NAME</span><span class="si">}</span>/etc/systemd/system/
+
+<span class="c1"># Copy assets</span>
+cp<span class="w"> </span>-r<span class="w"> </span>assets<span class="w"> </span><span class="si">${</span><span class="nv">PACKAGE_NAME</span><span class="si">}</span>/usr/lib/rotordream/
+
+<span class="c1"># Create control file</span>
+cat<span class="w"> </span>&gt;<span class="w"> </span><span class="si">${</span><span class="nv">PACKAGE_NAME</span><span class="si">}</span>/DEBIAN/control<span class="w"> </span><span class="s">&lt;&lt; EOF</span>
+<span class="s">Package: rotordream</span>
+<span class="s">Version: ${VERSION}</span>
+<span class="s">Section: video</span>
+<span class="s">Priority: optional</span>
+<span class="s">Architecture: ${ARCH}</span>
+<span class="s">Depends: libv4l-0, libgstreamer1.0-0, libssl1.1</span>
+<span class="s">Maintainer: Rotoclear Team &lt;support@rotordream.com&gt;</span>
+<span class="s">Description: Professional camera management system</span>
+<span class="s">EOF</span>
+
+<span class="c1"># Create postinstall script</span>
+cat<span class="w"> </span>&gt;<span class="w"> </span><span class="si">${</span><span class="nv">PACKAGE_NAME</span><span class="si">}</span>/DEBIAN/postinst<span class="w"> </span><span class="s">&lt;&lt; &#39;EOF&#39;</span>
+<span class="s">#!/bin/bash</span>
+<span class="s">systemctl daemon-reload</span>
+<span class="s">systemctl enable rotordream</span>
+<span class="s">groupadd -f rotordream</span>
+<span class="s">usermod -a -G video rotordream</span>
+<span class="s">chown -R rotordream:rotordream /var/lib/rotordream</span>
+<span class="s">EOF</span>
+
+chmod<span class="w"> </span>+x<span class="w"> </span><span class="si">${</span><span class="nv">PACKAGE_NAME</span><span class="si">}</span>/DEBIAN/postinst
+
+<span class="c1"># Build package</span>
+dpkg-deb<span class="w"> </span>--build<span class="w"> </span><span class="si">${</span><span class="nv">PACKAGE_NAME</span><span class="si">}</span>
+
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Package created: </span><span class="si">${</span><span class="nv">PACKAGE_NAME</span><span class="si">}</span><span class="s2">.deb&quot;</span>
+</code></pre></div>
+
+<h3 id="docker-image">Docker Image</h3>
+<p><strong>Dockerfile</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c"># Multi-stage build</span>
+<span class="k">FROM</span><span class="w"> </span><span class="s">ubuntu:22.04</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="s">builder</span>
+
+<span class="c"># Install build dependencies</span>
+<span class="k">RUN</span><span class="w"> </span>apt-get<span class="w"> </span>update<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>build-essential<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>curl<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>git<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>libssl-dev<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>libv4l-dev<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>libgstreamer1.0-dev<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>pkg-config
+
+<span class="c"># Install Nim</span>
+<span class="k">RUN</span><span class="w"> </span>curl<span class="w"> </span>https://nim-lang.org/choosenim/init.sh<span class="w"> </span>-sSf<span class="w"> </span><span class="p">|</span><span class="w"> </span>sh
+<span class="k">ENV</span><span class="w"> </span><span class="nv">PATH</span><span class="o">=</span><span class="s2">&quot;/root/.nimble/bin:</span><span class="nv">$PATH</span><span class="s2">&quot;</span>
+
+<span class="c"># Copy source</span>
+<span class="k">WORKDIR</span><span class="w"> </span><span class="s">/build</span>
+<span class="k">COPY</span><span class="w"> </span>.<span class="w"> </span>.
+
+<span class="c"># Build application</span>
+<span class="k">RUN</span><span class="w"> </span>nimble<span class="w"> </span>build<span class="w"> </span>-d:release<span class="w"> </span>--opt:speed
+
+<span class="c"># Runtime image</span>
+<span class="k">FROM</span><span class="w"> </span><span class="s">ubuntu:22.04</span>
+
+<span class="c"># Install runtime dependencies</span>
+<span class="k">RUN</span><span class="w"> </span>apt-get<span class="w"> </span>update<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>libv4l-0<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>libgstreamer1.0-0<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>libgstreamer-plugins-base1.0-0<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>libssl3<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>ca-certificates<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="o">&amp;&amp;</span><span class="w"> </span>rm<span class="w"> </span>-rf<span class="w"> </span>/var/lib/apt/lists/*
+
+<span class="c"># Create user</span>
+<span class="k">RUN</span><span class="w"> </span>groupadd<span class="w"> </span>-r<span class="w"> </span>rotordream<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>useradd<span class="w"> </span>-r<span class="w"> </span>-g<span class="w"> </span>rotordream<span class="w"> </span>rotordream
+
+<span class="c"># Copy application</span>
+<span class="k">COPY</span><span class="w"> </span>--from<span class="o">=</span>builder<span class="w"> </span>/build/rotordream<span class="w"> </span>/usr/local/bin/
+<span class="k">COPY</span><span class="w"> </span>--from<span class="o">=</span>builder<span class="w"> </span>/build/config<span class="w"> </span>/etc/rotordream/
+<span class="k">COPY</span><span class="w"> </span>--from<span class="o">=</span>builder<span class="w"> </span>/build/assets<span class="w"> </span>/usr/share/rotordream/
+
+<span class="c"># Create directories</span>
+<span class="k">RUN</span><span class="w"> </span>mkdir<span class="w"> </span>-p<span class="w"> </span>/var/lib/rotordream<span class="w"> </span>/var/log/rotordream
+<span class="k">RUN</span><span class="w"> </span>chown<span class="w"> </span>-R<span class="w"> </span>rotordream:rotordream<span class="w"> </span>/var/lib/rotordream<span class="w"> </span>/var/log/rotordream
+
+<span class="c"># Expose ports</span>
+<span class="k">EXPOSE</span><span class="w"> </span><span class="s">8080 8081 554</span>
+
+<span class="c"># Health check</span>
+<span class="k">HEALTHCHECK</span><span class="w"> </span>--interval<span class="o">=</span>30s<span class="w"> </span>--timeout<span class="o">=</span>3s<span class="w"> </span>--start-period<span class="o">=</span>5s<span class="w"> </span>--retries<span class="o">=</span><span class="m">3</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>CMD<span class="w"> </span>curl<span class="w"> </span>-f<span class="w"> </span>http://localhost:8080/api/status<span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span>
+
+<span class="k">USER</span><span class="w"> </span><span class="s">rotordream</span>
+<span class="k">WORKDIR</span><span class="w"> </span><span class="s">/var/lib/rotordream</span>
+
+<span class="k">CMD</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;/usr/local/bin/rotordream&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;--config&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;/etc/rotordream/config.ini&quot;</span><span class="p">]</span>
+</code></pre></div>
+
+<p><strong>Build Docker Image</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="ch">#!/bin/bash</span>
+<span class="c1"># tools/build_docker.sh</span>
+
+<span class="nv">VERSION</span><span class="o">=</span><span class="si">${</span><span class="nv">1</span><span class="k">:-</span><span class="nv">latest</span><span class="si">}</span>
+<span class="nv">REGISTRY</span><span class="o">=</span><span class="si">${</span><span class="nv">2</span><span class="k">:-</span><span class="nv">localhost</span><span class="p">:</span><span class="nv">5000</span><span class="si">}</span>
+
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Building Docker image: </span><span class="si">${</span><span class="nv">REGISTRY</span><span class="si">}</span><span class="s2">/rotordream:</span><span class="si">${</span><span class="nv">VERSION</span><span class="si">}</span><span class="s2">&quot;</span>
+
+<span class="c1"># Build image</span>
+docker<span class="w"> </span>build<span class="w"> </span>-t<span class="w"> </span><span class="si">${</span><span class="nv">REGISTRY</span><span class="si">}</span>/rotordream:<span class="si">${</span><span class="nv">VERSION</span><span class="si">}</span><span class="w"> </span>.
+
+<span class="c1"># Tag as latest if version specified</span>
+<span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$VERSION</span><span class="s2">&quot;</span><span class="w"> </span>!<span class="o">=</span><span class="w"> </span><span class="s2">&quot;latest&quot;</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">    </span>docker<span class="w"> </span>tag<span class="w"> </span><span class="si">${</span><span class="nv">REGISTRY</span><span class="si">}</span>/rotordream:<span class="si">${</span><span class="nv">VERSION</span><span class="si">}</span><span class="w"> </span><span class="si">${</span><span class="nv">REGISTRY</span><span class="si">}</span>/rotordream:latest
+<span class="k">fi</span>
+
+<span class="c1"># Push to registry</span>
+<span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$REGISTRY</span><span class="s2">&quot;</span><span class="w"> </span>!<span class="o">=</span><span class="w"> </span><span class="s2">&quot;localhost:5000&quot;</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">    </span>docker<span class="w"> </span>push<span class="w"> </span><span class="si">${</span><span class="nv">REGISTRY</span><span class="si">}</span>/rotordream:<span class="si">${</span><span class="nv">VERSION</span><span class="si">}</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$VERSION</span><span class="s2">&quot;</span><span class="w"> </span>!<span class="o">=</span><span class="w"> </span><span class="s2">&quot;latest&quot;</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">        </span>docker<span class="w"> </span>push<span class="w"> </span><span class="si">${</span><span class="nv">REGISTRY</span><span class="si">}</span>/rotordream:latest
+<span class="w">    </span><span class="k">fi</span>
+<span class="k">fi</span>
+
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Docker image built and pushed successfully&quot;</span>
+</code></pre></div>
+
+<h2 id="deployment">Deployment</h2>
+<h3 id="standalone-deployment">Standalone Deployment</h3>
+<p><strong>Installation Script</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="ch">#!/bin/bash</span>
+<span class="c1"># tools/install.sh</span>
+
+<span class="nb">set</span><span class="w"> </span>-e
+
+<span class="nv">VERSION</span><span class="o">=</span><span class="s2">&quot;1.0.0&quot;</span>
+<span class="nv">INSTALL_DIR</span><span class="o">=</span><span class="s2">&quot;/opt/rotordream&quot;</span>
+<span class="nv">CONFIG_DIR</span><span class="o">=</span><span class="s2">&quot;/etc/rotordream&quot;</span>
+<span class="nv">DATA_DIR</span><span class="o">=</span><span class="s2">&quot;/var/lib/rotordream&quot;</span>
+<span class="nv">LOG_DIR</span><span class="o">=</span><span class="s2">&quot;/var/log/rotordream&quot;</span>
+
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Installing C Pro </span><span class="si">${</span><span class="nv">VERSION</span><span class="si">}</span><span class="s2">...&quot;</span>
+
+<span class="c1"># Create directories</span>
+sudo<span class="w"> </span>mkdir<span class="w"> </span>-p<span class="w"> </span><span class="si">${</span><span class="nv">INSTALL_DIR</span><span class="si">}</span><span class="w"> </span><span class="si">${</span><span class="nv">CONFIG_DIR</span><span class="si">}</span><span class="w"> </span><span class="si">${</span><span class="nv">DATA_DIR</span><span class="si">}</span><span class="w"> </span><span class="si">${</span><span class="nv">LOG_DIR</span><span class="si">}</span>
+
+<span class="c1"># Create user</span>
+sudo<span class="w"> </span>groupadd<span class="w"> </span>-f<span class="w"> </span>rotordream
+sudo<span class="w"> </span>useradd<span class="w"> </span>-r<span class="w"> </span>-g<span class="w"> </span>rotordream<span class="w"> </span>-d<span class="w"> </span><span class="si">${</span><span class="nv">DATA_DIR</span><span class="si">}</span><span class="w"> </span>-s<span class="w"> </span>/bin/false<span class="w"> </span>rotordream<span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nb">true</span>
+
+<span class="c1"># Copy files</span>
+sudo<span class="w"> </span>cp<span class="w"> </span>bin/rotordream<span class="w"> </span><span class="si">${</span><span class="nv">INSTALL_DIR</span><span class="si">}</span>/
+sudo<span class="w"> </span>cp<span class="w"> </span>-r<span class="w"> </span>assets<span class="w"> </span><span class="si">${</span><span class="nv">INSTALL_DIR</span><span class="si">}</span>/
+sudo<span class="w"> </span>cp<span class="w"> </span>config/*.ini<span class="w"> </span><span class="si">${</span><span class="nv">CONFIG_DIR</span><span class="si">}</span>/
+sudo<span class="w"> </span>cp<span class="w"> </span>config/rotordream.service<span class="w"> </span>/etc/systemd/system/
+
+<span class="c1"># Set permissions</span>
+sudo<span class="w"> </span>chown<span class="w"> </span>-R<span class="w"> </span>rotordream:rotordream<span class="w"> </span><span class="si">${</span><span class="nv">DATA_DIR</span><span class="si">}</span><span class="w"> </span><span class="si">${</span><span class="nv">LOG_DIR</span><span class="si">}</span>
+sudo<span class="w"> </span>chmod<span class="w"> </span>+x<span class="w"> </span><span class="si">${</span><span class="nv">INSTALL_DIR</span><span class="si">}</span>/rotordream
+
+<span class="c1"># Enable and start service</span>
+sudo<span class="w"> </span>systemctl<span class="w"> </span>daemon-reload
+sudo<span class="w"> </span>systemctl<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>rotordream
+sudo<span class="w"> </span>systemctl<span class="w"> </span>start<span class="w"> </span>rotordream
+
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Installation complete!&quot;</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Service status: </span><span class="k">$(</span>sudo<span class="w"> </span>systemctl<span class="w"> </span>is-active<span class="w"> </span>rotordream<span class="k">)</span><span class="s2">&quot;</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Configuration: </span><span class="si">${</span><span class="nv">CONFIG_DIR</span><span class="si">}</span><span class="s2">/config.ini&quot;</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Logs: </span><span class="si">${</span><span class="nv">LOG_DIR</span><span class="si">}</span><span class="s2">/&quot;</span>
+</code></pre></div>
+
+<p><strong>Systemd Service</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># /etc/systemd/system/rotordream.service</span>
+<span class="k">[Unit]</span>
+<span class="na">Description</span><span class="o">=</span><span class="s">C Pro Camera System</span>
+<span class="na">After</span><span class="o">=</span><span class="s">network.target</span>
+<span class="na">Wants</span><span class="o">=</span><span class="s">network-online.target</span>
+
+<span class="k">[Service]</span>
+<span class="na">Type</span><span class="o">=</span><span class="s">simple</span>
+<span class="na">User</span><span class="o">=</span><span class="s">rotordream</span>
+<span class="na">Group</span><span class="o">=</span><span class="s">rotordream</span>
+<span class="na">WorkingDirectory</span><span class="o">=</span><span class="s">/var/lib/rotordream</span>
+<span class="na">ExecStart</span><span class="o">=</span><span class="s">/opt/rotordream/rotordream --config /etc/rotordream/config.ini</span>
+<span class="na">Restart</span><span class="o">=</span><span class="s">always</span>
+<span class="na">RestartSec</span><span class="o">=</span><span class="s">10</span>
+<span class="na">StandardOutput</span><span class="o">=</span><span class="s">journal</span>
+<span class="na">StandardError</span><span class="o">=</span><span class="s">journal</span>
+<span class="na">SyslogIdentifier</span><span class="o">=</span><span class="s">rotordream</span>
+
+<span class="c1"># Resource limits</span>
+<span class="na">LimitNOFILE</span><span class="o">=</span><span class="s">65536</span>
+<span class="na">MemoryMax</span><span class="o">=</span><span class="s">2G</span>
+<span class="na">CPUQuota</span><span class="o">=</span><span class="s">200%</span>
+
+<span class="c1"># Security</span>
+<span class="na">NoNewPrivileges</span><span class="o">=</span><span class="s">true</span>
+<span class="na">ProtectSystem</span><span class="o">=</span><span class="s">strict</span>
+<span class="na">ProtectHome</span><span class="o">=</span><span class="s">true</span>
+<span class="na">ReadWritePaths</span><span class="o">=</span><span class="s">/var/lib/rotordream /var/log/rotordream /tmp</span>
+
+<span class="k">[Install]</span>
+<span class="na">WantedBy</span><span class="o">=</span><span class="s">multi-user.target</span>
+</code></pre></div>
+
+<h3 id="container-deployment">Container Deployment</h3>
+<p><strong>Docker Compose</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># docker-compose.yml</span>
+<span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;3.8&#39;</span>
+
+<span class="nt">services</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">rotordream</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">rotordream:latest</span>
+<span class="w">    </span><span class="nt">container_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">rotordream</span>
+<span class="w">    </span><span class="nt">restart</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">unless-stopped</span>
+
+<span class="w">    </span><span class="nt">ports</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;8080:8080&quot;</span><span class="w">   </span><span class="c1"># HTTP API</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;8081:8081&quot;</span><span class="w">   </span><span class="c1"># WebSocket</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;554:554&quot;</span><span class="w">     </span><span class="c1"># RTSP</span>
+
+<span class="w">    </span><span class="nt">volumes</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">rotordream_data:/var/lib/rotordream</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">rotordream_logs:/var/log/rotordream</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">./config:/etc/rotordream:ro</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/dev/video0:/dev/video0</span><span class="w">  </span><span class="c1"># Camera device</span>
+
+<span class="w">    </span><span class="nt">devices</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/dev/video0:/dev/video0</span>
+
+<span class="w">    </span><span class="nt">environment</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ROTORDREAM_LOG_LEVEL=info</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ROTORDREAM_CONFIG=/etc/rotordream/config.ini</span>
+
+<span class="w">    </span><span class="nt">healthcheck</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">test</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;CMD&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;curl&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;-f&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;http://localhost:8080/api/status&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">      </span><span class="nt">interval</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">30s</span>
+<span class="w">      </span><span class="nt">timeout</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10s</span>
+<span class="w">      </span><span class="nt">retries</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span>
+<span class="w">      </span><span class="nt">start_period</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">40s</span>
+
+<span class="w">    </span><span class="nt">networks</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">rotordream_net</span>
+
+<span class="w">  </span><span class="nt">nginx</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nginx:alpine</span>
+<span class="w">    </span><span class="nt">container_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">rotordream_proxy</span>
+<span class="w">    </span><span class="nt">restart</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">unless-stopped</span>
+
+<span class="w">    </span><span class="nt">ports</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;80:80&quot;</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;443:443&quot;</span>
+
+<span class="w">    </span><span class="nt">volumes</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">./nginx.conf:/etc/nginx/nginx.conf:ro</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">./ssl:/etc/nginx/ssl:ro</span>
+
+<span class="w">    </span><span class="nt">depends_on</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">rotordream</span>
+
+<span class="w">    </span><span class="nt">networks</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">rotordream_net</span>
+
+<span class="nt">volumes</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">rotordream_data</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">rotordream_logs</span><span class="p">:</span>
+
+<span class="nt">networks</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">rotordream_net</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">driver</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">bridge</span>
+</code></pre></div>
+
+<p><strong>Kubernetes Deployment</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># k8s/deployment.yaml</span>
+<span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">apps/v1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Deployment</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">rotordream</span>
+<span class="w">  </span><span class="nt">labels</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">rotordream</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">  </span><span class="nt">selector</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">matchLabels</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">rotordream</span>
+<span class="w">  </span><span class="nt">template</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">metadata</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">labels</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">rotordream</span>
+<span class="w">    </span><span class="nt">spec</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">containers</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">rotordream</span>
+<span class="w">        </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">rotordream:1.0.0</span>
+<span class="w">        </span><span class="nt">ports</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">containerPort</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8080</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">containerPort</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8081</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">containerPort</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">554</span>
+
+<span class="w">        </span><span class="nt">env</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ROTORDREAM_CONFIG</span>
+<span class="w">          </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/etc/rotordream/config.ini&quot;</span>
+
+<span class="w">        </span><span class="nt">volumeMounts</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">config</span>
+<span class="w">          </span><span class="nt">mountPath</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/etc/rotordream</span>
+<span class="w">          </span><span class="nt">readOnly</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">data</span>
+<span class="w">          </span><span class="nt">mountPath</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/var/lib/rotordream</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">logs</span>
+<span class="w">          </span><span class="nt">mountPath</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/var/log/rotordream</span>
+
+<span class="w">        </span><span class="nt">resources</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">requests</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">memory</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;512Mi&quot;</span>
+<span class="w">            </span><span class="nt">cpu</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;500m&quot;</span>
+<span class="w">          </span><span class="nt">limits</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">memory</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2Gi&quot;</span>
+<span class="w">            </span><span class="nt">cpu</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2000m&quot;</span>
+
+<span class="w">        </span><span class="nt">livenessProbe</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">httpGet</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/api/status</span>
+<span class="w">            </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8080</span>
+<span class="w">          </span><span class="nt">initialDelaySeconds</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">30</span>
+<span class="w">          </span><span class="nt">periodSeconds</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">30</span>
+
+<span class="w">        </span><span class="nt">readinessProbe</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">httpGet</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/api/ready</span>
+<span class="w">            </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8080</span>
+<span class="w">          </span><span class="nt">initialDelaySeconds</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5</span>
+<span class="w">          </span><span class="nt">periodSeconds</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5</span>
+
+<span class="w">      </span><span class="nt">volumes</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">config</span>
+<span class="w">        </span><span class="nt">configMap</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">rotordream-config</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">data</span>
+<span class="w">        </span><span class="nt">persistentVolumeClaim</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">claimName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">rotordream-data</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">logs</span>
+<span class="w">        </span><span class="nt">persistentVolumeClaim</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">claimName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">rotordream-logs</span>
+
+<span class="nn">---</span>
+<span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Service</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">rotordream-service</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">selector</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">rotordream</span>
+<span class="w">  </span><span class="nt">ports</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">http</span>
+<span class="w">    </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8080</span>
+<span class="w">    </span><span class="nt">targetPort</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8080</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">websocket</span>
+<span class="w">    </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8081</span>
+<span class="w">    </span><span class="nt">targetPort</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8081</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">rtsp</span>
+<span class="w">    </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">554</span>
+<span class="w">    </span><span class="nt">targetPort</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">554</span>
+<span class="w">  </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">LoadBalancer</span>
+</code></pre></div>
+
+<h2 id="continuous-integrationdeployment">Continuous Integration/Deployment</h2>
+<h3 id="github-actions">GitHub Actions</h3>
+<p><strong>CI/CD Pipeline</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># .github/workflows/ci-cd.yml</span>
+<span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">CI/CD Pipeline</span>
+
+<span class="nt">on</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">push</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">branches</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="w"> </span><span class="nv">main</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">develop</span><span class="w"> </span><span class="p p-Indicator">]</span>
+<span class="w">  </span><span class="nt">pull_request</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">branches</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="w"> </span><span class="nv">main</span><span class="w"> </span><span class="p p-Indicator">]</span>
+<span class="w">  </span><span class="nt">release</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">types</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="w"> </span><span class="nv">published</span><span class="w"> </span><span class="p p-Indicator">]</span>
+
+<span class="nt">env</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">REGISTRY</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ghcr.io</span>
+<span class="w">  </span><span class="nt">IMAGE_NAME</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ github.repository }}</span>
+
+<span class="nt">jobs</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">test</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">runs-on</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubuntu-latest</span>
+
+<span class="w">    </span><span class="nt">steps</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/checkout@v3</span>
+
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Install Nim</span>
+<span class="w">      </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">        </span><span class="no">curl https://nim-lang.org/choosenim/init.sh -sSf | sh</span>
+<span class="w">        </span><span class="no">echo &quot;$HOME/.nimble/bin&quot; &gt;&gt; $GITHUB_PATH</span>
+
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Install dependencies</span>
+<span class="w">      </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">        </span><span class="no">sudo apt-get update</span>
+<span class="w">        </span><span class="no">sudo apt-get install -y libv4l-dev libgstreamer1.0-dev</span>
+<span class="w">        </span><span class="no">nimble install -y --depsOnly</span>
+
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Run tests</span>
+<span class="w">      </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nimble test</span>
+
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Upload coverage</span>
+<span class="w">      </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">codecov/codecov-action@v3</span>
+<span class="w">      </span><span class="nt">with</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">file</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">./coverage.xml</span>
+
+<span class="w">  </span><span class="nt">build</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">needs</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">test</span>
+<span class="w">    </span><span class="nt">runs-on</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubuntu-latest</span>
+
+<span class="w">    </span><span class="nt">outputs</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">image-digest</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ steps.build.outputs.digest }}</span>
+
+<span class="w">    </span><span class="nt">steps</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/checkout@v3</span>
+
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Set up Docker Buildx</span>
+<span class="w">      </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">docker/setup-buildx-action@v2</span>
+
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Log in to Container Registry</span>
+<span class="w">      </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">docker/login-action@v2</span>
+<span class="w">      </span><span class="nt">with</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">registry</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ env.REGISTRY }}</span>
+<span class="w">        </span><span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ github.actor }}</span>
+<span class="w">        </span><span class="nt">password</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.GITHUB_TOKEN }}</span>
+
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Extract metadata</span>
+<span class="w">      </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">meta</span>
+<span class="w">      </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">docker/metadata-action@v4</span>
+<span class="w">      </span><span class="nt">with</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">images</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}</span>
+<span class="w">        </span><span class="nt">tags</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">          </span><span class="no">type=ref,event=branch</span>
+<span class="w">          </span><span class="no">type=ref,event=pr</span>
+<span class="w">          </span><span class="no">type=semver,pattern={{version}}</span>
+<span class="w">          </span><span class="no">type=semver,pattern={{major}}.{{minor}}</span>
+
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Build and push Docker image</span>
+<span class="w">      </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">build</span>
+<span class="w">      </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">docker/build-push-action@v4</span>
+<span class="w">      </span><span class="nt">with</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">context</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">.</span>
+<span class="w">        </span><span class="nt">push</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">        </span><span class="nt">tags</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ steps.meta.outputs.tags }}</span>
+<span class="w">        </span><span class="nt">labels</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ steps.meta.outputs.labels }}</span>
+<span class="w">        </span><span class="nt">cache-from</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">type=gha</span>
+<span class="w">        </span><span class="nt">cache-to</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">type=gha,mode=max</span>
+
+<span class="w">  </span><span class="nt">deploy-staging</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">if</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">github.ref == &#39;refs/heads/develop&#39;</span>
+<span class="w">    </span><span class="nt">needs</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">build</span>
+<span class="w">    </span><span class="nt">runs-on</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubuntu-latest</span>
+<span class="w">    </span><span class="nt">environment</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">staging</span>
+
+<span class="w">    </span><span class="nt">steps</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Deploy to staging</span>
+<span class="w">      </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">        </span><span class="no">echo &quot;Deploying to staging environment&quot;</span>
+<span class="w">        </span><span class="no"># Add deployment commands here</span>
+
+<span class="w">  </span><span class="nt">deploy-production</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">if</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">github.event_name == &#39;release&#39;</span>
+<span class="w">    </span><span class="nt">needs</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">build</span>
+<span class="w">    </span><span class="nt">runs-on</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubuntu-latest</span>
+<span class="w">    </span><span class="nt">environment</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">production</span>
+
+<span class="w">    </span><span class="nt">steps</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Deploy to production</span>
+<span class="w">      </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">        </span><span class="no">echo &quot;Deploying to production environment&quot;</span>
+<span class="w">        </span><span class="no"># Add deployment commands here</span>
+</code></pre></div>
+
+<h3 id="automated-deployment">Automated Deployment</h3>
+<p><strong>Deployment Script</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="ch">#!/bin/bash</span>
+<span class="c1"># tools/deploy.sh</span>
+
+<span class="nb">set</span><span class="w"> </span>-e
+
+<span class="nv">ENVIRONMENT</span><span class="o">=</span><span class="si">${</span><span class="nv">1</span><span class="k">:-</span><span class="nv">staging</span><span class="si">}</span>
+<span class="nv">VERSION</span><span class="o">=</span><span class="si">${</span><span class="nv">2</span><span class="k">:-</span><span class="nv">latest</span><span class="si">}</span>
+<span class="nv">CONFIG_FILE</span><span class="o">=</span><span class="s2">&quot;config/</span><span class="si">${</span><span class="nv">ENVIRONMENT</span><span class="si">}</span><span class="s2">.env&quot;</span>
+
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Deploying C Pro </span><span class="si">${</span><span class="nv">VERSION</span><span class="si">}</span><span class="s2"> to </span><span class="si">${</span><span class="nv">ENVIRONMENT</span><span class="si">}</span><span class="s2">&quot;</span>
+
+<span class="c1"># Load environment configuration</span>
+<span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span>-f<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$CONFIG_FILE</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">    </span><span class="nb">source</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$CONFIG_FILE</span><span class="s2">&quot;</span>
+<span class="k">else</span>
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Configuration file not found: </span><span class="nv">$CONFIG_FILE</span><span class="s2">&quot;</span>
+<span class="w">    </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span>
+<span class="k">fi</span>
+
+<span class="c1"># Pre-deployment checks</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Running pre-deployment checks...&quot;</span>
+curl<span class="w"> </span>-f<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$HEALTH_CHECK_URL</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Warning: Service not responding&quot;</span>
+
+<span class="c1"># Backup current deployment</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Creating backup...&quot;</span>
+kubectl<span class="w"> </span>create<span class="w"> </span>backup<span class="w"> </span>rotordream-backup-<span class="k">$(</span>date<span class="w"> </span>+%Y%m%d-%H%M%S<span class="k">)</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nb">true</span>
+
+<span class="c1"># Deploy new version</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Deploying new version...&quot;</span>
+kubectl<span class="w"> </span><span class="nb">set</span><span class="w"> </span>image<span class="w"> </span>deployment/rotordream<span class="w"> </span><span class="nv">rotordream</span><span class="o">=</span><span class="nv">$REGISTRY</span>/rotordream:<span class="nv">$VERSION</span>
+
+<span class="c1"># Wait for rollout</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Waiting for rollout to complete...&quot;</span>
+kubectl<span class="w"> </span>rollout<span class="w"> </span>status<span class="w"> </span>deployment/rotordream<span class="w"> </span>--timeout<span class="o">=</span>300s
+
+<span class="c1"># Post-deployment verification</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Running post-deployment verification...&quot;</span>
+sleep<span class="w"> </span><span class="m">30</span>
+
+<span class="c1"># Health check</span>
+<span class="nv">HEALTH_URL</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$SERVICE_URL</span><span class="s2">/api/status&quot;</span>
+<span class="k">for</span><span class="w"> </span>i<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="o">{</span><span class="m">1</span>..10<span class="o">}</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span>curl<span class="w"> </span>-f<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$HEALTH_URL</span><span class="s2">&quot;</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Deployment successful!&quot;</span>
+<span class="w">        </span><span class="nb">exit</span><span class="w"> </span><span class="m">0</span>
+<span class="w">    </span><span class="k">fi</span>
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Health check attempt </span><span class="nv">$i</span><span class="s2"> failed, retrying...&quot;</span>
+<span class="w">    </span>sleep<span class="w"> </span><span class="m">30</span>
+<span class="k">done</span>
+
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Deployment verification failed!&quot;</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Rolling back...&quot;</span>
+kubectl<span class="w"> </span>rollout<span class="w"> </span>undo<span class="w"> </span>deployment/rotordream
+<span class="nb">exit</span><span class="w"> </span><span class="m">1</span>
+</code></pre></div>
+
+<h2 id="monitoring-deployment">Monitoring Deployment</h2>
+<h3 id="health-checks">Health Checks</h3>
+<p><strong>Application Health</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Health check endpoint</span>
+curl<span class="w"> </span>http://localhost:8080/api/health
+
+<span class="c1"># Response format</span>
+<span class="o">{</span>
+<span class="w">  </span><span class="s2">&quot;status&quot;</span>:<span class="w"> </span><span class="s2">&quot;healthy&quot;</span>,
+<span class="w">  </span><span class="s2">&quot;timestamp&quot;</span>:<span class="w"> </span><span class="s2">&quot;2025-01-15T10:30:00Z&quot;</span>,
+<span class="w">  </span><span class="s2">&quot;version&quot;</span>:<span class="w"> </span><span class="s2">&quot;1.0.0&quot;</span>,
+<span class="w">  </span><span class="s2">&quot;uptime&quot;</span>:<span class="w"> </span><span class="m">86400</span>,
+<span class="w">  </span><span class="s2">&quot;components&quot;</span>:<span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="s2">&quot;camera&quot;</span>:<span class="w"> </span><span class="s2">&quot;healthy&quot;</span>,
+<span class="w">    </span><span class="s2">&quot;storage&quot;</span>:<span class="w"> </span><span class="s2">&quot;healthy&quot;</span>,
+<span class="w">    </span><span class="s2">&quot;network&quot;</span>:<span class="w"> </span><span class="s2">&quot;healthy&quot;</span>
+<span class="w">  </span><span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div>
+
+<p><strong>Deployment Monitoring</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Monitor deployment status</span>
+kubectl<span class="w"> </span>get<span class="w"> </span>deployments
+kubectl<span class="w"> </span>describe<span class="w"> </span>deployment<span class="w"> </span>rotordream
+kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-l<span class="w"> </span><span class="nv">app</span><span class="o">=</span>rotordream
+
+<span class="c1"># Check logs</span>
+kubectl<span class="w"> </span>logs<span class="w"> </span>-f<span class="w"> </span>deployment/rotordream
+kubectl<span class="w"> </span>logs<span class="w"> </span>--previous<span class="w"> </span>deployment/rotordream
+
+<span class="c1"># Resource usage</span>
+kubectl<span class="w"> </span>top<span class="w"> </span>pods<span class="w"> </span>-l<span class="w"> </span><span class="nv">app</span><span class="o">=</span>rotordream
+kubectl<span class="w"> </span>top<span class="w"> </span>nodes
+</code></pre></div>
+
+<h2 id="rollback-procedures">Rollback Procedures</h2>
+<h3 id="automated-rollback">Automated Rollback</h3>
+<p><strong>Rollback Script</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="ch">#!/bin/bash</span>
+<span class="c1"># tools/rollback.sh</span>
+
+<span class="nv">ENVIRONMENT</span><span class="o">=</span><span class="si">${</span><span class="nv">1</span><span class="k">:-</span><span class="nv">staging</span><span class="si">}</span>
+<span class="nv">TARGET_VERSION</span><span class="o">=</span><span class="si">${</span><span class="nv">2</span><span class="k">:-</span><span class="nv">previous</span><span class="si">}</span>
+
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Rolling back C Pro in </span><span class="si">${</span><span class="nv">ENVIRONMENT</span><span class="si">}</span><span class="s2"> to </span><span class="si">${</span><span class="nv">TARGET_VERSION</span><span class="si">}</span><span class="s2">&quot;</span>
+
+<span class="k">case</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$TARGET_VERSION</span><span class="s2">&quot;</span><span class="w"> </span><span class="k">in</span>
+<span class="w">    </span><span class="s2">&quot;previous&quot;</span><span class="o">)</span>
+<span class="w">        </span>kubectl<span class="w"> </span>rollout<span class="w"> </span>undo<span class="w"> </span>deployment/rotordream
+<span class="w">        </span><span class="p">;;</span>
+<span class="w">    </span>*<span class="o">)</span>
+<span class="w">        </span>kubectl<span class="w"> </span><span class="nb">set</span><span class="w"> </span>image<span class="w"> </span>deployment/rotordream<span class="w"> </span><span class="nv">rotordream</span><span class="o">=</span><span class="nv">$REGISTRY</span>/rotordream:<span class="nv">$TARGET_VERSION</span>
+<span class="w">        </span><span class="p">;;</span>
+<span class="k">esac</span>
+
+<span class="c1"># Wait for rollback</span>
+kubectl<span class="w"> </span>rollout<span class="w"> </span>status<span class="w"> </span>deployment/rotordream<span class="w"> </span>--timeout<span class="o">=</span>300s
+
+<span class="c1"># Verify rollback</span>
+<span class="nv">HEALTH_URL</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$SERVICE_URL</span><span class="s2">/api/status&quot;</span>
+curl<span class="w"> </span>-f<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$HEALTH_URL</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Rollback verification failed!&quot;</span>
+<span class="w">    </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span>
+<span class="o">}</span>
+
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Rollback completed successfully&quot;</span>
+</code></pre></div>
+
+<h2 id="related-documentation">Related Documentation</h2>
+<ul>
+<li><a href="../configuration/">Configuration</a> - System configuration guides</li>
+<li><a href="../operations/">Operations</a> - Operational procedures</li>
+<li><a href="../api/">API Reference</a> - API documentation for integration</li>
+<li><a href="../testing/">Testing</a> - Testing strategies and procedures</li>
+</ul>
+<hr />
+<p><em>Build and deployment documentation following DevOps best practices and industry standards</em></p>
+            </div>
+            <footer class="content-footer">
+                <p>Copyright © 2025 Rotoclear</p>
+            </footer>
+        </main>
+        
+        <button class="mobile-menu-toggle" id="menuToggle" aria-label="Toggle menu">☰</button>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>
+        // Initialize Mermaid
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            securityLevel: 'loose',
+            fontFamily: 'Inter, sans-serif'
+        });
+        
+        // Syntax highlighting
+        hljs.highlightAll();
+        
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.querySelector('.sidebar');
+        
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+        });
+        
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth <= 768 && 
+                !sidebar.contains(e.target) && 
+                !menuToggle.contains(e.target) &&
+                sidebar.classList.contains('active')) {
+                sidebar.classList.remove('active');
+            }
+        });
+        
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

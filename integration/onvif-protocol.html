@@ -1,0 +1,1344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ONVIF Protocol - RotoClear Camera Server Documentation</title>
+    <link rel="stylesheet" href="/assets/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1><a href="/index.html">RotoClear Docs</a></h1>
+                <p>Camera Server Documentation</p>
+            </div>
+            <nav class="sidebar-nav">
+                <ul class="nav-menu">
+                    <li class="nav-item depth-0">
+<a href="/index.html">Home</a>
+</li>
+<li class="nav-item depth-0">
+<a href="/getting-started.html">Getting Started</a>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Architecture</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/architecture/overview.html">Overview</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/architecture/state-management.html">State Management</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/architecture/camera-pipeline.html">Camera Pipeline</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/architecture/metadata-sqlite.html">Metadata & SQLite</a>
+</li>
+<li class="nav-folder depth-1">
+<span class="folder-title">Decisions</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-2">
+<a href="/architecture/decisions/ADR-0001-nim-language.html">ADR-0001 Nim Language</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/architecture/decisions/ADR-0002-corun-framework.html">ADR-0002 Corun Framework</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/architecture/decisions/ADR-0003-observable-state.html">ADR-0003 Observable State</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">API Reference</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/api/README.html">Overview</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/api/websocket-api.html">WebSocket API</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/api/http-api.html">HTTP API</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/api/rtsp-streaming.html">RTSP Streaming</a>
+</li>
+<li class="nav-folder depth-1">
+<span class="folder-title">Examples</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-2">
+<a href="/api/examples/python-client.html">Python Client</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/api/examples/javascript-client.html">JavaScript Client</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/api/examples/csharp-client.html">C# Client</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Configuration</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/configuration/environments.html">Environments</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/factory-config.html">Factory Config</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/license-config.html">License Config</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/deployment-variants.html">Deployment Variants</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/camera-system.html">Camera System</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/network.html">Network</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/storage-backup.html">Storage & Backup</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/authentication.html">Authentication</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Camera System</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/camera/hardware-interface.html">Hardware Interface</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/camera/streaming.html">Streaming</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/camera/recording.html">Recording</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/camera/image-processing.html">Image Processing</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Operations</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/operations/build-and-deploy.html">Build and Deploy</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/build-deploy.html">Build & Deploy (Alt)</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/monitoring.html">Monitoring</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/performance.html">Performance</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/troubleshooting.html">Troubleshooting</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Security</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/security/authentication.html">Authentication</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/security/permissions.html">Permissions</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/security/ssl-certificates.html">SSL Certificates</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Testing</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/testing/testing-strategy.html">Strategy</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/testing/strategies.html">Strategies</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/testing/test-cases.html">Test Cases</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/testing/validation.html">Validation</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Integration</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1 active">
+<a href="/integration/onvif-protocol.html">ONVIF Protocol</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/integration/third-party.html">Third Party</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Reference</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/reference/glossary.html">Glossary</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/reference/requirements.html">Requirements</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/reference/state-observables.html">State Observables</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Releases</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/releases/CHANGELOG.html">Changelog</a>
+</li>
+</ul>
+</li>
+<li class="nav-item depth-0">
+<a href="/glossary.html">Glossary</a>
+</li>
+                </ul>
+            </nav>
+        </aside>
+        
+        <main class="content">
+            <div class="content-wrapper">
+                <h1 id="onvif-protocol-integration">ONVIF Protocol Integration</h1>
+<p><strong>Comprehensive ONVIF (Open Network Video Interface Forum) protocol implementation for interoperability with standard IP cameras and video management systems.</strong></p>
+<h2 id="overview">Overview</h2>
+<p>C Pro implements ONVIF standards for seamless integration with third-party cameras, NVRs, and video management systems, providing standardized device discovery, configuration, and streaming capabilities.</p>
+<div class="mermaid">
+graph TB
+    A[ONVIF Client] --> B{ONVIF Services}
+
+    B -->|Discovery| C[WS-Discovery]
+    B -->|Device| D[Device Management]
+    B -->|Media| E[Media Service]
+    B -->|PTZ| F[PTZ Control]
+    B -->|Events| G[Event Service]
+    B -->|Analytics| H[Analytics Service]
+
+    C --> I[Device Detection]
+    D --> J[Configuration]
+    E --> K[Stream Management]
+    F --> L[Camera Control]
+    G --> M[Event Handling]
+    H --> N[Video Analytics]
+
+    I --> O[SOAP Web Services]
+    J --> O
+    K --> O
+    L --> O
+    M --> O
+    N --> O
+
+    O --> P[HTTP/HTTPS Transport]
+    P --> Q[XML Message Format]
+
+    style B fill:#ff9999
+    style O fill:#99ff99
+    style P fill:#9999ff
+</div>
+
+<h2 id="onvif-services-implementation">ONVIF Services Implementation</h2>
+<h3 id="device-management-service">Device Management Service</h3>
+<p><strong>Device Information and Capabilities</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Get device information</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/onvif/device_service&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/soap+xml&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;SOAPAction: http://www.onvif.org/ver10/device/wsdl/GetDeviceInformation&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="s1">&lt;soap:Envelope xmlns:soap=&quot;http://www.w3.org/2003/05/soap-envelope&quot;</span>
+<span class="s1">               xmlns:tds=&quot;http://www.onvif.org/ver10/device/wsdl&quot;&gt;</span>
+<span class="s1">  &lt;soap:Header/&gt;</span>
+<span class="s1">  &lt;soap:Body&gt;</span>
+<span class="s1">    &lt;tds:GetDeviceInformation/&gt;</span>
+<span class="s1">  &lt;/soap:Body&gt;</span>
+<span class="s1">&lt;/soap:Envelope&gt;&#39;</span>
+
+<span class="c1"># Response format</span>
+&lt;?xml<span class="w"> </span><span class="nv">version</span><span class="o">=</span><span class="s2">&quot;1.0&quot;</span><span class="w"> </span><span class="nv">encoding</span><span class="o">=</span><span class="s2">&quot;UTF-8&quot;</span>?&gt;
+&lt;soap:Envelope<span class="w"> </span>xmlns:soap<span class="o">=</span><span class="s2">&quot;http://www.w3.org/2003/05/soap-envelope&quot;</span>&gt;
+<span class="w">  </span>&lt;soap:Body&gt;
+<span class="w">    </span>&lt;tds:GetDeviceInformationResponse&gt;
+<span class="w">      </span>&lt;tds:Manufacturer&gt;C<span class="w"> </span>Pro&lt;/tds:Manufacturer&gt;
+<span class="w">      </span>&lt;tds:Model&gt;RD-CAM-001&lt;/tds:Model&gt;
+<span class="w">      </span>&lt;tds:FirmwareVersion&gt;1.0.0&lt;/tds:FirmwareVersion&gt;
+<span class="w">      </span>&lt;tds:SerialNumber&gt;RD001234567890&lt;/tds:SerialNumber&gt;
+<span class="w">      </span>&lt;tds:HardwareId&gt;RD-HW-V1&lt;/tds:HardwareId&gt;
+<span class="w">    </span>&lt;/tds:GetDeviceInformationResponse&gt;
+<span class="w">  </span>&lt;/soap:Body&gt;
+&lt;/soap:Envelope&gt;
+</code></pre></div>
+
+<p><strong>Service Capabilities</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Get service capabilities</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/onvif/device_service&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/soap+xml&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;SOAPAction: http://www.onvif.org/ver10/device/wsdl/GetCapabilities&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="s1">&lt;soap:Envelope xmlns:soap=&quot;http://www.w3.org/2003/05/soap-envelope&quot;</span>
+<span class="s1">               xmlns:tds=&quot;http://www.onvif.org/ver10/device/wsdl&quot;&gt;</span>
+<span class="s1">  &lt;soap:Header/&gt;</span>
+<span class="s1">  &lt;soap:Body&gt;</span>
+<span class="s1">    &lt;tds:GetCapabilities&gt;</span>
+<span class="s1">      &lt;tds:Category&gt;All&lt;/tds:Category&gt;</span>
+<span class="s1">    &lt;/tds:GetCapabilities&gt;</span>
+<span class="s1">  &lt;/soap:Body&gt;</span>
+<span class="s1">&lt;/soap:Envelope&gt;&#39;</span>
+</code></pre></div>
+
+<p><strong>Network Configuration</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Get network interfaces</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/onvif/device_service&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/soap+xml&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;SOAPAction: http://www.onvif.org/ver10/device/wsdl/GetNetworkInterfaces&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="s1">&lt;soap:Envelope xmlns:soap=&quot;http://www.w3.org/2003/05/soap-envelope&quot;</span>
+<span class="s1">               xmlns:tds=&quot;http://www.onvif.org/ver10/device/wsdl&quot;&gt;</span>
+<span class="s1">  &lt;soap:Header/&gt;</span>
+<span class="s1">  &lt;soap:Body&gt;</span>
+<span class="s1">    &lt;tds:GetNetworkInterfaces/&gt;</span>
+<span class="s1">  &lt;/soap:Body&gt;</span>
+<span class="s1">&lt;/soap:Envelope&gt;&#39;</span>
+
+<span class="c1"># Set network interface configuration</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/onvif/device_service&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/soap+xml&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;SOAPAction: http://www.onvif.org/ver10/device/wsdl/SetNetworkInterfaces&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="s1">&lt;soap:Envelope xmlns:soap=&quot;http://www.w3.org/2003/05/soap-envelope&quot;</span>
+<span class="s1">               xmlns:tds=&quot;http://www.onvif.org/ver10/device/wsdl&quot;</span>
+<span class="s1">               xmlns:tt=&quot;http://www.onvif.org/ver10/schema&quot;&gt;</span>
+<span class="s1">  &lt;soap:Header/&gt;</span>
+<span class="s1">  &lt;soap:Body&gt;</span>
+<span class="s1">    &lt;tds:SetNetworkInterfaces&gt;</span>
+<span class="s1">      &lt;tds:InterfaceToken&gt;eth0&lt;/tds:InterfaceToken&gt;</span>
+<span class="s1">      &lt;tds:NetworkInterface&gt;</span>
+<span class="s1">        &lt;tt:Enabled&gt;true&lt;/tt:Enabled&gt;</span>
+<span class="s1">        &lt;tt:IPv4&gt;</span>
+<span class="s1">          &lt;tt:Enabled&gt;true&lt;/tt:Enabled&gt;</span>
+<span class="s1">          &lt;tt:Config&gt;</span>
+<span class="s1">            &lt;tt:Manual&gt;</span>
+<span class="s1">              &lt;tt:Address&gt;192.168.1.100&lt;/tt:Address&gt;</span>
+<span class="s1">              &lt;tt:PrefixLength&gt;24&lt;/tt:PrefixLength&gt;</span>
+<span class="s1">            &lt;/tt:Manual&gt;</span>
+<span class="s1">            &lt;tt:DHCP&gt;false&lt;/tt:DHCP&gt;</span>
+<span class="s1">          &lt;/tt:Config&gt;</span>
+<span class="s1">        &lt;/tt:IPv4&gt;</span>
+<span class="s1">      &lt;/tds:NetworkInterface&gt;</span>
+<span class="s1">    &lt;/tds:SetNetworkInterfaces&gt;</span>
+<span class="s1">  &lt;/soap:Body&gt;</span>
+<span class="s1">&lt;/soap:Envelope&gt;&#39;</span>
+</code></pre></div>
+
+<h3 id="media-service">Media Service</h3>
+<p><strong>Media Profiles Management</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Get media profiles</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/onvif/media_service&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/soap+xml&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;SOAPAction: http://www.onvif.org/ver10/media/wsdl/GetProfiles&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="s1">&lt;soap:Envelope xmlns:soap=&quot;http://www.w3.org/2003/05/soap-envelope&quot;</span>
+<span class="s1">               xmlns:trt=&quot;http://www.onvif.org/ver10/media/wsdl&quot;&gt;</span>
+<span class="s1">  &lt;soap:Header/&gt;</span>
+<span class="s1">  &lt;soap:Body&gt;</span>
+<span class="s1">    &lt;trt:GetProfiles/&gt;</span>
+<span class="s1">  &lt;/soap:Body&gt;</span>
+<span class="s1">&lt;/soap:Envelope&gt;&#39;</span>
+
+<span class="c1"># Response includes available profiles</span>
+&lt;?xml<span class="w"> </span><span class="nv">version</span><span class="o">=</span><span class="s2">&quot;1.0&quot;</span><span class="w"> </span><span class="nv">encoding</span><span class="o">=</span><span class="s2">&quot;UTF-8&quot;</span>?&gt;
+&lt;soap:Envelope<span class="w"> </span>xmlns:soap<span class="o">=</span><span class="s2">&quot;http://www.w3.org/2003/05/soap-envelope&quot;</span>&gt;
+<span class="w">  </span>&lt;soap:Body&gt;
+<span class="w">    </span>&lt;trt:GetProfilesResponse&gt;
+<span class="w">      </span>&lt;trt:Profiles<span class="w"> </span><span class="nv">token</span><span class="o">=</span><span class="s2">&quot;Profile_1&quot;</span><span class="w"> </span><span class="nv">fixed</span><span class="o">=</span><span class="s2">&quot;true&quot;</span>&gt;
+<span class="w">        </span>&lt;tt:Name&gt;Main<span class="w"> </span>Stream&lt;/tt:Name&gt;
+<span class="w">        </span>&lt;tt:VideoSourceConfiguration<span class="w"> </span><span class="nv">token</span><span class="o">=</span><span class="s2">&quot;VideoSource_1&quot;</span>&gt;
+<span class="w">          </span>&lt;tt:Name&gt;Primary<span class="w"> </span>Video<span class="w"> </span>Source&lt;/tt:Name&gt;
+<span class="w">          </span>&lt;tt:UseCount&gt;1&lt;/tt:UseCount&gt;
+<span class="w">          </span>&lt;tt:SourceToken&gt;VideoSource_1&lt;/tt:SourceToken&gt;
+<span class="w">          </span>&lt;tt:Bounds<span class="w"> </span><span class="nv">x</span><span class="o">=</span><span class="s2">&quot;0&quot;</span><span class="w"> </span><span class="nv">y</span><span class="o">=</span><span class="s2">&quot;0&quot;</span><span class="w"> </span><span class="nv">width</span><span class="o">=</span><span class="s2">&quot;1920&quot;</span><span class="w"> </span><span class="nv">height</span><span class="o">=</span><span class="s2">&quot;1080&quot;</span>/&gt;
+<span class="w">        </span>&lt;/tt:VideoSourceConfiguration&gt;
+<span class="w">        </span>&lt;tt:VideoEncoderConfiguration<span class="w"> </span><span class="nv">token</span><span class="o">=</span><span class="s2">&quot;VideoEncoder_1&quot;</span>&gt;
+<span class="w">          </span>&lt;tt:Name&gt;H264<span class="w"> </span>Encoder&lt;/tt:Name&gt;
+<span class="w">          </span>&lt;tt:UseCount&gt;1&lt;/tt:UseCount&gt;
+<span class="w">          </span>&lt;tt:Encoding&gt;H264&lt;/tt:Encoding&gt;
+<span class="w">          </span>&lt;tt:Resolution&gt;
+<span class="w">            </span>&lt;tt:Width&gt;1920&lt;/tt:Width&gt;
+<span class="w">            </span>&lt;tt:Height&gt;1080&lt;/tt:Height&gt;
+<span class="w">          </span>&lt;/tt:Resolution&gt;
+<span class="w">          </span>&lt;tt:Quality&gt;50&lt;/tt:Quality&gt;
+<span class="w">          </span>&lt;tt:RateControl&gt;
+<span class="w">            </span>&lt;tt:FrameRateLimit&gt;30&lt;/tt:FrameRateLimit&gt;
+<span class="w">            </span>&lt;tt:EncodingInterval&gt;1&lt;/tt:EncodingInterval&gt;
+<span class="w">            </span>&lt;tt:BitrateLimit&gt;5000&lt;/tt:BitrateLimit&gt;
+<span class="w">          </span>&lt;/tt:RateControl&gt;
+<span class="w">        </span>&lt;/tt:VideoEncoderConfiguration&gt;
+<span class="w">      </span>&lt;/trt:Profiles&gt;
+<span class="w">    </span>&lt;/trt:GetProfilesResponse&gt;
+<span class="w">  </span>&lt;/soap:Body&gt;
+&lt;/soap:Envelope&gt;
+</code></pre></div>
+
+<p><strong>Stream URI Generation</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Get stream URI</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/onvif/media_service&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/soap+xml&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;SOAPAction: http://www.onvif.org/ver10/media/wsdl/GetStreamUri&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="s1">&lt;soap:Envelope xmlns:soap=&quot;http://www.w3.org/2003/05/soap-envelope&quot;</span>
+<span class="s1">               xmlns:trt=&quot;http://www.onvif.org/ver10/media/wsdl&quot;</span>
+<span class="s1">               xmlns:tt=&quot;http://www.onvif.org/ver10/schema&quot;&gt;</span>
+<span class="s1">  &lt;soap:Header/&gt;</span>
+<span class="s1">  &lt;soap:Body&gt;</span>
+<span class="s1">    &lt;trt:GetStreamUri&gt;</span>
+<span class="s1">      &lt;trt:StreamSetup&gt;</span>
+<span class="s1">        &lt;tt:Stream&gt;RTP-Unicast&lt;/tt:Stream&gt;</span>
+<span class="s1">        &lt;tt:Transport&gt;</span>
+<span class="s1">          &lt;tt:Protocol&gt;RTSP&lt;/tt:Protocol&gt;</span>
+<span class="s1">        &lt;/tt:Transport&gt;</span>
+<span class="s1">      &lt;/trt:StreamSetup&gt;</span>
+<span class="s1">      &lt;trt:ProfileToken&gt;Profile_1&lt;/trt:ProfileToken&gt;</span>
+<span class="s1">    &lt;/trt:GetStreamUri&gt;</span>
+<span class="s1">  &lt;/soap:Body&gt;</span>
+<span class="s1">&lt;/soap:Envelope&gt;&#39;</span>
+
+<span class="c1"># Response with RTSP URI</span>
+&lt;?xml<span class="w"> </span><span class="nv">version</span><span class="o">=</span><span class="s2">&quot;1.0&quot;</span><span class="w"> </span><span class="nv">encoding</span><span class="o">=</span><span class="s2">&quot;UTF-8&quot;</span>?&gt;
+&lt;soap:Envelope<span class="w"> </span>xmlns:soap<span class="o">=</span><span class="s2">&quot;http://www.w3.org/2003/05/soap-envelope&quot;</span>&gt;
+<span class="w">  </span>&lt;soap:Body&gt;
+<span class="w">    </span>&lt;trt:GetStreamUriResponse&gt;
+<span class="w">      </span>&lt;trt:MediaUri&gt;
+<span class="w">        </span>&lt;tt:Uri&gt;rtsp://192.168.1.100:554/onvif/profile_1&lt;/tt:Uri&gt;
+<span class="w">        </span>&lt;tt:InvalidAfterConnect&gt;false&lt;/tt:InvalidAfterConnect&gt;
+<span class="w">        </span>&lt;tt:InvalidAfterReboot&gt;false&lt;/tt:InvalidAfterReboot&gt;
+<span class="w">        </span>&lt;tt:Timeout&gt;PT60S&lt;/tt:Timeout&gt;
+<span class="w">      </span>&lt;/trt:MediaUri&gt;
+<span class="w">    </span>&lt;/trt:GetStreamUriResponse&gt;
+<span class="w">  </span>&lt;/soap:Body&gt;
+&lt;/soap:Envelope&gt;
+</code></pre></div>
+
+<p><strong>Video Source Configuration</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Get video source configuration</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/onvif/media_service&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/soap+xml&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;SOAPAction: http://www.onvif.org/ver10/media/wsdl/GetVideoSourceConfiguration&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="s1">&lt;soap:Envelope xmlns:soap=&quot;http://www.w3.org/2003/05/soap-envelope&quot;</span>
+<span class="s1">               xmlns:trt=&quot;http://www.onvif.org/ver10/media/wsdl&quot;&gt;</span>
+<span class="s1">  &lt;soap:Header/&gt;</span>
+<span class="s1">  &lt;soap:Body&gt;</span>
+<span class="s1">    &lt;trt:GetVideoSourceConfiguration&gt;</span>
+<span class="s1">      &lt;trt:ConfigurationToken&gt;VideoSource_1&lt;/trt:ConfigurationToken&gt;</span>
+<span class="s1">    &lt;/trt:GetVideoSourceConfiguration&gt;</span>
+<span class="s1">  &lt;/soap:Body&gt;</span>
+<span class="s1">&lt;/soap:Envelope&gt;&#39;</span>
+
+<span class="c1"># Set video source configuration</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/onvif/media_service&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/soap+xml&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;SOAPAction: http://www.onvif.org/ver10/media/wsdl/SetVideoSourceConfiguration&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="s1">&lt;soap:Envelope xmlns:soap=&quot;http://www.w3.org/2003/05/soap-envelope&quot;</span>
+<span class="s1">               xmlns:trt=&quot;http://www.onvif.org/ver10/media/wsdl&quot;</span>
+<span class="s1">               xmlns:tt=&quot;http://www.onvif.org/ver10/schema&quot;&gt;</span>
+<span class="s1">  &lt;soap:Header/&gt;</span>
+<span class="s1">  &lt;soap:Body&gt;</span>
+<span class="s1">    &lt;trt:SetVideoSourceConfiguration&gt;</span>
+<span class="s1">      &lt;trt:Configuration token=&quot;VideoSource_1&quot;&gt;</span>
+<span class="s1">        &lt;tt:Name&gt;Primary Video Source&lt;/tt:Name&gt;</span>
+<span class="s1">        &lt;tt:UseCount&gt;1&lt;/tt:UseCount&gt;</span>
+<span class="s1">        &lt;tt:SourceToken&gt;VideoSource_1&lt;/tt:SourceToken&gt;</span>
+<span class="s1">        &lt;tt:Bounds x=&quot;0&quot; y=&quot;0&quot; width=&quot;1920&quot; height=&quot;1080&quot;/&gt;</span>
+<span class="s1">      &lt;/trt:Configuration&gt;</span>
+<span class="s1">      &lt;trt:ForcePersistence&gt;true&lt;/trt:ForcePersistence&gt;</span>
+<span class="s1">    &lt;/trt:SetVideoSourceConfiguration&gt;</span>
+<span class="s1">  &lt;/soap:Body&gt;</span>
+<span class="s1">&lt;/soap:Envelope&gt;&#39;</span>
+</code></pre></div>
+
+<h3 id="ptz-service">PTZ Service</h3>
+<p><strong>PTZ Capabilities</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Get PTZ configuration</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/onvif/ptz_service&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/soap+xml&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;SOAPAction: http://www.onvif.org/ver20/ptz/wsdl/GetConfiguration&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="s1">&lt;soap:Envelope xmlns:soap=&quot;http://www.w3.org/2003/05/soap-envelope&quot;</span>
+<span class="s1">               xmlns:tptz=&quot;http://www.onvif.org/ver20/ptz/wsdl&quot;&gt;</span>
+<span class="s1">  &lt;soap:Header/&gt;</span>
+<span class="s1">  &lt;soap:Body&gt;</span>
+<span class="s1">    &lt;tptz:GetConfiguration&gt;</span>
+<span class="s1">      &lt;tptz:PTZConfigurationToken&gt;PTZ_1&lt;/tptz:PTZConfigurationToken&gt;</span>
+<span class="s1">    &lt;/tptz:GetConfiguration&gt;</span>
+<span class="s1">  &lt;/soap:Body&gt;</span>
+<span class="s1">&lt;/soap:Envelope&gt;&#39;</span>
+</code></pre></div>
+
+<p><strong>PTZ Control Commands</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Absolute move</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/onvif/ptz_service&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/soap+xml&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;SOAPAction: http://www.onvif.org/ver20/ptz/wsdl/AbsoluteMove&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="s1">&lt;soap:Envelope xmlns:soap=&quot;http://www.w3.org/2003/05/soap-envelope&quot;</span>
+<span class="s1">               xmlns:tptz=&quot;http://www.onvif.org/ver20/ptz/wsdl&quot;</span>
+<span class="s1">               xmlns:tt=&quot;http://www.onvif.org/ver10/schema&quot;&gt;</span>
+<span class="s1">  &lt;soap:Header/&gt;</span>
+<span class="s1">  &lt;soap:Body&gt;</span>
+<span class="s1">    &lt;tptz:AbsoluteMove&gt;</span>
+<span class="s1">      &lt;tptz:ProfileToken&gt;Profile_1&lt;/tptz:ProfileToken&gt;</span>
+<span class="s1">      &lt;tptz:Position&gt;</span>
+<span class="s1">        &lt;tt:PanTilt x=&quot;0.5&quot; y=&quot;0.3&quot; space=&quot;http://www.onvif.org/ver10/tptz/PanTiltSpaces/PositionGenericSpace&quot;/&gt;</span>
+<span class="s1">        &lt;tt:Zoom x=&quot;0.8&quot; space=&quot;http://www.onvif.org/ver10/tptz/ZoomSpaces/PositionGenericSpace&quot;/&gt;</span>
+<span class="s1">      &lt;/tptz:Position&gt;</span>
+<span class="s1">      &lt;tptz:Speed&gt;</span>
+<span class="s1">        &lt;tt:PanTilt x=&quot;0.5&quot; y=&quot;0.5&quot; space=&quot;http://www.onvif.org/ver10/tptz/PanTiltSpaces/GenericSpeedSpace&quot;/&gt;</span>
+<span class="s1">        &lt;tt:Zoom x=&quot;0.5&quot; space=&quot;http://www.onvif.org/ver10/tptz/ZoomSpaces/ZoomGenericSpeedSpace&quot;/&gt;</span>
+<span class="s1">      &lt;/tptz:Speed&gt;</span>
+<span class="s1">    &lt;/tptz:AbsoluteMove&gt;</span>
+<span class="s1">  &lt;/soap:Body&gt;</span>
+<span class="s1">&lt;/soap:Envelope&gt;&#39;</span>
+
+<span class="c1"># Continuous move</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/onvif/ptz_service&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/soap+xml&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;SOAPAction: http://www.onvif.org/ver20/ptz/wsdl/ContinuousMove&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="s1">&lt;soap:Envelope xmlns:soap=&quot;http://www.w3.org/2003/05/soap-envelope&quot;</span>
+<span class="s1">               xmlns:tptz=&quot;http://www.onvif.org/ver20/ptz/wsdl&quot;</span>
+<span class="s1">               xmlns:tt=&quot;http://www.onvif.org/ver10/schema&quot;&gt;</span>
+<span class="s1">  &lt;soap:Header/&gt;</span>
+<span class="s1">  &lt;soap:Body&gt;</span>
+<span class="s1">    &lt;tptz:ContinuousMove&gt;</span>
+<span class="s1">      &lt;tptz:ProfileToken&gt;Profile_1&lt;/tptz:ProfileToken&gt;</span>
+<span class="s1">      &lt;tptz:Velocity&gt;</span>
+<span class="s1">        &lt;tt:PanTilt x=&quot;0.1&quot; y=&quot;0.0&quot; space=&quot;http://www.onvif.org/ver10/tptz/PanTiltSpaces/VelocityGenericSpace&quot;/&gt;</span>
+<span class="s1">        &lt;tt:Zoom x=&quot;0.0&quot; space=&quot;http://www.onvif.org/ver10/tptz/ZoomSpaces/VelocityGenericSpace&quot;/&gt;</span>
+<span class="s1">      &lt;/tptz:Velocity&gt;</span>
+<span class="s1">      &lt;tptz:Timeout&gt;PT5S&lt;/tptz:Timeout&gt;</span>
+<span class="s1">    &lt;/tptz:ContinuousMove&gt;</span>
+<span class="s1">  &lt;/soap:Body&gt;</span>
+<span class="s1">&lt;/soap:Envelope&gt;&#39;</span>
+
+<span class="c1"># Stop PTZ movement</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/onvif/ptz_service&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/soap+xml&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;SOAPAction: http://www.onvif.org/ver20/ptz/wsdl/Stop&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="s1">&lt;soap:Envelope xmlns:soap=&quot;http://www.w3.org/2003/05/soap-envelope&quot;</span>
+<span class="s1">               xmlns:tptz=&quot;http://www.onvif.org/ver20/ptz/wsdl&quot;&gt;</span>
+<span class="s1">  &lt;soap:Header/&gt;</span>
+<span class="s1">  &lt;soap:Body&gt;</span>
+<span class="s1">    &lt;tptz:Stop&gt;</span>
+<span class="s1">      &lt;tptz:ProfileToken&gt;Profile_1&lt;/tptz:ProfileToken&gt;</span>
+<span class="s1">      &lt;tptz:PanTilt&gt;true&lt;/tptz:PanTilt&gt;</span>
+<span class="s1">      &lt;tptz:Zoom&gt;true&lt;/tptz:Zoom&gt;</span>
+<span class="s1">    &lt;/tptz:Stop&gt;</span>
+<span class="s1">  &lt;/soap:Body&gt;</span>
+<span class="s1">&lt;/soap:Envelope&gt;&#39;</span>
+</code></pre></div>
+
+<p><strong>Preset Management</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Set preset</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/onvif/ptz_service&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/soap+xml&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;SOAPAction: http://www.onvif.org/ver20/ptz/wsdl/SetPreset&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="s1">&lt;soap:Envelope xmlns:soap=&quot;http://www.w3.org/2003/05/soap-envelope&quot;</span>
+<span class="s1">               xmlns:tptz=&quot;http://www.onvif.org/ver20/ptz/wsdl&quot;&gt;</span>
+<span class="s1">  &lt;soap:Header/&gt;</span>
+<span class="s1">  &lt;soap:Body&gt;</span>
+<span class="s1">    &lt;tptz:SetPreset&gt;</span>
+<span class="s1">      &lt;tptz:ProfileToken&gt;Profile_1&lt;/tptz:ProfileToken&gt;</span>
+<span class="s1">      &lt;tptz:PresetName&gt;Home Position&lt;/tptz:PresetName&gt;</span>
+<span class="s1">    &lt;/tptz:SetPreset&gt;</span>
+<span class="s1">  &lt;/soap:Body&gt;</span>
+<span class="s1">&lt;/soap:Envelope&gt;&#39;</span>
+
+<span class="c1"># Goto preset</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/onvif/ptz_service&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/soap+xml&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;SOAPAction: http://www.onvif.org/ver20/ptz/wsdl/GotoPreset&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="s1">&lt;soap:Envelope xmlns:soap=&quot;http://www.w3.org/2003/05/soap-envelope&quot;</span>
+<span class="s1">               xmlns:tptz=&quot;http://www.onvif.org/ver20/ptz/wsdl&quot;&gt;</span>
+<span class="s1">  &lt;soap:Header/&gt;</span>
+<span class="s1">  &lt;soap:Body&gt;</span>
+<span class="s1">    &lt;tptz:GotoPreset&gt;</span>
+<span class="s1">      &lt;tptz:ProfileToken&gt;Profile_1&lt;/tptz:ProfileToken&gt;</span>
+<span class="s1">      &lt;tptz:PresetToken&gt;1&lt;/tptz:PresetToken&gt;</span>
+<span class="s1">      &lt;tptz:Speed&gt;</span>
+<span class="s1">        &lt;tt:PanTilt x=&quot;0.5&quot; y=&quot;0.5&quot; space=&quot;http://www.onvif.org/ver10/tptz/PanTiltSpaces/GenericSpeedSpace&quot;/&gt;</span>
+<span class="s1">        &lt;tt:Zoom x=&quot;0.5&quot; space=&quot;http://www.onvif.org/ver10/tptz/ZoomSpaces/ZoomGenericSpeedSpace&quot;/&gt;</span>
+<span class="s1">      &lt;/tptz:Speed&gt;</span>
+<span class="s1">    &lt;/tptz:GotoPreset&gt;</span>
+<span class="s1">  &lt;/soap:Body&gt;</span>
+<span class="s1">&lt;/soap:Envelope&gt;&#39;</span>
+</code></pre></div>
+
+<h2 id="device-discovery">Device Discovery</h2>
+<h3 id="ws-discovery-implementation">WS-Discovery Implementation</h3>
+<p><strong>Discovery Probe</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Send discovery probe (multicast UDP)</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="s1">&lt;soap:Envelope xmlns:soap=&quot;http://www.w3.org/2003/05/soap-envelope&quot;</span>
+<span class="s1">               xmlns:wsa=&quot;http://schemas.xmlsoap.org/ws/2004/08/addressing&quot;</span>
+<span class="s1">               xmlns:wsd=&quot;http://schemas.xmlsoap.org/ws/2005/04/discovery&quot;</span>
+<span class="s1">               xmlns:tdn=&quot;http://www.onvif.org/ver10/network/wsdl&quot;&gt;</span>
+<span class="s1">  &lt;soap:Header&gt;</span>
+<span class="s1">    &lt;wsa:Action&gt;http://schemas.xmlsoap.org/ws/2005/04/discovery/Probe&lt;/wsa:Action&gt;</span>
+<span class="s1">    &lt;wsa:MessageID&gt;urn:uuid:$(uuidgen)&lt;/wsa:MessageID&gt;</span>
+<span class="s1">    &lt;wsa:To&gt;urn:schemas-xmlsoap-org:ws:2005:04:discovery&lt;/wsa:To&gt;</span>
+<span class="s1">  &lt;/soap:Header&gt;</span>
+<span class="s1">  &lt;soap:Body&gt;</span>
+<span class="s1">    &lt;wsd:Probe&gt;</span>
+<span class="s1">      &lt;wsd:Types&gt;tdn:NetworkVideoTransmitter&lt;/wsd:Types&gt;</span>
+<span class="s1">    &lt;/wsd:Probe&gt;</span>
+<span class="s1">  &lt;/soap:Body&gt;</span>
+<span class="s1">&lt;/soap:Envelope&gt;&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>nc<span class="w"> </span>-u<span class="w"> </span><span class="m">239</span>.255.255.250<span class="w"> </span><span class="m">3702</span>
+</code></pre></div>
+
+<p><strong>Discovery Response</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="nt">&lt;soap:Envelope</span><span class="w"> </span><span class="na">xmlns:soap=</span><span class="s">&quot;http://www.w3.org/2003/05/soap-envelope&quot;</span>
+<span class="w">               </span><span class="na">xmlns:wsa=</span><span class="s">&quot;http://schemas.xmlsoap.org/ws/2004/08/addressing&quot;</span>
+<span class="w">               </span><span class="na">xmlns:wsd=</span><span class="s">&quot;http://schemas.xmlsoap.org/ws/2005/04/discovery&quot;</span>
+<span class="w">               </span><span class="na">xmlns:tdn=</span><span class="s">&quot;http://www.onvif.org/ver10/network/wsdl&quot;</span><span class="nt">&gt;</span>
+<span class="w">  </span><span class="nt">&lt;soap:Header&gt;</span>
+<span class="w">    </span><span class="nt">&lt;wsa:Action&gt;</span>http://schemas.xmlsoap.org/ws/2005/04/discovery/ProbeMatches<span class="nt">&lt;/wsa:Action&gt;</span>
+<span class="w">    </span><span class="nt">&lt;wsa:MessageID&gt;</span>urn:uuid:12345678-1234-1234-1234-123456789012<span class="nt">&lt;/wsa:MessageID&gt;</span>
+<span class="w">    </span><span class="nt">&lt;wsa:RelatesTo&gt;</span>urn:uuid:sender-message-id<span class="nt">&lt;/wsa:RelatesTo&gt;</span>
+<span class="w">    </span><span class="nt">&lt;wsa:To&gt;</span>http://schemas.xmlsoap.org/ws/2004/08/addressing/role/anonymous<span class="nt">&lt;/wsa:To&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/soap:Header&gt;</span>
+<span class="w">  </span><span class="nt">&lt;soap:Body&gt;</span>
+<span class="w">    </span><span class="nt">&lt;wsd:ProbeMatches&gt;</span>
+<span class="w">      </span><span class="nt">&lt;wsd:ProbeMatch&gt;</span>
+<span class="w">        </span><span class="nt">&lt;wsa:EndpointReference&gt;</span>
+<span class="w">          </span><span class="nt">&lt;wsa:Address&gt;</span>urn:uuid:device-12345678-1234-1234-1234-123456789012<span class="nt">&lt;/wsa:Address&gt;</span>
+<span class="w">        </span><span class="nt">&lt;/wsa:EndpointReference&gt;</span>
+<span class="w">        </span><span class="nt">&lt;wsd:Types&gt;</span>tdn:NetworkVideoTransmitter<span class="nt">&lt;/wsd:Types&gt;</span>
+<span class="w">        </span><span class="nt">&lt;wsd:Scopes&gt;</span>onvif://www.onvif.org/type/Network_Video_Transmitter<span class="w"> </span>onvif://www.onvif.org/hardware/RD-CAM-001<span class="w"> </span>onvif://www.onvif.org/name/Cpro_Camera<span class="w"> </span>onvif://www.onvif.org/location/Building_A<span class="nt">&lt;/wsd:Scopes&gt;</span>
+<span class="w">        </span><span class="nt">&lt;wsd:XAddrs&gt;</span>http://192.168.1.100:8080/onvif/device_service<span class="nt">&lt;/wsd:XAddrs&gt;</span>
+<span class="w">        </span><span class="nt">&lt;wsd:MetadataVersion&gt;</span>1<span class="nt">&lt;/wsd:MetadataVersion&gt;</span>
+<span class="w">      </span><span class="nt">&lt;/wsd:ProbeMatch&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/wsd:ProbeMatches&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/soap:Body&gt;</span>
+<span class="nt">&lt;/soap:Envelope&gt;</span>
+</code></pre></div>
+
+<h3 id="discovery-configuration">Discovery Configuration</h3>
+<p><strong>ONVIF Discovery Settings</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Configure ONVIF discovery</span>
+curl<span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/onvif/discovery/config&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;enabled&quot;: true,</span>
+<span class="s1">       &quot;multicast_address&quot;: &quot;239.255.255.250&quot;,</span>
+<span class="s1">       &quot;multicast_port&quot;: 3702,</span>
+<span class="s1">       &quot;device_uuid&quot;: &quot;12345678-1234-1234-1234-123456789012&quot;,</span>
+<span class="s1">       &quot;device_name&quot;: &quot;C Pro Camera&quot;,</span>
+<span class="s1">       &quot;hardware_id&quot;: &quot;RD-CAM-001&quot;,</span>
+<span class="s1">       &quot;location&quot;: &quot;Building A&quot;,</span>
+<span class="s1">       &quot;scopes&quot;: [</span>
+<span class="s1">         &quot;onvif://www.onvif.org/type/Network_Video_Transmitter&quot;,</span>
+<span class="s1">         &quot;onvif://www.onvif.org/hardware/RD-CAM-001&quot;,</span>
+<span class="s1">         &quot;onvif://www.onvif.org/name/Cpro_Camera&quot;,</span>
+<span class="s1">         &quot;onvif://www.onvif.org/location/Building_A&quot;</span>
+<span class="s1">       ]</span>
+<span class="s1">     }&#39;</span>
+</code></pre></div>
+
+<h2 id="event-service">Event Service</h2>
+<h3 id="event-handling">Event Handling</h3>
+<p><strong>Subscribe to Events</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Subscribe to events</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/onvif/event_service&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/soap+xml&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;SOAPAction: http://www.onvif.org/ver10/events/wsdl/Subscribe&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="s1">&lt;soap:Envelope xmlns:soap=&quot;http://www.w3.org/2003/05/soap-envelope&quot;</span>
+<span class="s1">               xmlns:tev=&quot;http://www.onvif.org/ver10/events/wsdl&quot;</span>
+<span class="s1">               xmlns:wsnt=&quot;http://docs.oasis-open.org/wsn/b-2&quot;&gt;</span>
+<span class="s1">  &lt;soap:Header/&gt;</span>
+<span class="s1">  &lt;soap:Body&gt;</span>
+<span class="s1">    &lt;tev:Subscribe&gt;</span>
+<span class="s1">      &lt;tev:ConsumerReference&gt;</span>
+<span class="s1">        &lt;wsa:Address&gt;http://192.168.1.200:8080/events/callback&lt;/wsa:Address&gt;</span>
+<span class="s1">      &lt;/tev:ConsumerReference&gt;</span>
+<span class="s1">      &lt;tev:Filter&gt;</span>
+<span class="s1">        &lt;wsnt:TopicExpression Dialect=&quot;http://www.onvif.org/ver10/tev/topicExpression/ConcreteSet&quot;&gt;</span>
+<span class="s1">          tns1:VideoSource/MotionAlarm</span>
+<span class="s1">        &lt;/wsnt:TopicExpression&gt;</span>
+<span class="s1">      &lt;/tev:Filter&gt;</span>
+<span class="s1">      &lt;tev:InitialTerminationTime&gt;PT600S&lt;/tev:InitialTerminationTime&gt;</span>
+<span class="s1">    &lt;/tev:Subscribe&gt;</span>
+<span class="s1">  &lt;/soap:Body&gt;</span>
+<span class="s1">&lt;/soap:Envelope&gt;&#39;</span>
+</code></pre></div>
+
+<p><strong>Event Notification</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="nt">&lt;soap:Envelope</span><span class="w"> </span><span class="na">xmlns:soap=</span><span class="s">&quot;http://www.w3.org/2003/05/soap-envelope&quot;</span>
+<span class="w">               </span><span class="na">xmlns:wsnt=</span><span class="s">&quot;http://docs.oasis-open.org/wsn/b-2&quot;</span>
+<span class="w">               </span><span class="na">xmlns:tt=</span><span class="s">&quot;http://www.onvif.org/ver10/schema&quot;</span><span class="nt">&gt;</span>
+<span class="w">  </span><span class="nt">&lt;soap:Header/&gt;</span>
+<span class="w">  </span><span class="nt">&lt;soap:Body&gt;</span>
+<span class="w">    </span><span class="nt">&lt;wsnt:Notify&gt;</span>
+<span class="w">      </span><span class="nt">&lt;wsnt:NotificationMessage&gt;</span>
+<span class="w">        </span><span class="nt">&lt;wsnt:Topic</span><span class="w"> </span><span class="na">Dialect=</span><span class="s">&quot;http://www.onvif.org/ver10/tev/topicExpression/ConcreteSet&quot;</span><span class="nt">&gt;</span>
+<span class="w">          </span>tns1:VideoSource/MotionAlarm
+<span class="w">        </span><span class="nt">&lt;/wsnt:Topic&gt;</span>
+<span class="w">        </span><span class="nt">&lt;wsnt:ProducerReference&gt;</span>
+<span class="w">          </span><span class="nt">&lt;wsa:Address&gt;</span>urn:uuid:device-12345678-1234-1234-1234-123456789012<span class="nt">&lt;/wsa:Address&gt;</span>
+<span class="w">        </span><span class="nt">&lt;/wsnt:ProducerReference&gt;</span>
+<span class="w">        </span><span class="nt">&lt;wsnt:Message&gt;</span>
+<span class="w">          </span><span class="nt">&lt;tt:Message</span><span class="w"> </span><span class="na">UtcTime=</span><span class="s">&quot;2025-01-15T10:30:00Z&quot;</span><span class="w"> </span><span class="na">PropertyOperation=</span><span class="s">&quot;Changed&quot;</span><span class="nt">&gt;</span>
+<span class="w">            </span><span class="nt">&lt;tt:Source&gt;</span>
+<span class="w">              </span><span class="nt">&lt;tt:SimpleItem</span><span class="w"> </span><span class="na">Name=</span><span class="s">&quot;VideoSourceConfigurationToken&quot;</span><span class="w"> </span><span class="na">Value=</span><span class="s">&quot;VideoSource_1&quot;</span><span class="nt">/&gt;</span>
+<span class="w">            </span><span class="nt">&lt;/tt:Source&gt;</span>
+<span class="w">            </span><span class="nt">&lt;tt:Data&gt;</span>
+<span class="w">              </span><span class="nt">&lt;tt:SimpleItem</span><span class="w"> </span><span class="na">Name=</span><span class="s">&quot;State&quot;</span><span class="w"> </span><span class="na">Value=</span><span class="s">&quot;true&quot;</span><span class="nt">/&gt;</span>
+<span class="w">            </span><span class="nt">&lt;/tt:Data&gt;</span>
+<span class="w">          </span><span class="nt">&lt;/tt:Message&gt;</span>
+<span class="w">        </span><span class="nt">&lt;/wsnt:Message&gt;</span>
+<span class="w">      </span><span class="nt">&lt;/wsnt:NotificationMessage&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/wsnt:Notify&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/soap:Body&gt;</span>
+<span class="nt">&lt;/soap:Envelope&gt;</span>
+</code></pre></div>
+
+<h3 id="event-configuration">Event Configuration</h3>
+<p><strong>Motion Detection Events</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Configure motion detection</span>
+curl<span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/onvif/events/motion&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;enabled&quot;: true,</span>
+<span class="s1">       &quot;sensitivity&quot;: 50,</span>
+<span class="s1">       &quot;regions&quot;: [</span>
+<span class="s1">         {</span>
+<span class="s1">           &quot;name&quot;: &quot;Region1&quot;,</span>
+<span class="s1">           &quot;polygon&quot;: [</span>
+<span class="s1">             {&quot;x&quot;: 0.1, &quot;y&quot;: 0.1},</span>
+<span class="s1">             {&quot;x&quot;: 0.9, &quot;y&quot;: 0.1},</span>
+<span class="s1">             {&quot;x&quot;: 0.9, &quot;y&quot;: 0.9},</span>
+<span class="s1">             {&quot;x&quot;: 0.1, &quot;y&quot;: 0.9}</span>
+<span class="s1">           ],</span>
+<span class="s1">           &quot;sensitivity&quot;: 60</span>
+<span class="s1">         }</span>
+<span class="s1">       ],</span>
+<span class="s1">       &quot;notification&quot;: {</span>
+<span class="s1">         &quot;enabled&quot;: true,</span>
+<span class="s1">         &quot;topic&quot;: &quot;tns1:VideoSource/MotionAlarm&quot;</span>
+<span class="s1">       }</span>
+<span class="s1">     }&#39;</span>
+</code></pre></div>
+
+<h2 id="analytics-service">Analytics Service</h2>
+<h3 id="video-analytics-configuration">Video Analytics Configuration</h3>
+<p><strong>Analytics Capabilities</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Get analytics capabilities</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/onvif/analytics_service&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/soap+xml&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;SOAPAction: http://www.onvif.org/ver20/analytics/wsdl/GetServiceCapabilities&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="s1">&lt;soap:Envelope xmlns:soap=&quot;http://www.w3.org/2003/05/soap-envelope&quot;</span>
+<span class="s1">               xmlns:tan=&quot;http://www.onvif.org/ver20/analytics/wsdl&quot;&gt;</span>
+<span class="s1">  &lt;soap:Header/&gt;</span>
+<span class="s1">  &lt;soap:Body&gt;</span>
+<span class="s1">    &lt;tan:GetServiceCapabilities/&gt;</span>
+<span class="s1">  &lt;/soap:Body&gt;</span>
+<span class="s1">&lt;/soap:Envelope&gt;&#39;</span>
+</code></pre></div>
+
+<p><strong>Supported Analytics Modules</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Get supported analytics modules</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/onvif/analytics_service&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/soap+xml&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;SOAPAction: http://www.onvif.org/ver20/analytics/wsdl/GetSupportedAnalyticsModules&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="s1">&lt;soap:Envelope xmlns:soap=&quot;http://www.w3.org/2003/05/soap-envelope&quot;</span>
+<span class="s1">               xmlns:tan=&quot;http://www.onvif.org/ver20/analytics/wsdl&quot;&gt;</span>
+<span class="s1">  &lt;soap:Header/&gt;</span>
+<span class="s1">  &lt;soap:Body&gt;</span>
+<span class="s1">    &lt;tan:GetSupportedAnalyticsModules&gt;</span>
+<span class="s1">      &lt;tan:ConfigurationToken&gt;AnalyticsConfig_1&lt;/tan:ConfigurationToken&gt;</span>
+<span class="s1">    &lt;/tan:GetSupportedAnalyticsModules&gt;</span>
+<span class="s1">  &lt;/soap:Body&gt;</span>
+<span class="s1">&lt;/soap:Envelope&gt;&#39;</span>
+</code></pre></div>
+
+<h2 id="onvif-client-integration">ONVIF Client Integration</h2>
+<h3 id="python-onvif-client">Python ONVIF Client</h3>
+<p><strong>Basic Client Implementation</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="ch">#!/usr/bin/env python3</span>
+<span class="c1"># onvif_client.py</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">xml.etree.ElementTree</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ET</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">urllib.parse</span><span class="w"> </span><span class="kn">import</span> <span class="n">urlparse</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">uuid</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">ONVIFClient</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">host</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">8080</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">host</span> <span class="o">=</span> <span class="n">host</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">port</span> <span class="o">=</span> <span class="n">port</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">username</span> <span class="o">=</span> <span class="n">username</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">password</span> <span class="o">=</span> <span class="n">password</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">base_url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;http://</span><span class="si">{</span><span class="n">host</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">port</span><span class="si">}</span><span class="s2">/onvif&quot;</span>
+
+        <span class="c1"># Service endpoints</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">device_service</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">base_url</span><span class="si">}</span><span class="s2">/device_service&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">media_service</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">base_url</span><span class="si">}</span><span class="s2">/media_service&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ptz_service</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">base_url</span><span class="si">}</span><span class="s2">/ptz_service&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">event_service</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">base_url</span><span class="si">}</span><span class="s2">/event_service&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">analytics_service</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">base_url</span><span class="si">}</span><span class="s2">/analytics_service&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_send_soap_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">service_url</span><span class="p">,</span> <span class="n">action</span><span class="p">,</span> <span class="n">body</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Send SOAP request to ONVIF service&quot;&quot;&quot;</span>
+        <span class="n">envelope</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;&#39;&#39;&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="s1">&lt;soap:Envelope xmlns:soap=&quot;http://www.w3.org/2003/05/soap-envelope&quot;&gt;</span>
+<span class="s1">  &lt;soap:Header/&gt;</span>
+<span class="s1">  &lt;soap:Body&gt;</span>
+<span class="s1">    </span><span class="si">{</span><span class="n">body</span><span class="si">}</span>
+<span class="s1">  &lt;/soap:Body&gt;</span>
+<span class="s1">&lt;/soap:Envelope&gt;&#39;&#39;&#39;</span>
+
+        <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;Content-Type&#39;</span><span class="p">:</span> <span class="s1">&#39;application/soap+xml&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;SOAPAction&#39;</span><span class="p">:</span> <span class="n">action</span>
+        <span class="p">}</span>
+
+        <span class="c1"># Add authentication if provided</span>
+        <span class="n">auth</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">username</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">password</span><span class="p">:</span>
+            <span class="n">auth</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">username</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">password</span><span class="p">)</span>
+
+        <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">service_url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">envelope</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span> <span class="n">auth</span><span class="o">=</span><span class="n">auth</span><span class="p">)</span>
+        <span class="n">response</span><span class="o">.</span><span class="n">raise_for_status</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">ET</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_device_information</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get device information&quot;&quot;&quot;</span>
+        <span class="n">action</span> <span class="o">=</span> <span class="s2">&quot;http://www.onvif.org/ver10/device/wsdl/GetDeviceInformation&quot;</span>
+        <span class="n">body</span> <span class="o">=</span> <span class="s1">&#39;&lt;tds:GetDeviceInformation xmlns:tds=&quot;http://www.onvif.org/ver10/device/wsdl&quot;/&gt;&#39;</span>
+
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_send_soap_request</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">device_service</span><span class="p">,</span> <span class="n">action</span><span class="p">,</span> <span class="n">body</span><span class="p">)</span>
+
+        <span class="c1"># Parse response</span>
+        <span class="n">ns</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;soap&#39;</span><span class="p">:</span> <span class="s1">&#39;http://www.w3.org/2003/05/soap-envelope&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;tds&#39;</span><span class="p">:</span> <span class="s1">&#39;http://www.onvif.org/ver10/device/wsdl&#39;</span>
+        <span class="p">}</span>
+
+        <span class="n">info_elem</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;.//tds:GetDeviceInformationResponse&#39;</span><span class="p">,</span> <span class="n">ns</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">info_elem</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span>
+                <span class="s1">&#39;manufacturer&#39;</span><span class="p">:</span> <span class="n">info_elem</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;tds:Manufacturer&#39;</span><span class="p">,</span> <span class="n">ns</span><span class="p">)</span><span class="o">.</span><span class="n">text</span><span class="p">,</span>
+                <span class="s1">&#39;model&#39;</span><span class="p">:</span> <span class="n">info_elem</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;tds:Model&#39;</span><span class="p">,</span> <span class="n">ns</span><span class="p">)</span><span class="o">.</span><span class="n">text</span><span class="p">,</span>
+                <span class="s1">&#39;firmware_version&#39;</span><span class="p">:</span> <span class="n">info_elem</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;tds:FirmwareVersion&#39;</span><span class="p">,</span> <span class="n">ns</span><span class="p">)</span><span class="o">.</span><span class="n">text</span><span class="p">,</span>
+                <span class="s1">&#39;serial_number&#39;</span><span class="p">:</span> <span class="n">info_elem</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;tds:SerialNumber&#39;</span><span class="p">,</span> <span class="n">ns</span><span class="p">)</span><span class="o">.</span><span class="n">text</span><span class="p">,</span>
+                <span class="s1">&#39;hardware_id&#39;</span><span class="p">:</span> <span class="n">info_elem</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;tds:HardwareId&#39;</span><span class="p">,</span> <span class="n">ns</span><span class="p">)</span><span class="o">.</span><span class="n">text</span>
+            <span class="p">}</span>
+
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_profiles</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get media profiles&quot;&quot;&quot;</span>
+        <span class="n">action</span> <span class="o">=</span> <span class="s2">&quot;http://www.onvif.org/ver10/media/wsdl/GetProfiles&quot;</span>
+        <span class="n">body</span> <span class="o">=</span> <span class="s1">&#39;&lt;trt:GetProfiles xmlns:trt=&quot;http://www.onvif.org/ver10/media/wsdl&quot;/&gt;&#39;</span>
+
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_send_soap_request</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">media_service</span><span class="p">,</span> <span class="n">action</span><span class="p">,</span> <span class="n">body</span><span class="p">)</span>
+
+        <span class="c1"># Parse profiles</span>
+        <span class="n">ns</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;soap&#39;</span><span class="p">:</span> <span class="s1">&#39;http://www.w3.org/2003/05/soap-envelope&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;trt&#39;</span><span class="p">:</span> <span class="s1">&#39;http://www.onvif.org/ver10/media/wsdl&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;tt&#39;</span><span class="p">:</span> <span class="s1">&#39;http://www.onvif.org/ver10/schema&#39;</span>
+        <span class="p">}</span>
+
+        <span class="n">profiles</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">profile_elem</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s1">&#39;.//trt:Profiles&#39;</span><span class="p">,</span> <span class="n">ns</span><span class="p">):</span>
+            <span class="n">profile</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s1">&#39;token&#39;</span><span class="p">:</span> <span class="n">profile_elem</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;token&#39;</span><span class="p">),</span>
+                <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">profile_elem</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;tt:Name&#39;</span><span class="p">,</span> <span class="n">ns</span><span class="p">)</span><span class="o">.</span><span class="n">text</span><span class="p">,</span>
+                <span class="s1">&#39;fixed&#39;</span><span class="p">:</span> <span class="n">profile_elem</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;fixed&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;true&#39;</span>
+            <span class="p">}</span>
+
+            <span class="c1"># Get video encoder configuration</span>
+            <span class="n">video_encoder</span> <span class="o">=</span> <span class="n">profile_elem</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;.//tt:VideoEncoderConfiguration&#39;</span><span class="p">,</span> <span class="n">ns</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">video_encoder</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">resolution</span> <span class="o">=</span> <span class="n">video_encoder</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;tt:Resolution&#39;</span><span class="p">,</span> <span class="n">ns</span><span class="p">)</span>
+                <span class="n">rate_control</span> <span class="o">=</span> <span class="n">video_encoder</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;tt:RateControl&#39;</span><span class="p">,</span> <span class="n">ns</span><span class="p">)</span>
+
+                <span class="n">profile</span><span class="p">[</span><span class="s1">&#39;video_encoder&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+                    <span class="s1">&#39;token&#39;</span><span class="p">:</span> <span class="n">video_encoder</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;token&#39;</span><span class="p">),</span>
+                    <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">video_encoder</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;tt:Name&#39;</span><span class="p">,</span> <span class="n">ns</span><span class="p">)</span><span class="o">.</span><span class="n">text</span><span class="p">,</span>
+                    <span class="s1">&#39;encoding&#39;</span><span class="p">:</span> <span class="n">video_encoder</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;tt:Encoding&#39;</span><span class="p">,</span> <span class="n">ns</span><span class="p">)</span><span class="o">.</span><span class="n">text</span><span class="p">,</span>
+                    <span class="s1">&#39;resolution&#39;</span><span class="p">:</span> <span class="p">{</span>
+                        <span class="s1">&#39;width&#39;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">resolution</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;tt:Width&#39;</span><span class="p">,</span> <span class="n">ns</span><span class="p">)</span><span class="o">.</span><span class="n">text</span><span class="p">),</span>
+                        <span class="s1">&#39;height&#39;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">resolution</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;tt:Height&#39;</span><span class="p">,</span> <span class="n">ns</span><span class="p">)</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+                    <span class="p">},</span>
+                    <span class="s1">&#39;quality&#39;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">video_encoder</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;tt:Quality&#39;</span><span class="p">,</span> <span class="n">ns</span><span class="p">)</span><span class="o">.</span><span class="n">text</span><span class="p">),</span>
+                    <span class="s1">&#39;rate_control&#39;</span><span class="p">:</span> <span class="p">{</span>
+                        <span class="s1">&#39;frame_rate_limit&#39;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">rate_control</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;tt:FrameRateLimit&#39;</span><span class="p">,</span> <span class="n">ns</span><span class="p">)</span><span class="o">.</span><span class="n">text</span><span class="p">),</span>
+                        <span class="s1">&#39;encoding_interval&#39;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">rate_control</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;tt:EncodingInterval&#39;</span><span class="p">,</span> <span class="n">ns</span><span class="p">)</span><span class="o">.</span><span class="n">text</span><span class="p">),</span>
+                        <span class="s1">&#39;bitrate_limit&#39;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">rate_control</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;tt:BitrateLimit&#39;</span><span class="p">,</span> <span class="n">ns</span><span class="p">)</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+                    <span class="p">}</span>
+                <span class="p">}</span>
+
+            <span class="n">profiles</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">profile</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">profiles</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_stream_uri</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">profile_token</span><span class="p">,</span> <span class="n">protocol</span><span class="o">=</span><span class="s1">&#39;RTSP&#39;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get stream URI for profile&quot;&quot;&quot;</span>
+        <span class="n">action</span> <span class="o">=</span> <span class="s2">&quot;http://www.onvif.org/ver10/media/wsdl/GetStreamUri&quot;</span>
+        <span class="n">body</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;&#39;&#39;&lt;trt:GetStreamUri xmlns:trt=&quot;http://www.onvif.org/ver10/media/wsdl&quot;</span>
+<span class="s1">                                      xmlns:tt=&quot;http://www.onvif.org/ver10/schema&quot;&gt;</span>
+<span class="s1">          &lt;trt:StreamSetup&gt;</span>
+<span class="s1">            &lt;tt:Stream&gt;RTP-Unicast&lt;/tt:Stream&gt;</span>
+<span class="s1">            &lt;tt:Transport&gt;</span>
+<span class="s1">              &lt;tt:Protocol&gt;</span><span class="si">{</span><span class="n">protocol</span><span class="si">}</span><span class="s1">&lt;/tt:Protocol&gt;</span>
+<span class="s1">            &lt;/tt:Transport&gt;</span>
+<span class="s1">          &lt;/trt:StreamSetup&gt;</span>
+<span class="s1">          &lt;trt:ProfileToken&gt;</span><span class="si">{</span><span class="n">profile_token</span><span class="si">}</span><span class="s1">&lt;/trt:ProfileToken&gt;</span>
+<span class="s1">        &lt;/trt:GetStreamUri&gt;&#39;&#39;&#39;</span>
+
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_send_soap_request</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">media_service</span><span class="p">,</span> <span class="n">action</span><span class="p">,</span> <span class="n">body</span><span class="p">)</span>
+
+        <span class="c1"># Parse URI</span>
+        <span class="n">ns</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;soap&#39;</span><span class="p">:</span> <span class="s1">&#39;http://www.w3.org/2003/05/soap-envelope&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;trt&#39;</span><span class="p">:</span> <span class="s1">&#39;http://www.onvif.org/ver10/media/wsdl&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;tt&#39;</span><span class="p">:</span> <span class="s1">&#39;http://www.onvif.org/ver10/schema&#39;</span>
+        <span class="p">}</span>
+
+        <span class="n">uri_elem</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;.//tt:Uri&#39;</span><span class="p">,</span> <span class="n">ns</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">uri_elem</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">uri_elem</span><span class="o">.</span><span class="n">text</span>
+
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">ptz_absolute_move</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">profile_token</span><span class="p">,</span> <span class="n">pan</span><span class="p">,</span> <span class="n">tilt</span><span class="p">,</span> <span class="n">zoom</span><span class="p">,</span> <span class="n">speed</span><span class="o">=</span><span class="mf">0.5</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Perform absolute PTZ move&quot;&quot;&quot;</span>
+        <span class="n">action</span> <span class="o">=</span> <span class="s2">&quot;http://www.onvif.org/ver20/ptz/wsdl/AbsoluteMove&quot;</span>
+        <span class="n">body</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;&#39;&#39;&lt;tptz:AbsoluteMove xmlns:tptz=&quot;http://www.onvif.org/ver20/ptz/wsdl&quot;</span>
+<span class="s1">                                      xmlns:tt=&quot;http://www.onvif.org/ver10/schema&quot;&gt;</span>
+<span class="s1">          &lt;tptz:ProfileToken&gt;</span><span class="si">{</span><span class="n">profile_token</span><span class="si">}</span><span class="s1">&lt;/tptz:ProfileToken&gt;</span>
+<span class="s1">          &lt;tptz:Position&gt;</span>
+<span class="s1">            &lt;tt:PanTilt x=&quot;</span><span class="si">{</span><span class="n">pan</span><span class="si">}</span><span class="s1">&quot; y=&quot;</span><span class="si">{</span><span class="n">tilt</span><span class="si">}</span><span class="s1">&quot; space=&quot;http://www.onvif.org/ver10/tptz/PanTiltSpaces/PositionGenericSpace&quot;/&gt;</span>
+<span class="s1">            &lt;tt:Zoom x=&quot;</span><span class="si">{</span><span class="n">zoom</span><span class="si">}</span><span class="s1">&quot; space=&quot;http://www.onvif.org/ver10/tptz/ZoomSpaces/PositionGenericSpace&quot;/&gt;</span>
+<span class="s1">          &lt;/tptz:Position&gt;</span>
+<span class="s1">          &lt;tptz:Speed&gt;</span>
+<span class="s1">            &lt;tt:PanTilt x=&quot;</span><span class="si">{</span><span class="n">speed</span><span class="si">}</span><span class="s1">&quot; y=&quot;</span><span class="si">{</span><span class="n">speed</span><span class="si">}</span><span class="s1">&quot; space=&quot;http://www.onvif.org/ver10/tptz/PanTiltSpaces/GenericSpeedSpace&quot;/&gt;</span>
+<span class="s1">            &lt;tt:Zoom x=&quot;</span><span class="si">{</span><span class="n">speed</span><span class="si">}</span><span class="s1">&quot; space=&quot;http://www.onvif.org/ver10/tptz/ZoomSpaces/ZoomGenericSpeedSpace&quot;/&gt;</span>
+<span class="s1">          &lt;/tptz:Speed&gt;</span>
+<span class="s1">        &lt;/tptz:AbsoluteMove&gt;&#39;&#39;&#39;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_send_soap_request</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ptz_service</span><span class="p">,</span> <span class="n">action</span><span class="p">,</span> <span class="n">body</span><span class="p">)</span>
+
+<span class="c1"># Example usage</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="c1"># Create ONVIF client</span>
+    <span class="n">client</span> <span class="o">=</span> <span class="n">ONVIFClient</span><span class="p">(</span><span class="s2">&quot;192.168.1.100&quot;</span><span class="p">,</span> <span class="mi">8080</span><span class="p">)</span>
+
+    <span class="c1"># Get device information</span>
+    <span class="n">device_info</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_device_information</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Device Info:&quot;</span><span class="p">,</span> <span class="n">device_info</span><span class="p">)</span>
+
+    <span class="c1"># Get media profiles</span>
+    <span class="n">profiles</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_profiles</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Profiles:&quot;</span><span class="p">,</span> <span class="n">profiles</span><span class="p">)</span>
+
+    <span class="c1"># Get stream URI for first profile</span>
+    <span class="k">if</span> <span class="n">profiles</span><span class="p">:</span>
+        <span class="n">stream_uri</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_stream_uri</span><span class="p">(</span><span class="n">profiles</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;token&#39;</span><span class="p">])</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Stream URI:&quot;</span><span class="p">,</span> <span class="n">stream_uri</span><span class="p">)</span>
+
+    <span class="c1"># PTZ control (if supported)</span>
+    <span class="k">if</span> <span class="n">profiles</span><span class="p">:</span>
+        <span class="n">client</span><span class="o">.</span><span class="n">ptz_absolute_move</span><span class="p">(</span><span class="n">profiles</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;token&#39;</span><span class="p">],</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;PTZ move command sent&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<h3 id="javascript-onvif-client">JavaScript ONVIF Client</h3>
+<p><strong>Web-based ONVIF Client</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1">// onvif_client.js</span>
+
+<span class="kd">class</span><span class="w"> </span><span class="nx">ONVIFClient</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kr">constructor</span><span class="p">(</span><span class="nx">host</span><span class="p">,</span><span class="w"> </span><span class="nx">port</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">8080</span><span class="p">,</span><span class="w"> </span><span class="nx">username</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="nx">password</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="nx">host</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">host</span><span class="p">;</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="nx">port</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">port</span><span class="p">;</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="nx">username</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">username</span><span class="p">;</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="nx">password</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">password</span><span class="p">;</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="nx">baseUrl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="sb">`http://</span><span class="si">${</span><span class="nx">host</span><span class="si">}</span><span class="sb">:</span><span class="si">${</span><span class="nx">port</span><span class="si">}</span><span class="sb">/onvif`</span><span class="p">;</span>
+
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="nx">services</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nx">device</span><span class="o">:</span><span class="w"> </span><span class="sb">`</span><span class="si">${</span><span class="k">this</span><span class="p">.</span><span class="nx">baseUrl</span><span class="si">}</span><span class="sb">/device_service`</span><span class="p">,</span>
+<span class="w">            </span><span class="nx">media</span><span class="o">:</span><span class="w"> </span><span class="sb">`</span><span class="si">${</span><span class="k">this</span><span class="p">.</span><span class="nx">baseUrl</span><span class="si">}</span><span class="sb">/media_service`</span><span class="p">,</span>
+<span class="w">            </span><span class="nx">ptz</span><span class="o">:</span><span class="w"> </span><span class="sb">`</span><span class="si">${</span><span class="k">this</span><span class="p">.</span><span class="nx">baseUrl</span><span class="si">}</span><span class="sb">/ptz_service`</span><span class="p">,</span>
+<span class="w">            </span><span class="nx">event</span><span class="o">:</span><span class="w"> </span><span class="sb">`</span><span class="si">${</span><span class="k">this</span><span class="p">.</span><span class="nx">baseUrl</span><span class="si">}</span><span class="sb">/event_service`</span><span class="p">,</span>
+<span class="w">            </span><span class="nx">analytics</span><span class="o">:</span><span class="w"> </span><span class="sb">`</span><span class="si">${</span><span class="k">this</span><span class="p">.</span><span class="nx">baseUrl</span><span class="si">}</span><span class="sb">/analytics_service`</span>
+<span class="w">        </span><span class="p">};</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="k">async</span><span class="w"> </span><span class="nx">sendSOAPRequest</span><span class="p">(</span><span class="nx">serviceUrl</span><span class="p">,</span><span class="w"> </span><span class="nx">action</span><span class="p">,</span><span class="w"> </span><span class="nx">body</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">envelope</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="sb">`&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="sb">&lt;soap:Envelope xmlns:soap=&quot;http://www.w3.org/2003/05/soap-envelope&quot;&gt;</span>
+<span class="sb">  &lt;soap:Header/&gt;</span>
+<span class="sb">  &lt;soap:Body&gt;</span>
+<span class="sb">    </span><span class="si">${</span><span class="nx">body</span><span class="si">}</span>
+<span class="sb">  &lt;/soap:Body&gt;</span>
+<span class="sb">&lt;/soap:Envelope&gt;`</span><span class="p">;</span>
+
+<span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">headers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="s1">&#39;Content-Type&#39;</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;application/soap+xml&#39;</span><span class="p">,</span>
+<span class="w">            </span><span class="s1">&#39;SOAPAction&#39;</span><span class="o">:</span><span class="w"> </span><span class="nx">action</span>
+<span class="w">        </span><span class="p">};</span>
+
+<span class="w">        </span><span class="c1">// Add authentication if provided</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">username</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">password</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="kd">const</span><span class="w"> </span><span class="nx">auth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">btoa</span><span class="p">(</span><span class="sb">`</span><span class="si">${</span><span class="k">this</span><span class="p">.</span><span class="nx">username</span><span class="si">}</span><span class="sb">:</span><span class="si">${</span><span class="k">this</span><span class="p">.</span><span class="nx">password</span><span class="si">}</span><span class="sb">`</span><span class="p">);</span>
+<span class="w">            </span><span class="nx">headers</span><span class="p">[</span><span class="s1">&#39;Authorization&#39;</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="sb">`Basic </span><span class="si">${</span><span class="nx">auth</span><span class="si">}</span><span class="sb">`</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+
+<span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">fetch</span><span class="p">(</span><span class="nx">serviceUrl</span><span class="p">,</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nx">method</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;POST&#39;</span><span class="p">,</span>
+<span class="w">            </span><span class="nx">headers</span><span class="o">:</span><span class="w"> </span><span class="nx">headers</span><span class="p">,</span>
+<span class="w">            </span><span class="nx">body</span><span class="o">:</span><span class="w"> </span><span class="nx">envelope</span>
+<span class="w">        </span><span class="p">});</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="nx">response</span><span class="p">.</span><span class="nx">ok</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">throw</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="ne">Error</span><span class="p">(</span><span class="sb">`HTTP error! status: </span><span class="si">${</span><span class="nx">response</span><span class="p">.</span><span class="nx">status</span><span class="si">}</span><span class="sb">`</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+
+<span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">responseText</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">response</span><span class="p">.</span><span class="nx">text</span><span class="p">();</span>
+<span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">parser</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">DOMParser</span><span class="p">();</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nx">parser</span><span class="p">.</span><span class="nx">parseFromString</span><span class="p">(</span><span class="nx">responseText</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;text/xml&#39;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="k">async</span><span class="w"> </span><span class="nx">getDeviceInformation</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">action</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;http://www.onvif.org/ver10/device/wsdl/GetDeviceInformation&quot;</span><span class="p">;</span>
+<span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">body</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;&lt;tds:GetDeviceInformation xmlns:tds=&quot;http://www.onvif.org/ver10/device/wsdl&quot;/&gt;&#39;</span><span class="p">;</span>
+
+<span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">sendSOAPRequest</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">services</span><span class="p">.</span><span class="nx">device</span><span class="p">,</span><span class="w"> </span><span class="nx">action</span><span class="p">,</span><span class="w"> </span><span class="nx">body</span><span class="p">);</span>
+
+<span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">infoElement</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">response</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="s1">&#39;GetDeviceInformationResponse&#39;</span><span class="p">);</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">infoElement</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nx">manufacturer</span><span class="o">:</span><span class="w"> </span><span class="nx">infoElement</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="s1">&#39;Manufacturer&#39;</span><span class="p">)</span><span class="o">?</span><span class="p">.</span><span class="nx">textContent</span><span class="p">,</span>
+<span class="w">                </span><span class="nx">model</span><span class="o">:</span><span class="w"> </span><span class="nx">infoElement</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="s1">&#39;Model&#39;</span><span class="p">)</span><span class="o">?</span><span class="p">.</span><span class="nx">textContent</span><span class="p">,</span>
+<span class="w">                </span><span class="nx">firmwareVersion</span><span class="o">:</span><span class="w"> </span><span class="nx">infoElement</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="s1">&#39;FirmwareVersion&#39;</span><span class="p">)</span><span class="o">?</span><span class="p">.</span><span class="nx">textContent</span><span class="p">,</span>
+<span class="w">                </span><span class="nx">serialNumber</span><span class="o">:</span><span class="w"> </span><span class="nx">infoElement</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="s1">&#39;SerialNumber&#39;</span><span class="p">)</span><span class="o">?</span><span class="p">.</span><span class="nx">textContent</span><span class="p">,</span>
+<span class="w">                </span><span class="nx">hardwareId</span><span class="o">:</span><span class="w"> </span><span class="nx">infoElement</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="s1">&#39;HardwareId&#39;</span><span class="p">)</span><span class="o">?</span><span class="p">.</span><span class="nx">textContent</span>
+<span class="w">            </span><span class="p">};</span>
+<span class="w">        </span><span class="p">}</span>
+
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="kc">null</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="k">async</span><span class="w"> </span><span class="nx">getProfiles</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">action</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;http://www.onvif.org/ver10/media/wsdl/GetProfiles&quot;</span><span class="p">;</span>
+<span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">body</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;&lt;trt:GetProfiles xmlns:trt=&quot;http://www.onvif.org/ver10/media/wsdl&quot;/&gt;&#39;</span><span class="p">;</span>
+
+<span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">sendSOAPRequest</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">services</span><span class="p">.</span><span class="nx">media</span><span class="p">,</span><span class="w"> </span><span class="nx">action</span><span class="p">,</span><span class="w"> </span><span class="nx">body</span><span class="p">);</span>
+
+<span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">profiles</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[];</span>
+<span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">profileElements</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">response</span><span class="p">.</span><span class="nx">querySelectorAll</span><span class="p">(</span><span class="s1">&#39;Profiles&#39;</span><span class="p">);</span>
+
+<span class="w">        </span><span class="nx">profileElements</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="nx">profileElem</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="kd">const</span><span class="w"> </span><span class="nx">profile</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nx">token</span><span class="o">:</span><span class="w"> </span><span class="nx">profileElem</span><span class="p">.</span><span class="nx">getAttribute</span><span class="p">(</span><span class="s1">&#39;token&#39;</span><span class="p">),</span>
+<span class="w">                </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="nx">profileElem</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="s1">&#39;Name&#39;</span><span class="p">)</span><span class="o">?</span><span class="p">.</span><span class="nx">textContent</span><span class="p">,</span>
+<span class="w">                </span><span class="nx">fixed</span><span class="o">:</span><span class="w"> </span><span class="nx">profileElem</span><span class="p">.</span><span class="nx">getAttribute</span><span class="p">(</span><span class="s1">&#39;fixed&#39;</span><span class="p">)</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="s1">&#39;true&#39;</span>
+<span class="w">            </span><span class="p">};</span>
+
+<span class="w">            </span><span class="kd">const</span><span class="w"> </span><span class="nx">videoEncoder</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">profileElem</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="s1">&#39;VideoEncoderConfiguration&#39;</span><span class="p">);</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">videoEncoder</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="kd">const</span><span class="w"> </span><span class="nx">resolution</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">videoEncoder</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="s1">&#39;Resolution&#39;</span><span class="p">);</span>
+<span class="w">                </span><span class="kd">const</span><span class="w"> </span><span class="nx">rateControl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">videoEncoder</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="s1">&#39;RateControl&#39;</span><span class="p">);</span>
+
+<span class="w">                </span><span class="nx">profile</span><span class="p">.</span><span class="nx">videoEncoder</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="nx">token</span><span class="o">:</span><span class="w"> </span><span class="nx">videoEncoder</span><span class="p">.</span><span class="nx">getAttribute</span><span class="p">(</span><span class="s1">&#39;token&#39;</span><span class="p">),</span>
+<span class="w">                    </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="nx">videoEncoder</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="s1">&#39;Name&#39;</span><span class="p">)</span><span class="o">?</span><span class="p">.</span><span class="nx">textContent</span><span class="p">,</span>
+<span class="w">                    </span><span class="nx">encoding</span><span class="o">:</span><span class="w"> </span><span class="nx">videoEncoder</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="s1">&#39;Encoding&#39;</span><span class="p">)</span><span class="o">?</span><span class="p">.</span><span class="nx">textContent</span><span class="p">,</span>
+<span class="w">                    </span><span class="nx">resolution</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                        </span><span class="nx">width</span><span class="o">:</span><span class="w"> </span><span class="nb">parseInt</span><span class="p">(</span><span class="nx">resolution</span><span class="o">?</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="s1">&#39;Width&#39;</span><span class="p">)</span><span class="o">?</span><span class="p">.</span><span class="nx">textContent</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="s1">&#39;0&#39;</span><span class="p">),</span>
+<span class="w">                        </span><span class="nx">height</span><span class="o">:</span><span class="w"> </span><span class="nb">parseInt</span><span class="p">(</span><span class="nx">resolution</span><span class="o">?</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="s1">&#39;Height&#39;</span><span class="p">)</span><span class="o">?</span><span class="p">.</span><span class="nx">textContent</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="s1">&#39;0&#39;</span><span class="p">)</span>
+<span class="w">                    </span><span class="p">},</span>
+<span class="w">                    </span><span class="nx">quality</span><span class="o">:</span><span class="w"> </span><span class="nb">parseInt</span><span class="p">(</span><span class="nx">videoEncoder</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="s1">&#39;Quality&#39;</span><span class="p">)</span><span class="o">?</span><span class="p">.</span><span class="nx">textContent</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="s1">&#39;0&#39;</span><span class="p">),</span>
+<span class="w">                    </span><span class="nx">rateControl</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                        </span><span class="nx">frameRateLimit</span><span class="o">:</span><span class="w"> </span><span class="nb">parseInt</span><span class="p">(</span><span class="nx">rateControl</span><span class="o">?</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="s1">&#39;FrameRateLimit&#39;</span><span class="p">)</span><span class="o">?</span><span class="p">.</span><span class="nx">textContent</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="s1">&#39;0&#39;</span><span class="p">),</span>
+<span class="w">                        </span><span class="nx">encodingInterval</span><span class="o">:</span><span class="w"> </span><span class="nb">parseInt</span><span class="p">(</span><span class="nx">rateControl</span><span class="o">?</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="s1">&#39;EncodingInterval&#39;</span><span class="p">)</span><span class="o">?</span><span class="p">.</span><span class="nx">textContent</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="s1">&#39;0&#39;</span><span class="p">),</span>
+<span class="w">                        </span><span class="nx">bitrateLimit</span><span class="o">:</span><span class="w"> </span><span class="nb">parseInt</span><span class="p">(</span><span class="nx">rateControl</span><span class="o">?</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="s1">&#39;BitrateLimit&#39;</span><span class="p">)</span><span class="o">?</span><span class="p">.</span><span class="nx">textContent</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="s1">&#39;0&#39;</span><span class="p">)</span>
+<span class="w">                    </span><span class="p">}</span>
+<span class="w">                </span><span class="p">};</span>
+<span class="w">            </span><span class="p">}</span>
+
+<span class="w">            </span><span class="nx">profiles</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">profile</span><span class="p">);</span>
+<span class="w">        </span><span class="p">});</span>
+
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nx">profiles</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="k">async</span><span class="w"> </span><span class="nx">getStreamUri</span><span class="p">(</span><span class="nx">profileToken</span><span class="p">,</span><span class="w"> </span><span class="nx">protocol</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;RTSP&#39;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">action</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;http://www.onvif.org/ver10/media/wsdl/GetStreamUri&quot;</span><span class="p">;</span>
+<span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">body</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="sb">`&lt;trt:GetStreamUri xmlns:trt=&quot;http://www.onvif.org/ver10/media/wsdl&quot;</span>
+<span class="sb">                                        xmlns:tt=&quot;http://www.onvif.org/ver10/schema&quot;&gt;</span>
+<span class="sb">          &lt;trt:StreamSetup&gt;</span>
+<span class="sb">            &lt;tt:Stream&gt;RTP-Unicast&lt;/tt:Stream&gt;</span>
+<span class="sb">            &lt;tt:Transport&gt;</span>
+<span class="sb">              &lt;tt:Protocol&gt;</span><span class="si">${</span><span class="nx">protocol</span><span class="si">}</span><span class="sb">&lt;/tt:Protocol&gt;</span>
+<span class="sb">            &lt;/tt:Transport&gt;</span>
+<span class="sb">          &lt;/trt:StreamSetup&gt;</span>
+<span class="sb">          &lt;trt:ProfileToken&gt;</span><span class="si">${</span><span class="nx">profileToken</span><span class="si">}</span><span class="sb">&lt;/trt:ProfileToken&gt;</span>
+<span class="sb">        &lt;/trt:GetStreamUri&gt;`</span><span class="p">;</span>
+
+<span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">sendSOAPRequest</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">services</span><span class="p">.</span><span class="nx">media</span><span class="p">,</span><span class="w"> </span><span class="nx">action</span><span class="p">,</span><span class="w"> </span><span class="nx">body</span><span class="p">);</span>
+
+<span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">uriElement</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">response</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="s1">&#39;Uri&#39;</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nx">uriElement</span><span class="o">?</span><span class="p">.</span><span class="nx">textContent</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="kc">null</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="k">async</span><span class="w"> </span><span class="nx">ptzAbsoluteMove</span><span class="p">(</span><span class="nx">profileToken</span><span class="p">,</span><span class="w"> </span><span class="nx">pan</span><span class="p">,</span><span class="w"> </span><span class="nx">tilt</span><span class="p">,</span><span class="w"> </span><span class="nx">zoom</span><span class="p">,</span><span class="w"> </span><span class="nx">speed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.5</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">action</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;http://www.onvif.org/ver20/ptz/wsdl/AbsoluteMove&quot;</span><span class="p">;</span>
+<span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">body</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="sb">`&lt;tptz:AbsoluteMove xmlns:tptz=&quot;http://www.onvif.org/ver20/ptz/wsdl&quot;</span>
+<span class="sb">                                        xmlns:tt=&quot;http://www.onvif.org/ver10/schema&quot;&gt;</span>
+<span class="sb">          &lt;tptz:ProfileToken&gt;</span><span class="si">${</span><span class="nx">profileToken</span><span class="si">}</span><span class="sb">&lt;/tptz:ProfileToken&gt;</span>
+<span class="sb">          &lt;tptz:Position&gt;</span>
+<span class="sb">            &lt;tt:PanTilt x=&quot;</span><span class="si">${</span><span class="nx">pan</span><span class="si">}</span><span class="sb">&quot; y=&quot;</span><span class="si">${</span><span class="nx">tilt</span><span class="si">}</span><span class="sb">&quot; space=&quot;http://www.onvif.org/ver10/tptz/PanTiltSpaces/PositionGenericSpace&quot;/&gt;</span>
+<span class="sb">            &lt;tt:Zoom x=&quot;</span><span class="si">${</span><span class="nx">zoom</span><span class="si">}</span><span class="sb">&quot; space=&quot;http://www.onvif.org/ver10/tptz/ZoomSpaces/PositionGenericSpace&quot;/&gt;</span>
+<span class="sb">          &lt;/tptz:Position&gt;</span>
+<span class="sb">          &lt;tptz:Speed&gt;</span>
+<span class="sb">            &lt;tt:PanTilt x=&quot;</span><span class="si">${</span><span class="nx">speed</span><span class="si">}</span><span class="sb">&quot; y=&quot;</span><span class="si">${</span><span class="nx">speed</span><span class="si">}</span><span class="sb">&quot; space=&quot;http://www.onvif.org/ver10/tptz/PanTiltSpaces/GenericSpeedSpace&quot;/&gt;</span>
+<span class="sb">            &lt;tt:Zoom x=&quot;</span><span class="si">${</span><span class="nx">speed</span><span class="si">}</span><span class="sb">&quot; space=&quot;http://www.onvif.org/ver10/tptz/ZoomSpaces/ZoomGenericSpeedSpace&quot;/&gt;</span>
+<span class="sb">          &lt;/tptz:Speed&gt;</span>
+<span class="sb">        &lt;/tptz:AbsoluteMove&gt;`</span><span class="p">;</span>
+
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">sendSOAPRequest</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">services</span><span class="p">.</span><span class="nx">ptz</span><span class="p">,</span><span class="w"> </span><span class="nx">action</span><span class="p">,</span><span class="w"> </span><span class="nx">body</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// Example usage</span>
+<span class="k">async</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">demonstrateONVIF</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">client</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">ONVIFClient</span><span class="p">(</span><span class="s1">&#39;192.168.1.100&#39;</span><span class="p">,</span><span class="w"> </span><span class="mf">8080</span><span class="p">);</span>
+
+<span class="w">    </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// Get device information</span>
+<span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">deviceInfo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">client</span><span class="p">.</span><span class="nx">getDeviceInformation</span><span class="p">();</span>
+<span class="w">        </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Device Info:&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">deviceInfo</span><span class="p">);</span>
+
+<span class="w">        </span><span class="c1">// Get media profiles</span>
+<span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">profiles</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">client</span><span class="p">.</span><span class="nx">getProfiles</span><span class="p">();</span>
+<span class="w">        </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Profiles:&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">profiles</span><span class="p">);</span>
+
+<span class="w">        </span><span class="c1">// Get stream URI</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">profiles</span><span class="p">.</span><span class="nx">length</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mf">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="kd">const</span><span class="w"> </span><span class="nx">streamUri</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">client</span><span class="p">.</span><span class="nx">getStreamUri</span><span class="p">(</span><span class="nx">profiles</span><span class="p">[</span><span class="mf">0</span><span class="p">].</span><span class="nx">token</span><span class="p">);</span>
+<span class="w">            </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Stream URI:&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">streamUri</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="nx">error</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="s1">&#39;ONVIF Error:&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">error</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="configuration-and-security">Configuration and Security</h2>
+<h3 id="onvif-authentication">ONVIF Authentication</h3>
+<p><strong>WS-Username Token Authentication</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="nt">&lt;soap:Header&gt;</span>
+<span class="w">  </span><span class="nt">&lt;wsse:Security</span><span class="w"> </span><span class="na">xmlns:wsse=</span><span class="s">&quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd&quot;</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;wsse:UsernameToken&gt;</span>
+<span class="w">      </span><span class="nt">&lt;wsse:Username&gt;</span>admin<span class="nt">&lt;/wsse:Username&gt;</span>
+<span class="w">      </span><span class="nt">&lt;wsse:Password</span><span class="w"> </span><span class="na">Type=</span><span class="s">&quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordDigest&quot;</span><span class="nt">&gt;</span>base64encodeddigest<span class="nt">&lt;/wsse:Password&gt;</span>
+<span class="w">      </span><span class="nt">&lt;wsse:Nonce&gt;</span>base64encodednonce<span class="nt">&lt;/wsse:Nonce&gt;</span>
+<span class="w">      </span><span class="nt">&lt;wsu:Created</span><span class="w"> </span><span class="na">xmlns:wsu=</span><span class="s">&quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd&quot;</span><span class="nt">&gt;</span>2025-01-15T10:30:00Z<span class="nt">&lt;/wsu:Created&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/wsse:UsernameToken&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/wsse:Security&gt;</span>
+<span class="nt">&lt;/soap:Header&gt;</span>
+</code></pre></div>
+
+<p><strong>ONVIF Security Configuration</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Configure ONVIF security</span>
+curl<span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/onvif/security&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;authentication&quot;: {</span>
+<span class="s1">         &quot;enabled&quot;: true,</span>
+<span class="s1">         &quot;methods&quot;: [&quot;digest&quot;, &quot;basic&quot;],</span>
+<span class="s1">         &quot;users&quot;: [</span>
+<span class="s1">           {</span>
+<span class="s1">             &quot;username&quot;: &quot;admin&quot;,</span>
+<span class="s1">             &quot;password&quot;: &quot;admin123&quot;,</span>
+<span class="s1">             &quot;role&quot;: &quot;administrator&quot;</span>
+<span class="s1">           },</span>
+<span class="s1">           {</span>
+<span class="s1">             &quot;username&quot;: &quot;operator&quot;,</span>
+<span class="s1">             &quot;password&quot;: &quot;operator123&quot;, </span>
+<span class="s1">             &quot;role&quot;: &quot;operator&quot;</span>
+<span class="s1">           }</span>
+<span class="s1">         ]</span>
+<span class="s1">       },</span>
+<span class="s1">       &quot;https&quot;: {</span>
+<span class="s1">         &quot;enabled&quot;: true,</span>
+<span class="s1">         &quot;port&quot;: 8443,</span>
+<span class="s1">         &quot;certificate&quot;: &quot;/etc/rotordream/ssl/server.crt&quot;,</span>
+<span class="s1">         &quot;private_key&quot;: &quot;/etc/rotordream/ssl/server.key&quot;</span>
+<span class="s1">       }</span>
+<span class="s1">     }&#39;</span>
+</code></pre></div>
+
+<h2 id="testing-and-validation">Testing and Validation</h2>
+<h3 id="onvif-compliance-testing">ONVIF Compliance Testing</h3>
+<p><strong>Device Test Tool (DUT)</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Test ONVIF compliance using ONVIF Device Test Tool</span>
+<span class="c1"># This would typically be done with the official ONVIF DUT</span>
+
+<span class="c1"># Test device discovery</span>
+python3<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;</span>
+<span class="s2">import socket</span>
+<span class="s2">import time</span>
+
+<span class="s2"># Send WS-Discovery probe</span>
+<span class="s2">sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)</span>
+<span class="s2">sock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)</span>
+<span class="s2">sock.settimeout(5)</span>
+
+<span class="s2">probe_msg = &#39;&#39;&#39;&lt;?xml version=\&quot;1.0\&quot; encoding=\&quot;UTF-8\&quot;?&gt;</span>
+<span class="s2">&lt;soap:Envelope xmlns:soap=\&quot;http://www.w3.org/2003/05/soap-envelope\&quot;&gt;</span>
+<span class="s2">  &lt;soap:Header&gt;</span>
+<span class="s2">    &lt;wsa:Action xmlns:wsa=\&quot;http://schemas.xmlsoap.org/ws/2004/08/addressing\&quot;&gt;http://schemas.xmlsoap.org/ws/2005/04/discovery/Probe&lt;/wsa:Action&gt;</span>
+<span class="s2">    &lt;wsa:MessageID xmlns:wsa=\&quot;http://schemas.xmlsoap.org/ws/2004/08/addressing\&quot;&gt;urn:uuid:test-probe-001&lt;/wsa:MessageID&gt;</span>
+<span class="s2">    &lt;wsa:To xmlns:wsa=\&quot;http://schemas.xmlsoap.org/ws/2004/08/addressing\&quot;&gt;urn:schemas-xmlsoap-org:ws:2005:04:discovery&lt;/wsa:To&gt;</span>
+<span class="s2">  &lt;/soap:Header&gt;</span>
+<span class="s2">  &lt;soap:Body&gt;</span>
+<span class="s2">    &lt;wsd:Probe xmlns:wsd=\&quot;http://schemas.xmlsoap.org/ws/2005/04/discovery\&quot;&gt;</span>
+<span class="s2">      &lt;wsd:Types xmlns:tdn=\&quot;http://www.onvif.org/ver10/network/wsdl\&quot;&gt;tdn:NetworkVideoTransmitter&lt;/wsd:Types&gt;</span>
+<span class="s2">    &lt;/wsd:Probe&gt;</span>
+<span class="s2">  &lt;/soap:Body&gt;</span>
+<span class="s2">&lt;/soap:Envelope&gt;&#39;&#39;&#39;</span>
+
+<span class="s2">sock.sendto(probe_msg.encode(), (&#39;239.255.255.250&#39;, 3702))</span>
+
+<span class="s2">try:</span>
+<span class="s2">    response, addr = sock.recvfrom(4096)</span>
+<span class="s2">    print(f&#39;Discovery response from {addr}: {response.decode()}&#39;)</span>
+<span class="s2">except socket.timeout:</span>
+<span class="s2">    print(&#39;No discovery response received&#39;)</span>
+
+<span class="s2">sock.close()</span>
+<span class="s2">&quot;</span>
+</code></pre></div>
+
+<p><strong>Profile S/G/T Validation</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Test Profile S compliance (streaming)</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/onvif/media_service&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/soap+xml&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="s1">&lt;soap:Envelope xmlns:soap=&quot;http://www.w3.org/2003/05/soap-envelope&quot;</span>
+<span class="s1">               xmlns:trt=&quot;http://www.onvif.org/ver10/media/wsdl&quot;&gt;</span>
+<span class="s1">  &lt;soap:Header/&gt;</span>
+<span class="s1">  &lt;soap:Body&gt;</span>
+<span class="s1">    &lt;trt:GetVideoEncoderConfigurations/&gt;</span>
+<span class="s1">  &lt;/soap:Body&gt;</span>
+<span class="s1">&lt;/soap:Envelope&gt;&#39;</span>
+
+<span class="c1"># Validate required capabilities are present</span>
+<span class="c1"># - GetProfiles</span>
+<span class="c1"># - GetStreamUri</span>
+<span class="c1"># - GetVideoEncoderConfigurations</span>
+<span class="c1"># - GetVideoSourceConfigurations</span>
+</code></pre></div>
+
+<h2 id="related-documentation">Related Documentation</h2>
+<ul>
+<li><a href="../api/http-api.md">API Reference</a> - REST API integration alongside ONVIF</li>
+<li><a href="../api/rtsp-streaming.md">Streaming</a> - RTSP streaming implementation</li>
+<li><a href="../configuration/network.md">Network Configuration</a> - Network setup for ONVIF</li>
+<li><a href="../configuration/authentication.md">Security</a> - Authentication and authorization</li>
+</ul>
+<hr />
+<p><em>ONVIF integration documentation following ONVIF Profile S/G/T specifications and industry standards</em></p>
+            </div>
+            <footer class="content-footer">
+                <p>Copyright © 2025 Rotoclear</p>
+            </footer>
+        </main>
+        
+        <button class="mobile-menu-toggle" id="menuToggle" aria-label="Toggle menu">☰</button>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>
+        // Initialize Mermaid
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            securityLevel: 'loose',
+            fontFamily: 'Inter, sans-serif'
+        });
+        
+        // Syntax highlighting
+        hljs.highlightAll();
+        
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.querySelector('.sidebar');
+        
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+        });
+        
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth <= 768 && 
+                !sidebar.contains(e.target) && 
+                !menuToggle.contains(e.target) &&
+                sidebar.classList.contains('active')) {
+                sidebar.classList.remove('active');
+            }
+        });
+        
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

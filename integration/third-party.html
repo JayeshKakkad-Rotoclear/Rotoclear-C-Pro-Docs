@@ -1,0 +1,1431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Third Party - RotoClear Camera Server Documentation</title>
+    <link rel="stylesheet" href="/assets/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1><a href="/index.html">RotoClear Docs</a></h1>
+                <p>Camera Server Documentation</p>
+            </div>
+            <nav class="sidebar-nav">
+                <ul class="nav-menu">
+                    <li class="nav-item depth-0">
+<a href="/index.html">Home</a>
+</li>
+<li class="nav-item depth-0">
+<a href="/getting-started.html">Getting Started</a>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Architecture</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/architecture/overview.html">Overview</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/architecture/state-management.html">State Management</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/architecture/camera-pipeline.html">Camera Pipeline</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/architecture/metadata-sqlite.html">Metadata & SQLite</a>
+</li>
+<li class="nav-folder depth-1">
+<span class="folder-title">Decisions</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-2">
+<a href="/architecture/decisions/ADR-0001-nim-language.html">ADR-0001 Nim Language</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/architecture/decisions/ADR-0002-corun-framework.html">ADR-0002 Corun Framework</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/architecture/decisions/ADR-0003-observable-state.html">ADR-0003 Observable State</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">API Reference</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/api/README.html">Overview</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/api/websocket-api.html">WebSocket API</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/api/http-api.html">HTTP API</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/api/rtsp-streaming.html">RTSP Streaming</a>
+</li>
+<li class="nav-folder depth-1">
+<span class="folder-title">Examples</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-2">
+<a href="/api/examples/python-client.html">Python Client</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/api/examples/javascript-client.html">JavaScript Client</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/api/examples/csharp-client.html">C# Client</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Configuration</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/configuration/environments.html">Environments</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/factory-config.html">Factory Config</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/license-config.html">License Config</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/deployment-variants.html">Deployment Variants</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/camera-system.html">Camera System</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/network.html">Network</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/storage-backup.html">Storage & Backup</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/authentication.html">Authentication</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Camera System</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/camera/hardware-interface.html">Hardware Interface</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/camera/streaming.html">Streaming</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/camera/recording.html">Recording</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/camera/image-processing.html">Image Processing</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Operations</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/operations/build-and-deploy.html">Build and Deploy</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/build-deploy.html">Build & Deploy (Alt)</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/monitoring.html">Monitoring</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/performance.html">Performance</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/troubleshooting.html">Troubleshooting</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Security</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/security/authentication.html">Authentication</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/security/permissions.html">Permissions</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/security/ssl-certificates.html">SSL Certificates</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Testing</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/testing/testing-strategy.html">Strategy</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/testing/strategies.html">Strategies</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/testing/test-cases.html">Test Cases</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/testing/validation.html">Validation</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Integration</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/integration/onvif-protocol.html">ONVIF Protocol</a>
+</li>
+<li class="nav-item depth-1 active">
+<a href="/integration/third-party.html">Third Party</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Reference</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/reference/glossary.html">Glossary</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/reference/requirements.html">Requirements</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/reference/state-observables.html">State Observables</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Releases</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/releases/CHANGELOG.html">Changelog</a>
+</li>
+</ul>
+</li>
+<li class="nav-item depth-0">
+<a href="/glossary.html">Glossary</a>
+</li>
+                </ul>
+            </nav>
+        </aside>
+        
+        <main class="content">
+            <div class="content-wrapper">
+                <h1 id="third-party-integrations">Third-Party Integrations</h1>
+<p><strong>Comprehensive integration guide for connecting C Pro with external systems, services, and platforms.</strong></p>
+<h2 id="overview">Overview</h2>
+<p>C Pro provides extensive integration capabilities with third-party systems including video management systems, analytics platforms, cloud services, and enterprise applications.</p>
+<div class="mermaid">
+graph TB
+    A[C Pro System] --> B{Integration Layer}
+
+    B -->|Video Management| C[VMS Integration]
+    B -->|Cloud Platforms| D[Cloud Services]
+    B -->|Analytics| E[AI/ML Platforms]
+    B -->|Enterprise| F[Enterprise Systems]
+    B -->|Storage| G[Storage Solutions]
+    B -->|Monitoring| H[Monitoring Tools]
+
+    C --> C1[Milestone XProtect]
+    C --> C2[Genetec Security Center]
+    C --> C3[Avigilon Control Center]
+    C --> C4[Hikvision iVMS]
+
+    D --> D1[AWS S3/Kinesis]
+    D --> D2[Azure Media Services]
+    D --> D3[Google Cloud Video]
+    D --> D4[IBM Watson Video]
+
+    E --> E1[NVIDIA DeepStream]
+    E --> E2[Intel OpenVINO]
+    E --> E3[TensorFlow Serving]
+    E --> E4[Azure Cognitive Services]
+
+    F --> F1[Active Directory]
+    F --> F2[LDAP/SAML]
+    F --> F3[REST APIs]
+    F --> F4[MQTT/Message Queues]
+</div>
+
+<h2 id="video-management-systems-vms">Video Management Systems (VMS)</h2>
+<h3 id="milestone-xprotect-integration">Milestone XProtect Integration</h3>
+<p><strong>ONVIF Integration</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Configure for Milestone XProtect via ONVIF</span>
+curl<span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/integrations/milestone&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;enabled&quot;: true,</span>
+<span class="s1">       &quot;integration_type&quot;: &quot;onvif&quot;,</span>
+<span class="s1">       &quot;device_name&quot;: &quot;C Pro Camera 001&quot;,</span>
+<span class="s1">       &quot;manufacturer&quot;: &quot;Rotoclear&quot;,</span>
+<span class="s1">       &quot;model&quot;: &quot;RD-CAM-001&quot;,</span>
+<span class="s1">       &quot;onvif_endpoints&quot;: {</span>
+<span class="s1">         &quot;device_service&quot;: &quot;http://192.168.1.100:8080/onvif/device_service&quot;,</span>
+<span class="s1">         &quot;media_service&quot;: &quot;http://192.168.1.100:8080/onvif/media_service&quot;,</span>
+<span class="s1">         &quot;ptz_service&quot;: &quot;http://192.168.1.100:8080/onvif/ptz_service&quot;,</span>
+<span class="s1">         &quot;event_service&quot;: &quot;http://192.168.1.100:8080/onvif/event_service&quot;</span>
+<span class="s1">       },</span>
+<span class="s1">       &quot;streaming&quot;: {</span>
+<span class="s1">         &quot;rtsp_url&quot;: &quot;rtsp://192.168.1.100:554/onvif/profile_1&quot;,</span>
+<span class="s1">         &quot;backup_url&quot;: &quot;rtsp://192.168.1.100:554/onvif/profile_2&quot;</span>
+<span class="s1">       },</span>
+<span class="s1">       &quot;authentication&quot;: {</span>
+<span class="s1">         &quot;username&quot;: &quot;milestone&quot;,</span>
+<span class="s1">         &quot;password&quot;: &quot;milestone123&quot;</span>
+<span class="s1">       }</span>
+<span class="s1">     }&#39;</span>
+</code></pre></div>
+
+<p><strong>Direct API Integration</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Configure direct API integration for advanced features</span>
+curl<span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/integrations/milestone/api&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;milestone_server&quot;: &quot;192.168.1.10&quot;,</span>
+<span class="s1">       &quot;api_version&quot;: &quot;2021.1&quot;,</span>
+<span class="s1">       &quot;authentication&quot;: {</span>
+<span class="s1">         &quot;username&quot;: &quot;admin&quot;,</span>
+<span class="s1">         &quot;password&quot;: &quot;admin123&quot;</span>
+<span class="s1">       },</span>
+<span class="s1">       &quot;camera_mapping&quot;: {</span>
+<span class="s1">         &quot;camera_guid&quot;: &quot;12345678-1234-1234-1234-123456789012&quot;,</span>
+<span class="s1">         &quot;hardware_id&quot;: &quot;RD-CAM-001&quot;,</span>
+<span class="s1">         &quot;recording_server&quot;: &quot;192.168.1.11&quot;</span>
+<span class="s1">       },</span>
+<span class="s1">       &quot;features&quot;: {</span>
+<span class="s1">         &quot;metadata_overlay&quot;: true,</span>
+<span class="s1">         &quot;analytics_events&quot;: true,</span>
+<span class="s1">         &quot;alarm_integration&quot;: true</span>
+<span class="s1">       }</span>
+<span class="s1">     }&#39;</span>
+</code></pre></div>
+
+<h3 id="genetec-security-center">Genetec Security Center</h3>
+<p><strong>Security Center Integration</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Configure Genetec Security Center integration</span>
+curl<span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/integrations/genetec&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;enabled&quot;: true,</span>
+<span class="s1">       &quot;server_address&quot;: &quot;192.168.1.15&quot;,</span>
+<span class="s1">       &quot;directory_server&quot;: &quot;192.168.1.16&quot;,</span>
+<span class="s1">       &quot;authentication&quot;: {</span>
+<span class="s1">         &quot;username&quot;: &quot;genetec_user&quot;,</span>
+<span class="s1">         &quot;password&quot;: &quot;genetec123&quot;,</span>
+<span class="s1">         &quot;domain&quot;: &quot;COMPANY&quot;</span>
+<span class="s1">       },</span>
+<span class="s1">       &quot;camera_configuration&quot;: {</span>
+<span class="s1">         &quot;entity_name&quot;: &quot;C Pro Camera 001&quot;,</span>
+<span class="s1">         &quot;entity_type&quot;: &quot;Camera&quot;,</span>
+<span class="s1">         &quot;archiver&quot;: &quot;Main Archiver&quot;,</span>
+<span class="s1">         &quot;partition&quot;: &quot;Default Partition&quot;</span>
+<span class="s1">       },</span>
+<span class="s1">       &quot;streaming_profiles&quot;: [</span>
+<span class="s1">         {</span>
+<span class="s1">           &quot;name&quot;: &quot;Live&quot;,</span>
+<span class="s1">           &quot;rtsp_url&quot;: &quot;rtsp://192.168.1.100:554/live&quot;,</span>
+<span class="s1">           &quot;codec&quot;: &quot;H264&quot;,</span>
+<span class="s1">           &quot;resolution&quot;: &quot;1920x1080&quot;,</span>
+<span class="s1">           &quot;framerate&quot;: 30</span>
+<span class="s1">         },</span>
+<span class="s1">         {</span>
+<span class="s1">           &quot;name&quot;: &quot;Playback&quot;,</span>
+<span class="s1">           &quot;rtsp_url&quot;: &quot;rtsp://192.168.1.100:554/playback&quot;,</span>
+<span class="s1">           &quot;codec&quot;: &quot;H264&quot;,</span>
+<span class="s1">           &quot;resolution&quot;: &quot;1280x720&quot;,</span>
+<span class="s1">           &quot;framerate&quot;: 15</span>
+<span class="s1">         }</span>
+<span class="s1">       ]</span>
+<span class="s1">     }&#39;</span>
+</code></pre></div>
+
+<h3 id="generic-vms-integration">Generic VMS Integration</h3>
+<p><strong>RTSP/ONVIF Standard Integration</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="ch">#!/usr/bin/env python3</span>
+<span class="c1"># vms_integration.py</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">xml.etree.ElementTree</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ET</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">VMSIntegration</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">camera_ip</span><span class="p">,</span> <span class="n">camera_port</span><span class="o">=</span><span class="mi">8080</span><span class="p">,</span> <span class="n">api_key</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">camera_ip</span> <span class="o">=</span> <span class="n">camera_ip</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">camera_port</span> <span class="o">=</span> <span class="n">camera_port</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span> <span class="o">=</span> <span class="n">api_key</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">base_url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;http://</span><span class="si">{</span><span class="n">camera_ip</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">camera_port</span><span class="si">}</span><span class="s2">&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_camera_capabilities</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get camera capabilities for VMS configuration&quot;&quot;&quot;</span>
+        <span class="n">headers</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span><span class="p">:</span>
+            <span class="n">headers</span><span class="p">[</span><span class="s1">&#39;Authorization&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;Bearer </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">api_key</span><span class="si">}</span><span class="s1">&#39;</span>
+
+        <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">base_url</span><span class="si">}</span><span class="s2">/api/camera/capabilities&quot;</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_streaming_endpoints</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get available streaming endpoints&quot;&quot;&quot;</span>
+        <span class="n">headers</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span><span class="p">:</span>
+            <span class="n">headers</span><span class="p">[</span><span class="s1">&#39;Authorization&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;Bearer </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">api_key</span><span class="si">}</span><span class="s1">&#39;</span>
+
+        <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">base_url</span><span class="si">}</span><span class="s2">/api/streaming/endpoints&quot;</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">configure_for_vms</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vms_type</span><span class="p">,</span> <span class="n">vms_config</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Configure camera for specific VMS&quot;&quot;&quot;</span>
+        <span class="n">config_data</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;vms_type&quot;</span><span class="p">:</span> <span class="n">vms_type</span><span class="p">,</span>
+            <span class="s2">&quot;configuration&quot;</span><span class="p">:</span> <span class="n">vms_config</span><span class="p">,</span>
+            <span class="s2">&quot;timestamp&quot;</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">utcnow</span><span class="p">()</span><span class="o">.</span><span class="n">isoformat</span><span class="p">()</span>
+        <span class="p">}</span>
+
+        <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Content-Type&#39;</span><span class="p">:</span> <span class="s1">&#39;application/json&#39;</span><span class="p">}</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span><span class="p">:</span>
+            <span class="n">headers</span><span class="p">[</span><span class="s1">&#39;Authorization&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;Bearer </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">api_key</span><span class="si">}</span><span class="s1">&#39;</span>
+
+        <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">base_url</span><span class="si">}</span><span class="s2">/api/integrations/vms/configure&quot;</span><span class="p">,</span>
+            <span class="n">json</span><span class="o">=</span><span class="n">config_data</span><span class="p">,</span>
+            <span class="n">headers</span><span class="o">=</span><span class="n">headers</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_onvif_wsdl_urls</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get ONVIF WSDL URLs for VMS auto-discovery&quot;&quot;&quot;</span>
+        <span class="n">base_onvif</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">base_url</span><span class="si">}</span><span class="s2">/onvif&quot;</span>
+
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;device_service&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">base_onvif</span><span class="si">}</span><span class="s2">/device_service?wsdl&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;media_service&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">base_onvif</span><span class="si">}</span><span class="s2">/media_service?wsdl&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;ptz_service&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">base_onvif</span><span class="si">}</span><span class="s2">/ptz_service?wsdl&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;event_service&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">base_onvif</span><span class="si">}</span><span class="s2">/event_service?wsdl&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;analytics_service&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">base_onvif</span><span class="si">}</span><span class="s2">/analytics_service?wsdl&quot;</span>
+        <span class="p">}</span>
+
+<span class="c1"># Example VMS configurations</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">configure_milestone_xprotect</span><span class="p">():</span>
+    <span class="n">vms</span> <span class="o">=</span> <span class="n">VMSIntegration</span><span class="p">(</span><span class="s2">&quot;192.168.1.100&quot;</span><span class="p">,</span> <span class="n">api_key</span><span class="o">=</span><span class="s2">&quot;your_api_key&quot;</span><span class="p">)</span>
+
+    <span class="n">milestone_config</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;manufacturer&quot;</span><span class="p">:</span> <span class="s2">&quot;Rotoclear&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="s2">&quot;RD-CAM-001&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;driver_name&quot;</span><span class="p">:</span> <span class="s2">&quot;ONVIF&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;connection_method&quot;</span><span class="p">:</span> <span class="s2">&quot;ONVIF&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;primary_stream&quot;</span><span class="p">:</span> <span class="s2">&quot;rtsp://192.168.1.100:554/onvif/profile_1&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;secondary_stream&quot;</span><span class="p">:</span> <span class="s2">&quot;rtsp://192.168.1.100:554/onvif/profile_2&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;username&quot;</span><span class="p">:</span> <span class="s2">&quot;milestone_user&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;password&quot;</span><span class="p">:</span> <span class="s2">&quot;milestone_pass&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;recording_enabled&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s2">&quot;motion_detection&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s2">&quot;event_forwarding&quot;</span><span class="p">:</span> <span class="kc">True</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">vms</span><span class="o">.</span><span class="n">configure_for_vms</span><span class="p">(</span><span class="s2">&quot;milestone&quot;</span><span class="p">,</span> <span class="n">milestone_config</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">configure_genetec_security_center</span><span class="p">():</span>
+    <span class="n">vms</span> <span class="o">=</span> <span class="n">VMSIntegration</span><span class="p">(</span><span class="s2">&quot;192.168.1.100&quot;</span><span class="p">,</span> <span class="n">api_key</span><span class="o">=</span><span class="s2">&quot;your_api_key&quot;</span><span class="p">)</span>
+
+    <span class="n">genetec_config</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;entity_type&quot;</span><span class="p">:</span> <span class="s2">&quot;Camera&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;manufacturer&quot;</span><span class="p">:</span> <span class="s2">&quot;Rotoclear&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="s2">&quot;RD-CAM-001&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;connection_type&quot;</span><span class="p">:</span> <span class="s2">&quot;IP&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;video_format&quot;</span><span class="p">:</span> <span class="s2">&quot;H264&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;audio_support&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="s2">&quot;ptz_support&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s2">&quot;alarm_inputs&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s2">&quot;alarm_outputs&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s2">&quot;streaming_urls&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;live&quot;</span><span class="p">:</span> <span class="s2">&quot;rtsp://192.168.1.100:554/live&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;playback&quot;</span><span class="p">:</span> <span class="s2">&quot;rtsp://192.168.1.100:554/playback&quot;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">vms</span><span class="o">.</span><span class="n">configure_for_vms</span><span class="p">(</span><span class="s2">&quot;genetec&quot;</span><span class="p">,</span> <span class="n">genetec_config</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="c1"># Configure for Milestone XProtect</span>
+    <span class="n">milestone_result</span> <span class="o">=</span> <span class="n">configure_milestone_xprotect</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Milestone Configuration:&quot;</span><span class="p">,</span> <span class="n">milestone_result</span><span class="p">)</span>
+
+    <span class="c1"># Configure for Genetec Security Center</span>
+    <span class="n">genetec_result</span> <span class="o">=</span> <span class="n">configure_genetec_security_center</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Genetec Configuration:&quot;</span><span class="p">,</span> <span class="n">genetec_result</span><span class="p">)</span>
+</code></pre></div>
+
+<h2 id="cloud-platform-integrations">Cloud Platform Integrations</h2>
+<h3 id="aws-integration">AWS Integration</h3>
+<p><strong>AWS S3 Storage Integration</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Configure AWS S3 for video storage</span>
+curl<span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/integrations/aws/s3&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;enabled&quot;: true,</span>
+<span class="s1">       &quot;region&quot;: &quot;us-east-1&quot;,</span>
+<span class="s1">       &quot;bucket_name&quot;: &quot;C Pro-camera-storage&quot;,</span>
+<span class="s1">       &quot;access_key_id&quot;: &quot;AKIAIOSFODNN7EXAMPLE&quot;,</span>
+<span class="s1">       &quot;secret_access_key&quot;: &quot;wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY&quot;,</span>
+<span class="s1">       &quot;encryption&quot;: {</span>
+<span class="s1">         &quot;enabled&quot;: true,</span>
+<span class="s1">         &quot;method&quot;: &quot;AES256&quot;</span>
+<span class="s1">       },</span>
+<span class="s1">       &quot;upload_settings&quot;: {</span>
+<span class="s1">         &quot;auto_upload&quot;: true,</span>
+<span class="s1">         &quot;upload_schedule&quot;: &quot;0 */6 * * *&quot;,</span>
+<span class="s1">         &quot;compression&quot;: true,</span>
+<span class="s1">         &quot;retention_days&quot;: 90</span>
+<span class="s1">       },</span>
+<span class="s1">       &quot;lifecycle_policy&quot;: {</span>
+<span class="s1">         &quot;transition_to_ia&quot;: 30,</span>
+<span class="s1">         &quot;transition_to_glacier&quot;: 90,</span>
+<span class="s1">         &quot;expiration_days&quot;: 365</span>
+<span class="s1">       }</span>
+<span class="s1">     }&#39;</span>
+</code></pre></div>
+
+<p><strong>AWS Kinesis Video Streams</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Configure AWS Kinesis Video Streams</span>
+curl<span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/integrations/aws/kinesis&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;enabled&quot;: true,</span>
+<span class="s1">       &quot;region&quot;: &quot;us-east-1&quot;,</span>
+<span class="s1">       &quot;stream_name&quot;: &quot;rotordream-camera-001&quot;,</span>
+<span class="s1">       &quot;access_key_id&quot;: &quot;AKIAIOSFODNN7EXAMPLE&quot;,</span>
+<span class="s1">       &quot;secret_access_key&quot;: &quot;wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY&quot;,</span>
+<span class="s1">       &quot;stream_settings&quot;: {</span>
+<span class="s1">         &quot;data_retention_hours&quot;: 24,</span>
+<span class="s1">         &quot;shard_count&quot;: 1,</span>
+<span class="s1">         &quot;fragment_duration_ms&quot;: 2000</span>
+<span class="s1">       },</span>
+<span class="s1">       &quot;producer_config&quot;: {</span>
+<span class="s1">         &quot;buffer_duration_ms&quot;: 3000,</span>
+<span class="s1">         &quot;key_frame_fragmentation&quot;: true,</span>
+<span class="s1">         &quot;absolute_fragment_times&quot;: true,</span>
+<span class="s1">         &quot;fragment_acks&quot;: true</span>
+<span class="s1">       }</span>
+<span class="s1">     }&#39;</span>
+</code></pre></div>
+
+<p><strong>AWS Rekognition Integration</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Configure AWS Rekognition for video analysis</span>
+curl<span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/integrations/aws/rekognition&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;enabled&quot;: true,</span>
+<span class="s1">       &quot;region&quot;: &quot;us-east-1&quot;,</span>
+<span class="s1">       &quot;access_key_id&quot;: &quot;AKIAIOSFODNN7EXAMPLE&quot;,</span>
+<span class="s1">       &quot;secret_access_key&quot;: &quot;wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY&quot;,</span>
+<span class="s1">       &quot;analysis_settings&quot;: {</span>
+<span class="s1">         &quot;face_detection&quot;: true,</span>
+<span class="s1">         &quot;object_detection&quot;: true,</span>
+<span class="s1">         &quot;text_detection&quot;: false,</span>
+<span class="s1">         &quot;celebrity_recognition&quot;: false,</span>
+<span class="s1">         &quot;unsafe_content_detection&quot;: true</span>
+<span class="s1">       },</span>
+<span class="s1">       &quot;processing&quot;: {</span>
+<span class="s1">         &quot;real_time&quot;: false,</span>
+<span class="s1">         &quot;batch_interval&quot;: 300,</span>
+<span class="s1">         &quot;confidence_threshold&quot;: 80,</span>
+<span class="s1">         &quot;max_results&quot;: 50</span>
+<span class="s1">       },</span>
+<span class="s1">       &quot;notification&quot;: {</span>
+<span class="s1">         &quot;sns_topic&quot;: &quot;arn:aws:sns:us-east-1:123456789012:rekognition-results&quot;,</span>
+<span class="s1">         &quot;include_metadata&quot;: true</span>
+<span class="s1">       }</span>
+<span class="s1">     }&#39;</span>
+</code></pre></div>
+
+<h3 id="azure-integration">Azure Integration</h3>
+<p><strong>Azure Media Services</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Configure Azure Media Services</span>
+curl<span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/integrations/azure/media&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;enabled&quot;: true,</span>
+<span class="s1">       &quot;subscription_id&quot;: &quot;12345678-1234-1234-1234-123456789012&quot;,</span>
+<span class="s1">       &quot;resource_group&quot;: &quot;rotordream-resources&quot;,</span>
+<span class="s1">       &quot;account_name&quot;: &quot;rotordreammedia&quot;,</span>
+<span class="s1">       &quot;authentication&quot;: {</span>
+<span class="s1">         &quot;client_id&quot;: &quot;87654321-4321-4321-4321-210987654321&quot;,</span>
+<span class="s1">         &quot;client_secret&quot;: &quot;your_client_secret&quot;,</span>
+<span class="s1">         &quot;tenant_id&quot;: &quot;11111111-1111-1111-1111-111111111111&quot;</span>
+<span class="s1">       },</span>
+<span class="s1">       &quot;streaming&quot;: {</span>
+<span class="s1">         &quot;live_event_name&quot;: &quot;rotordream-live&quot;,</span>
+<span class="s1">         &quot;streaming_protocol&quot;: &quot;RTMP&quot;,</span>
+<span class="s1">         &quot;encoding_preset&quot;: &quot;Default720p&quot;,</span>
+<span class="s1">         &quot;archive_enabled&quot;: true</span>
+<span class="s1">       },</span>
+<span class="s1">       &quot;content_protection&quot;: {</span>
+<span class="s1">         &quot;drm_enabled&quot;: false,</span>
+<span class="s1">         &quot;token_auth&quot;: false</span>
+<span class="s1">       }</span>
+<span class="s1">     }&#39;</span>
+</code></pre></div>
+
+<p><strong>Azure Cognitive Services</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Configure Azure Cognitive Services</span>
+curl<span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/integrations/azure/cognitive&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;enabled&quot;: true,</span>
+<span class="s1">       &quot;endpoint&quot;: &quot;https://eastus.api.cognitive.microsoft.com/&quot;,</span>
+<span class="s1">       &quot;subscription_key&quot;: &quot;your_subscription_key&quot;,</span>
+<span class="s1">       &quot;services&quot;: {</span>
+<span class="s1">         &quot;computer_vision&quot;: {</span>
+<span class="s1">           &quot;enabled&quot;: true,</span>
+<span class="s1">           &quot;features&quot;: [&quot;objects&quot;, &quot;faces&quot;, &quot;text&quot;, &quot;landmarks&quot;],</span>
+<span class="s1">           &quot;confidence_threshold&quot;: 0.7</span>
+<span class="s1">         },</span>
+<span class="s1">         &quot;face_api&quot;: {</span>
+<span class="s1">           &quot;enabled&quot;: true,</span>
+<span class="s1">           &quot;face_attributes&quot;: [&quot;age&quot;, &quot;gender&quot;, &quot;emotion&quot;],</span>
+<span class="s1">           &quot;face_recognition&quot;: true</span>
+<span class="s1">         },</span>
+<span class="s1">         &quot;video_indexer&quot;: {</span>
+<span class="s1">           &quot;enabled&quot;: false,</span>
+<span class="s1">           &quot;account_id&quot;: &quot;your_account_id&quot;,</span>
+<span class="s1">           &quot;location&quot;: &quot;eastus&quot;</span>
+<span class="s1">         }</span>
+<span class="s1">       }</span>
+<span class="s1">     }&#39;</span>
+</code></pre></div>
+
+<h3 id="google-cloud-integration">Google Cloud Integration</h3>
+<p><strong>Google Cloud Video Intelligence</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Configure Google Cloud Video Intelligence</span>
+curl<span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/integrations/gcp/video&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;enabled&quot;: true,</span>
+<span class="s1">       &quot;project_id&quot;: &quot;rotordream-project&quot;,</span>
+<span class="s1">       &quot;service_account_key&quot;: &quot;/etc/rotordream/gcp-service-account.json&quot;,</span>
+<span class="s1">       &quot;analysis_features&quot;: [</span>
+<span class="s1">         &quot;LABEL_DETECTION&quot;,</span>
+<span class="s1">         &quot;FACE_DETECTION&quot;,</span>
+<span class="s1">         &quot;PERSON_DETECTION&quot;,</span>
+<span class="s1">         &quot;OBJECT_TRACKING&quot;</span>
+<span class="s1">       ],</span>
+<span class="s1">       &quot;processing&quot;: {</span>
+<span class="s1">         &quot;mode&quot;: &quot;streaming&quot;,</span>
+<span class="s1">         &quot;segment_duration&quot;: 10,</span>
+<span class="s1">         &quot;confidence_threshold&quot;: 0.8</span>
+<span class="s1">       },</span>
+<span class="s1">       &quot;storage&quot;: {</span>
+<span class="s1">         &quot;bucket_name&quot;: &quot;rotordream-video-analysis&quot;,</span>
+<span class="s1">         &quot;results_format&quot;: &quot;json&quot;,</span>
+<span class="s1">         &quot;include_thumbnails&quot;: true</span>
+<span class="s1">       }</span>
+<span class="s1">     }&#39;</span>
+</code></pre></div>
+
+<h2 id="analytics-and-ai-platform-integrations">Analytics and AI Platform Integrations</h2>
+<h3 id="nvidia-deepstream-integration">NVIDIA DeepStream Integration</h3>
+<p><strong>DeepStream Pipeline Configuration</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Configure NVIDIA DeepStream integration</span>
+curl<span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/integrations/nvidia/deepstream&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;enabled&quot;: true,</span>
+<span class="s1">       &quot;deepstream_version&quot;: &quot;6.0&quot;,</span>
+<span class="s1">       &quot;gpu_id&quot;: 0,</span>
+<span class="s1">       &quot;pipeline_config&quot;: {</span>
+<span class="s1">         &quot;input_stream&quot;: &quot;rtsp://192.168.1.100:554/live&quot;,</span>
+<span class="s1">         &quot;inference_models&quot;: [</span>
+<span class="s1">           {</span>
+<span class="s1">             &quot;name&quot;: &quot;primary_detector&quot;,</span>
+<span class="s1">             &quot;model_file&quot;: &quot;/opt/nvidia/deepstream/samples/models/Primary_Detector/resnet10.caffemodel&quot;,</span>
+<span class="s1">             &quot;config_file&quot;: &quot;/opt/nvidia/deepstream/samples/configs/deepstream-app/config_infer_primary.txt&quot;,</span>
+<span class="s1">             &quot;classes&quot;: [&quot;Vehicle&quot;, &quot;Person&quot;, &quot;Bicycle&quot;, &quot;RoadSign&quot;]</span>
+<span class="s1">           }</span>
+<span class="s1">         ],</span>
+<span class="s1">         &quot;tracker&quot;: {</span>
+<span class="s1">           &quot;enabled&quot;: true,</span>
+<span class="s1">           &quot;config_file&quot;: &quot;/opt/nvidia/deepstream/samples/configs/deepstream-app/config_tracker_NvDCF_perf.yml&quot;</span>
+<span class="s1">         },</span>
+<span class="s1">         &quot;output&quot;: {</span>
+<span class="s1">           &quot;display&quot;: false,</span>
+<span class="s1">           &quot;rtsp_out&quot;: &quot;rtsp://192.168.1.100:554/deepstream_out&quot;,</span>
+<span class="s1">           &quot;metadata_broker&quot;: &quot;kafka://192.168.1.50:9092&quot;</span>
+<span class="s1">         }</span>
+<span class="s1">       }</span>
+<span class="s1">     }&#39;</span>
+</code></pre></div>
+
+<h3 id="intel-openvino-integration">Intel OpenVINO Integration</h3>
+<p><strong>OpenVINO Model Server</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Configure Intel OpenVINO integration</span>
+curl<span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/integrations/intel/openvino&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;enabled&quot;: true,</span>
+<span class="s1">       &quot;model_server_url&quot;: &quot;http://192.168.1.60:9000/v1/models&quot;,</span>
+<span class="s1">       &quot;models&quot;: [</span>
+<span class="s1">         {</span>
+<span class="s1">           &quot;name&quot;: &quot;person-detection&quot;,</span>
+<span class="s1">           &quot;version&quot;: &quot;1&quot;,</span>
+<span class="s1">           &quot;input_shape&quot;: [1, 3, 416, 416],</span>
+<span class="s1">           &quot;confidence_threshold&quot;: 0.7</span>
+<span class="s1">         },</span>
+<span class="s1">         {</span>
+<span class="s1">           &quot;name&quot;: &quot;face-detection&quot;,</span>
+<span class="s1">           &quot;version&quot;: &quot;1&quot;, </span>
+<span class="s1">           &quot;input_shape&quot;: [1, 3, 384, 672],</span>
+<span class="s1">           &quot;confidence_threshold&quot;: 0.8</span>
+<span class="s1">         }</span>
+<span class="s1">       ],</span>
+<span class="s1">       &quot;preprocessing&quot;: {</span>
+<span class="s1">         &quot;resize_method&quot;: &quot;bilinear&quot;,</span>
+<span class="s1">         &quot;normalization&quot;: &quot;standard&quot;,</span>
+<span class="s1">         &quot;color_format&quot;: &quot;RGB&quot;</span>
+<span class="s1">       },</span>
+<span class="s1">       &quot;postprocessing&quot;: {</span>
+<span class="s1">         &quot;nms_threshold&quot;: 0.4,</span>
+<span class="s1">         &quot;max_detections&quot;: 100</span>
+<span class="s1">       }</span>
+<span class="s1">     }&#39;</span>
+</code></pre></div>
+
+<h3 id="custom-ml-platform-integration">Custom ML Platform Integration</h3>
+<p><strong>Generic ML API Integration</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="ch">#!/usr/bin/env python3</span>
+<span class="c1"># ml_integration.py</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">cv2</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">base64</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">MLPlatformIntegration</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">camera_ip</span><span class="p">,</span> <span class="n">ml_endpoint</span><span class="p">,</span> <span class="n">api_key</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">camera_ip</span> <span class="o">=</span> <span class="n">camera_ip</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ml_endpoint</span> <span class="o">=</span> <span class="n">ml_endpoint</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span> <span class="o">=</span> <span class="n">api_key</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">capture_frame_for_analysis</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Capture frame from camera for ML analysis&quot;&quot;&quot;</span>
+        <span class="c1"># Get current frame via API</span>
+        <span class="n">headers</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span><span class="p">:</span>
+            <span class="n">headers</span><span class="p">[</span><span class="s1">&#39;Authorization&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;Bearer </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">api_key</span><span class="si">}</span><span class="s1">&#39;</span>
+
+        <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;http://</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">camera_ip</span><span class="si">}</span><span class="s2">:8080/api/camera/snapshot&quot;</span><span class="p">,</span>
+            <span class="n">headers</span><span class="o">=</span><span class="n">headers</span>
+        <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="n">content</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">analyze_frame</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame_data</span><span class="p">,</span> <span class="n">analysis_type</span><span class="o">=</span><span class="s2">&quot;object_detection&quot;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Send frame to ML platform for analysis&quot;&quot;&quot;</span>
+        <span class="c1"># Encode frame as base64</span>
+        <span class="n">frame_b64</span> <span class="o">=</span> <span class="n">base64</span><span class="o">.</span><span class="n">b64encode</span><span class="p">(</span><span class="n">frame_data</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+
+        <span class="n">analysis_request</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;image&quot;</span><span class="p">:</span> <span class="n">frame_b64</span><span class="p">,</span>
+            <span class="s2">&quot;analysis_type&quot;</span><span class="p">:</span> <span class="n">analysis_type</span><span class="p">,</span>
+            <span class="s2">&quot;timestamp&quot;</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">utcnow</span><span class="p">()</span><span class="o">.</span><span class="n">isoformat</span><span class="p">(),</span>
+            <span class="s2">&quot;confidence_threshold&quot;</span><span class="p">:</span> <span class="mf">0.7</span><span class="p">,</span>
+            <span class="s2">&quot;max_results&quot;</span><span class="p">:</span> <span class="mi">10</span>
+        <span class="p">}</span>
+
+        <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;Content-Type&#39;</span><span class="p">:</span> <span class="s1">&#39;application/json&#39;</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span><span class="p">:</span>
+            <span class="n">headers</span><span class="p">[</span><span class="s1">&#39;Authorization&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;Bearer </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">api_key</span><span class="si">}</span><span class="s1">&#39;</span>
+
+        <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">ml_endpoint</span><span class="si">}</span><span class="s2">/analyze&quot;</span><span class="p">,</span>
+            <span class="n">json</span><span class="o">=</span><span class="n">analysis_request</span><span class="p">,</span>
+            <span class="n">headers</span><span class="o">=</span><span class="n">headers</span>
+        <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">setup_streaming_analysis</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stream_url</span><span class="p">,</span> <span class="n">webhook_url</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Setup streaming analysis with results webhook&quot;&quot;&quot;</span>
+        <span class="n">stream_config</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;stream_url&quot;</span><span class="p">:</span> <span class="n">stream_url</span><span class="p">,</span>
+            <span class="s2">&quot;webhook_url&quot;</span><span class="p">:</span> <span class="n">webhook_url</span><span class="p">,</span>
+            <span class="s2">&quot;analysis_settings&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;frame_interval&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>  <span class="c1"># Analyze every 5th frame</span>
+                <span class="s2">&quot;analysis_types&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;object_detection&quot;</span><span class="p">,</span> <span class="s2">&quot;face_detection&quot;</span><span class="p">],</span>
+                <span class="s2">&quot;batch_size&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+                <span class="s2">&quot;real_time&quot;</span><span class="p">:</span> <span class="kc">True</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;filter_settings&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;min_confidence&quot;</span><span class="p">:</span> <span class="mf">0.8</span><span class="p">,</span>
+                <span class="s2">&quot;classes_of_interest&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;person&quot;</span><span class="p">,</span> <span class="s2">&quot;vehicle&quot;</span><span class="p">,</span> <span class="s2">&quot;animal&quot;</span><span class="p">],</span>
+                <span class="s2">&quot;roi_enabled&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+                <span class="s2">&quot;roi_coordinates&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">]</span>  <span class="c1"># x1,y1,x2,y2</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+
+        <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;Content-Type&#39;</span><span class="p">:</span> <span class="s1">&#39;application/json&#39;</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span><span class="p">:</span>
+            <span class="n">headers</span><span class="p">[</span><span class="s1">&#39;Authorization&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;Bearer </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">api_key</span><span class="si">}</span><span class="s1">&#39;</span>
+
+        <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">ml_endpoint</span><span class="si">}</span><span class="s2">/streaming/setup&quot;</span><span class="p">,</span>
+            <span class="n">json</span><span class="o">=</span><span class="n">stream_config</span><span class="p">,</span>
+            <span class="n">headers</span><span class="o">=</span><span class="n">headers</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span> <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span> <span class="k">else</span> <span class="kc">None</span>
+
+<span class="c1"># Example usage</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">setup_custom_ai_platform</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Setup integration with custom AI platform&quot;&quot;&quot;</span>
+    <span class="n">ml_integration</span> <span class="o">=</span> <span class="n">MLPlatformIntegration</span><span class="p">(</span>
+        <span class="n">camera_ip</span><span class="o">=</span><span class="s2">&quot;192.168.1.100&quot;</span><span class="p">,</span>
+        <span class="n">ml_endpoint</span><span class="o">=</span><span class="s2">&quot;http://ai-platform.company.com/api/v1&quot;</span><span class="p">,</span>
+        <span class="n">api_key</span><span class="o">=</span><span class="s2">&quot;your_ml_api_key&quot;</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Setup streaming analysis</span>
+    <span class="n">stream_url</span> <span class="o">=</span> <span class="s2">&quot;rtsp://192.168.1.100:554/live&quot;</span>
+    <span class="n">webhook_url</span> <span class="o">=</span> <span class="s2">&quot;http://192.168.1.100:8080/api/ml/results&quot;</span>
+
+    <span class="n">result</span> <span class="o">=</span> <span class="n">ml_integration</span><span class="o">.</span><span class="n">setup_streaming_analysis</span><span class="p">(</span><span class="n">stream_url</span><span class="p">,</span> <span class="n">webhook_url</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Streaming Analysis Setup:&quot;</span><span class="p">,</span> <span class="n">result</span><span class="p">)</span>
+
+    <span class="c1"># Test single frame analysis</span>
+    <span class="n">frame</span> <span class="o">=</span> <span class="n">ml_integration</span><span class="o">.</span><span class="n">capture_frame_for_analysis</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">frame</span><span class="p">:</span>
+        <span class="n">analysis</span> <span class="o">=</span> <span class="n">ml_integration</span><span class="o">.</span><span class="n">analyze_frame</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="s2">&quot;object_detection&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Frame Analysis Result:&quot;</span><span class="p">,</span> <span class="n">analysis</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">setup_custom_ai_platform</span><span class="p">()</span>
+</code></pre></div>
+
+<h2 id="enterprise-system-integrations">Enterprise System Integrations</h2>
+<h3 id="active-directory-integration">Active Directory Integration</h3>
+<p><strong>LDAP/AD Authentication</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Configure Active Directory integration</span>
+curl<span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/integrations/ad&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;enabled&quot;: true,</span>
+<span class="s1">       &quot;server&quot;: &quot;dc.company.com&quot;,</span>
+<span class="s1">       &quot;port&quot;: 389,</span>
+<span class="s1">       &quot;use_ssl&quot;: false,</span>
+<span class="s1">       &quot;base_dn&quot;: &quot;DC=company,DC=com&quot;,</span>
+<span class="s1">       &quot;bind_dn&quot;: &quot;CN=service_account,OU=Service Accounts,DC=company,DC=com&quot;,</span>
+<span class="s1">       &quot;bind_password&quot;: &quot;service_password&quot;,</span>
+<span class="s1">       &quot;user_search&quot;: {</span>
+<span class="s1">         &quot;base&quot;: &quot;OU=Users,DC=company,DC=com&quot;,</span>
+<span class="s1">         &quot;filter&quot;: &quot;(&amp;(objectClass=user)(sAMAccountName={username}))&quot;,</span>
+<span class="s1">         &quot;attributes&quot;: [&quot;sAMAccountName&quot;, &quot;displayName&quot;, &quot;mail&quot;, &quot;memberOf&quot;]</span>
+<span class="s1">       },</span>
+<span class="s1">       &quot;group_mapping&quot;: {</span>
+<span class="s1">         &quot;Camera_Admins&quot;: &quot;administrator&quot;,</span>
+<span class="s1">         &quot;Camera_Operators&quot;: &quot;operator&quot;, </span>
+<span class="s1">         &quot;Camera_Viewers&quot;: &quot;viewer&quot;</span>
+<span class="s1">       },</span>
+<span class="s1">       &quot;sync_settings&quot;: {</span>
+<span class="s1">         &quot;auto_sync&quot;: true,</span>
+<span class="s1">         &quot;sync_interval&quot;: 3600,</span>
+<span class="s1">         &quot;create_users&quot;: true,</span>
+<span class="s1">         &quot;update_users&quot;: true</span>
+<span class="s1">       }</span>
+<span class="s1">     }&#39;</span>
+</code></pre></div>
+
+<h3 id="saml-sso-integration">SAML SSO Integration</h3>
+<p><strong>SAML 2.0 Configuration</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Configure SAML SSO</span>
+curl<span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/integrations/saml&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;enabled&quot;: true,</span>
+<span class="s1">       &quot;identity_provider&quot;: {</span>
+<span class="s1">         &quot;entity_id&quot;: &quot;https://sso.company.com/adfs/services/trust&quot;,</span>
+<span class="s1">         &quot;sso_url&quot;: &quot;https://sso.company.com/adfs/ls/&quot;,</span>
+<span class="s1">         &quot;slo_url&quot;: &quot;https://sso.company.com/adfs/ls/&quot;,</span>
+<span class="s1">         &quot;certificate&quot;: &quot;/etc/rotordream/saml/idp-cert.pem&quot;</span>
+<span class="s1">       },</span>
+<span class="s1">       &quot;service_provider&quot;: {</span>
+<span class="s1">         &quot;entity_id&quot;: &quot;https://camera.company.com/saml/metadata&quot;,</span>
+<span class="s1">         &quot;acs_url&quot;: &quot;https://camera.company.com/saml/acs&quot;,</span>
+<span class="s1">         &quot;sls_url&quot;: &quot;https://camera.company.com/saml/sls&quot;,</span>
+<span class="s1">         &quot;certificate&quot;: &quot;/etc/rotordream/saml/sp-cert.pem&quot;,</span>
+<span class="s1">         &quot;private_key&quot;: &quot;/etc/rotordream/saml/sp-key.pem&quot;</span>
+<span class="s1">       },</span>
+<span class="s1">       &quot;attribute_mapping&quot;: {</span>
+<span class="s1">         &quot;username&quot;: &quot;http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name&quot;,</span>
+<span class="s1">         &quot;email&quot;: &quot;http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress&quot;,</span>
+<span class="s1">         &quot;role&quot;: &quot;http://schemas.microsoft.com/ws/2008/06/identity/claims/role&quot;</span>
+<span class="s1">       },</span>
+<span class="s1">       &quot;settings&quot;: {</span>
+<span class="s1">         &quot;name_id_format&quot;: &quot;urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress&quot;,</span>
+<span class="s1">         &quot;authn_requests_signed&quot;: true,</span>
+<span class="s1">         &quot;logout_requests_signed&quot;: true,</span>
+<span class="s1">         &quot;want_assertions_signed&quot;: true,</span>
+<span class="s1">         &quot;want_name_id_encrypted&quot;: false</span>
+<span class="s1">       }</span>
+<span class="s1">     }&#39;</span>
+</code></pre></div>
+
+<h3 id="mqtt-integration">MQTT Integration</h3>
+<p><strong>Message Queue Integration</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Configure MQTT integration</span>
+curl<span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/integrations/mqtt&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;enabled&quot;: true,</span>
+<span class="s1">       &quot;broker&quot;: {</span>
+<span class="s1">         &quot;host&quot;: &quot;mqtt.company.com&quot;,</span>
+<span class="s1">         &quot;port&quot;: 1883,</span>
+<span class="s1">         &quot;use_ssl&quot;: false,</span>
+<span class="s1">         &quot;username&quot;: &quot;camera_client&quot;,</span>
+<span class="s1">         &quot;password&quot;: &quot;mqtt_password&quot;,</span>
+<span class="s1">         &quot;client_id&quot;: &quot;rotordream_camera_001&quot;</span>
+<span class="s1">       },</span>
+<span class="s1">       &quot;topics&quot;: {</span>
+<span class="s1">         &quot;status&quot;: &quot;cameras/rotordream_001/status&quot;,</span>
+<span class="s1">         &quot;events&quot;: &quot;cameras/rotordream_001/events&quot;,</span>
+<span class="s1">         &quot;analytics&quot;: &quot;cameras/rotordream_001/analytics&quot;,</span>
+<span class="s1">         &quot;commands&quot;: &quot;cameras/rotordream_001/commands&quot;</span>
+<span class="s1">       },</span>
+<span class="s1">       &quot;publish_settings&quot;: {</span>
+<span class="s1">         &quot;qos&quot;: 1,</span>
+<span class="s1">         &quot;retain&quot;: false,</span>
+<span class="s1">         &quot;interval&quot;: 30</span>
+<span class="s1">       },</span>
+<span class="s1">       &quot;subscribe_settings&quot;: {</span>
+<span class="s1">         &quot;command_qos&quot;: 2,</span>
+<span class="s1">         &quot;auto_acknowledge&quot;: true</span>
+<span class="s1">       },</span>
+<span class="s1">       &quot;message_format&quot;: {</span>
+<span class="s1">         &quot;format&quot;: &quot;json&quot;,</span>
+<span class="s1">         &quot;timestamp_format&quot;: &quot;iso8601&quot;,</span>
+<span class="s1">         &quot;include_metadata&quot;: true</span>
+<span class="s1">       }</span>
+<span class="s1">     }&#39;</span>
+</code></pre></div>
+
+<h2 id="monitoring-and-alerting-integrations">Monitoring and Alerting Integrations</h2>
+<h3 id="prometheus-integration">Prometheus Integration</h3>
+<p><strong>Metrics Exposure</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Configure Prometheus metrics endpoint</span>
+curl<span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/integrations/prometheus&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;enabled&quot;: true,</span>
+<span class="s1">       &quot;endpoint&quot;: &quot;/metrics&quot;,</span>
+<span class="s1">       &quot;port&quot;: 9090,</span>
+<span class="s1">       &quot;metrics&quot;: {</span>
+<span class="s1">         &quot;system_metrics&quot;: true,</span>
+<span class="s1">         &quot;camera_metrics&quot;: true,</span>
+<span class="s1">         &quot;network_metrics&quot;: true,</span>
+<span class="s1">         &quot;application_metrics&quot;: true</span>
+<span class="s1">       },</span>
+<span class="s1">       &quot;labels&quot;: {</span>
+<span class="s1">         &quot;instance&quot;: &quot;rotordream_camera_001&quot;,</span>
+<span class="s1">         &quot;location&quot;: &quot;building_a&quot;,</span>
+<span class="s1">         &quot;environment&quot;: &quot;production&quot;</span>
+<span class="s1">       },</span>
+<span class="s1">       &quot;scrape_interval&quot;: 15,</span>
+<span class="s1">       &quot;authentication&quot;: {</span>
+<span class="s1">         &quot;enabled&quot;: false,</span>
+<span class="s1">         &quot;basic_auth&quot;: {</span>
+<span class="s1">           &quot;username&quot;: &quot;prometheus&quot;,</span>
+<span class="s1">           &quot;password&quot;: &quot;prometheus123&quot;</span>
+<span class="s1">         }</span>
+<span class="s1">       }</span>
+<span class="s1">     }&#39;</span>
+
+<span class="c1"># Example Prometheus configuration</span>
+<span class="c1"># prometheus.yml</span>
+global:
+<span class="w">  </span>scrape_interval:<span class="w"> </span>15s
+
+scrape_configs:
+<span class="w">  </span>-<span class="w"> </span>job_name:<span class="w"> </span><span class="s1">&#39;rotordream-cameras&#39;</span>
+<span class="w">    </span>static_configs:
+<span class="w">      </span>-<span class="w"> </span>targets:<span class="w"> </span><span class="o">[</span><span class="s1">&#39;192.168.1.100:9090&#39;</span><span class="o">]</span>
+<span class="w">    </span>scrape_interval:<span class="w"> </span>15s
+<span class="w">    </span>metrics_path:<span class="w"> </span>/metrics
+</code></pre></div>
+
+<h3 id="grafana-integration">Grafana Integration</h3>
+<p><strong>Grafana Dashboard Configuration</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;dashboard&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;C Pro Camera Monitoring&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;tags&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;C Pro&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;camera&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;monitoring&quot;</span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;timezone&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;UTC&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;panels&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">      </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Camera Status&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;stat&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;targets&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">          </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;expr&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;camera_status{instance=\&quot;rotordream_camera_001\&quot;}&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;legendFormat&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Status&quot;</span>
+<span class="w">          </span><span class="p">}</span>
+<span class="w">        </span><span class="p">]</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Video Frame Rate&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;graph&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;targets&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">          </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;expr&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rate(camera_frames_total{instance=\&quot;rotordream_camera_001\&quot;}[5m])&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;legendFormat&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;FPS&quot;</span>
+<span class="w">          </span><span class="p">}</span>
+<span class="w">        </span><span class="p">]</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;System Resources&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;graph&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;targets&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">          </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;expr&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;cpu_usage_percent{instance=\&quot;rotordream_camera_001\&quot;}&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;legendFormat&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;CPU&quot;</span>
+<span class="w">          </span><span class="p">},</span>
+<span class="w">          </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;expr&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;memory_usage_percent{instance=\&quot;rotordream_camera_001\&quot;}&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;legendFormat&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Memory&quot;</span>
+<span class="w">          </span><span class="p">}</span>
+<span class="w">        </span><span class="p">]</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">]</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="elk-stack-integration">ELK Stack Integration</h3>
+<p><strong>Elasticsearch Log Shipping</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Configure ELK stack integration</span>
+curl<span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/integrations/elk&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;enabled&quot;: true,</span>
+<span class="s1">       &quot;elasticsearch&quot;: {</span>
+<span class="s1">         &quot;hosts&quot;: [&quot;elasticsearch.company.com:9200&quot;],</span>
+<span class="s1">         &quot;index_pattern&quot;: &quot;rotordream-logs-%{+YYYY.MM.dd}&quot;,</span>
+<span class="s1">         &quot;authentication&quot;: {</span>
+<span class="s1">           &quot;username&quot;: &quot;elastic&quot;,</span>
+<span class="s1">           &quot;password&quot;: &quot;elastic123&quot;</span>
+<span class="s1">         }</span>
+<span class="s1">       },</span>
+<span class="s1">       &quot;logstash&quot;: {</span>
+<span class="s1">         &quot;host&quot;: &quot;logstash.company.com&quot;,</span>
+<span class="s1">         &quot;port&quot;: 5044,</span>
+<span class="s1">         &quot;protocol&quot;: &quot;tcp&quot;</span>
+<span class="s1">       },</span>
+<span class="s1">       &quot;log_types&quot;: {</span>
+<span class="s1">         &quot;system_logs&quot;: true,</span>
+<span class="s1">         &quot;camera_logs&quot;: true,</span>
+<span class="s1">         &quot;security_logs&quot;: true,</span>
+<span class="s1">         &quot;analytics_logs&quot;: true</span>
+<span class="s1">       },</span>
+<span class="s1">       &quot;format&quot;: {</span>
+<span class="s1">         &quot;add_timestamp&quot;: true,</span>
+<span class="s1">         &quot;add_hostname&quot;: true,</span>
+<span class="s1">         &quot;add_source&quot;: true</span>
+<span class="s1">       }</span>
+<span class="s1">     }&#39;</span>
+</code></pre></div>
+
+<h2 id="webhook-and-api-integrations">Webhook and API Integrations</h2>
+<h3 id="generic-webhook-integration">Generic Webhook Integration</h3>
+<p><strong>Webhook Configuration</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Configure webhook integrations</span>
+curl<span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/integrations/webhooks&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;webhooks&quot;: [</span>
+<span class="s1">         {</span>
+<span class="s1">           &quot;name&quot;: &quot;slack_notifications&quot;,</span>
+<span class="s1">           &quot;url&quot;: &quot;https://hooks.slack.com/services/YOUR_WORKSPACE_ID/YOUR_CHANNEL_ID/YOUR_WEBHOOK_TOKEN&quot;,</span>
+<span class="s1">           &quot;events&quot;: [&quot;motion_detected&quot;, &quot;camera_offline&quot;, &quot;storage_full&quot;],</span>
+<span class="s1">           &quot;method&quot;: &quot;POST&quot;,</span>
+<span class="s1">           &quot;headers&quot;: {</span>
+<span class="s1">             &quot;Content-Type&quot;: &quot;application/json&quot;</span>
+<span class="s1">           },</span>
+<span class="s1">           &quot;body_template&quot;: {</span>
+<span class="s1">             &quot;text&quot;: &quot;Camera Alert: {{event_type}} - {{description}}&quot;,</span>
+<span class="s1">             &quot;channel&quot;: &quot;#security-alerts&quot;,</span>
+<span class="s1">             &quot;username&quot;: &quot;C Pro Camera&quot;</span>
+<span class="s1">           },</span>
+<span class="s1">           &quot;retry_config&quot;: {</span>
+<span class="s1">             &quot;max_retries&quot;: 3,</span>
+<span class="s1">             &quot;retry_delay&quot;: 5,</span>
+<span class="s1">             &quot;timeout&quot;: 30</span>
+<span class="s1">           }</span>
+<span class="s1">         },</span>
+<span class="s1">         {</span>
+<span class="s1">           &quot;name&quot;: &quot;custom_analytics&quot;,</span>
+<span class="s1">           &quot;url&quot;: &quot;https://api.company.com/analytics/camera-events&quot;,</span>
+<span class="s1">           &quot;events&quot;: [&quot;all&quot;],</span>
+<span class="s1">           &quot;method&quot;: &quot;POST&quot;,</span>
+<span class="s1">           &quot;headers&quot;: {</span>
+<span class="s1">             &quot;Authorization&quot;: &quot;Bearer analytics_api_key&quot;,</span>
+<span class="s1">             &quot;Content-Type&quot;: &quot;application/json&quot;</span>
+<span class="s1">           },</span>
+<span class="s1">           &quot;body_template&quot;: {</span>
+<span class="s1">             &quot;camera_id&quot;: &quot;{{camera_id}}&quot;,</span>
+<span class="s1">             &quot;event_type&quot;: &quot;{{event_type}}&quot;,</span>
+<span class="s1">             &quot;timestamp&quot;: &quot;{{timestamp}}&quot;,</span>
+<span class="s1">             &quot;metadata&quot;: &quot;{{metadata}}&quot;</span>
+<span class="s1">           }</span>
+<span class="s1">         }</span>
+<span class="s1">       ]</span>
+<span class="s1">     }&#39;</span>
+</code></pre></div>
+
+<h3 id="rest-api-integration-framework">REST API Integration Framework</h3>
+<p><strong>Generic API Integration</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="ch">#!/usr/bin/env python3</span>
+<span class="c1"># api_integration_framework.py</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">asyncio</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">aiohttp</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">APIIntegrationFramework</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">camera_ip</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">camera_api_key</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">camera_ip</span> <span class="o">=</span> <span class="n">camera_ip</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">camera_api_key</span> <span class="o">=</span> <span class="n">camera_api_key</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">base_url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;http://</span><span class="si">{</span><span class="n">camera_ip</span><span class="si">}</span><span class="s2">:8080/api&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">integrations</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">register_integration</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">Dict</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Register a new API integration&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">integrations</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;config&#39;</span><span class="p">:</span> <span class="n">config</span><span class="p">,</span>
+            <span class="s1">&#39;active&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="s1">&#39;last_sync&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="s1">&#39;error_count&#39;</span><span class="p">:</span> <span class="mi">0</span>
+        <span class="p">}</span>
+
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">sync_data_to_external_api</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">integration_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Dict</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sync data to external API&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">integration_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">integrations</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Integration </span><span class="si">{</span><span class="n">integration_name</span><span class="si">}</span><span class="s2"> not registered&quot;</span><span class="p">)</span>
+
+        <span class="n">config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">integrations</span><span class="p">[</span><span class="n">integration_name</span><span class="p">][</span><span class="s1">&#39;config&#39;</span><span class="p">]</span>
+
+        <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;Content-Type&#39;</span><span class="p">:</span> <span class="s1">&#39;application/json&#39;</span>
+        <span class="p">}</span>
+
+        <span class="c1"># Add authentication</span>
+        <span class="k">if</span> <span class="s1">&#39;api_key&#39;</span> <span class="ow">in</span> <span class="n">config</span><span class="p">:</span>
+            <span class="n">headers</span><span class="p">[</span><span class="s1">&#39;Authorization&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Bearer </span><span class="si">{</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;api_key&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">elif</span> <span class="s1">&#39;basic_auth&#39;</span> <span class="ow">in</span> <span class="n">config</span><span class="p">:</span>
+            <span class="n">auth</span> <span class="o">=</span> <span class="n">aiohttp</span><span class="o">.</span><span class="n">BasicAuth</span><span class="p">(</span>
+                <span class="n">config</span><span class="p">[</span><span class="s1">&#39;basic_auth&#39;</span><span class="p">][</span><span class="s1">&#39;username&#39;</span><span class="p">],</span>
+                <span class="n">config</span><span class="p">[</span><span class="s1">&#39;basic_auth&#39;</span><span class="p">][</span><span class="s1">&#39;password&#39;</span><span class="p">]</span>
+            <span class="p">)</span>
+
+        <span class="c1"># Transform data if mapping provided</span>
+        <span class="k">if</span> <span class="s1">&#39;field_mapping&#39;</span> <span class="ow">in</span> <span class="n">config</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_map_fields</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;field_mapping&#39;</span><span class="p">])</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">async</span> <span class="k">with</span> <span class="n">aiohttp</span><span class="o">.</span><span class="n">ClientSession</span><span class="p">()</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
+                <span class="k">async</span> <span class="k">with</span> <span class="n">session</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+                    <span class="n">config</span><span class="p">[</span><span class="s1">&#39;endpoint&#39;</span><span class="p">],</span>
+                    <span class="n">json</span><span class="o">=</span><span class="n">data</span><span class="p">,</span>
+                    <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span>
+                    <span class="n">timeout</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;timeout&#39;</span><span class="p">,</span> <span class="mi">30</span><span class="p">)</span>
+                <span class="p">)</span> <span class="k">as</span> <span class="n">response</span><span class="p">:</span>
+
+                    <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">integrations</span><span class="p">[</span><span class="n">integration_name</span><span class="p">][</span><span class="s1">&#39;last_sync&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">utcnow</span><span class="p">()</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">integrations</span><span class="p">[</span><span class="n">integration_name</span><span class="p">][</span><span class="s1">&#39;error_count&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+                        <span class="k">return</span> <span class="k">await</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;API returned status </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">status</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">integrations</span><span class="p">[</span><span class="n">integration_name</span><span class="p">][</span><span class="s1">&#39;error_count&#39;</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">raise</span> <span class="n">e</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_map_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">mapping</span><span class="p">:</span> <span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Map fields according to configuration&quot;&quot;&quot;</span>
+        <span class="n">mapped_data</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">source_field</span><span class="p">,</span> <span class="n">target_field</span> <span class="ow">in</span> <span class="n">mapping</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">source_field</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+                <span class="n">mapped_data</span><span class="p">[</span><span class="n">target_field</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">source_field</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">mapped_data</span>
+
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_camera_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">endpoint</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get data from camera API&quot;&quot;&quot;</span>
+        <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;Authorization&#39;</span><span class="p">:</span> <span class="sa">f</span><span class="s1">&#39;Bearer </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">camera_api_key</span><span class="si">}</span><span class="s1">&#39;</span>
+        <span class="p">}</span>
+
+        <span class="k">async</span> <span class="k">with</span> <span class="n">aiohttp</span><span class="o">.</span><span class="n">ClientSession</span><span class="p">()</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
+            <span class="k">async</span> <span class="k">with</span> <span class="n">session</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">base_url</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">endpoint</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="n">headers</span><span class="o">=</span><span class="n">headers</span>
+            <span class="p">)</span> <span class="k">as</span> <span class="n">response</span><span class="p">:</span>
+                <span class="k">return</span> <span class="k">await</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">setup_real_time_sync</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">integration_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">endpoints</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">interval</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">60</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Setup real-time data synchronization&quot;&quot;&quot;</span>
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">endpoint</span> <span class="ow">in</span> <span class="n">endpoints</span><span class="p">:</span>
+                    <span class="n">data</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_camera_data</span><span class="p">(</span><span class="n">endpoint</span><span class="p">)</span>
+                    <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">sync_data_to_external_api</span><span class="p">(</span><span class="n">integration_name</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+
+                <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">interval</span><span class="p">)</span>
+
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Sync error for </span><span class="si">{</span><span class="n">integration_name</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">interval</span><span class="p">)</span>
+
+<span class="c1"># Example integrations</span>
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">setup_custom_integrations</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Setup custom API integrations&quot;&quot;&quot;</span>
+    <span class="n">framework</span> <span class="o">=</span> <span class="n">APIIntegrationFramework</span><span class="p">(</span><span class="s2">&quot;192.168.1.100&quot;</span><span class="p">,</span> <span class="s2">&quot;your_api_key&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Register CRM integration</span>
+    <span class="n">framework</span><span class="o">.</span><span class="n">register_integration</span><span class="p">(</span><span class="s2">&quot;crm_system&quot;</span><span class="p">,</span> <span class="p">{</span>
+        <span class="s1">&#39;endpoint&#39;</span><span class="p">:</span> <span class="s1">&#39;https://api.crm.company.com/security-events&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;api_key&#39;</span><span class="p">:</span> <span class="s1">&#39;crm_api_key&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;timeout&#39;</span><span class="p">:</span> <span class="mi">30</span><span class="p">,</span>
+        <span class="s1">&#39;field_mapping&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;timestamp&#39;</span><span class="p">:</span> <span class="s1">&#39;event_time&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;event_type&#39;</span><span class="p">:</span> <span class="s1">&#39;security_event_type&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;camera_id&#39;</span><span class="p">:</span> <span class="s1">&#39;source_device&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;metadata&#39;</span><span class="p">:</span> <span class="s1">&#39;additional_data&#39;</span>
+        <span class="p">}</span>
+    <span class="p">})</span>
+
+    <span class="c1"># Register facility management system</span>
+    <span class="n">framework</span><span class="o">.</span><span class="n">register_integration</span><span class="p">(</span><span class="s2">&quot;facility_mgmt&quot;</span><span class="p">,</span> <span class="p">{</span>
+        <span class="s1">&#39;endpoint&#39;</span><span class="p">:</span> <span class="s1">&#39;https://facility.company.com/api/v1/events&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;basic_auth&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;username&#39;</span><span class="p">:</span> <span class="s1">&#39;facility_user&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;password&#39;</span><span class="p">:</span> <span class="s1">&#39;facility_pass&#39;</span>
+        <span class="p">},</span>
+        <span class="s1">&#39;field_mapping&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;location&#39;</span><span class="p">:</span> <span class="s1">&#39;zone&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;alert_type&#39;</span><span class="p">:</span> <span class="s1">&#39;incident_type&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;severity&#39;</span><span class="p">:</span> <span class="s1">&#39;priority_level&#39;</span>
+        <span class="p">}</span>
+    <span class="p">})</span>
+
+    <span class="c1"># Start real-time sync</span>
+    <span class="n">sync_tasks</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">framework</span><span class="o">.</span><span class="n">setup_real_time_sync</span><span class="p">(</span><span class="s2">&quot;crm_system&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;events&quot;</span><span class="p">,</span> <span class="s2">&quot;analytics&quot;</span><span class="p">],</span> <span class="mi">300</span><span class="p">),</span>
+        <span class="n">framework</span><span class="o">.</span><span class="n">setup_real_time_sync</span><span class="p">(</span><span class="s2">&quot;facility_mgmt&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;alerts&quot;</span><span class="p">,</span> <span class="s2">&quot;status&quot;</span><span class="p">],</span> <span class="mi">600</span><span class="p">)</span>
+    <span class="p">]</span>
+
+    <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span><span class="o">*</span><span class="n">sync_tasks</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">setup_custom_integrations</span><span class="p">())</span>
+</code></pre></div>
+
+<h2 id="testing-and-validation">Testing and Validation</h2>
+<h3 id="integration-testing">Integration Testing</h3>
+<p><strong>Integration Test Suite</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="ch">#!/usr/bin/env python3</span>
+<span class="c1"># integration_tests.py</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">unittest</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">unittest.mock</span><span class="w"> </span><span class="kn">import</span> <span class="n">patch</span><span class="p">,</span> <span class="n">MagicMock</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">IntegrationTestSuite</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">camera_ip</span> <span class="o">=</span> <span class="s2">&quot;192.168.1.100&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span> <span class="o">=</span> <span class="s2">&quot;test_api_key&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">base_url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;http://</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">camera_ip</span><span class="si">}</span><span class="s2">:8080/api&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_vms_integration</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Test VMS integration configuration&quot;&quot;&quot;</span>
+        <span class="n">vms_config</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;vms_type&quot;</span><span class="p">:</span> <span class="s2">&quot;milestone&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;configuration&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;manufacturer&quot;</span><span class="p">:</span> <span class="s2">&quot;Rotoclear&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="s2">&quot;RD-CAM-001&quot;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+
+        <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">base_url</span><span class="si">}</span><span class="s2">/integrations/vms/configure&quot;</span><span class="p">,</span>
+            <span class="n">json</span><span class="o">=</span><span class="n">vms_config</span><span class="p">,</span>
+            <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;Authorization&#39;</span><span class="p">:</span> <span class="sa">f</span><span class="s1">&#39;Bearer </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">api_key</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">}</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;success&#39;</span><span class="p">])</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_cloud_storage_integration</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Test cloud storage integration&quot;&quot;&quot;</span>
+        <span class="n">cloud_config</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;provider&quot;</span><span class="p">:</span> <span class="s2">&quot;aws_s3&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;bucket&quot;</span><span class="p">:</span> <span class="s2">&quot;test-bucket&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;credentials&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;access_key&quot;</span><span class="p">:</span> <span class="s2">&quot;test_key&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;secret_key&quot;</span><span class="p">:</span> <span class="s2">&quot;test_secret&quot;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+
+        <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">put</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">base_url</span><span class="si">}</span><span class="s2">/integrations/cloud/storage&quot;</span><span class="p">,</span>
+            <span class="n">json</span><span class="o">=</span><span class="n">cloud_config</span><span class="p">,</span>
+            <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;Authorization&#39;</span><span class="p">:</span> <span class="sa">f</span><span class="s1">&#39;Bearer </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">api_key</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">}</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_webhook_delivery</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Test webhook delivery&quot;&quot;&quot;</span>
+        <span class="k">with</span> <span class="n">patch</span><span class="p">(</span><span class="s1">&#39;requests.post&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">mock_post</span><span class="p">:</span>
+            <span class="n">mock_post</span><span class="o">.</span><span class="n">return_value</span><span class="o">.</span><span class="n">status_code</span> <span class="o">=</span> <span class="mi">200</span>
+
+            <span class="n">webhook_data</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s2">&quot;event_type&quot;</span><span class="p">:</span> <span class="s2">&quot;motion_detected&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;timestamp&quot;</span><span class="p">:</span> <span class="s2">&quot;2025-01-15T10:30:00Z&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;camera_id&quot;</span><span class="p">:</span> <span class="s2">&quot;camera_001&quot;</span>
+            <span class="p">}</span>
+
+            <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">base_url</span><span class="si">}</span><span class="s2">/integrations/webhooks/test&quot;</span><span class="p">,</span>
+                <span class="n">json</span><span class="o">=</span><span class="n">webhook_data</span><span class="p">,</span>
+                <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;Authorization&#39;</span><span class="p">:</span> <span class="sa">f</span><span class="s1">&#39;Bearer </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">api_key</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">}</span>
+            <span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+            <span class="n">mock_post</span><span class="o">.</span><span class="n">assert_called_once</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_analytics_integration</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Test analytics platform integration&quot;&quot;&quot;</span>
+        <span class="n">analytics_config</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;platform&quot;</span><span class="p">:</span> <span class="s2">&quot;custom&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;endpoint&quot;</span><span class="p">:</span> <span class="s2">&quot;https://analytics.company.com/api&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;api_key&quot;</span><span class="p">:</span> <span class="s2">&quot;analytics_key&quot;</span>
+        <span class="p">}</span>
+
+        <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">put</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">base_url</span><span class="si">}</span><span class="s2">/integrations/analytics&quot;</span><span class="p">,</span>
+            <span class="n">json</span><span class="o">=</span><span class="n">analytics_config</span><span class="p">,</span>
+            <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;Authorization&#39;</span><span class="p">:</span> <span class="sa">f</span><span class="s1">&#39;Bearer </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">api_key</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">}</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">unittest</span><span class="o">.</span><span class="n">main</span><span class="p">()</span>
+</code></pre></div>
+
+<h2 id="related-documentation">Related Documentation</h2>
+<ul>
+<li><a href="../api/http-api.md">API Reference</a> - Core API for integrations</li>
+<li><a href="./onvif-protocol.md">ONVIF Protocol</a> - ONVIF standard integration</li>
+<li><a href="../configuration/authentication.md">Authentication</a> - Integration security</li>
+<li><a href="../operations/monitoring.md">Monitoring</a> - Integration monitoring</li>
+</ul>
+<hr />
+<p><em>Third-party integration documentation covering major platforms, protocols, and enterprise systems</em></p>
+            </div>
+            <footer class="content-footer">
+                <p>Copyright © 2025 Rotoclear</p>
+            </footer>
+        </main>
+        
+        <button class="mobile-menu-toggle" id="menuToggle" aria-label="Toggle menu">☰</button>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>
+        // Initialize Mermaid
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            securityLevel: 'loose',
+            fontFamily: 'Inter, sans-serif'
+        });
+        
+        // Syntax highlighting
+        hljs.highlightAll();
+        
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.querySelector('.sidebar');
+        
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+        });
+        
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth <= 768 && 
+                !sidebar.contains(e.target) && 
+                !menuToggle.contains(e.target) &&
+                sidebar.classList.contains('active')) {
+                sidebar.classList.remove('active');
+            }
+        });
+        
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

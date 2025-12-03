@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Camera System - RotoClear Camera Server Documentation</title>
+    <link rel="stylesheet" href="/assets/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1><a href="/index.html">RotoClear Docs</a></h1>
+                <p>Camera Server Documentation</p>
+            </div>
+            <nav class="sidebar-nav">
+                <ul class="nav-menu">
+                    <li class="nav-item depth-0">
+<a href="/index.html">Home</a>
+</li>
+<li class="nav-item depth-0">
+<a href="/getting-started.html">Getting Started</a>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Architecture</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/architecture/overview.html">Overview</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/architecture/state-management.html">State Management</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/architecture/camera-pipeline.html">Camera Pipeline</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/architecture/metadata-sqlite.html">Metadata & SQLite</a>
+</li>
+<li class="nav-folder depth-1">
+<span class="folder-title">Decisions</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-2">
+<a href="/architecture/decisions/ADR-0001-nim-language.html">ADR-0001 Nim Language</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/architecture/decisions/ADR-0002-corun-framework.html">ADR-0002 Corun Framework</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/architecture/decisions/ADR-0003-observable-state.html">ADR-0003 Observable State</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">API Reference</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/api/README.html">Overview</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/api/websocket-api.html">WebSocket API</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/api/http-api.html">HTTP API</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/api/rtsp-streaming.html">RTSP Streaming</a>
+</li>
+<li class="nav-folder depth-1">
+<span class="folder-title">Examples</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-2">
+<a href="/api/examples/python-client.html">Python Client</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/api/examples/javascript-client.html">JavaScript Client</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/api/examples/csharp-client.html">C# Client</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Configuration</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/configuration/environments.html">Environments</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/factory-config.html">Factory Config</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/license-config.html">License Config</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/deployment-variants.html">Deployment Variants</a>
+</li>
+<li class="nav-item depth-1 active">
+<a href="/configuration/camera-system.html">Camera System</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/network.html">Network</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/storage-backup.html">Storage & Backup</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/authentication.html">Authentication</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Camera System</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/camera/hardware-interface.html">Hardware Interface</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/camera/streaming.html">Streaming</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/camera/recording.html">Recording</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/camera/image-processing.html">Image Processing</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Operations</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/operations/build-and-deploy.html">Build and Deploy</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/build-deploy.html">Build & Deploy (Alt)</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/monitoring.html">Monitoring</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/performance.html">Performance</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/troubleshooting.html">Troubleshooting</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Security</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/security/authentication.html">Authentication</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/security/permissions.html">Permissions</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/security/ssl-certificates.html">SSL Certificates</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Testing</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/testing/testing-strategy.html">Strategy</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/testing/strategies.html">Strategies</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/testing/test-cases.html">Test Cases</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/testing/validation.html">Validation</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Integration</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/integration/onvif-protocol.html">ONVIF Protocol</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/integration/third-party.html">Third Party</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Reference</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/reference/glossary.html">Glossary</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/reference/requirements.html">Requirements</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/reference/state-observables.html">State Observables</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Releases</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/releases/CHANGELOG.html">Changelog</a>
+</li>
+</ul>
+</li>
+<li class="nav-item depth-0">
+<a href="/glossary.html">Glossary</a>
+</li>
+                </ul>
+            </nav>
+        </aside>
+        
+        <main class="content">
+            <div class="content-wrapper">
+                <h1 id="camera-system-configuration">Camera System Configuration</h1>
+<p><strong>Comprehensive camera hardware setup, calibration, and optimization.</strong></p>
+<h2 id="overview">Overview</h2>
+<p>The C Pro camera system supports various camera hardware configurations with V4L2 integration, providing flexible control over capture parameters, image processing, and streaming capabilities.</p>
+<div class="mermaid">
+graph TB
+    A[Camera Hardware] --> B[V4L2 Driver Layer]
+    B --> C[Camera Configuration]
+    C --> D{Camera Type}
+
+    D -->|USB Camera| E[USB Video Class]
+    D -->|CSI Camera| F[MIPI CSI Interface]
+    D -->|IP Camera| G[Network Integration]
+
+    E --> H[V4L2 Controls]
+    F --> H
+    G --> I[ONVIF/RTSP Client]
+
+    H --> J[Image Processing Pipeline]
+    I --> J
+
+    J --> K[Format Conversion]
+    J --> L[Resolution Scaling]
+    J --> M[Quality Enhancement]
+
+    K --> N[Output Streams]
+    L --> N
+    M --> N
+
+    N --> O[RTSP Stream]
+    N --> P[HTTP JPEG]
+    N --> Q[File Recording]
+</div>
+
+<h2 id="camera-hardware-detection">Camera Hardware Detection</h2>
+<h3 id="automatic-discovery">Automatic Discovery</h3>
+<p><strong>V4L2 Device Enumeration</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># List all video devices</span>
+v4l2-ctl<span class="w"> </span>--list-devices
+
+<span class="c1"># Get device capabilities</span>
+v4l2-ctl<span class="w"> </span>--device<span class="o">=</span>/dev/video0<span class="w"> </span>--list-ctrls
+
+<span class="c1"># Check supported formats</span>
+v4l2-ctl<span class="w"> </span>--device<span class="o">=</span>/dev/video0<span class="w"> </span>--list-formats-ext
+
+<span class="c1"># Device information</span>
+v4l2-ctl<span class="w"> </span>--device<span class="o">=</span>/dev/video0<span class="w"> </span>--info
+</code></pre></div>
+
+<p><strong>Camera Detection via API</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Get camera status</span>
+curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>http://192.168.1.100:8080/api/camera/status
+
+<span class="c1"># Response example</span>
+<span class="o">{</span>
+<span class="w">  </span><span class="s2">&quot;cameras&quot;</span>:<span class="w"> </span><span class="o">[</span>
+<span class="w">    </span><span class="o">{</span>
+<span class="w">      </span><span class="s2">&quot;id&quot;</span>:<span class="w"> </span><span class="m">0</span>,
+<span class="w">      </span><span class="s2">&quot;connected&quot;</span>:<span class="w"> </span>true,
+<span class="w">      </span><span class="s2">&quot;device&quot;</span>:<span class="w"> </span><span class="s2">&quot;/dev/video0&quot;</span>,
+<span class="w">      </span><span class="s2">&quot;name&quot;</span>:<span class="w"> </span><span class="s2">&quot;USB Camera&quot;</span>,
+<span class="w">      </span><span class="s2">&quot;driver&quot;</span>:<span class="w"> </span><span class="s2">&quot;uvcvideo&quot;</span>,
+<span class="w">      </span><span class="s2">&quot;resolution&quot;</span>:<span class="w"> </span><span class="s2">&quot;1920x1080&quot;</span>,
+<span class="w">      </span><span class="s2">&quot;framerate&quot;</span>:<span class="w"> </span><span class="m">30</span>,
+<span class="w">      </span><span class="s2">&quot;format&quot;</span>:<span class="w"> </span><span class="s2">&quot;YUYV&quot;</span>,
+<span class="w">      </span><span class="s2">&quot;capabilities&quot;</span>:<span class="w"> </span><span class="o">[</span><span class="s2">&quot;video_capture&quot;</span>,<span class="w"> </span><span class="s2">&quot;streaming&quot;</span><span class="o">]</span>
+<span class="w">    </span><span class="o">}</span>
+<span class="w">  </span><span class="o">]</span>,
+<span class="w">  </span><span class="s2">&quot;active_camera&quot;</span>:<span class="w"> </span><span class="m">0</span>,
+<span class="w">  </span><span class="s2">&quot;streaming&quot;</span>:<span class="w"> </span><span class="nb">true</span>
+<span class="o">}</span>
+</code></pre></div>
+
+<h3 id="manual-configuration">Manual Configuration</h3>
+<p><strong>Device Configuration File</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># /etc/rotordream/camera.conf</span>
+<span class="k">[camera0]</span>
+<span class="na">enabled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">true</span>
+<span class="na">device</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">/dev/video0</span>
+<span class="na">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Primary Camera&quot;</span>
+<span class="na">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">usb</span>
+<span class="na">priority</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">10</span>
+
+<span class="c1"># Default capture settings</span>
+<span class="na">default_width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">1920</span>
+<span class="na">default_height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">1080</span>
+<span class="na">default_framerate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">30</span>
+<span class="na">default_format</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">YUYV</span>
+
+<span class="c1"># Supported resolutions</span>
+<span class="na">resolutions</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">1920x1080,1280x720,640x480</span>
+<span class="na">framerates</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">30,25,15,10</span>
+
+<span class="k">[camera1]</span>
+<span class="na">enabled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">false</span>
+<span class="na">device</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">/dev/video1</span>
+<span class="na">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Secondary Camera&quot;</span>
+<span class="na">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">usb</span>
+<span class="na">priority</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">5</span>
+</code></pre></div>
+
+<h2 id="capture-parameters">Capture Parameters</h2>
+<h3 id="resolution-and-frame-rate">Resolution and Frame Rate</h3>
+<p><strong>Supported Resolutions</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;resolutions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;width&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1920</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;height&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1080</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;framerates&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mi">30</span><span class="p">,</span><span class="w"> </span><span class="mi">25</span><span class="p">,</span><span class="w"> </span><span class="mi">15</span><span class="p">],</span>
+<span class="w">      </span><span class="nt">&quot;formats&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;YUYV&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;MJPG&quot;</span><span class="p">]</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;width&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1280</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;height&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">720</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;framerates&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mi">60</span><span class="p">,</span><span class="w"> </span><span class="mi">30</span><span class="p">,</span><span class="w"> </span><span class="mi">25</span><span class="p">,</span><span class="w"> </span><span class="mi">15</span><span class="p">],</span>
+<span class="w">      </span><span class="nt">&quot;formats&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;YUYV&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;MJPG&quot;</span><span class="p">]</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;width&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">640</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;height&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">480</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;framerates&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mi">60</span><span class="p">,</span><span class="w"> </span><span class="mi">30</span><span class="p">,</span><span class="w"> </span><span class="mi">25</span><span class="p">,</span><span class="w"> </span><span class="mi">15</span><span class="p">],</span>
+<span class="w">      </span><span class="nt">&quot;formats&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;YUYV&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;MJPG&quot;</span><span class="p">]</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Set Resolution via API</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Change resolution</span>
+curl<span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/camera/config&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;resolution&quot;: &quot;1920x1080&quot;,</span>
+<span class="s1">       &quot;framerate&quot;: 30,</span>
+<span class="s1">       &quot;format&quot;: &quot;YUYV&quot;</span>
+<span class="s1">     }&#39;</span>
+
+<span class="c1"># Get current configuration</span>
+curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>http://192.168.1.100:8080/api/camera/config
+</code></pre></div>
+
+<p><strong>Command Line Configuration</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Set resolution with v4l2-ctl</span>
+v4l2-ctl<span class="w"> </span>--device<span class="o">=</span>/dev/video0<span class="w"> </span>--set-fmt-video<span class="o">=</span><span class="nv">width</span><span class="o">=</span><span class="m">1920</span>,height<span class="o">=</span><span class="m">1080</span>,pixelformat<span class="o">=</span>YUYV
+
+<span class="c1"># Set frame rate</span>
+v4l2-ctl<span class="w"> </span>--device<span class="o">=</span>/dev/video0<span class="w"> </span>--set-parm<span class="o">=</span><span class="m">30</span>
+
+<span class="c1"># Verify settings</span>
+v4l2-ctl<span class="w"> </span>--device<span class="o">=</span>/dev/video0<span class="w"> </span>--get-fmt-video
+v4l2-ctl<span class="w"> </span>--device<span class="o">=</span>/dev/video0<span class="w"> </span>--get-parm
+</code></pre></div>
+
+<h3 id="image-quality-controls">Image Quality Controls</h3>
+<p><strong>Exposure Control</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Auto exposure</span>
+v4l2-ctl<span class="w"> </span>--device<span class="o">=</span>/dev/video0<span class="w"> </span>--set-ctrl<span class="o">=</span><span class="nv">exposure_auto</span><span class="o">=</span><span class="m">3</span>
+
+<span class="c1"># Manual exposure</span>
+v4l2-ctl<span class="w"> </span>--device<span class="o">=</span>/dev/video0<span class="w"> </span>--set-ctrl<span class="o">=</span><span class="nv">exposure_auto</span><span class="o">=</span><span class="m">1</span>
+v4l2-ctl<span class="w"> </span>--device<span class="o">=</span>/dev/video0<span class="w"> </span>--set-ctrl<span class="o">=</span><span class="nv">exposure_absolute</span><span class="o">=</span><span class="m">156</span>
+
+<span class="c1"># Via API</span>
+curl<span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/camera/controls&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;exposure_auto&quot;: &quot;auto&quot;,</span>
+<span class="s1">       &quot;exposure_absolute&quot;: 156</span>
+<span class="s1">     }&#39;</span>
+</code></pre></div>
+
+<p><strong>White Balance</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Auto white balance</span>
+v4l2-ctl<span class="w"> </span>--device<span class="o">=</span>/dev/video0<span class="w"> </span>--set-ctrl<span class="o">=</span><span class="nv">white_balance_temperature_auto</span><span class="o">=</span><span class="m">1</span>
+
+<span class="c1"># Manual white balance</span>
+v4l2-ctl<span class="w"> </span>--device<span class="o">=</span>/dev/video0<span class="w"> </span>--set-ctrl<span class="o">=</span><span class="nv">white_balance_temperature_auto</span><span class="o">=</span><span class="m">0</span>
+v4l2-ctl<span class="w"> </span>--device<span class="o">=</span>/dev/video0<span class="w"> </span>--set-ctrl<span class="o">=</span><span class="nv">white_balance_temperature</span><span class="o">=</span><span class="m">4000</span>
+
+<span class="c1"># Via API</span>
+curl<span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/camera/controls&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;white_balance_auto&quot;: true,</span>
+<span class="s1">       &quot;white_balance_temperature&quot;: 4000</span>
+<span class="s1">     }&#39;</span>
+</code></pre></div>
+
+<p><strong>Brightness, Contrast, Saturation</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Adjust image parameters</span>
+v4l2-ctl<span class="w"> </span>--device<span class="o">=</span>/dev/video0<span class="w"> </span>--set-ctrl<span class="o">=</span><span class="nv">brightness</span><span class="o">=</span><span class="m">128</span>
+v4l2-ctl<span class="w"> </span>--device<span class="o">=</span>/dev/video0<span class="w"> </span>--set-ctrl<span class="o">=</span><span class="nv">contrast</span><span class="o">=</span><span class="m">128</span>
+v4l2-ctl<span class="w"> </span>--device<span class="o">=</span>/dev/video0<span class="w"> </span>--set-ctrl<span class="o">=</span><span class="nv">saturation</span><span class="o">=</span><span class="m">128</span>
+v4l2-ctl<span class="w"> </span>--device<span class="o">=</span>/dev/video0<span class="w"> </span>--set-ctrl<span class="o">=</span><span class="nv">hue</span><span class="o">=</span><span class="m">0</span>
+
+<span class="c1"># Via API</span>
+curl<span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/camera/controls&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;brightness&quot;: 128,</span>
+<span class="s1">       &quot;contrast&quot;: 128,</span>
+<span class="s1">       &quot;saturation&quot;: 128,</span>
+<span class="s1">       &quot;hue&quot;: 0</span>
+<span class="s1">     }&#39;</span>
+</code></pre></div>
+
+<p><strong>Focus Control</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Auto focus</span>
+v4l2-ctl<span class="w"> </span>--device<span class="o">=</span>/dev/video0<span class="w"> </span>--set-ctrl<span class="o">=</span><span class="nv">focus_auto</span><span class="o">=</span><span class="m">1</span>
+
+<span class="c1"># Manual focus</span>
+v4l2-ctl<span class="w"> </span>--device<span class="o">=</span>/dev/video0<span class="w"> </span>--set-ctrl<span class="o">=</span><span class="nv">focus_auto</span><span class="o">=</span><span class="m">0</span>
+v4l2-ctl<span class="w"> </span>--device<span class="o">=</span>/dev/video0<span class="w"> </span>--set-ctrl<span class="o">=</span><span class="nv">focus_absolute</span><span class="o">=</span><span class="m">250</span>
+
+<span class="c1"># Via API</span>
+curl<span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/camera/controls&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;focus_auto&quot;: false,</span>
+<span class="s1">       &quot;focus_absolute&quot;: 250</span>
+<span class="s1">     }&#39;</span>
+</code></pre></div>
+
+<h2 id="camera-profiles">Camera Profiles</h2>
+<h3 id="predefined-profiles">Predefined Profiles</h3>
+<p><strong>Profile Configuration</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;profiles&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;indoor&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Indoor Lighting&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Optimized for indoor environments&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;settings&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;exposure_auto&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;auto&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;white_balance_auto&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;brightness&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">120</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;contrast&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">110</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;saturation&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">120</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;backlight_compensation&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;outdoor&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Outdoor Daylight&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Optimized for outdoor daylight&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;settings&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;exposure_auto&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;auto&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;white_balance_temperature&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">5500</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;brightness&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;contrast&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">120</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;saturation&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">110</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;backlight_compensation&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;low_light&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Low Light&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Optimized for low light conditions&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;settings&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;exposure_auto&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;manual&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;exposure_absolute&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">500</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;gain&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;brightness&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">140</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;contrast&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">90</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;saturation&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;microscopy&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Microscopy&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Optimized for microscope imaging&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;settings&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;resolution&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1920x1080&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;framerate&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">15</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;exposure_auto&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;manual&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;exposure_absolute&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;white_balance_auto&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;white_balance_temperature&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">3200</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;brightness&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;contrast&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">130</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;saturation&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">90</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;sharpness&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">150</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Apply Profile via API</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Apply predefined profile</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/camera/profile&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;profile&quot;: &quot;microscopy&quot;</span>
+<span class="s1">     }&#39;</span>
+
+<span class="c1"># Get available profiles</span>
+curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>http://192.168.1.100:8080/api/camera/profiles
+
+<span class="c1"># Save current settings as profile</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/camera/profiles&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;name&quot;: &quot;custom_profile&quot;,</span>
+<span class="s1">       &quot;description&quot;: &quot;My custom settings&quot;,</span>
+<span class="s1">       &quot;save_current&quot;: true</span>
+<span class="s1">     }&#39;</span>
+</code></pre></div>
+
+<h2 id="image-processing-pipeline">Image Processing Pipeline</h2>
+<h3 id="format-conversion">Format Conversion</h3>
+<p><strong>Supported Pixel Formats</strong>:<br />
+- <strong>YUYV</strong> - YUV 4:2:2 packed format<br />
+- <strong>MJPG</strong> - Motion JPEG compressed<br />
+- <strong>RGB24</strong> - 24-bit RGB<br />
+- <strong>BGR24</strong> - 24-bit BGR<br />
+- <strong>GRAY</strong> - 8-bit grayscale</p>
+<p><strong>Format Conversion Configuration</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># /etc/rotordream/pipeline.conf</span>
+<span class="k">[conversion]</span>
+<span class="na">input_format</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">YUYV</span>
+<span class="na">output_formats</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">RGB24,MJPG,GRAY</span>
+
+<span class="c1"># JPEG compression settings</span>
+<span class="na">jpeg_quality</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">85</span>
+<span class="na">jpeg_progressive</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">false</span>
+<span class="na">jpeg_optimize</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">true</span>
+
+<span class="c1"># Scaling options</span>
+<span class="na">scaling_algorithm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">bilinear</span><span class="w">  </span><span class="c1"># nearest, bilinear, bicubic, lanczos</span>
+<span class="na">maintain_aspect_ratio</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">true</span>
+</code></pre></div>
+
+<h3 id="image-enhancement">Image Enhancement</h3>
+<p><strong>Real-time Filters</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;image_processing&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;enabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;filters&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">      </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;noise_reduction&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;enabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;strength&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.3</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;sharpening&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;enabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;strength&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.2</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;color_correction&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;enabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;gamma&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">1.0</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;color_matrix&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">          </span><span class="p">[</span><span class="mf">1.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">],</span>
+<span class="w">          </span><span class="p">[</span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">],</span>
+<span class="w">          </span><span class="p">[</span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0</span><span class="p">]</span>
+<span class="w">        </span><span class="p">]</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">]</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Apply Processing via API</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Enable/disable processing</span>
+curl<span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/camera/processing&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;enabled&quot;: true,</span>
+<span class="s1">       &quot;filters&quot;: {</span>
+<span class="s1">         &quot;noise_reduction&quot;: 0.3,</span>
+<span class="s1">         &quot;sharpening&quot;: 0.2,</span>
+<span class="s1">         &quot;gamma_correction&quot;: 1.2</span>
+<span class="s1">       }</span>
+<span class="s1">     }&#39;</span>
+</code></pre></div>
+
+<h2 id="recording-configuration">Recording Configuration</h2>
+<h3 id="video-encoding-settings">Video Encoding Settings</h3>
+<p><strong>H.264 Encoder Parameters</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># /etc/rotordream/encoder.conf</span>
+<span class="k">[h264]</span>
+<span class="na">enabled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">true</span>
+<span class="na">profile</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">main</span><span class="w">  </span><span class="c1"># baseline, main, high</span>
+<span class="na">level</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">4.0</span>
+<span class="na">bitrate_mode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">vbr</span><span class="w">  </span><span class="c1"># cbr, vbr, crf</span>
+<span class="na">target_bitrate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">4000000</span>
+<span class="na">max_bitrate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">8000000</span>
+<span class="na">min_bitrate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">1000000</span>
+<span class="na">gop_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">30</span>
+<span class="na">b_frames</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">2</span>
+
+<span class="c1"># Rate control</span>
+<span class="na">rate_control</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">auto</span><span class="w">  </span><span class="c1"># auto, cbr, vbr, crf</span>
+<span class="na">crf_value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">23</span><span class="w">  </span><span class="c1"># 0-51, lower = better quality</span>
+<span class="na">preset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">medium</span><span class="w">  </span><span class="c1"># ultrafast, superfast, veryfast, faster, fast, medium, slow, slower, veryslow</span>
+
+<span class="k">[mjpeg]</span>
+<span class="na">enabled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">true</span>
+<span class="na">quality</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">85</span>
+<span class="na">progressive</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">false</span>
+<span class="na">optimize_huffman</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">true</span>
+</code></pre></div>
+
+<p><strong>Encoder Configuration via API</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Set H.264 parameters</span>
+curl<span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/camera/encoder&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;codec&quot;: &quot;h264&quot;,</span>
+<span class="s1">       &quot;profile&quot;: &quot;main&quot;,</span>
+<span class="s1">       &quot;bitrate&quot;: 4000000,</span>
+<span class="s1">       &quot;gop_size&quot;: 30,</span>
+<span class="s1">       &quot;quality&quot;: &quot;high&quot;</span>
+<span class="s1">     }&#39;</span>
+</code></pre></div>
+
+<h3 id="recording-modes">Recording Modes</h3>
+<p><strong>Continuous Recording</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;recording_mode&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;continuous&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;segment_duration&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">900</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;max_segments&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">96</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;filename_pattern&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;recording_%Y%m%d_%H%M%S.avi&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;storage_path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/media/data/recordings&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;auto_cleanup&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;cleanup_policy&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;max_age_days&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;max_size_gb&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;keep_minimum&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Triggered Recording</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;recording_mode&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;triggered&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;trigger_sources&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;motion&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;external&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;api&quot;</span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;pre_record_duration&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;post_record_duration&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;min_recording_duration&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">30</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;max_recording_duration&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">300</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="camera-calibration">Camera Calibration</h2>
+<h3 id="geometric-calibration">Geometric Calibration</h3>
+<p><strong>Calibration Process</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Capture calibration images</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/camera/calibration/capture&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;pattern_type&quot;: &quot;chessboard&quot;,</span>
+<span class="s1">       &quot;pattern_size&quot;: [9, 6],</span>
+<span class="s1">       &quot;square_size&quot;: 25.0,</span>
+<span class="s1">       &quot;num_images&quot;: 20</span>
+<span class="s1">     }&#39;</span>
+
+<span class="c1"># Start calibration process</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/camera/calibration/compute&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span>
+
+<span class="c1"># Get calibration results</span>
+curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>http://192.168.1.100:8080/api/camera/calibration/results
+</code></pre></div>
+
+<p><strong>Calibration Data Format</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;calibration&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;camera_matrix&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">      </span><span class="p">[</span><span class="mf">800.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">320.0</span><span class="p">],</span>
+<span class="w">      </span><span class="p">[</span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">800.0</span><span class="p">,</span><span class="w"> </span><span class="mf">240.0</span><span class="p">],</span>
+<span class="w">      </span><span class="p">[</span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0</span><span class="p">]</span>
+<span class="w">    </span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;distortion_coefficients&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mf">-0.2</span><span class="p">,</span><span class="w"> </span><span class="mf">0.1</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;image_size&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mi">640</span><span class="p">,</span><span class="w"> </span><span class="mi">480</span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;reprojection_error&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.15</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;calibration_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2025-01-15T10:30:00Z&quot;</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="color-calibration">Color Calibration</h3>
+<p><strong>White Balance Calibration</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Capture white reference</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/camera/calibration/white_balance&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;method&quot;: &quot;white_patch&quot;,</span>
+<span class="s1">       &quot;reference_illuminant&quot;: &quot;D65&quot;</span>
+<span class="s1">     }&#39;</span>
+</code></pre></div>
+
+<h2 id="multi-camera-configuration">Multi-Camera Configuration</h2>
+<h3 id="camera-array-setup">Camera Array Setup</h3>
+<p><strong>Multi-Camera Configuration</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;camera_array&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;enabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;cameras&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">      </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;device&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/dev/video0&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;role&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;primary&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;position&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;center&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;resolution&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1920x1080&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;framerate&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">30</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;device&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/dev/video1&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;role&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;secondary&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;position&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;left&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;resolution&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1280x720&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;framerate&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">25</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;synchronization&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;enabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;master_camera&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;sync_tolerance_ms&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">16</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Switch Active Camera</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Switch to camera 1</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/camera/switch&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;camera_id&quot;: 1</span>
+<span class="s1">     }&#39;</span>
+</code></pre></div>
+
+<h2 id="troubleshooting">Troubleshooting</h2>
+<h3 id="common-issues">Common Issues</h3>
+<p><strong>Camera Not Detected</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Check USB connections</span>
+lsusb<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-i<span class="w"> </span>camera
+
+<span class="c1"># Check V4L2 devices</span>
+ls<span class="w"> </span>-la<span class="w"> </span>/dev/video*
+
+<span class="c1"># Check kernel modules</span>
+lsmod<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>uvcvideo
+
+<span class="c1"># Check dmesg for errors</span>
+dmesg<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-i<span class="w"> </span>video
+</code></pre></div>
+
+<p><strong>Poor Image Quality</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Check current settings</span>
+v4l2-ctl<span class="w"> </span>--device<span class="o">=</span>/dev/video0<span class="w"> </span>--list-ctrls-menus
+
+<span class="c1"># Reset to defaults</span>
+v4l2-ctl<span class="w"> </span>--device<span class="o">=</span>/dev/video0<span class="w"> </span>--set-ctrl<span class="o">=</span><span class="nv">restore_factory_default</span><span class="o">=</span><span class="m">1</span>
+
+<span class="c1"># Check USB bandwidth</span>
+cat<span class="w"> </span>/sys/kernel/debug/usb/devices<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-A<span class="w"> </span><span class="m">20</span><span class="w"> </span><span class="s2">&quot;Product=.*Camera&quot;</span>
+</code></pre></div>
+
+<p><strong>Frame Rate Issues</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Monitor actual frame rate</span>
+gst-launch-1.0<span class="w"> </span>v4l2src<span class="w"> </span><span class="nv">device</span><span class="o">=</span>/dev/video0<span class="w"> </span>!<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>video/x-raw,width<span class="o">=</span><span class="m">1920</span>,height<span class="o">=</span><span class="m">1080</span>,framerate<span class="o">=</span><span class="m">30</span>/1<span class="w"> </span>!<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>fpsdisplaysink
+
+<span class="c1"># Check USB version and bandwidth</span>
+lsusb<span class="w"> </span>-v<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-A<span class="w"> </span><span class="m">5</span><span class="w"> </span><span class="s2">&quot;bcdUSB&quot;</span>
+</code></pre></div>
+
+<h3 id="performance-optimization">Performance Optimization</h3>
+<p><strong>USB Configuration</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Increase USB buffer size</span>
+<span class="nb">echo</span><span class="w"> </span><span class="m">128</span><span class="w"> </span>&gt;<span class="w"> </span>/sys/module/usbcore/parameters/usbfs_memory_mb
+
+<span class="c1"># Set USB autosuspend delay</span>
+<span class="nb">echo</span><span class="w"> </span><span class="m">0</span><span class="w"> </span>&gt;<span class="w"> </span>/sys/bus/usb/devices/*/power/autosuspend_delay_ms
+</code></pre></div>
+
+<p><strong>V4L2 Buffer Optimization</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Increase buffer count</span>
+v4l2-ctl<span class="w"> </span>--device<span class="o">=</span>/dev/video0<span class="w"> </span>--set-fmt-video<span class="o">=</span><span class="nv">width</span><span class="o">=</span><span class="m">1920</span>,height<span class="o">=</span><span class="m">1080</span>
+v4l2-ctl<span class="w"> </span>--device<span class="o">=</span>/dev/video0<span class="w"> </span>--reqbufs<span class="o">=</span><span class="m">8</span>
+
+<span class="c1"># Check buffer status</span>
+cat<span class="w"> </span>/proc/*/fd/*<span class="w"> </span><span class="m">2</span>&gt;/dev/null<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>video0
+</code></pre></div>
+
+<h2 id="related-documentation">Related Documentation</h2>
+<ul>
+<li><a href="../architecture/camera-pipeline.md">Camera Pipeline Architecture</a> - Technical implementation details</li>
+<li><a href="../api/rtsp-streaming.md">RTSP Streaming</a> - Video streaming configuration</li>
+<li><a href="../operations/performance.md">Performance Tuning</a> - System optimization</li>
+<li><a href="../testing/testing-strategy.md">Testing Strategy</a> - Camera system testing</li>
+</ul>
+<hr />
+<p><em>Camera configuration documentation based on V4L2, GStreamer, and OpenCV integration</em></p>
+            </div>
+            <footer class="content-footer">
+                <p>Copyright © 2025 Rotoclear</p>
+            </footer>
+        </main>
+        
+        <button class="mobile-menu-toggle" id="menuToggle" aria-label="Toggle menu">☰</button>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>
+        // Initialize Mermaid
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            securityLevel: 'loose',
+            fontFamily: 'Inter, sans-serif'
+        });
+        
+        // Syntax highlighting
+        hljs.highlightAll();
+        
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.querySelector('.sidebar');
+        
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+        });
+        
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth <= 768 && 
+                !sidebar.contains(e.target) && 
+                !menuToggle.contains(e.target) &&
+                sidebar.classList.contains('active')) {
+                sidebar.classList.remove('active');
+            }
+        });
+        
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

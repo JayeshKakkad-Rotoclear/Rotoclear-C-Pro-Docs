@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recording - RotoClear Camera Server Documentation</title>
+    <link rel="stylesheet" href="/assets/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1><a href="/index.html">RotoClear Docs</a></h1>
+                <p>Camera Server Documentation</p>
+            </div>
+            <nav class="sidebar-nav">
+                <ul class="nav-menu">
+                    <li class="nav-item depth-0">
+<a href="/index.html">Home</a>
+</li>
+<li class="nav-item depth-0">
+<a href="/getting-started.html">Getting Started</a>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Architecture</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/architecture/overview.html">Overview</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/architecture/state-management.html">State Management</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/architecture/camera-pipeline.html">Camera Pipeline</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/architecture/metadata-sqlite.html">Metadata & SQLite</a>
+</li>
+<li class="nav-folder depth-1">
+<span class="folder-title">Decisions</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-2">
+<a href="/architecture/decisions/ADR-0001-nim-language.html">ADR-0001 Nim Language</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/architecture/decisions/ADR-0002-corun-framework.html">ADR-0002 Corun Framework</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/architecture/decisions/ADR-0003-observable-state.html">ADR-0003 Observable State</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">API Reference</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/api/README.html">Overview</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/api/websocket-api.html">WebSocket API</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/api/http-api.html">HTTP API</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/api/rtsp-streaming.html">RTSP Streaming</a>
+</li>
+<li class="nav-folder depth-1">
+<span class="folder-title">Examples</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-2">
+<a href="/api/examples/python-client.html">Python Client</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/api/examples/javascript-client.html">JavaScript Client</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/api/examples/csharp-client.html">C# Client</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Configuration</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/configuration/environments.html">Environments</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/factory-config.html">Factory Config</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/license-config.html">License Config</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/deployment-variants.html">Deployment Variants</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/camera-system.html">Camera System</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/network.html">Network</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/storage-backup.html">Storage & Backup</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/authentication.html">Authentication</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Camera System</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/camera/hardware-interface.html">Hardware Interface</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/camera/streaming.html">Streaming</a>
+</li>
+<li class="nav-item depth-1 active">
+<a href="/camera/recording.html">Recording</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/camera/image-processing.html">Image Processing</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Operations</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/operations/build-and-deploy.html">Build and Deploy</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/build-deploy.html">Build & Deploy (Alt)</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/monitoring.html">Monitoring</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/performance.html">Performance</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/troubleshooting.html">Troubleshooting</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Security</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/security/authentication.html">Authentication</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/security/permissions.html">Permissions</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/security/ssl-certificates.html">SSL Certificates</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Testing</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/testing/testing-strategy.html">Strategy</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/testing/strategies.html">Strategies</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/testing/test-cases.html">Test Cases</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/testing/validation.html">Validation</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Integration</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/integration/onvif-protocol.html">ONVIF Protocol</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/integration/third-party.html">Third Party</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Reference</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/reference/glossary.html">Glossary</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/reference/requirements.html">Requirements</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/reference/state-observables.html">State Observables</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Releases</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/releases/CHANGELOG.html">Changelog</a>
+</li>
+</ul>
+</li>
+<li class="nav-item depth-0">
+<a href="/glossary.html">Glossary</a>
+</li>
+                </ul>
+            </nav>
+        </aside>
+        
+        <main class="content">
+            <div class="content-wrapper">
+                <h1 id="recording">Recording</h1>
+<h2 id="overview">Overview</h2>
+<p>The RotoClear recording system captures video from camera sources and stores it to local or network storage. It supports multiple recording modes, formats, and metadata tagging for efficient organization and retrieval.</p>
+<h2 id="recording-architecture">Recording Architecture</h2>
+<div class="mermaid">
+graph TB
+    Camera[Camera Source] --> Pipeline[Recording Pipeline]
+    Pipeline --> Encoder[Encoder]
+    Encoder --> Muxer[Muxer MP4/AVI]
+    Muxer --> Storage[Storage Manager]
+
+    Tags[Tag System] --> Metadata[Metadata Store]
+    Timeline[Timeline] --> Metadata
+    Storage --> Metadata
+
+    Metadata --> SQLite[(SQLite DB)]
+    Storage --> Files[(Media Files)]
+
+    style Metadata fill:#9cf,stroke:#333,stroke-width:2px
+</div>
+
+<h2 id="recording-modes">Recording Modes</h2>
+<h3 id="video-recording">Video Recording</h3>
+<p>Standard video recording with audio:</p>
+<div class="codehilite"><pre><span></span><code><span class="c"># src/state/rc_recording.nim</span>
+<span class="k">proc</span><span class="w"> </span><span class="nf">initRecording</span><span class="o">*</span><span class="p">()</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="n">initObservable</span><span class="p">(</span><span class="s">&quot;recordingState&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">permissionRead</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Media_r</span><span class="p">,</span><span class="w"> </span><span class="n">Media_rw</span><span class="p">},</span>
+<span class="w">    </span><span class="n">permissionWrite</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Media_rw</span><span class="p">},</span>
+<span class="w">    </span><span class="n">default</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">%</span><span class="s">&quot;stopped&quot;</span><span class="p">,</span><span class="w">  </span><span class="c"># stopped, recording, paused</span>
+<span class="w">    </span><span class="n">validateType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">String</span>
+<span class="w">  </span><span class="p">)</span>
+
+<span class="w">  </span><span class="n">initObservable</span><span class="p">(</span><span class="s">&quot;recordingMode&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">permissionRead</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Media_r</span><span class="p">,</span><span class="w"> </span><span class="n">Media_rw</span><span class="p">},</span>
+<span class="w">    </span><span class="n">permissionWrite</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Media_rw</span><span class="p">},</span>
+<span class="w">    </span><span class="n">default</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">%</span><span class="s">&quot;video&quot;</span><span class="p">,</span><span class="w">  </span><span class="c"># video, timelapse, slowmotion</span>
+<span class="w">    </span><span class="n">validateType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">String</span>
+<span class="w">  </span><span class="p">)</span>
+</code></pre></div>
+
+<h3 id="timelapse-recording">Timelapse Recording</h3>
+<p>Capture frames at intervals for timelapse video:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">initObservable</span><span class="p">(</span><span class="s">&quot;timelapseInterval&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="n">permissionRead</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Media_r</span><span class="p">,</span><span class="w"> </span><span class="n">Media_rw</span><span class="p">},</span>
+<span class="w">  </span><span class="n">permissionWrite</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Media_rw</span><span class="p">},</span>
+<span class="w">  </span><span class="n">default</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">%</span><span class="mi">5000</span><span class="p">,</span><span class="w">  </span><span class="c"># milliseconds between frames</span>
+<span class="w">  </span><span class="n">validateType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Int</span>
+<span class="p">)</span>
+
+<span class="n">initObservable</span><span class="p">(</span><span class="s">&quot;timelapseDuration&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="n">permissionRead</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Media_r</span><span class="p">,</span><span class="w"> </span><span class="n">Media_rw</span><span class="p">},</span>
+<span class="w">  </span><span class="n">permissionWrite</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Media_rw</span><span class="p">},</span>
+<span class="w">  </span><span class="n">default</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">%</span><span class="mi">3600000</span><span class="p">,</span><span class="w">  </span><span class="c"># 1 hour in milliseconds</span>
+<span class="w">  </span><span class="n">validateType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Int</span>
+<span class="p">)</span>
+</code></pre></div>
+
+<h3 id="slow-motion-recording">Slow Motion Recording</h3>
+<p>High framerate capture for slow motion playback:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">initObservable</span><span class="p">(</span><span class="s">&quot;slowMotionFps&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="n">permissionRead</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Media_r</span><span class="p">,</span><span class="w"> </span><span class="n">Media_rw</span><span class="p">},</span>
+<span class="w">  </span><span class="n">permissionWrite</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Media_rw</span><span class="p">},</span>
+<span class="w">  </span><span class="n">default</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">%</span><span class="mi">120</span><span class="p">,</span><span class="w">  </span><span class="c"># Capture at 120fps, playback at 30fps = 4x slow</span>
+<span class="w">  </span><span class="n">validateType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Int</span>
+<span class="p">)</span>
+</code></pre></div>
+
+<h2 id="recording-pipeline">Recording Pipeline</h2>
+<h3 id="gstreamer-recording-pipeline">GStreamer Recording Pipeline</h3>
+<div class="codehilite"><pre><span></span><code><span class="c"># src/camserver/streamer.nim</span>
+<span class="k">proc</span><span class="w"> </span><span class="nf">createRecordingPipeline</span><span class="o">*</span><span class="p">(</span><span class="n">config</span><span class="p">:</span><span class="w"> </span><span class="n">RecordConfig</span><span class="p">):</span><span class="w"> </span><span class="nb">string</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">audioSrc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">config</span><span class="p">.</span><span class="n">includeAudio</span><span class="p">:</span>
+<span class="w">    </span><span class="s">&quot;alsasrc device=hw:0,0 ! audioconvert ! audioresample ! audio/x-raw,rate=48000 ! voaacenc ! aacparse ! queue !&quot;</span>
+<span class="w">  </span><span class="k">else</span><span class="p">:</span>
+<span class="w">    </span><span class="s">&quot;&quot;</span>
+
+<span class="w">  </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">fmt&quot;</span><span class="se">&quot;&quot;</span>
+<span class="w">    </span><span class="n">v4l2src</span><span class="w"> </span><span class="n">device</span><span class="o">=</span><span class="p">{</span><span class="n">config</span><span class="p">.</span><span class="n">device</span><span class="p">}</span><span class="w"> </span><span class="o">!</span>
+<span class="w">    </span><span class="n">video</span><span class="o">/</span><span class="n">x</span><span class="o">-</span><span class="n">raw</span><span class="p">,</span><span class="n">format</span><span class="o">=</span><span class="n">NV12</span><span class="p">,</span><span class="n">width</span><span class="o">=</span><span class="p">{</span><span class="n">config</span><span class="p">.</span><span class="n">width</span><span class="p">},</span><span class="n">height</span><span class="o">=</span><span class="p">{</span><span class="n">config</span><span class="p">.</span><span class="n">height</span><span class="p">},</span><span class="n">framerate</span><span class="o">=</span><span class="p">{</span><span class="n">config</span><span class="p">.</span><span class="n">fps</span><span class="p">}</span><span class="o">/</span><span class="mi">1</span><span class="w"> </span><span class="o">!</span>
+<span class="w">    </span><span class="n">v4l2h264enc</span><span class="w"> </span><span class="n">extra</span><span class="o">-</span><span class="n">controls</span><span class="o">=</span><span class="s">&quot;controls,video_bitrate={config.bitrate}&quot;</span><span class="w"> </span><span class="o">!</span>
+<span class="w">    </span><span class="n">h264parse</span><span class="w"> </span><span class="o">!</span><span class="w"> </span><span class="n">queue</span><span class="w"> </span><span class="o">!</span>
+<span class="w">    </span><span class="n">mux</span><span class="p">.</span><span class="n">video_0</span>
+
+<span class="w">    </span><span class="p">{</span><span class="n">audioSrc</span><span class="p">}</span><span class="w"> </span><span class="n">mux</span><span class="p">.</span><span class="n">audio_0</span>
+
+<span class="w">    </span><span class="n">mp4mux</span><span class="w"> </span><span class="n">name</span><span class="o">=</span><span class="n">mux</span><span class="w"> </span><span class="o">!</span>
+<span class="w">    </span><span class="n">filesink</span><span class="w"> </span><span class="n">location</span><span class="o">=</span><span class="p">{</span><span class="n">config</span><span class="p">.</span><span class="n">outputPath</span><span class="p">}</span>
+<span class="w">  </span><span class="s2">&quot;&quot;&quot;</span>
+</code></pre></div>
+
+<h3 id="format-support">Format Support</h3>
+<p><strong>MP4 Container</strong>:<br />
+- Video: H.264, H.265<br />
+- Audio: AAC, MP3<br />
+- Best for streaming and compatibility</p>
+<p><strong>AVI Container</strong>:<br />
+- Video: H.264, MJPEG<br />
+- Audio: PCM, MP3<br />
+- Best for frame-accurate editing</p>
+<h2 id="metadata-management">Metadata Management</h2>
+<h3 id="record-metadata-structure">Record Metadata Structure</h3>
+<div class="codehilite"><pre><span></span><code><span class="c"># src/state/record_data.nim</span>
+<span class="k">type</span>
+<span class="w">  </span><span class="n">RecordMetadata</span><span class="o">*</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">object</span>
+<span class="w">    </span><span class="n">id</span><span class="o">*</span><span class="p">:</span><span class="w"> </span><span class="nb">int64</span>
+<span class="w">    </span><span class="n">mediaType</span><span class="o">*</span><span class="p">:</span><span class="w"> </span><span class="n">MetadataMediaType</span><span class="w">      </span><span class="c"># video, timelapse, slowmotion, image, backup</span>
+<span class="w">    </span><span class="n">mediaEncoding</span><span class="o">*</span><span class="p">:</span><span class="w"> </span><span class="n">MetadataMediaEncoding</span><span class="w">  </span><span class="c"># mp4, avi, jpg, jpeg, png</span>
+<span class="w">    </span><span class="n">timestampStartMs</span><span class="o">*</span><span class="p">:</span><span class="w"> </span><span class="nb">int64</span>
+<span class="w">    </span><span class="n">timestampEndMs</span><span class="o">*</span><span class="p">:</span><span class="w"> </span><span class="nb">int64</span>
+<span class="w">    </span><span class="n">durationMs</span><span class="o">*</span><span class="p">:</span><span class="w"> </span><span class="nb">int64</span>
+<span class="w">    </span><span class="n">size</span><span class="o">*</span><span class="p">:</span><span class="w"> </span><span class="nb">int64</span>
+<span class="w">    </span><span class="n">filename</span><span class="o">*</span><span class="p">:</span><span class="w"> </span><span class="nb">string</span>
+<span class="w">    </span><span class="n">resolution</span><span class="o">*</span><span class="p">:</span><span class="w"> </span><span class="nb">string</span>
+<span class="w">    </span><span class="n">fps</span><span class="o">*</span><span class="p">:</span><span class="w"> </span><span class="nb">float32</span>
+<span class="w">    </span><span class="n">state</span><span class="o">*</span><span class="p">:</span><span class="w"> </span><span class="n">RecordMediaState</span><span class="w">           </span><span class="c"># defect, recording, ready</span>
+<span class="w">    </span><span class="n">tagMarkers</span><span class="o">*</span><span class="p">:</span><span class="w"> </span><span class="n">uint32</span><span class="w">               </span><span class="c"># Number of associated tags</span>
+</code></pre></div>
+
+<h3 id="sqlite-metadata-storage">SQLite Metadata Storage</h3>
+<div class="codehilite"><pre><span></span><code><span class="c"># src/storage/metadata_store.nim</span>
+<span class="k">proc</span><span class="w"> </span><span class="nf">createMetadataSchema</span><span class="o">*</span><span class="p">()</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="n">db</span><span class="p">.</span><span class="n">exec</span><span class="p">(</span><span class="s">sql&quot;</span><span class="se">&quot;&quot;</span>
+<span class="w">    </span><span class="n">CREATE</span><span class="w"> </span><span class="n">TABLE</span><span class="w"> </span><span class="k">IF</span><span class="w"> </span><span class="ow">NOT</span><span class="w"> </span><span class="n">EXISTS</span><span class="w"> </span><span class="n">records</span><span class="w"> </span><span class="p">(</span>
+<span class="w">      </span><span class="n">id</span><span class="w"> </span><span class="n">INTEGER</span><span class="w"> </span><span class="n">PRIMARY</span><span class="w"> </span><span class="n">KEY</span><span class="p">,</span>
+<span class="w">      </span><span class="n">filename</span><span class="w"> </span><span class="n">TEXT</span><span class="w"> </span><span class="ow">NOT</span><span class="w"> </span><span class="n">NULL</span><span class="p">,</span>
+<span class="w">      </span><span class="n">media_type</span><span class="w"> </span><span class="n">TEXT</span><span class="p">,</span>
+<span class="w">      </span><span class="n">encoding</span><span class="w"> </span><span class="n">TEXT</span><span class="p">,</span>
+<span class="w">      </span><span class="n">timestamp_start</span><span class="w"> </span><span class="n">INTEGER</span><span class="p">,</span>
+<span class="w">      </span><span class="n">timestamp_end</span><span class="w"> </span><span class="n">INTEGER</span><span class="p">,</span>
+<span class="w">      </span><span class="n">duration</span><span class="w"> </span><span class="n">INTEGER</span><span class="p">,</span>
+<span class="w">      </span><span class="n">size</span><span class="w"> </span><span class="n">INTEGER</span><span class="p">,</span>
+<span class="w">      </span><span class="n">resolution</span><span class="w"> </span><span class="n">TEXT</span><span class="p">,</span>
+<span class="w">      </span><span class="n">fps</span><span class="w"> </span><span class="n">REAL</span><span class="p">,</span>
+<span class="w">      </span><span class="n">state</span><span class="w"> </span><span class="n">TEXT</span><span class="p">,</span>
+<span class="w">      </span><span class="n">tag_markers</span><span class="w"> </span><span class="n">INTEGER</span>
+<span class="w">    </span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">CREATE</span><span class="w"> </span><span class="n">INDEX</span><span class="w"> </span><span class="n">idx_timestamp</span><span class="w"> </span><span class="n">ON</span><span class="w"> </span><span class="n">records</span><span class="p">(</span><span class="n">timestamp_start</span><span class="p">,</span><span class="w"> </span><span class="n">timestamp_end</span><span class="p">);</span>
+<span class="w">    </span><span class="n">CREATE</span><span class="w"> </span><span class="n">INDEX</span><span class="w"> </span><span class="n">idx_state</span><span class="w"> </span><span class="n">ON</span><span class="w"> </span><span class="n">records</span><span class="p">(</span><span class="n">state</span><span class="p">);</span>
+<span class="w">  </span><span class="s2">&quot;&quot;&quot;</span><span class="s">)</span>
+</code></pre></div>
+
+<h3 id="tag-system">Tag System</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">type</span>
+<span class="w">  </span><span class="n">RecordTag</span><span class="o">*</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">object</span>
+<span class="w">    </span><span class="n">id</span><span class="o">*</span><span class="p">:</span><span class="w"> </span><span class="nb">int64</span>
+<span class="w">    </span><span class="n">category</span><span class="o">*</span><span class="p">:</span><span class="w"> </span><span class="nb">int64</span><span class="w">              </span><span class="c"># Reference to category</span>
+<span class="w">    </span><span class="n">timestamp</span><span class="o">*</span><span class="p">:</span><span class="w"> </span><span class="nb">int64</span><span class="w">             </span><span class="c"># Milliseconds into recording</span>
+<span class="w">    </span><span class="n">title</span><span class="o">*</span><span class="p">:</span><span class="w"> </span><span class="nb">string</span>
+<span class="w">    </span><span class="n">note</span><span class="o">*</span><span class="p">:</span><span class="w"> </span><span class="nb">string</span>
+<span class="w">    </span><span class="n">createdBy</span><span class="o">*</span><span class="p">:</span><span class="w"> </span><span class="nb">string</span><span class="w">            </span><span class="c"># Username</span>
+</code></pre></div>
+
+<p><strong>Tag Categories</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c"># src/state/rc_tag_category.nim</span>
+<span class="k">type</span>
+<span class="w">  </span><span class="n">Category</span><span class="o">*</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">object</span>
+<span class="w">    </span><span class="n">id</span><span class="o">*</span><span class="p">:</span><span class="w"> </span><span class="nb">int</span>
+<span class="w">    </span><span class="n">name</span><span class="o">*</span><span class="p">:</span><span class="w"> </span><span class="nb">string</span>
+<span class="w">    </span><span class="n">color</span><span class="o">*</span><span class="p">:</span><span class="w"> </span><span class="nb">string</span>
+
+<span class="c"># Issue #150 fix: Categories persist across factory reset</span>
+<span class="k">proc</span><span class="w"> </span><span class="nf">initRCTagCategories</span><span class="o">*</span><span class="p">()</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="n">initObservable</span><span class="p">(</span><span class="s">&quot;categories&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">permissionRead</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Media_r</span><span class="p">,</span><span class="w"> </span><span class="n">Media_rw</span><span class="p">},</span>
+<span class="w">    </span><span class="n">permissionWrite</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{},</span>
+<span class="w">    </span><span class="n">save</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kp">true</span><span class="p">,</span><span class="w">  </span><span class="c"># Persisted in LocalStorage</span>
+<span class="w">    </span><span class="n">default</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">newJObject</span><span class="p">()</span>
+<span class="w">  </span><span class="p">)</span>
+</code></pre></div>
+
+<h2 id="recording-control">Recording Control</h2>
+<h3 id="start-recording">Start Recording</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">proc</span><span class="w"> </span><span class="nf">startRecording</span><span class="o">*</span><span class="p">(</span><span class="n">config</span><span class="p">:</span><span class="w"> </span><span class="n">RecordingConfig</span><span class="p">):</span><span class="w"> </span><span class="nb">bool</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="c"># Check storage space</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="n">hasEnoughSpace</span><span class="p">(</span><span class="n">config</span><span class="p">.</span><span class="n">estimatedSize</span><span class="p">):</span>
+<span class="w">    </span><span class="n">StateLogger</span><span class="p">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;Insufficient storage space&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="kp">false</span>
+
+<span class="w">  </span><span class="c"># Check if already recording</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="n">State</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;recordingState&quot;</span><span class="p">).</span><span class="n">value</span><span class="p">.</span><span class="n">getStr</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;recording&quot;</span><span class="p">:</span>
+<span class="w">    </span><span class="n">StateLogger</span><span class="p">.</span><span class="n">warn</span><span class="p">(</span><span class="s">&quot;Already recording&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="kp">false</span>
+
+<span class="w">  </span><span class="c"># Generate filename</span>
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">filename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">generateRecordingFilename</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">filepath</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">getMediaPath</span><span class="p">()</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">filename</span>
+
+<span class="w">  </span><span class="c"># Create GStreamer pipeline</span>
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">pipeline</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">createRecordingPipeline</span><span class="p">(</span><span class="n">RecordConfig</span><span class="p">(</span>
+<span class="w">    </span><span class="n">device</span><span class="p">:</span><span class="w"> </span><span class="n">config</span><span class="p">.</span><span class="n">device</span><span class="p">,</span>
+<span class="w">    </span><span class="n">width</span><span class="p">:</span><span class="w"> </span><span class="n">config</span><span class="p">.</span><span class="n">resolution</span><span class="p">.</span><span class="n">width</span><span class="p">,</span>
+<span class="w">    </span><span class="n">height</span><span class="p">:</span><span class="w"> </span><span class="n">config</span><span class="p">.</span><span class="n">resolution</span><span class="p">.</span><span class="n">height</span><span class="p">,</span>
+<span class="w">    </span><span class="n">fps</span><span class="p">:</span><span class="w"> </span><span class="n">config</span><span class="p">.</span><span class="n">fps</span><span class="p">,</span>
+<span class="w">    </span><span class="n">bitrate</span><span class="p">:</span><span class="w"> </span><span class="n">config</span><span class="p">.</span><span class="n">bitrate</span><span class="p">,</span>
+<span class="w">    </span><span class="n">outputPath</span><span class="p">:</span><span class="w"> </span><span class="n">filepath</span><span class="p">,</span>
+<span class="w">    </span><span class="n">includeAudio</span><span class="p">:</span><span class="w"> </span><span class="n">config</span><span class="p">.</span><span class="n">includeAudio</span>
+<span class="w">  </span><span class="p">))</span>
+
+<span class="w">  </span><span class="c"># Start pipeline</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="n">startGStreamerPipeline</span><span class="p">(</span><span class="n">pipeline</span><span class="p">):</span>
+<span class="w">    </span><span class="c"># Create metadata entry</span>
+<span class="w">    </span><span class="n">createRecordMetadata</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span><span class="w"> </span><span class="n">config</span><span class="p">)</span>
+
+<span class="w">    </span><span class="c"># Update state</span>
+<span class="w">    </span><span class="n">State</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;recordingState&quot;</span><span class="p">).</span><span class="n">updateValue</span><span class="p">(</span><span class="o">%</span><span class="s">&quot;recording&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="n">State</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;currentRecordingFile&quot;</span><span class="p">).</span><span class="n">updateValue</span><span class="p">(</span><span class="o">%</span><span class="n">filename</span><span class="p">)</span>
+
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="kp">true</span>
+
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="kp">false</span>
+</code></pre></div>
+
+<h3 id="stop-recording">Stop Recording</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">proc</span><span class="w"> </span><span class="nf">stopRecording</span><span class="o">*</span><span class="p">():</span><span class="w"> </span><span class="nb">bool</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="n">State</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;recordingState&quot;</span><span class="p">).</span><span class="n">value</span><span class="p">.</span><span class="n">getStr</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="s">&quot;recording&quot;</span><span class="p">:</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="kp">false</span>
+
+<span class="w">  </span><span class="c"># Send EOS (End of Stream) to pipeline</span>
+<span class="w">  </span><span class="n">sendEosToGStreamerPipeline</span><span class="p">()</span>
+
+<span class="w">  </span><span class="c"># Wait for pipeline to finish</span>
+<span class="w">  </span><span class="n">waitForPipelineEos</span><span class="p">()</span>
+
+<span class="w">  </span><span class="c"># Stop pipeline</span>
+<span class="w">  </span><span class="n">stopGStreamerPipeline</span><span class="p">()</span>
+
+<span class="w">  </span><span class="c"># Finalize metadata</span>
+<span class="w">  </span><span class="n">finalizeRecordMetadata</span><span class="p">()</span>
+
+<span class="w">  </span><span class="c"># Update state</span>
+<span class="w">  </span><span class="n">State</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;recordingState&quot;</span><span class="p">).</span><span class="n">updateValue</span><span class="p">(</span><span class="o">%</span><span class="s">&quot;stopped&quot;</span><span class="p">)</span>
+<span class="w">  </span><span class="n">State</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;currentRecordingFile&quot;</span><span class="p">).</span><span class="n">updateValue</span><span class="p">(</span><span class="o">%</span><span class="s">&quot;&quot;</span><span class="p">)</span>
+
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="kp">true</span>
+</code></pre></div>
+
+<h3 id="pauseresume">Pause/Resume</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">proc</span><span class="w"> </span><span class="nf">pauseRecording</span><span class="o">*</span><span class="p">():</span><span class="w"> </span><span class="nb">bool</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="n">State</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;recordingState&quot;</span><span class="p">).</span><span class="n">value</span><span class="p">.</span><span class="n">getStr</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="s">&quot;recording&quot;</span><span class="p">:</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="kp">false</span>
+
+<span class="w">  </span><span class="n">pauseGStreamerPipeline</span><span class="p">()</span>
+<span class="w">  </span><span class="n">State</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;recordingState&quot;</span><span class="p">).</span><span class="n">updateValue</span><span class="p">(</span><span class="o">%</span><span class="s">&quot;paused&quot;</span><span class="p">)</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="kp">true</span>
+
+<span class="k">proc</span><span class="w"> </span><span class="nf">resumeRecording</span><span class="o">*</span><span class="p">():</span><span class="w"> </span><span class="nb">bool</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="n">State</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;recordingState&quot;</span><span class="p">).</span><span class="n">value</span><span class="p">.</span><span class="n">getStr</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="s">&quot;paused&quot;</span><span class="p">:</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="kp">false</span>
+
+<span class="w">  </span><span class="n">resumeGStreamerPipeline</span><span class="p">()</span>
+<span class="w">  </span><span class="n">State</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;recordingState&quot;</span><span class="p">).</span><span class="n">updateValue</span><span class="p">(</span><span class="o">%</span><span class="s">&quot;recording&quot;</span><span class="p">)</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="kp">true</span>
+</code></pre></div>
+
+<h2 id="storage-management">Storage Management</h2>
+<h3 id="storage-location">Storage Location</h3>
+<div class="codehilite"><pre><span></span><code><span class="c"># src/state/rc_storage.nim</span>
+<span class="k">proc</span><span class="w"> </span><span class="nf">initStoragePaths</span><span class="o">*</span><span class="p">()</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="n">initObservable</span><span class="p">(</span><span class="s">&quot;recordingStorage&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">permissionRead</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Storage_r</span><span class="p">,</span><span class="w"> </span><span class="n">Storage_rw</span><span class="p">},</span>
+<span class="w">    </span><span class="n">permissionWrite</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Storage_rw</span><span class="p">},</span>
+<span class="w">    </span><span class="n">default</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">%</span><span class="p">{</span>
+<span class="w">      </span><span class="s">&quot;primary&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/media/data/recordings&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="s">&quot;backup&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/media/backup/recordings&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="s">&quot;network&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">)</span>
+</code></pre></div>
+
+<h3 id="space-monitoring">Space Monitoring</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">proc</span><span class="w"> </span><span class="nf">getStorageSpace</span><span class="o">*</span><span class="p">(</span><span class="n">path</span><span class="p">:</span><span class="w"> </span><span class="nb">string</span><span class="p">):</span><span class="w"> </span><span class="n">StorageSpace</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="k">when</span><span class="w"> </span><span class="n">defined</span><span class="p">(</span><span class="n">embeddedSystem</span><span class="p">):</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">stat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">statvfs</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+<span class="w">    </span><span class="n">result</span><span class="p">.</span><span class="n">total</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">stat</span><span class="p">.</span><span class="n">f_blocks</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">stat</span><span class="p">.</span><span class="n">f_frsize</span>
+<span class="w">    </span><span class="n">result</span><span class="p">.</span><span class="n">available</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">stat</span><span class="p">.</span><span class="n">f_bavail</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">stat</span><span class="p">.</span><span class="n">f_frsize</span>
+<span class="w">    </span><span class="n">result</span><span class="p">.</span><span class="n">used</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">result</span><span class="p">.</span><span class="n">total</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">result</span><span class="p">.</span><span class="n">available</span>
+<span class="w">  </span><span class="k">else</span><span class="p">:</span>
+<span class="w">    </span><span class="c"># Simulated values for development</span>
+<span class="w">    </span><span class="n">result</span><span class="p">.</span><span class="n">total</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">100_000_000_000</span><span class="w">  </span><span class="c"># 100 GB</span>
+<span class="w">    </span><span class="n">result</span><span class="p">.</span><span class="n">available</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">50_000_000_000</span><span class="w">  </span><span class="c"># 50 GB</span>
+<span class="w">    </span><span class="n">result</span><span class="p">.</span><span class="n">used</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">50_000_000_000</span>
+
+<span class="k">proc</span><span class="w"> </span><span class="nf">hasEnoughSpace</span><span class="o">*</span><span class="p">(</span><span class="n">requiredBytes</span><span class="p">:</span><span class="w"> </span><span class="nb">int64</span><span class="p">):</span><span class="w"> </span><span class="nb">bool</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">space</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">getStorageSpace</span><span class="p">(</span><span class="n">getMediaPath</span><span class="p">())</span>
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">minFreeSpace</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1_000_000_000</span><span class="w">  </span><span class="c"># 1 GB minimum</span>
+<span class="w">  </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">space</span><span class="p">.</span><span class="n">available</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="p">(</span><span class="n">requiredBytes</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">minFreeSpace</span><span class="p">)</span>
+</code></pre></div>
+
+<h3 id="automatic-cleanup">Automatic Cleanup</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">proc</span><span class="w"> </span><span class="nf">cleanupOldRecordings</span><span class="o">*</span><span class="p">(</span><span class="n">retentionDays</span><span class="p">:</span><span class="w"> </span><span class="nb">int</span><span class="p">)</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">cutoffTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">now</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">initDuration</span><span class="p">(</span><span class="n">days</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">retentionDays</span><span class="p">)</span>
+
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="n">record</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">getAllRecords</span><span class="p">():</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">record</span><span class="p">.</span><span class="n">timestampStartMs</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">cutoffTime</span><span class="p">.</span><span class="n">toUnix</span><span class="p">()</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">1000</span><span class="p">:</span>
+<span class="w">      </span><span class="c"># Check if record has tags</span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="n">record</span><span class="p">.</span><span class="n">tagMarkers</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">:</span>
+<span class="w">        </span><span class="c"># Delete unmarked old recordings</span>
+<span class="w">        </span><span class="n">deleteRecording</span><span class="p">(</span><span class="n">record</span><span class="p">.</span><span class="n">id</span><span class="p">)</span>
+<span class="w">        </span><span class="n">StateLogger</span><span class="p">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;Deleted old recording: &quot;</span><span class="p">,</span><span class="w"> </span><span class="n">record</span><span class="p">.</span><span class="n">filename</span><span class="p">)</span>
+</code></pre></div>
+
+<h2 id="file-organization">File Organization</h2>
+<h3 id="directory-structure">Directory Structure</h3>
+<div class="codehilite"><pre><span></span><code>/media/data/recordings/
+├── 2025/
+│   ├── 01/  (January)
+│   │   ├── 01/  (Day)
+│   │   │   ├── recording_20250101_080000.mp4
+│   │   │   ├── recording_20250101_100000.mp4
+│   │   │   └── ...
+│   │   └── .metadata/
+│   │       ├── metadata_20250101.bin
+│   │       └── tags_20250101.bin
+│   └── 02/
+└── .metadata/
+    └── metadata.db  (SQLite database)
+</code></pre></div>
+
+<h3 id="filename-convention">Filename Convention</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">proc</span><span class="w"> </span><span class="nf">generateRecordingFilename</span><span class="o">*</span><span class="p">(</span><span class="n">config</span><span class="p">:</span><span class="w"> </span><span class="n">RecordingConfig</span><span class="p">):</span><span class="w"> </span><span class="nb">string</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">now</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">now</span><span class="p">()</span>
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">dateStr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">now</span><span class="p">.</span><span class="n">format</span><span class="p">(</span><span class="s">&quot;yyyyMMdd&quot;</span><span class="p">)</span>
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">timeStr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">now</span><span class="p">.</span><span class="n">format</span><span class="p">(</span><span class="s">&quot;HHmmss&quot;</span><span class="p">)</span>
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">ext</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">case</span><span class="w"> </span><span class="n">config</span><span class="p">.</span><span class="n">format</span><span class="p">:</span>
+<span class="w">    </span><span class="k">of</span><span class="w"> </span><span class="nl">mp4</span><span class="o">:</span><span class="w"> </span><span class="s">&quot;mp4&quot;</span>
+<span class="w">    </span><span class="k">of</span><span class="w"> </span><span class="nl">avi</span><span class="o">:</span><span class="w"> </span><span class="s">&quot;avi&quot;</span>
+<span class="w">    </span><span class="k">else</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;mp4&quot;</span>
+
+<span class="w">  </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">fmt&quot;recording_{dateStr}_{timeStr}.{ext}&quot;</span>
+</code></pre></div>
+
+<h2 id="recording-modes-configuration">Recording Modes Configuration</h2>
+<h3 id="mode-specific-settings">Mode-Specific Settings</h3>
+<div class="codehilite"><pre><span></span><code><span class="c"># src/state/rc_recording_modes.nim</span>
+<span class="k">proc</span><span class="w"> </span><span class="nf">initRecordingModes</span><span class="o">*</span><span class="p">()</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="n">initObservable</span><span class="p">(</span><span class="s">&quot;videoRecordingSettings&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">default</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">%</span><span class="p">{</span>
+<span class="w">      </span><span class="s">&quot;resolution&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;1920x1080&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="s">&quot;fps&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">60</span><span class="p">,</span>
+<span class="w">      </span><span class="s">&quot;bitrate&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">8000000</span><span class="p">,</span>
+<span class="w">      </span><span class="s">&quot;audio&quot;</span><span class="p">:</span><span class="w"> </span><span class="kp">true</span><span class="p">,</span>
+<span class="w">      </span><span class="s">&quot;format&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;mp4&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">)</span>
+
+<span class="w">  </span><span class="n">initObservable</span><span class="p">(</span><span class="s">&quot;timelapseSettings&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">default</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">%</span><span class="p">{</span>
+<span class="w">      </span><span class="s">&quot;interval&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">5000</span><span class="p">,</span><span class="w">      </span><span class="c"># 5 seconds between frames</span>
+<span class="w">      </span><span class="s">&quot;resolution&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;1920x1080&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="s">&quot;duration&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">3600000</span><span class="p">,</span><span class="w">   </span><span class="c"># 1 hour</span>
+<span class="w">      </span><span class="s">&quot;format&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;mp4&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">)</span>
+
+<span class="w">  </span><span class="n">initObservable</span><span class="p">(</span><span class="s">&quot;slowMotionSettings&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">default</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">%</span><span class="p">{</span>
+<span class="w">      </span><span class="s">&quot;captureFps&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">120</span><span class="p">,</span>
+<span class="w">      </span><span class="s">&quot;playbackFps&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">30</span><span class="p">,</span>
+<span class="w">      </span><span class="s">&quot;resolution&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;1920x1080&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="s">&quot;bitrate&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">12000000</span><span class="p">,</span>
+<span class="w">      </span><span class="s">&quot;format&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;mp4&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">)</span>
+</code></pre></div>
+
+<h2 id="api-integration">API Integration</h2>
+<h3 id="start-recording-via-api">Start Recording via API</h3>
+<div class="codehilite"><pre><span></span><code><span class="c1">// POST /api/recording/start</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="s2">&quot;mode&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;video&quot;</span><span class="p">,</span><span class="w">  </span><span class="c1">// video, timelapse, slowmotion</span>
+<span class="w">  </span><span class="s2">&quot;resolution&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;1920x1080&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="s2">&quot;fps&quot;</span><span class="o">:</span><span class="w"> </span><span class="mf">60</span><span class="p">,</span>
+<span class="w">  </span><span class="s2">&quot;bitrate&quot;</span><span class="o">:</span><span class="w"> </span><span class="mf">8000000</span><span class="p">,</span>
+<span class="w">  </span><span class="s2">&quot;includeAudio&quot;</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">  </span><span class="s2">&quot;format&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;mp4&quot;</span>
+<span class="p">}</span>
+
+<span class="c1">// Response</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="s2">&quot;success&quot;</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">  </span><span class="s2">&quot;recordingId&quot;</span><span class="o">:</span><span class="w"> </span><span class="mf">12345</span><span class="p">,</span>
+<span class="w">  </span><span class="s2">&quot;filename&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;recording_20250101_120000.mp4&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="s2">&quot;estimatedSize&quot;</span><span class="o">:</span><span class="w"> </span><span class="mf">1073741824</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="stop-recording_1">Stop Recording</h3>
+<div class="codehilite"><pre><span></span><code><span class="c1">// POST /api/recording/stop</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="s2">&quot;finalize&quot;</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="p">}</span>
+
+<span class="c1">// Response</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="s2">&quot;success&quot;</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">  </span><span class="s2">&quot;recordingId&quot;</span><span class="o">:</span><span class="w"> </span><span class="mf">12345</span><span class="p">,</span>
+<span class="w">  </span><span class="s2">&quot;duration&quot;</span><span class="o">:</span><span class="w"> </span><span class="mf">3600000</span><span class="p">,</span><span class="w">  </span><span class="c1">// milliseconds</span>
+<span class="w">  </span><span class="s2">&quot;size&quot;</span><span class="o">:</span><span class="w"> </span><span class="mf">1073741824</span><span class="p">,</span><span class="w">   </span><span class="c1">// bytes</span>
+<span class="w">  </span><span class="s2">&quot;path&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;/media/data/recordings/2025/01/01/recording_20250101_120000.mp4&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="add-tag-during-recording">Add Tag During Recording</h3>
+<div class="codehilite"><pre><span></span><code><span class="c1">// POST /api/recording/tag</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="s2">&quot;category&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;surgical-milestone&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="s2">&quot;title&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;Incision Started&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="s2">&quot;note&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;Primary incision at 10:23:45&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="s2">&quot;timestamp&quot;</span><span class="o">:</span><span class="w"> </span><span class="mf">623450</span><span class="w">  </span><span class="c1">// milliseconds into recording</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="performance-optimization">Performance Optimization</h2>
+<h3 id="encoding-performance">Encoding Performance</h3>
+<p><strong>Hardware Encoding</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c"># Use V4L2 hardware encoder on embedded systems</span>
+<span class="k">let</span><span class="w"> </span><span class="n">encoder</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">when</span><span class="w"> </span><span class="n">defined</span><span class="p">(</span><span class="n">embeddedSystem</span><span class="p">):</span>
+<span class="w">  </span><span class="s">&quot;v4l2h264enc&quot;</span>
+<span class="k">else</span><span class="p">:</span>
+<span class="w">  </span><span class="s">&quot;x264enc speed-preset=fast tune=zerolatency&quot;</span>
+</code></pre></div>
+
+<p><strong>Buffer Tuning</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">initObservable</span><span class="p">(</span><span class="s">&quot;recordingBufferSize&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="n">default</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">%</span><span class="mi">4194304</span><span class="p">,</span><span class="w">  </span><span class="c"># 4 MB</span>
+<span class="w">  </span><span class="n">validateType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Int</span>
+<span class="p">)</span>
+
+<span class="n">initObservable</span><span class="p">(</span><span class="s">&quot;recordingQueueSize&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="n">default</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">%</span><span class="mi">10</span><span class="p">,</span><span class="w">  </span><span class="c"># Number of frames to buffer</span>
+<span class="w">  </span><span class="n">validateType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Int</span>
+<span class="p">)</span>
+</code></pre></div>
+
+<h3 id="storage-performance">Storage Performance</h3>
+<p><strong>Write Caching</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">proc</span><span class="w"> </span><span class="nf">optimizeWritePerformance</span><span class="o">*</span><span class="p">()</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="c"># Use larger write buffers for better performance</span>
+<span class="w">  </span><span class="k">when</span><span class="w"> </span><span class="n">defined</span><span class="p">(</span><span class="n">embeddedSystem</span><span class="p">):</span>
+<span class="w">    </span><span class="k">discard</span><span class="w"> </span><span class="n">execCmd</span><span class="p">(</span><span class="s">&quot;echo 16384 &gt; /proc/sys/vm/dirty_background_ratio&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="k">discard</span><span class="w"> </span><span class="n">execCmd</span><span class="p">(</span><span class="s">&quot;echo 32768 &gt; /proc/sys/vm/dirty_ratio&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<h2 id="troubleshooting">Troubleshooting</h2>
+<h3 id="recording-wont-start">Recording Won't Start</h3>
+<p><strong>Symptoms</strong>: Start recording command fails.</p>
+<p><strong>Solutions</strong>:<br />
+- Check storage space: <code>df -h /media/data</code><br />
+- Verify camera is available: <code>v4l2-ctl --list-devices</code><br />
+- Check permissions on recording directory<br />
+- Review logs: <code>journalctl -u rotordream | grep recording</code></p>
+<h3 id="dropped-frames">Dropped Frames</h3>
+<p><strong>Symptoms</strong>: Warning messages about dropped frames.</p>
+<p><strong>Solutions</strong>:<br />
+- Reduce bitrate<br />
+- Lower resolution or framerate<br />
+- Check CPU usage<br />
+- Verify storage write speed<br />
+- Use hardware encoding</p>
+<h3 id="file-corruption">File Corruption</h3>
+<p><strong>Symptoms</strong>: Recording files won't play or are incomplete.</p>
+<p><strong>Solutions</strong>:<br />
+- Ensure proper EOS (End of Stream) handling<br />
+- Check storage health<br />
+- Verify filesystem is not full<br />
+- Use MP4 faststart for better compatibility</p>
+<h3 id="metadata-not-saved">Metadata Not Saved</h3>
+<p><strong>Symptoms</strong>: Tags or metadata missing after recording.</p>
+<p><strong>Solutions</strong>:<br />
+- Verify SQLite database is writable<br />
+- Check metadata directory permissions<br />
+- Review metadata store logs<br />
+- Ensure recording was properly finalized</p>
+<h2 id="related-documentation">Related Documentation</h2>
+<ul>
+<li><a href="hardware-interface.md">Hardware Interface</a></li>
+<li><a href="streaming.md">Streaming</a></li>
+<li><a href="../architecture/metadata-sqlite.md">Metadata Storage</a></li>
+<li><a href="../configuration/storage-backup.md">Storage Configuration</a></li>
+</ul>
+            </div>
+            <footer class="content-footer">
+                <p>Copyright © 2025 Rotoclear</p>
+            </footer>
+        </main>
+        
+        <button class="mobile-menu-toggle" id="menuToggle" aria-label="Toggle menu">☰</button>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>
+        // Initialize Mermaid
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            securityLevel: 'loose',
+            fontFamily: 'Inter, sans-serif'
+        });
+        
+        // Syntax highlighting
+        hljs.highlightAll();
+        
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.querySelector('.sidebar');
+        
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+        });
+        
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth <= 768 && 
+                !sidebar.contains(e.target) && 
+                !menuToggle.contains(e.target) &&
+                sidebar.classList.contains('active')) {
+                sidebar.classList.remove('active');
+            }
+        });
+        
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

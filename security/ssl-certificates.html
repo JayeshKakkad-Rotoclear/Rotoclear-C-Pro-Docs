@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SSL Certificates - RotoClear Camera Server Documentation</title>
+    <link rel="stylesheet" href="/assets/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1><a href="/index.html">RotoClear Docs</a></h1>
+                <p>Camera Server Documentation</p>
+            </div>
+            <nav class="sidebar-nav">
+                <ul class="nav-menu">
+                    <li class="nav-item depth-0">
+<a href="/index.html">Home</a>
+</li>
+<li class="nav-item depth-0">
+<a href="/getting-started.html">Getting Started</a>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Architecture</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/architecture/overview.html">Overview</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/architecture/state-management.html">State Management</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/architecture/camera-pipeline.html">Camera Pipeline</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/architecture/metadata-sqlite.html">Metadata & SQLite</a>
+</li>
+<li class="nav-folder depth-1">
+<span class="folder-title">Decisions</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-2">
+<a href="/architecture/decisions/ADR-0001-nim-language.html">ADR-0001 Nim Language</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/architecture/decisions/ADR-0002-corun-framework.html">ADR-0002 Corun Framework</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/architecture/decisions/ADR-0003-observable-state.html">ADR-0003 Observable State</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">API Reference</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/api/README.html">Overview</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/api/websocket-api.html">WebSocket API</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/api/http-api.html">HTTP API</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/api/rtsp-streaming.html">RTSP Streaming</a>
+</li>
+<li class="nav-folder depth-1">
+<span class="folder-title">Examples</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-2">
+<a href="/api/examples/python-client.html">Python Client</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/api/examples/javascript-client.html">JavaScript Client</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/api/examples/csharp-client.html">C# Client</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Configuration</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/configuration/environments.html">Environments</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/factory-config.html">Factory Config</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/license-config.html">License Config</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/deployment-variants.html">Deployment Variants</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/camera-system.html">Camera System</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/network.html">Network</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/storage-backup.html">Storage & Backup</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/authentication.html">Authentication</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Camera System</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/camera/hardware-interface.html">Hardware Interface</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/camera/streaming.html">Streaming</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/camera/recording.html">Recording</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/camera/image-processing.html">Image Processing</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Operations</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/operations/build-and-deploy.html">Build and Deploy</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/build-deploy.html">Build & Deploy (Alt)</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/monitoring.html">Monitoring</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/performance.html">Performance</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/troubleshooting.html">Troubleshooting</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Security</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/security/authentication.html">Authentication</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/security/permissions.html">Permissions</a>
+</li>
+<li class="nav-item depth-1 active">
+<a href="/security/ssl-certificates.html">SSL Certificates</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Testing</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/testing/testing-strategy.html">Strategy</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/testing/strategies.html">Strategies</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/testing/test-cases.html">Test Cases</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/testing/validation.html">Validation</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Integration</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/integration/onvif-protocol.html">ONVIF Protocol</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/integration/third-party.html">Third Party</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Reference</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/reference/glossary.html">Glossary</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/reference/requirements.html">Requirements</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/reference/state-observables.html">State Observables</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Releases</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/releases/CHANGELOG.html">Changelog</a>
+</li>
+</ul>
+</li>
+<li class="nav-item depth-0">
+<a href="/glossary.html">Glossary</a>
+</li>
+                </ul>
+            </nav>
+        </aside>
+        
+        <main class="content">
+            <div class="content-wrapper">
+                <h1 id="ssl-certificates">SSL Certificates</h1>
+<h2 id="overview">Overview</h2>
+<p>The RotoClear camera system supports SSL/TLS encryption for secure communication. SSL certificates protect web interface access, API calls, and streaming protocols from eavesdropping and man-in-the-middle attacks.</p>
+<h2 id="certificate-management">Certificate Management</h2>
+<h3 id="certificate-storage">Certificate Storage</h3>
+<div class="codehilite"><pre><span></span><code>/config/
+├── server.crt       # SSL certificate
+├── server.key       # Private key
+└── ca.crt          # Certificate Authority (optional)
+</code></pre></div>
+
+<p><strong>Configuration</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c"># src/settings.nim</span>
+<span class="k">const</span>
+<span class="w">  </span><span class="n">CrtDir</span><span class="o">*</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">when</span><span class="w"> </span><span class="n">defined</span><span class="p">(</span><span class="n">embeddedSystem</span><span class="p">):</span><span class="w"> </span><span class="s">&quot;/config/server.crt&quot;</span>
+<span class="w">            </span><span class="k">else</span><span class="p">:</span><span class="w"> </span><span class="n">getCurrentDir</span><span class="p">()</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="s">&quot;server.crt&quot;</span>
+
+<span class="w">  </span><span class="n">KeyDir</span><span class="o">*</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">when</span><span class="w"> </span><span class="n">defined</span><span class="p">(</span><span class="n">embeddedSystem</span><span class="p">):</span><span class="w"> </span><span class="s">&quot;/config/server.key&quot;</span>
+<span class="w">            </span><span class="k">else</span><span class="p">:</span><span class="w"> </span><span class="n">getCurrentDir</span><span class="p">()</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="s">&quot;server.key&quot;</span>
+</code></pre></div>
+
+<h3 id="self-signed-certificates">Self-Signed Certificates</h3>
+<p>Generate self-signed certificate for development/testing:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Generate private key</span>
+openssl<span class="w"> </span>genrsa<span class="w"> </span>-out<span class="w"> </span>server.key<span class="w"> </span><span class="m">2048</span>
+
+<span class="c1"># Generate self-signed certificate (valid for 365 days)</span>
+openssl<span class="w"> </span>req<span class="w"> </span>-new<span class="w"> </span>-x509<span class="w"> </span>-key<span class="w"> </span>server.key<span class="w"> </span>-out<span class="w"> </span>server.crt<span class="w"> </span>-days<span class="w"> </span><span class="m">365</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-subj<span class="w"> </span><span class="s2">&quot;/C=US/ST=State/L=City/O=Organization/CN=rotoclear.local&quot;</span>
+
+<span class="c1"># Copy to device</span>
+scp<span class="w"> </span>server.crt<span class="w"> </span>server.key<span class="w"> </span>root@rotoclear:/config/
+</code></pre></div>
+
+<h3 id="certificate-authority-ca-signed">Certificate Authority (CA) Signed</h3>
+<p>For production deployments, use CA-signed certificates:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Generate private key</span>
+openssl<span class="w"> </span>genrsa<span class="w"> </span>-out<span class="w"> </span>server.key<span class="w"> </span><span class="m">2048</span>
+
+<span class="c1"># Generate certificate signing request (CSR)</span>
+openssl<span class="w"> </span>req<span class="w"> </span>-new<span class="w"> </span>-key<span class="w"> </span>server.key<span class="w"> </span>-out<span class="w"> </span>server.csr<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-subj<span class="w"> </span><span class="s2">&quot;/C=US/ST=State/L=City/O=Organization/CN=rotoclear.example.com&quot;</span>
+
+<span class="c1"># Submit CSR to Certificate Authority</span>
+<span class="c1"># Receive signed certificate (server.crt)</span>
+
+<span class="c1"># Install certificate and key</span>
+scp<span class="w"> </span>server.crt<span class="w"> </span>server.key<span class="w"> </span>root@rotoclear:/config/
+ssh<span class="w"> </span>root@rotoclear<span class="w"> </span>systemctl<span class="w"> </span>restart<span class="w"> </span>rotordream
+</code></pre></div>
+
+<h3 id="lets-encrypt-certificates">Let's Encrypt Certificates</h3>
+<p>Free certificates from Let's Encrypt:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Install certbot</span>
+apt-get<span class="w"> </span>install<span class="w"> </span>certbot
+
+<span class="c1"># Obtain certificate (requires port 80 accessible)</span>
+certbot<span class="w"> </span>certonly<span class="w"> </span>--standalone<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span>rotoclear.example.com<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--email<span class="w"> </span>admin@example.com<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--agree-tos
+
+<span class="c1"># Certificates stored in /etc/letsencrypt/live/rotoclear.example.com/</span>
+
+<span class="c1"># Copy to RotoClear device</span>
+scp<span class="w"> </span>/etc/letsencrypt/live/rotoclear.example.com/fullchain.pem<span class="w"> </span>root@rotoclear:/config/server.crt
+scp<span class="w"> </span>/etc/letsencrypt/live/rotoclear.example.com/privkey.pem<span class="w"> </span>root@rotoclear:/config/server.key
+
+<span class="c1"># Auto-renewal with cron</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;0 0 * * * certbot renew --quiet &amp;&amp; scp /etc/letsencrypt/live/rotoclear.example.com/*.pem root@rotoclear:/config/&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>crontab<span class="w"> </span>-
+</code></pre></div>
+
+<h2 id="web-server-ssl-configuration">Web Server SSL Configuration</h2>
+<h3 id="https-server-setup">HTTPS Server Setup</h3>
+<div class="codehilite"><pre><span></span><code><span class="c"># src/servers/webserver.nim</span>
+<span class="kn">import</span><span class="w"> </span><span class="n">std</span><span class="o">/</span><span class="n">net</span>
+<span class="kn">import</span><span class="w"> </span><span class="n">std</span><span class="o">/</span><span class="n">asynchttpserver</span>
+
+<span class="k">proc</span><span class="w"> </span><span class="nf">startHttpsServer</span><span class="o">*</span><span class="p">()</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">server</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">newAsyncHttpServer</span><span class="p">()</span>
+
+<span class="w">  </span><span class="c"># Load SSL context</span>
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">ctx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">newContext</span><span class="p">(</span>
+<span class="w">    </span><span class="n">verifyMode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CVerifyNone</span><span class="p">,</span>
+<span class="w">    </span><span class="n">certFile</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CrtDir</span><span class="p">,</span>
+<span class="w">    </span><span class="n">keyFile</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">KeyDir</span>
+<span class="w">  </span><span class="p">)</span>
+
+<span class="w">  </span><span class="k">proc</span><span class="w"> </span><span class="nf">handler</span><span class="p">(</span><span class="n">req</span><span class="p">:</span><span class="w"> </span><span class="n">Request</span><span class="p">)</span><span class="w"> </span><span class="sx">{.async.}</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="c"># Handle HTTPS requests</span>
+<span class="w">    </span><span class="n">await</span><span class="w"> </span><span class="n">handleHttpRequest</span><span class="p">(</span><span class="n">req</span><span class="p">)</span>
+
+<span class="w">  </span><span class="c"># Start HTTPS server on port 443</span>
+<span class="w">  </span><span class="n">waitFor</span><span class="w"> </span><span class="n">server</span><span class="p">.</span><span class="n">serve</span><span class="p">(</span><span class="n">Port</span><span class="p">(</span><span class="mi">443</span><span class="p">),</span><span class="w"> </span><span class="n">handler</span><span class="p">,</span><span class="w"> </span><span class="n">ctx</span><span class="p">)</span>
+</code></pre></div>
+
+<h3 id="http-to-https-redirect">HTTP to HTTPS Redirect</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">proc</span><span class="w"> </span><span class="nf">startHttpRedirectServer</span><span class="o">*</span><span class="p">()</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="c"># Redirect HTTP (port 80) to HTTPS (port 443)</span>
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">server</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">newAsyncHttpServer</span><span class="p">()</span>
+
+<span class="w">  </span><span class="k">proc</span><span class="w"> </span><span class="nf">redirectHandler</span><span class="p">(</span><span class="n">req</span><span class="p">:</span><span class="w"> </span><span class="n">Request</span><span class="p">)</span><span class="w"> </span><span class="sx">{.async.}</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">host</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">req</span><span class="p">.</span><span class="n">headers</span><span class="p">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="s">&quot;Host&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">location</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;https://&quot;</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">host</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">req</span><span class="p">.</span><span class="n">url</span><span class="p">.</span><span class="n">path</span>
+
+<span class="w">    </span><span class="n">await</span><span class="w"> </span><span class="n">req</span><span class="p">.</span><span class="n">respond</span><span class="p">(</span><span class="n">Http301</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">newHttpHeaders</span><span class="p">(</span><span class="o">[</span>
+<span class="w">      </span><span class="p">(</span><span class="s">&quot;Location&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">location</span><span class="p">)</span>
+<span class="w">    </span><span class="o">]</span><span class="p">))</span>
+
+<span class="w">  </span><span class="n">waitFor</span><span class="w"> </span><span class="n">server</span><span class="p">.</span><span class="n">serve</span><span class="p">(</span><span class="n">Port</span><span class="p">(</span><span class="mi">80</span><span class="p">),</span><span class="w"> </span><span class="n">redirectHandler</span><span class="p">)</span>
+</code></pre></div>
+
+<h2 id="rtsp-ssltls">RTSP SSL/TLS</h2>
+<h3 id="rtsps-protocol">RTSPS Protocol</h3>
+<p>Secure RTSP over TLS (RTSPS):</p>
+<div class="codehilite"><pre><span></span><code><span class="c"># src/state/rc_rtsp.nim</span>
+<span class="k">proc</span><span class="w"> </span><span class="nf">initRtspsServer</span><span class="o">*</span><span class="p">()</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="n">initObservable</span><span class="p">(</span><span class="s">&quot;rtspsEnabled&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">permissionRead</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Media_r</span><span class="p">,</span><span class="w"> </span><span class="n">Media_rw</span><span class="p">},</span>
+<span class="w">    </span><span class="n">permissionWrite</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Media_rw</span><span class="p">},</span>
+<span class="w">    </span><span class="n">default</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">%</span><span class="kp">false</span><span class="w">  </span><span class="c"># Disabled by default</span>
+<span class="w">  </span><span class="p">)</span>
+
+<span class="w">  </span><span class="n">initObservable</span><span class="p">(</span><span class="s">&quot;rtspsPort&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">permissionRead</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Media_r</span><span class="p">,</span><span class="w"> </span><span class="n">Media_rw</span><span class="p">},</span>
+<span class="w">    </span><span class="n">permissionWrite</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Media_rw</span><span class="p">},</span>
+<span class="w">    </span><span class="n">default</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">%</span><span class="mi">322</span><span class="p">,</span><span class="w">  </span><span class="c"># RTSPS default port</span>
+<span class="w">    </span><span class="n">validateType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Int</span>
+<span class="w">  </span><span class="p">)</span>
+</code></pre></div>
+
+<p><strong>Client Connection</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># VLC with RTSPS</span>
+vlc<span class="w"> </span>rtsps://username:password@rotoclear.local:322/stream1
+
+<span class="c1"># FFmpeg with RTSPS</span>
+ffmpeg<span class="w"> </span>-rtsp_transport<span class="w"> </span>tcp<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-i<span class="w"> </span>rtsps://rotoclear.local:322/stream1<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-c<span class="w"> </span>copy<span class="w"> </span>output.mp4
+</code></pre></div>
+
+<h2 id="certificate-validation">Certificate Validation</h2>
+<h3 id="certificate-information">Certificate Information</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">proc</span><span class="w"> </span><span class="nf">getCertificateInfo</span><span class="o">*</span><span class="p">():</span><span class="w"> </span><span class="n">JsonNode</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="k">try</span><span class="p">:</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">cert</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">readFile</span><span class="p">(</span><span class="n">CrtDir</span><span class="p">)</span>
+
+<span class="w">    </span><span class="c"># Parse certificate using OpenSSL</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">x509</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">parseCertificate</span><span class="p">(</span><span class="n">cert</span><span class="p">)</span>
+
+<span class="w">    </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">%</span><span class="p">{</span>
+<span class="w">      </span><span class="s">&quot;subject&quot;</span><span class="p">:</span><span class="w"> </span><span class="o">%</span><span class="n">x509</span><span class="p">.</span><span class="n">subject</span><span class="p">,</span>
+<span class="w">      </span><span class="s">&quot;issuer&quot;</span><span class="p">:</span><span class="w"> </span><span class="o">%</span><span class="n">x509</span><span class="p">.</span><span class="n">issuer</span><span class="p">,</span>
+<span class="w">      </span><span class="s">&quot;validFrom&quot;</span><span class="p">:</span><span class="w"> </span><span class="o">%</span><span class="n">x509</span><span class="p">.</span><span class="n">notBefore</span><span class="p">.</span><span class="n">format</span><span class="p">(</span><span class="s">&quot;yyyy-MM-dd&quot;</span><span class="p">),</span>
+<span class="w">      </span><span class="s">&quot;validTo&quot;</span><span class="p">:</span><span class="w"> </span><span class="o">%</span><span class="n">x509</span><span class="p">.</span><span class="n">notAfter</span><span class="p">.</span><span class="n">format</span><span class="p">(</span><span class="s">&quot;yyyy-MM-dd&quot;</span><span class="p">),</span>
+<span class="w">      </span><span class="s">&quot;daysRemaining&quot;</span><span class="p">:</span><span class="w"> </span><span class="o">%</span><span class="p">((</span><span class="n">x509</span><span class="p">.</span><span class="n">notAfter</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">now</span><span class="p">()).</span><span class="n">inDays</span><span class="p">),</span>
+<span class="w">      </span><span class="s">&quot;isExpired&quot;</span><span class="p">:</span><span class="w"> </span><span class="o">%</span><span class="p">(</span><span class="n">now</span><span class="p">()</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">x509</span><span class="p">.</span><span class="n">notAfter</span><span class="p">),</span>
+<span class="w">      </span><span class="s">&quot;isSelfSigned&quot;</span><span class="p">:</span><span class="w"> </span><span class="o">%</span><span class="p">(</span><span class="n">x509</span><span class="p">.</span><span class="n">subject</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">x509</span><span class="p">.</span><span class="n">issuer</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="k">except</span><span class="p">:</span>
+<span class="w">    </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">%</span><span class="p">{</span><span class="s">&quot;error&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Certificate not found or invalid&quot;</span><span class="p">}</span>
+</code></pre></div>
+
+<h3 id="certificate-expiration-monitoring">Certificate Expiration Monitoring</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">proc</span><span class="w"> </span><span class="nf">checkCertificateExpiration</span><span class="o">*</span><span class="p">()</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">info</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">getCertificateInfo</span><span class="p">()</span>
+
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="n">info</span><span class="p">.</span><span class="n">hasKey</span><span class="p">(</span><span class="s">&quot;error&quot;</span><span class="p">):</span>
+<span class="w">    </span><span class="n">Notification</span><span class="p">.</span><span class="n">trigger</span><span class="p">(</span><span class="s">&quot;certificateWarning&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;status&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;missing&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="k">return</span>
+
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">daysRemaining</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">info</span><span class="o">[</span><span class="s">&quot;daysRemaining&quot;</span><span class="o">]</span><span class="p">.</span><span class="n">getInt</span>
+
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="n">info</span><span class="o">[</span><span class="s">&quot;isExpired&quot;</span><span class="o">]</span><span class="p">.</span><span class="n">getBool</span><span class="p">:</span>
+<span class="w">    </span><span class="n">Notification</span><span class="p">.</span><span class="n">trigger</span><span class="p">(</span><span class="s">&quot;certificateWarning&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;status&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;expired&quot;</span><span class="p">)</span>
+<span class="w">  </span><span class="k">elif</span><span class="w"> </span><span class="n">daysRemaining</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">30</span><span class="p">:</span>
+<span class="w">    </span><span class="n">Notification</span><span class="p">.</span><span class="n">trigger</span><span class="p">(</span><span class="s">&quot;certificateWarning&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;status&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;expiring&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="n">Notification</span><span class="p">.</span><span class="n">trigger</span><span class="p">(</span><span class="s">&quot;certificateWarning&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;daysRemaining&quot;</span><span class="p">,</span><span class="w"> </span><span class="o">$</span><span class="n">daysRemaining</span><span class="p">)</span>
+
+<span class="c"># Check certificate expiration daily</span>
+<span class="n">setInterval</span><span class="p">(</span><span class="mi">24</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">60</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">60</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">1000</span><span class="p">):</span><span class="w">  </span><span class="c"># 24 hours</span>
+<span class="w">  </span><span class="n">checkCertificateExpiration</span><span class="p">()</span>
+</code></pre></div>
+
+<h2 id="client-certificate-authentication">Client Certificate Authentication</h2>
+<h3 id="mutual-tls-mtls">Mutual TLS (mTLS)</h3>
+<p>Require client certificates for enhanced security:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">proc</span><span class="w"> </span><span class="nf">configureMutualTls</span><span class="o">*</span><span class="p">()</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">ctx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">newContext</span><span class="p">(</span>
+<span class="w">    </span><span class="n">verifyMode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CVerifyPeer</span><span class="p">,</span><span class="w">  </span><span class="c"># Require client certificate</span>
+<span class="w">    </span><span class="n">certFile</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CrtDir</span><span class="p">,</span>
+<span class="w">    </span><span class="n">keyFile</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">KeyDir</span><span class="p">,</span>
+<span class="w">    </span><span class="n">caCertFile</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;/config/ca.crt&quot;</span><span class="w">  </span><span class="c"># Client CA</span>
+<span class="w">  </span><span class="p">)</span>
+
+<span class="w">  </span><span class="c"># Clients must present valid certificate signed by CA</span>
+<span class="w">  </span><span class="n">ctx</span><span class="p">.</span><span class="n">wrapSocket</span><span class="p">(</span><span class="n">socket</span><span class="p">)</span>
+</code></pre></div>
+
+<p><strong>Client Configuration</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Generate client certificate</span>
+openssl<span class="w"> </span>genrsa<span class="w"> </span>-out<span class="w"> </span>client.key<span class="w"> </span><span class="m">2048</span>
+openssl<span class="w"> </span>req<span class="w"> </span>-new<span class="w"> </span>-key<span class="w"> </span>client.key<span class="w"> </span>-out<span class="w"> </span>client.csr
+openssl<span class="w"> </span>x509<span class="w"> </span>-req<span class="w"> </span>-in<span class="w"> </span>client.csr<span class="w"> </span>-CA<span class="w"> </span>ca.crt<span class="w"> </span>-CAkey<span class="w"> </span>ca.key<span class="w"> </span>-out<span class="w"> </span>client.crt
+
+<span class="c1"># Use client certificate with cURL</span>
+curl<span class="w"> </span>--cert<span class="w"> </span>client.crt<span class="w"> </span>--key<span class="w"> </span>client.key<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>https://rotoclear.local/api/system/info
+</code></pre></div>
+
+<h2 id="certificate-formats">Certificate Formats</h2>
+<h3 id="pem-format-recommended">PEM Format (Recommended)</h3>
+<p>Text-based format, easy to read and edit:</p>
+<div class="codehilite"><pre><span></span><code><span class="gh">-----BEGIN CERTIFICATE-----</span>
+<span class="s">MIIDXTCCAkWgAwIBAgIJAKL0UG+mRbRzMA0GCSqGSIb3DQEBCwUAMEUxCzAJBgNV</span>
+<span class="s">...</span>
+<span class="gh">-----END CERTIFICATE-----</span>
+</code></pre></div>
+
+<h3 id="der-format">DER Format</h3>
+<p>Binary format, more compact:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Convert PEM to DER</span>
+openssl<span class="w"> </span>x509<span class="w"> </span>-in<span class="w"> </span>server.crt<span class="w"> </span>-outform<span class="w"> </span>der<span class="w"> </span>-out<span class="w"> </span>server.der
+
+<span class="c1"># Convert DER to PEM</span>
+openssl<span class="w"> </span>x509<span class="w"> </span>-in<span class="w"> </span>server.der<span class="w"> </span>-inform<span class="w"> </span>der<span class="w"> </span>-out<span class="w"> </span>server.crt
+</code></pre></div>
+
+<h3 id="pkcs12-format">PKCS#12 Format</h3>
+<p>Combined certificate and key in one file:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Create PKCS#12 bundle</span>
+openssl<span class="w"> </span>pkcs12<span class="w"> </span>-export<span class="w"> </span>-out<span class="w"> </span>server.p12<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-inkey<span class="w"> </span>server.key<span class="w"> </span>-in<span class="w"> </span>server.crt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-password<span class="w"> </span>pass:secret
+
+<span class="c1"># Extract certificate and key</span>
+openssl<span class="w"> </span>pkcs12<span class="w"> </span>-in<span class="w"> </span>server.p12<span class="w"> </span>-out<span class="w"> </span>server.crt<span class="w"> </span>-clcerts<span class="w"> </span>-nokeys<span class="w"> </span>-password<span class="w"> </span>pass:secret
+openssl<span class="w"> </span>pkcs12<span class="w"> </span>-in<span class="w"> </span>server.p12<span class="w"> </span>-out<span class="w"> </span>server.key<span class="w"> </span>-nocerts<span class="w"> </span>-nodes<span class="w"> </span>-password<span class="w"> </span>pass:secret
+</code></pre></div>
+
+<h2 id="security-best-practices">Security Best Practices</h2>
+<h3 id="certificate-security">Certificate Security</h3>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Secure file permissions</span>
+chmod<span class="w"> </span><span class="m">600</span><span class="w"> </span>/config/server.key<span class="w">      </span><span class="c1"># Private key: owner read/write only</span>
+chmod<span class="w"> </span><span class="m">644</span><span class="w"> </span>/config/server.crt<span class="w">      </span><span class="c1"># Certificate: world-readable</span>
+chown<span class="w"> </span>rotordream:rotordream<span class="w"> </span>/config/server.*
+</code></pre></div>
+
+<h3 id="key-length">Key Length</h3>
+<ul>
+<li><strong>Minimum</strong>: 2048-bit RSA keys</li>
+<li><strong>Recommended</strong>: 4096-bit RSA keys or ECDSA P-256</li>
+<li><strong>Not recommended</strong>: 1024-bit RSA (insecure)</li>
+</ul>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Generate strong 4096-bit key</span>
+openssl<span class="w"> </span>genrsa<span class="w"> </span>-out<span class="w"> </span>server.key<span class="w"> </span><span class="m">4096</span>
+
+<span class="c1"># Or use ECDSA (smaller, faster)</span>
+openssl<span class="w"> </span>ecparam<span class="w"> </span>-genkey<span class="w"> </span>-name<span class="w"> </span>prime256v1<span class="w"> </span>-out<span class="w"> </span>server.key
+</code></pre></div>
+
+<h3 id="certificate-renewal">Certificate Renewal</h3>
+<p>Set calendar reminders for certificate renewal:</p>
+<ul>
+<li><strong>90 days before expiration</strong>: Plan renewal</li>
+<li><strong>60 days</strong>: Obtain new certificate</li>
+<li><strong>30 days</strong>: Install and test new certificate</li>
+<li><strong>0 days</strong>: Emergency renewal if not completed</li>
+</ul>
+<h2 id="troubleshooting">Troubleshooting</h2>
+<h3 id="certificate-not-found">Certificate Not Found</h3>
+<p><strong>Symptoms</strong>: SSL/TLS handshake fails, server falls back to HTTP.</p>
+<p><strong>Solutions</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Verify certificate files exist</span>
+ls<span class="w"> </span>-l<span class="w"> </span>/config/server.crt<span class="w"> </span>/config/server.key
+
+<span class="c1"># Check file permissions</span>
+stat<span class="w"> </span>/config/server.key
+
+<span class="c1"># Review server logs</span>
+journalctl<span class="w"> </span>-u<span class="w"> </span>rotordream<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-i<span class="w"> </span>ssl
+</code></pre></div>
+
+<h3 id="invalid-certificate">Invalid Certificate</h3>
+<p><strong>Symptoms</strong>: Browser shows security warning, clients reject connection.</p>
+<p><strong>Solutions</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Verify certificate is valid</span>
+openssl<span class="w"> </span>x509<span class="w"> </span>-in<span class="w"> </span>/config/server.crt<span class="w"> </span>-text<span class="w"> </span>-noout
+
+<span class="c1"># Check certificate matches key</span>
+openssl<span class="w"> </span>x509<span class="w"> </span>-noout<span class="w"> </span>-modulus<span class="w"> </span>-in<span class="w"> </span>/config/server.crt<span class="w"> </span><span class="p">|</span><span class="w"> </span>openssl<span class="w"> </span>md5
+openssl<span class="w"> </span>rsa<span class="w"> </span>-noout<span class="w"> </span>-modulus<span class="w"> </span>-in<span class="w"> </span>/config/server.key<span class="w"> </span><span class="p">|</span><span class="w"> </span>openssl<span class="w"> </span>md5
+<span class="c1"># MD5 hashes should match</span>
+
+<span class="c1"># Verify certificate chain</span>
+openssl<span class="w"> </span>verify<span class="w"> </span>-CAfile<span class="w"> </span>/config/ca.crt<span class="w"> </span>/config/server.crt
+</code></pre></div>
+
+<h3 id="certificate-expired">Certificate Expired</h3>
+<p><strong>Symptoms</strong>: Clients reject connection with expiration error.</p>
+<p><strong>Solutions</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Check expiration date</span>
+openssl<span class="w"> </span>x509<span class="w"> </span>-in<span class="w"> </span>/config/server.crt<span class="w"> </span>-noout<span class="w"> </span>-enddate
+
+<span class="c1"># Renew certificate immediately</span>
+<span class="c1"># Follow certificate generation process</span>
+
+<span class="c1"># Temporary: Use self-signed certificate</span>
+openssl<span class="w"> </span>req<span class="w"> </span>-new<span class="w"> </span>-x509<span class="w"> </span>-key<span class="w"> </span>/config/server.key<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-out<span class="w"> </span>/config/server.crt<span class="w"> </span>-days<span class="w"> </span><span class="m">365</span>
+</code></pre></div>
+
+<h3 id="mixed-content-warnings">Mixed Content Warnings</h3>
+<p><strong>Symptoms</strong>: Browser shows mixed content warnings on HTTPS pages.</p>
+<p><strong>Solutions</strong>:<br />
+- Ensure all resources (images, scripts, CSS) use HTTPS URLs<br />
+- Use protocol-relative URLs: <code>//rotoclear.local/image.jpg</code><br />
+- Enable HSTS to force HTTPS</p>
+<h2 id="http-strict-transport-security-hsts">HTTP Strict Transport Security (HSTS)</h2>
+<h3 id="enable-hsts">Enable HSTS</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">proc</span><span class="w"> </span><span class="nf">addHstsHeader</span><span class="o">*</span><span class="p">(</span><span class="n">headers</span><span class="p">:</span><span class="w"> </span><span class="n">HttpHeaders</span><span class="p">)</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="c"># Force HTTPS for 1 year, include subdomains</span>
+<span class="w">  </span><span class="n">headers</span><span class="o">[</span><span class="s">&quot;Strict-Transport-Security&quot;</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;max-age=31536000; includeSubDomains&quot;</span>
+
+<span class="k">proc</span><span class="w"> </span><span class="nf">handleRequest</span><span class="o">*</span><span class="p">(</span><span class="n">req</span><span class="p">:</span><span class="w"> </span><span class="n">Request</span><span class="p">)</span><span class="w"> </span><span class="sx">{.async.}</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="kd">var</span><span class="w"> </span><span class="n">headers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">newHttpHeaders</span><span class="p">()</span>
+<span class="w">  </span><span class="n">addHstsHeader</span><span class="p">(</span><span class="n">headers</span><span class="p">)</span>
+
+<span class="w">  </span><span class="c"># ...handle request...</span>
+
+<span class="w">  </span><span class="n">await</span><span class="w"> </span><span class="n">req</span><span class="p">.</span><span class="n">respond</span><span class="p">(</span><span class="n">Http200</span><span class="p">,</span><span class="w"> </span><span class="n">body</span><span class="p">,</span><span class="w"> </span><span class="n">headers</span><span class="p">)</span>
+</code></pre></div>
+
+<h2 id="certificate-pinning">Certificate Pinning</h2>
+<p>For enhanced security, pin specific certificates:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">const</span><span class="w"> </span><span class="n">ExpectedCertFingerprint</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;E3:B0:C4:42:98:FC:1C:14:9A:FB:F4:C8:99:6F:B9:24&quot;</span>
+
+<span class="k">proc</span><span class="w"> </span><span class="nf">validateCertificatePin</span><span class="o">*</span><span class="p">(</span><span class="n">cert</span><span class="p">:</span><span class="w"> </span><span class="n">Certificate</span><span class="p">):</span><span class="w"> </span><span class="nb">bool</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">fingerprint</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sha256</span><span class="p">(</span><span class="n">cert</span><span class="p">.</span><span class="n">raw</span><span class="p">).</span><span class="n">toHex</span><span class="p">()</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">fingerprint</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">ExpectedCertFingerprint</span>
+</code></pre></div>
+
+<h2 id="related-documentation">Related Documentation</h2>
+<ul>
+<li><a href="authentication.md">Authentication</a></li>
+<li><a href="../configuration/network.md">Network Configuration</a></li>
+<li><a href="security-best-practices.md">Security Best Practices</a></li>
+<li><a href="../operations/troubleshooting.md">Operations</a></li>
+</ul>
+            </div>
+            <footer class="content-footer">
+                <p>Copyright © 2025 Rotoclear</p>
+            </footer>
+        </main>
+        
+        <button class="mobile-menu-toggle" id="menuToggle" aria-label="Toggle menu">☰</button>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>
+        // Initialize Mermaid
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            securityLevel: 'loose',
+            fontFamily: 'Inter, sans-serif'
+        });
+        
+        // Syntax highlighting
+        hljs.highlightAll();
+        
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.querySelector('.sidebar');
+        
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+        });
+        
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth <= 768 && 
+                !sidebar.contains(e.target) && 
+                !menuToggle.contains(e.target) &&
+                sidebar.classList.contains('active')) {
+                sidebar.classList.remove('active');
+            }
+        });
+        
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

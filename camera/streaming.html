@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Streaming - RotoClear Camera Server Documentation</title>
+    <link rel="stylesheet" href="/assets/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1><a href="/index.html">RotoClear Docs</a></h1>
+                <p>Camera Server Documentation</p>
+            </div>
+            <nav class="sidebar-nav">
+                <ul class="nav-menu">
+                    <li class="nav-item depth-0">
+<a href="/index.html">Home</a>
+</li>
+<li class="nav-item depth-0">
+<a href="/getting-started.html">Getting Started</a>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Architecture</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/architecture/overview.html">Overview</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/architecture/state-management.html">State Management</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/architecture/camera-pipeline.html">Camera Pipeline</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/architecture/metadata-sqlite.html">Metadata & SQLite</a>
+</li>
+<li class="nav-folder depth-1">
+<span class="folder-title">Decisions</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-2">
+<a href="/architecture/decisions/ADR-0001-nim-language.html">ADR-0001 Nim Language</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/architecture/decisions/ADR-0002-corun-framework.html">ADR-0002 Corun Framework</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/architecture/decisions/ADR-0003-observable-state.html">ADR-0003 Observable State</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">API Reference</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/api/README.html">Overview</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/api/websocket-api.html">WebSocket API</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/api/http-api.html">HTTP API</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/api/rtsp-streaming.html">RTSP Streaming</a>
+</li>
+<li class="nav-folder depth-1">
+<span class="folder-title">Examples</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-2">
+<a href="/api/examples/python-client.html">Python Client</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/api/examples/javascript-client.html">JavaScript Client</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/api/examples/csharp-client.html">C# Client</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Configuration</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/configuration/environments.html">Environments</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/factory-config.html">Factory Config</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/license-config.html">License Config</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/deployment-variants.html">Deployment Variants</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/camera-system.html">Camera System</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/network.html">Network</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/storage-backup.html">Storage & Backup</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/authentication.html">Authentication</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Camera System</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/camera/hardware-interface.html">Hardware Interface</a>
+</li>
+<li class="nav-item depth-1 active">
+<a href="/camera/streaming.html">Streaming</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/camera/recording.html">Recording</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/camera/image-processing.html">Image Processing</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Operations</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/operations/build-and-deploy.html">Build and Deploy</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/build-deploy.html">Build & Deploy (Alt)</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/monitoring.html">Monitoring</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/performance.html">Performance</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/troubleshooting.html">Troubleshooting</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Security</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/security/authentication.html">Authentication</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/security/permissions.html">Permissions</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/security/ssl-certificates.html">SSL Certificates</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Testing</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/testing/testing-strategy.html">Strategy</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/testing/strategies.html">Strategies</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/testing/test-cases.html">Test Cases</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/testing/validation.html">Validation</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Integration</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/integration/onvif-protocol.html">ONVIF Protocol</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/integration/third-party.html">Third Party</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Reference</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/reference/glossary.html">Glossary</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/reference/requirements.html">Requirements</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/reference/state-observables.html">State Observables</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Releases</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/releases/CHANGELOG.html">Changelog</a>
+</li>
+</ul>
+</li>
+<li class="nav-item depth-0">
+<a href="/glossary.html">Glossary</a>
+</li>
+                </ul>
+            </nav>
+        </aside>
+        
+        <main class="content">
+            <div class="content-wrapper">
+                <h1 id="streaming">Streaming</h1>
+<h2 id="overview">Overview</h2>
+<p>The RotoClear camera system provides real-time video streaming through multiple protocols including RTSP, WebRTC, and ONVIF. The streaming subsystem delivers low-latency video to multiple concurrent clients.</p>
+<h2 id="streaming-architecture">Streaming Architecture</h2>
+<div class="mermaid">
+graph LR
+    Cam[Camera Source] --> Pipeline[GStreamer Pipeline]
+    Pipeline --> Encoder[H.264 Encoder]
+    Encoder --> RTSP[RTSP Server]
+    Encoder --> WebRTC[WebRTC Server]
+    Encoder --> ONVIF[ONVIF Streaming]
+
+    RTSP --> Client1[RTSP Clients]
+    WebRTC --> Client2[Web Browsers]
+    ONVIF --> Client3[ONVIF Clients]
+
+    style Encoder fill:#f96,stroke:#333,stroke-width:2px
+</div>
+
+<h2 id="rtsp-streaming">RTSP Streaming</h2>
+<h3 id="rtsp-server">RTSP Server</h3>
+<div class="codehilite"><pre><span></span><code><span class="c"># src/state/rc_rtsp.nim</span>
+<span class="k">proc</span><span class="w"> </span><span class="nf">initRtspServer</span><span class="o">*</span><span class="p">()</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="n">initObservable</span><span class="p">(</span><span class="s">&quot;rtspEnabled&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">permissionRead</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Media_r</span><span class="p">,</span><span class="w"> </span><span class="n">Media_rw</span><span class="p">},</span>
+<span class="w">    </span><span class="n">permissionWrite</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Media_rw</span><span class="p">},</span>
+<span class="w">    </span><span class="n">default</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">%</span><span class="kp">true</span>
+<span class="w">  </span><span class="p">)</span>
+
+<span class="w">  </span><span class="n">initObservable</span><span class="p">(</span><span class="s">&quot;rtspPort&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">permissionRead</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Media_r</span><span class="p">,</span><span class="w"> </span><span class="n">Media_rw</span><span class="p">},</span>
+<span class="w">    </span><span class="n">permissionWrite</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Media_rw</span><span class="p">},</span>
+<span class="w">    </span><span class="n">default</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">%</span><span class="mi">8554</span><span class="p">,</span>
+<span class="w">    </span><span class="n">validateType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Int</span>
+<span class="w">  </span><span class="p">)</span>
+
+<span class="w">  </span><span class="n">initObservable</span><span class="p">(</span><span class="s">&quot;rtspPath&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">permissionRead</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Media_r</span><span class="p">,</span><span class="w"> </span><span class="n">Media_rw</span><span class="p">},</span>
+<span class="w">    </span><span class="n">permissionWrite</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{},</span>
+<span class="w">    </span><span class="n">default</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">%</span><span class="s">&quot;/stream1&quot;</span>
+<span class="w">  </span><span class="p">)</span>
+</code></pre></div>
+
+<h3 id="stream-endpoints">Stream Endpoints</h3>
+<p><strong>Primary Stream</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="nl">rtsp</span><span class="p">:</span><span class="o">//[</span><span class="n">hostname</span><span class="o">]</span><span class="err">:</span><span class="mi">8554</span><span class="o">/</span><span class="n">stream1</span>
+</code></pre></div>
+
+<p><strong>Secondary Stream</strong> (lower quality):</p>
+<div class="codehilite"><pre><span></span><code><span class="nl">rtsp</span><span class="p">:</span><span class="o">//[</span><span class="n">hostname</span><span class="o">]</span><span class="err">:</span><span class="mi">8554</span><span class="o">/</span><span class="n">stream2</span>
+</code></pre></div>
+
+<p><strong>Authentication Required</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="nl">rtsp</span><span class="p">:</span><span class="o">//</span><span class="nl">username</span><span class="p">:</span><span class="n">password</span><span class="err">@</span><span class="o">[</span><span class="n">hostname</span><span class="o">]</span><span class="err">:</span><span class="mi">8554</span><span class="o">/</span><span class="n">stream1</span>
+</code></pre></div>
+
+<h3 id="gstreamer-rtsp-pipeline">GStreamer RTSP Pipeline</h3>
+<div class="codehilite"><pre><span></span><code><span class="c"># src/camserver/streamer.nim</span>
+<span class="k">proc</span><span class="w"> </span><span class="nf">createRtspPipeline</span><span class="o">*</span><span class="p">(</span><span class="n">config</span><span class="p">:</span><span class="w"> </span><span class="n">StreamConfig</span><span class="p">):</span><span class="w"> </span><span class="nb">string</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">fmt&quot;</span><span class="se">&quot;&quot;</span>
+<span class="w">    </span><span class="n">v4l2src</span><span class="w"> </span><span class="n">device</span><span class="o">=</span><span class="p">{</span><span class="n">config</span><span class="p">.</span><span class="n">device</span><span class="p">}</span><span class="w"> </span><span class="o">!</span>
+<span class="w">    </span><span class="n">video</span><span class="o">/</span><span class="n">x</span><span class="o">-</span><span class="n">raw</span><span class="p">,</span><span class="n">format</span><span class="o">=</span><span class="n">NV12</span><span class="p">,</span><span class="n">width</span><span class="o">=</span><span class="p">{</span><span class="n">config</span><span class="p">.</span><span class="n">width</span><span class="p">},</span><span class="n">height</span><span class="o">=</span><span class="p">{</span><span class="n">config</span><span class="p">.</span><span class="n">height</span><span class="p">},</span><span class="n">framerate</span><span class="o">=</span><span class="p">{</span><span class="n">config</span><span class="p">.</span><span class="n">fps</span><span class="p">}</span><span class="o">/</span><span class="mi">1</span><span class="w"> </span><span class="o">!</span>
+<span class="w">    </span><span class="n">v4l2h264enc</span><span class="w"> </span><span class="n">extra</span><span class="o">-</span><span class="n">controls</span><span class="o">=</span><span class="s">&quot;controls,video_bitrate={config.bitrate}&quot;</span><span class="w"> </span><span class="o">!</span>
+<span class="w">    </span><span class="n">h264parse</span><span class="w"> </span><span class="o">!</span>
+<span class="w">    </span><span class="n">rtph264pay</span><span class="w"> </span><span class="n">name</span><span class="o">=</span><span class="n">pay0</span><span class="w"> </span><span class="n">pt</span><span class="o">=</span><span class="mi">96</span>
+<span class="w">  </span><span class="s2">&quot;&quot;&quot;</span>
+</code></pre></div>
+
+<h3 id="stream-configuration">Stream Configuration</h3>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;rtsp&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;enabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;port&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">8554</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;streams&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">      </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/stream1&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;resolution&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1920x1080&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;fps&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">60</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;bitrate&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">8000000</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;profile&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;high&quot;</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/stream2&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;resolution&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1280x720&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;fps&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">30</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;bitrate&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">4000000</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;profile&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;main&quot;</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">]</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="webrtc-streaming">WebRTC Streaming</h2>
+<h3 id="webrtc-server">WebRTC Server</h3>
+<div class="codehilite"><pre><span></span><code><span class="c"># src/state/rc_webrtc.nim</span>
+<span class="k">proc</span><span class="w"> </span><span class="nf">initWebRtc</span><span class="o">*</span><span class="p">()</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="n">initObservable</span><span class="p">(</span><span class="s">&quot;webrtcEnabled&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">permissionRead</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Media_r</span><span class="p">,</span><span class="w"> </span><span class="n">Media_rw</span><span class="p">},</span>
+<span class="w">    </span><span class="n">permissionWrite</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Media_rw</span><span class="p">},</span>
+<span class="w">    </span><span class="n">default</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">%</span><span class="kp">false</span><span class="w">  </span><span class="c"># Disabled by default</span>
+<span class="w">  </span><span class="p">)</span>
+
+<span class="w">  </span><span class="n">initObservable</span><span class="p">(</span><span class="s">&quot;webrtcIceServers&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">permissionRead</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Media_r</span><span class="p">,</span><span class="w"> </span><span class="n">Media_rw</span><span class="p">},</span>
+<span class="w">    </span><span class="n">permissionWrite</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Media_rw</span><span class="p">},</span>
+<span class="w">    </span><span class="n">default</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">%[</span>
+<span class="w">      </span><span class="p">{</span><span class="s">&quot;urls&quot;</span><span class="p">:</span><span class="w"> </span><span class="o">[</span><span class="s">&quot;stun:stun.l.google.com:19302&quot;</span><span class="o">]</span><span class="p">}</span>
+<span class="w">    </span><span class="o">]</span>
+<span class="w">  </span><span class="p">)</span>
+</code></pre></div>
+
+<h3 id="webrtc-pipeline">WebRTC Pipeline</h3>
+<div class="codehilite"><pre><span></span><code><span class="c1">// Browser-side WebRTC client</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">pc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">RTCPeerConnection</span><span class="p">({</span>
+<span class="w">    </span><span class="nx">iceServers</span><span class="o">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="p">{</span><span class="w"> </span><span class="nx">urls</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;stun:stun.l.google.com:19302&#39;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="p">]</span>
+<span class="p">});</span>
+
+<span class="c1">// Request video stream</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">offer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">pc</span><span class="p">.</span><span class="nx">createOffer</span><span class="p">();</span>
+<span class="k">await</span><span class="w"> </span><span class="nx">pc</span><span class="p">.</span><span class="nx">setLocalDescription</span><span class="p">(</span><span class="nx">offer</span><span class="p">);</span>
+
+<span class="c1">// Send offer to server</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">fetch</span><span class="p">(</span><span class="s1">&#39;/api/webrtc/offer&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">method</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;POST&#39;</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">body</span><span class="o">:</span><span class="w"> </span><span class="nb">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">offer</span><span class="p">)</span>
+<span class="p">});</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">answer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">response</span><span class="p">.</span><span class="nx">json</span><span class="p">();</span>
+<span class="k">await</span><span class="w"> </span><span class="nx">pc</span><span class="p">.</span><span class="nx">setRemoteDescription</span><span class="p">(</span><span class="nx">answer</span><span class="p">);</span>
+
+<span class="c1">// Receive video track</span>
+<span class="nx">pc</span><span class="p">.</span><span class="nx">ontrack</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="nx">event</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">videoElement</span><span class="p">.</span><span class="nx">srcObject</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">event</span><span class="p">.</span><span class="nx">streams</span><span class="p">[</span><span class="mf">0</span><span class="p">];</span>
+<span class="p">};</span>
+</code></pre></div>
+
+<h3 id="server-side-implementation">Server-Side Implementation</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">proc</span><span class="w"> </span><span class="nf">handleWebRtcOffer</span><span class="o">*</span><span class="p">(</span><span class="n">offer</span><span class="p">:</span><span class="w"> </span><span class="n">JsonNode</span><span class="p">):</span><span class="w"> </span><span class="n">JsonNode</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="c"># Create GStreamer WebRTC pipeline</span>
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">pipeline</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">fmt&quot;</span><span class="se">&quot;&quot;</span>
+<span class="w">    </span><span class="n">v4l2src</span><span class="w"> </span><span class="n">device</span><span class="o">=/</span><span class="n">dev</span><span class="o">/</span><span class="n">video0</span><span class="w"> </span><span class="o">!</span>
+<span class="w">    </span><span class="n">video</span><span class="o">/</span><span class="n">x</span><span class="o">-</span><span class="n">raw</span><span class="p">,</span><span class="n">format</span><span class="o">=</span><span class="n">NV12</span><span class="p">,</span><span class="n">width</span><span class="o">=</span><span class="mi">1920</span><span class="p">,</span><span class="n">height</span><span class="o">=</span><span class="mi">1080</span><span class="w"> </span><span class="o">!</span>
+<span class="w">    </span><span class="n">v4l2h264enc</span><span class="w"> </span><span class="o">!</span>
+<span class="w">    </span><span class="n">h264parse</span><span class="w"> </span><span class="o">!</span>
+<span class="w">    </span><span class="n">rtph264pay</span><span class="w"> </span><span class="o">!</span>
+<span class="w">    </span><span class="n">webrtcbin</span><span class="w"> </span><span class="n">name</span><span class="o">=</span><span class="n">webrtc</span>
+<span class="w">  </span><span class="s2">&quot;&quot;&quot;</span>
+
+<span class="s">  # Process SDP offer and create answer</span>
+<span class="s">  let answer = createWebRtcAnswer(pipeline, offer)</span>
+<span class="s">  return answer</span>
+</code></pre></div>
+
+<h2 id="stream-settings">Stream Settings</h2>
+<h3 id="resolution-and-framerates">Resolution and Framerates</h3>
+<div class="codehilite"><pre><span></span><code><span class="c"># src/state/rc_stream_settings.nim</span>
+<span class="k">proc</span><span class="w"> </span><span class="nf">initStreamSettings</span><span class="o">*</span><span class="p">()</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="n">initObservable</span><span class="p">(</span><span class="s">&quot;streamResolution&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">permissionRead</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Media_r</span><span class="p">,</span><span class="w"> </span><span class="n">Media_rw</span><span class="p">},</span>
+<span class="w">    </span><span class="n">permissionWrite</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Media_rw</span><span class="p">},</span>
+<span class="w">    </span><span class="n">default</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">%</span><span class="s">&quot;1920x1080&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">validateType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">String</span>
+<span class="w">  </span><span class="p">)</span>
+
+<span class="w">  </span><span class="n">initObservable</span><span class="p">(</span><span class="s">&quot;streamFramerate&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">permissionRead</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Media_r</span><span class="p">,</span><span class="w"> </span><span class="n">Media_rw</span><span class="p">},</span>
+<span class="w">    </span><span class="n">permissionWrite</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Media_rw</span><span class="p">},</span>
+<span class="w">    </span><span class="n">default</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">%</span><span class="mi">60</span><span class="p">,</span>
+<span class="w">    </span><span class="n">validateType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Int</span>
+<span class="w">  </span><span class="p">)</span>
+
+<span class="w">  </span><span class="n">initObservable</span><span class="p">(</span><span class="s">&quot;streamBitrate&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">permissionRead</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Media_r</span><span class="p">,</span><span class="w"> </span><span class="n">Media_rw</span><span class="p">},</span>
+<span class="w">    </span><span class="n">permissionWrite</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Media_rw</span><span class="p">},</span>
+<span class="w">    </span><span class="n">default</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">%</span><span class="mi">8000000</span><span class="p">,</span><span class="w">  </span><span class="c"># 8 Mbps</span>
+<span class="w">    </span><span class="n">validateType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Int</span>
+<span class="w">  </span><span class="p">)</span>
+</code></pre></div>
+
+<h3 id="encoding-settings">Encoding Settings</h3>
+<div class="codehilite"><pre><span></span><code><span class="n">initObservable</span><span class="p">(</span><span class="s">&quot;videoEncoder&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="n">permissionRead</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Media_r</span><span class="p">,</span><span class="w"> </span><span class="n">Media_rw</span><span class="p">},</span>
+<span class="w">  </span><span class="n">permissionWrite</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Media_rw</span><span class="p">},</span>
+<span class="w">  </span><span class="n">default</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">%</span><span class="s">&quot;h264&quot;</span><span class="p">,</span><span class="w">  </span><span class="c"># h264, h265, mjpeg</span>
+<span class="w">  </span><span class="n">validateType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">String</span>
+<span class="p">)</span>
+
+<span class="n">initObservable</span><span class="p">(</span><span class="s">&quot;encoderProfile&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="n">permissionRead</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Media_r</span><span class="p">,</span><span class="w"> </span><span class="n">Media_rw</span><span class="p">},</span>
+<span class="w">  </span><span class="n">permissionWrite</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Media_rw</span><span class="p">},</span>
+<span class="w">  </span><span class="n">default</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">%</span><span class="s">&quot;high&quot;</span><span class="p">,</span><span class="w">  </span><span class="c"># baseline, main, high</span>
+<span class="w">  </span><span class="n">validateType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">String</span>
+<span class="p">)</span>
+
+<span class="n">initObservable</span><span class="p">(</span><span class="s">&quot;encoderPreset&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="n">permissionRead</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Media_r</span><span class="p">,</span><span class="w"> </span><span class="n">Media_rw</span><span class="p">},</span>
+<span class="w">  </span><span class="n">permissionWrite</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Media_rw</span><span class="p">},</span>
+<span class="w">  </span><span class="n">default</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">%</span><span class="s">&quot;fast&quot;</span><span class="p">,</span><span class="w">  </span><span class="c"># ultrafast, fast, medium, slow</span>
+<span class="w">  </span><span class="n">validateType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">String</span>
+<span class="p">)</span>
+</code></pre></div>
+
+<h2 id="stream-alignment">Stream Alignment</h2>
+<h3 id="multi-camera-synchronization">Multi-Camera Synchronization</h3>
+<div class="codehilite"><pre><span></span><code><span class="c"># src/state/rc_stream_alignment.nim</span>
+<span class="k">proc</span><span class="w"> </span><span class="nf">initStreamAlignment</span><span class="o">*</span><span class="p">()</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="n">initObservable</span><span class="p">(</span><span class="s">&quot;streamAlignment&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">permissionRead</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Media_r</span><span class="p">,</span><span class="w"> </span><span class="n">Media_rw</span><span class="p">},</span>
+<span class="w">    </span><span class="n">permissionWrite</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Media_rw</span><span class="p">},</span>
+<span class="w">    </span><span class="n">default</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">%</span><span class="p">{</span>
+<span class="w">      </span><span class="s">&quot;enabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="kp">true</span><span class="p">,</span>
+<span class="w">      </span><span class="s">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;timestamp&quot;</span><span class="p">,</span><span class="w">  </span><span class="c"># timestamp, hardware, software</span>
+<span class="w">      </span><span class="s">&quot;maxLatencyMs&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span>
+<span class="w">      </span><span class="s">&quot;syncTolerance&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">33</span><span class="w">  </span><span class="c"># ~1 frame at 30fps</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">)</span>
+</code></pre></div>
+
+<h3 id="timestamp-synchronization">Timestamp Synchronization</h3>
+<div class="codehilite"><pre><span></span><code><span class="c1">// src/camserver/nv12Timestamp.c</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">add_timestamp_overlay</span><span class="p">(</span><span class="kt">uint8_t</span><span class="o">*</span><span class="w"> </span><span class="n">frame</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">width</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">height</span><span class="p">,</span><span class="w"> </span><span class="kt">int64_t</span><span class="w"> </span><span class="n">pts</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Render timestamp onto NV12 frame</span>
+<span class="w">    </span><span class="kt">char</span><span class="w"> </span><span class="n">timestamp</span><span class="p">[</span><span class="mi">32</span><span class="p">];</span>
+<span class="w">    </span><span class="n">format_timestamp</span><span class="p">(</span><span class="n">timestamp</span><span class="p">,</span><span class="w"> </span><span class="n">pts</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// Draw text at specified position</span>
+<span class="w">    </span><span class="n">draw_text_nv12</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span><span class="w"> </span><span class="n">width</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="n">timestamp</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="picture-in-picture-pip">Picture-in-Picture (PIP)</h2>
+<h3 id="pip-configuration">PIP Configuration</h3>
+<div class="codehilite"><pre><span></span><code><span class="c"># src/state/rc_pip.nim</span>
+<span class="k">proc</span><span class="w"> </span><span class="nf">initPip</span><span class="o">*</span><span class="p">()</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="n">initObservable</span><span class="p">(</span><span class="s">&quot;pipEnabled&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">permissionRead</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Media_r</span><span class="p">,</span><span class="w"> </span><span class="n">Media_rw</span><span class="p">},</span>
+<span class="w">    </span><span class="n">permissionWrite</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Media_rw</span><span class="p">},</span>
+<span class="w">    </span><span class="n">default</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">%</span><span class="kp">false</span>
+<span class="w">  </span><span class="p">)</span>
+
+<span class="w">  </span><span class="n">initObservable</span><span class="p">(</span><span class="s">&quot;pipLayout&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">permissionRead</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Media_r</span><span class="p">,</span><span class="w"> </span><span class="n">Media_rw</span><span class="p">},</span>
+<span class="w">    </span><span class="n">permissionWrite</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Media_rw</span><span class="p">},</span>
+<span class="w">    </span><span class="n">default</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">%</span><span class="p">{</span>
+<span class="w">      </span><span class="s">&quot;mainSource&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;primary&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="s">&quot;pipSource&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;secondary&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="s">&quot;pipPosition&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;bottom-right&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="s">&quot;pipScale&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.25</span><span class="p">,</span><span class="w">  </span><span class="c"># 25% of main</span>
+<span class="w">      </span><span class="s">&quot;pipBorder&quot;</span><span class="p">:</span><span class="w"> </span><span class="kp">true</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">)</span>
+</code></pre></div>
+
+<h3 id="pip-pipeline">PIP Pipeline</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">proc</span><span class="w"> </span><span class="nf">createPipPipeline</span><span class="o">*</span><span class="p">():</span><span class="w"> </span><span class="nb">string</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s">    compositor name=comp</span>
+<span class="s">      sink_0::xpos=0 sink_0::ypos=0 sink_0::width=1920 sink_0::height=1080</span>
+<span class="s">      sink_1::xpos=1440 sink_1::ypos=810 sink_1::width=480 sink_1::height=270</span>
+<span class="s">      sink_1::zorder=1 !</span>
+<span class="s">    video/x-raw,width=1920,height=1080 !</span>
+<span class="s">    v4l2h264enc !</span>
+<span class="s">    h264parse !</span>
+<span class="s">    rtph264pay name=pay0</span>
+
+<span class="s">    v4l2src device=/dev/video0 ! comp.sink_0</span>
+<span class="s">    v4l2src device=/dev/video1 ! videoscale ! video/x-raw,width=480,height=270 ! comp.sink_1</span>
+<span class="s">  </span><span class="s2">&quot;&quot;&quot;</span>
+</code></pre></div>
+
+<h2 id="adaptive-bitrate">Adaptive Bitrate</h2>
+<h3 id="dynamic-bitrate-adjustment">Dynamic Bitrate Adjustment</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">proc</span><span class="w"> </span><span class="nf">adjustBitrate</span><span class="o">*</span><span class="p">(</span><span class="n">networkStats</span><span class="p">:</span><span class="w"> </span><span class="n">NetworkStats</span><span class="p">)</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">currentBitrate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">State</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;streamBitrate&quot;</span><span class="p">).</span><span class="n">value</span><span class="p">.</span><span class="n">getInt</span>
+
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="n">networkStats</span><span class="p">.</span><span class="n">packetLoss</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mf">0.05</span><span class="p">:</span>
+<span class="w">    </span><span class="c"># High packet loss - reduce bitrate</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">newBitrate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">currentBitrate</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">0.8</span><span class="p">).</span><span class="nb">int</span>
+<span class="w">    </span><span class="n">State</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;streamBitrate&quot;</span><span class="p">).</span><span class="n">updateValue</span><span class="p">(</span><span class="o">%</span><span class="n">newBitrate</span><span class="p">)</span>
+
+<span class="w">  </span><span class="k">elif</span><span class="w"> </span><span class="n">networkStats</span><span class="p">.</span><span class="n">availableBandwidth</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">currentBitrate</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">1.5</span><span class="p">:</span>
+<span class="w">    </span><span class="c"># Bandwidth available - increase bitrate</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">newBitrate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">min</span><span class="p">((</span><span class="n">currentBitrate</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">1.2</span><span class="p">).</span><span class="nb">int</span><span class="p">,</span><span class="w"> </span><span class="mi">12000000</span><span class="p">)</span>
+<span class="w">    </span><span class="n">State</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;streamBitrate&quot;</span><span class="p">).</span><span class="n">updateValue</span><span class="p">(</span><span class="o">%</span><span class="n">newBitrate</span><span class="p">)</span>
+</code></pre></div>
+
+<h3 id="network-statistics">Network Statistics</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">type</span>
+<span class="w">  </span><span class="n">NetworkStats</span><span class="o">*</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">object</span>
+<span class="w">    </span><span class="n">availableBandwidth</span><span class="o">*</span><span class="p">:</span><span class="w"> </span><span class="nb">int64</span><span class="w">  </span><span class="c"># bits per second</span>
+<span class="w">    </span><span class="n">packetLoss</span><span class="o">*</span><span class="p">:</span><span class="w"> </span><span class="nb">float</span><span class="w">          </span><span class="c"># 0.0 to 1.0</span>
+<span class="w">    </span><span class="n">rtt</span><span class="o">*</span><span class="p">:</span><span class="w"> </span><span class="nb">int</span><span class="w">                   </span><span class="c"># milliseconds</span>
+<span class="w">    </span><span class="n">jitter</span><span class="o">*</span><span class="p">:</span><span class="w"> </span><span class="nb">int</span><span class="w">                </span><span class="c"># milliseconds</span>
+
+<span class="k">proc</span><span class="w"> </span><span class="nf">collectNetworkStats</span><span class="o">*</span><span class="p">():</span><span class="w"> </span><span class="n">NetworkStats</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="c"># Collect from RTCP feedback</span>
+<span class="w">  </span><span class="n">result</span><span class="p">.</span><span class="n">packetLoss</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">getRtcpPacketLoss</span><span class="p">()</span>
+<span class="w">  </span><span class="n">result</span><span class="p">.</span><span class="n">rtt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">getRtcpRtt</span><span class="p">()</span>
+<span class="w">  </span><span class="n">result</span><span class="p">.</span><span class="n">jitter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">getRtcpJitter</span><span class="p">()</span>
+<span class="w">  </span><span class="n">result</span><span class="p">.</span><span class="n">availableBandwidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">estimateBandwidth</span><span class="p">()</span>
+</code></pre></div>
+
+<h2 id="client-streaming-examples">Client Streaming Examples</h2>
+<h3 id="vlc-player">VLC Player</h3>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Stream via RTSP</span>
+vlc<span class="w"> </span>rtsp://username:password@rotoclear.local:8554/stream1
+
+<span class="c1"># With custom options</span>
+vlc<span class="w"> </span>rtsp://rotoclear.local:8554/stream1<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--network-caching<span class="o">=</span><span class="m">300</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--rtsp-tcp
+</code></pre></div>
+
+<h3 id="ffmpeg">FFmpeg</h3>
+<div class="codehilite"><pre><span></span><code><span class="c1"># View stream</span>
+ffmpeg<span class="w"> </span>-rtsp_transport<span class="w"> </span>tcp<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-i<span class="w"> </span>rtsp://rotoclear.local:8554/stream1<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-f<span class="w"> </span>sdl<span class="w"> </span><span class="s2">&quot;RotoClear Stream&quot;</span>
+
+<span class="c1"># Save stream to file</span>
+ffmpeg<span class="w"> </span>-rtsp_transport<span class="w"> </span>tcp<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-i<span class="w"> </span>rtsp://rotoclear.local:8554/stream1<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-c<span class="w"> </span>copy<span class="w"> </span>output.mp4
+
+<span class="c1"># Re-stream to another RTSP server</span>
+ffmpeg<span class="w"> </span>-rtsp_transport<span class="w"> </span>tcp<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-i<span class="w"> </span>rtsp://rotoclear.local:8554/stream1<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-c<span class="w"> </span>copy<span class="w"> </span>-f<span class="w"> </span>rtsp<span class="w"> </span>rtsp://destination:8554/stream
+</code></pre></div>
+
+<h3 id="gstreamer">GStreamer</h3>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Play stream</span>
+gst-launch-1.0<span class="w"> </span>rtspsrc<span class="w"> </span><span class="nv">location</span><span class="o">=</span>rtsp://rotoclear.local:8554/stream1<span class="w"> </span>!<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>rtph264depay<span class="w"> </span>!<span class="w"> </span>h264parse<span class="w"> </span>!<span class="w"> </span>avdec_h264<span class="w"> </span>!<span class="w"> </span>autovideosink
+
+<span class="c1"># Record stream</span>
+gst-launch-1.0<span class="w"> </span>rtspsrc<span class="w"> </span><span class="nv">location</span><span class="o">=</span>rtsp://rotoclear.local:8554/stream1<span class="w"> </span>!<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>rtph264depay<span class="w"> </span>!<span class="w"> </span>h264parse<span class="w"> </span>!<span class="w"> </span>mp4mux<span class="w"> </span>!<span class="w"> </span>filesink<span class="w"> </span><span class="nv">location</span><span class="o">=</span>output.mp4
+</code></pre></div>
+
+<h3 id="python-client">Python Client</h3>
+<div class="codehilite"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">cv2</span>
+
+<span class="c1"># Open RTSP stream</span>
+<span class="n">cap</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">VideoCapture</span><span class="p">(</span><span class="s1">&#39;rtsp://username:password@rotoclear.local:8554/stream1&#39;</span><span class="p">)</span>
+
+<span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+    <span class="n">ret</span><span class="p">,</span> <span class="n">frame</span> <span class="o">=</span> <span class="n">cap</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">ret</span><span class="p">:</span>
+        <span class="k">break</span>
+
+    <span class="c1"># Display frame</span>
+    <span class="n">cv2</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="s1">&#39;RotoClear Stream&#39;</span><span class="p">,</span> <span class="n">frame</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">cv2</span><span class="o">.</span><span class="n">waitKey</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0xFF</span> <span class="o">==</span> <span class="nb">ord</span><span class="p">(</span><span class="s1">&#39;q&#39;</span><span class="p">):</span>
+        <span class="k">break</span>
+
+<span class="n">cap</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
+<span class="n">cv2</span><span class="o">.</span><span class="n">destroyAllWindows</span><span class="p">()</span>
+</code></pre></div>
+
+<h2 id="performance-tuning">Performance Tuning</h2>
+<h3 id="latency-optimization">Latency Optimization</h3>
+<p><strong>Hardware Encoding</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c"># Use hardware encoder for lower latency</span>
+<span class="k">let</span><span class="w"> </span><span class="n">encoder</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">when</span><span class="w"> </span><span class="n">defined</span><span class="p">(</span><span class="n">embeddedSystem</span><span class="p">):</span>
+<span class="w">  </span><span class="s">&quot;v4l2h264enc&quot;</span>
+<span class="k">else</span><span class="p">:</span>
+<span class="w">  </span><span class="s">&quot;x264enc tune=zerolatency&quot;</span>
+</code></pre></div>
+
+<p><strong>Buffer Tuning</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c"># Reduce buffering for lower latency</span>
+<span class="n">initObservable</span><span class="p">(</span><span class="s">&quot;streamLatencyMode&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="n">default</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">%</span><span class="s">&quot;low&quot;</span><span class="p">,</span><span class="w">  </span><span class="c"># low, normal, high</span>
+<span class="p">)</span>
+
+<span class="k">proc</span><span class="w"> </span><span class="nf">getLatencyMs</span><span class="o">*</span><span class="p">(</span><span class="n">mode</span><span class="p">:</span><span class="w"> </span><span class="nb">string</span><span class="p">):</span><span class="w"> </span><span class="nb">int</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="k">case</span><span class="w"> </span><span class="n">mode</span><span class="p">:</span>
+<span class="w">  </span><span class="k">of</span><span class="w"> </span><span class="nl">&quot;low&quot;</span><span class="o">:</span><span class="w"> </span><span class="mi">100</span>
+<span class="w">  </span><span class="k">of</span><span class="w"> </span><span class="nl">&quot;normal&quot;</span><span class="o">:</span><span class="w"> </span><span class="mi">500</span>
+<span class="w">  </span><span class="k">of</span><span class="w"> </span><span class="nl">&quot;high&quot;</span><span class="o">:</span><span class="w"> </span><span class="mi">2000</span>
+<span class="w">  </span><span class="k">else</span><span class="p">:</span><span class="w"> </span><span class="mi">500</span>
+</code></pre></div>
+
+<h3 id="bandwidth-management">Bandwidth Management</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">proc</span><span class="w"> </span><span class="nf">calculateOptimalBitrate</span><span class="o">*</span><span class="p">(</span><span class="n">resolution</span><span class="p">:</span><span class="w"> </span><span class="nb">string</span><span class="p">,</span><span class="w"> </span><span class="n">fps</span><span class="p">:</span><span class="w"> </span><span class="nb">int</span><span class="p">):</span><span class="w"> </span><span class="nb">int</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="c"># Bitrate calculation based on resolution and FPS</span>
+<span class="w">  </span><span class="k">case</span><span class="w"> </span><span class="n">resolution</span><span class="p">:</span>
+<span class="w">  </span><span class="k">of</span><span class="w"> </span><span class="nl">&quot;3840x2160&quot;</span><span class="o">:</span><span class="w"> </span><span class="mi">12000000</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">fps</span><span class="w"> </span><span class="ow">div</span><span class="w"> </span><span class="mi">30</span><span class="p">)</span>
+<span class="w">  </span><span class="k">of</span><span class="w"> </span><span class="nl">&quot;1920x1080&quot;</span><span class="o">:</span><span class="w"> </span><span class="mi">8000000</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">fps</span><span class="w"> </span><span class="ow">div</span><span class="w"> </span><span class="mi">30</span><span class="p">)</span>
+<span class="w">  </span><span class="k">of</span><span class="w"> </span><span class="nl">&quot;1280x720&quot;</span><span class="o">:</span><span class="w"> </span><span class="mi">4000000</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">fps</span><span class="w"> </span><span class="ow">div</span><span class="w"> </span><span class="mi">30</span><span class="p">)</span>
+<span class="w">  </span><span class="k">of</span><span class="w"> </span><span class="nl">&quot;640x480&quot;</span><span class="o">:</span><span class="w"> </span><span class="mi">2000000</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">fps</span><span class="w"> </span><span class="ow">div</span><span class="w"> </span><span class="mi">30</span><span class="p">)</span>
+<span class="w">  </span><span class="k">else</span><span class="p">:</span><span class="w"> </span><span class="mi">4000000</span>
+</code></pre></div>
+
+<h2 id="monitoring-and-analytics">Monitoring and Analytics</h2>
+<h3 id="stream-statistics">Stream Statistics</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">type</span>
+<span class="w">  </span><span class="n">StreamStats</span><span class="o">*</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">object</span>
+<span class="w">    </span><span class="n">clientCount</span><span class="o">*</span><span class="p">:</span><span class="w"> </span><span class="nb">int</span>
+<span class="w">    </span><span class="n">totalBytesStreamed</span><span class="o">*</span><span class="p">:</span><span class="w"> </span><span class="nb">int64</span>
+<span class="w">    </span><span class="n">currentBitrate</span><span class="o">*</span><span class="p">:</span><span class="w"> </span><span class="nb">int</span>
+<span class="w">    </span><span class="n">frameDrops</span><span class="o">*</span><span class="p">:</span><span class="w"> </span><span class="nb">int</span>
+<span class="w">    </span><span class="n">errors</span><span class="o">*</span><span class="p">:</span><span class="w"> </span><span class="nb">int</span>
+<span class="w">    </span><span class="n">uptime</span><span class="o">*</span><span class="p">:</span><span class="w"> </span><span class="nb">int64</span>
+
+<span class="k">proc</span><span class="w"> </span><span class="nf">getStreamStats</span><span class="o">*</span><span class="p">():</span><span class="w"> </span><span class="n">StreamStats</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="n">result</span><span class="p">.</span><span class="n">clientCount</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">getRtspClientCount</span><span class="p">()</span>
+<span class="w">  </span><span class="n">result</span><span class="p">.</span><span class="n">totalBytesStreamed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">getTotalBytesSent</span><span class="p">()</span>
+<span class="w">  </span><span class="n">result</span><span class="p">.</span><span class="n">currentBitrate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">getCurrentBitrate</span><span class="p">()</span>
+<span class="w">  </span><span class="n">result</span><span class="p">.</span><span class="n">frameDrops</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">getFrameDropCount</span><span class="p">()</span>
+<span class="w">  </span><span class="n">result</span><span class="p">.</span><span class="n">errors</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">getErrorCount</span><span class="p">()</span>
+<span class="w">  </span><span class="n">result</span><span class="p">.</span><span class="n">uptime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">getStreamUptime</span><span class="p">()</span>
+</code></pre></div>
+
+<h3 id="health-checks">Health Checks</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">proc</span><span class="w"> </span><span class="nf">checkStreamHealth</span><span class="o">*</span><span class="p">():</span><span class="w"> </span><span class="nb">bool</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="c"># Verify stream is healthy</span>
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">stats</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">getStreamStats</span><span class="p">()</span>
+
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="n">stats</span><span class="p">.</span><span class="n">frameDrops</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">100</span><span class="p">:</span>
+<span class="w">    </span><span class="n">StateLogger</span><span class="p">.</span><span class="n">warn</span><span class="p">(</span><span class="s">&quot;High frame drop rate detected&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="kp">false</span>
+
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="n">stats</span><span class="p">.</span><span class="n">errors</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">10</span><span class="p">:</span>
+<span class="w">    </span><span class="n">StateLogger</span><span class="p">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;Stream errors detected&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="kp">false</span>
+
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="n">stats</span><span class="p">.</span><span class="n">currentBitrate</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="n">stats</span><span class="p">.</span><span class="n">clientCount</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">:</span>
+<span class="w">    </span><span class="n">StateLogger</span><span class="p">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;Stream stalled&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="kp">false</span>
+
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="kp">true</span>
+</code></pre></div>
+
+<h2 id="troubleshooting">Troubleshooting</h2>
+<h3 id="no-stream-available">No Stream Available</h3>
+<p><strong>Symptoms</strong>: RTSP connection fails or no video displayed.</p>
+<p><strong>Solutions</strong>:<br />
+- Verify RTSP server is running: <code>curl rtsp://localhost:8554/stream1</code><br />
+- Check firewall rules: <code>sudo ufw status</code><br />
+- Test with VLC or FFmpeg<br />
+- Review stream logs: <code>journalctl -u rotordream | grep rtsp</code></p>
+<h3 id="high-latency">High Latency</h3>
+<p><strong>Symptoms</strong>: Significant delay between camera and display.</p>
+<p><strong>Solutions</strong>:<br />
+- Enable hardware encoding<br />
+- Reduce bitrate<br />
+- Use TCP instead of UDP for RTSP<br />
+- Decrease buffer sizes<br />
+- Use lower resolution/framerate</p>
+<h3 id="choppy-video">Choppy Video</h3>
+<p><strong>Symptoms</strong>: Video stutters or has dropped frames.</p>
+<p><strong>Solutions</strong>:<br />
+- Increase bitrate<br />
+- Check network bandwidth<br />
+- Verify camera is providing consistent FPS<br />
+- Monitor CPU usage<br />
+- Check for disk I/O bottlenecks</p>
+<h3 id="stream-freezes">Stream Freezes</h3>
+<p><strong>Symptoms</strong>: Video stops updating but connection remains.</p>
+<p><strong>Solutions</strong>:<br />
+- Check encoder health<br />
+- Verify camera device is responsive<br />
+- Review system resource usage<br />
+- Check for timeout issues<br />
+- Restart streaming service</p>
+<h2 id="related-documentation">Related Documentation</h2>
+<ul>
+<li><a href="hardware-interface.md">Hardware Interface</a></li>
+<li><a href="recording.md">Recording</a></li>
+<li><a href="../api/rtsp-streaming.md">RTSP API</a></li>
+<li><a href="../architecture/camera-pipeline.md">Camera Pipeline</a></li>
+</ul>
+            </div>
+            <footer class="content-footer">
+                <p>Copyright © 2025 Rotoclear</p>
+            </footer>
+        </main>
+        
+        <button class="mobile-menu-toggle" id="menuToggle" aria-label="Toggle menu">☰</button>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>
+        // Initialize Mermaid
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            securityLevel: 'loose',
+            fontFamily: 'Inter, sans-serif'
+        });
+        
+        // Syntax highlighting
+        hljs.highlightAll();
+        
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.querySelector('.sidebar');
+        
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+        });
+        
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth <= 768 && 
+                !sidebar.contains(e.target) && 
+                !menuToggle.contains(e.target) &&
+                sidebar.classList.contains('active')) {
+                sidebar.classList.remove('active');
+            }
+        });
+        
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

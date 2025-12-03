@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Permissions - RotoClear Camera Server Documentation</title>
+    <link rel="stylesheet" href="/assets/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1><a href="/index.html">RotoClear Docs</a></h1>
+                <p>Camera Server Documentation</p>
+            </div>
+            <nav class="sidebar-nav">
+                <ul class="nav-menu">
+                    <li class="nav-item depth-0">
+<a href="/index.html">Home</a>
+</li>
+<li class="nav-item depth-0">
+<a href="/getting-started.html">Getting Started</a>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Architecture</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/architecture/overview.html">Overview</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/architecture/state-management.html">State Management</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/architecture/camera-pipeline.html">Camera Pipeline</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/architecture/metadata-sqlite.html">Metadata & SQLite</a>
+</li>
+<li class="nav-folder depth-1">
+<span class="folder-title">Decisions</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-2">
+<a href="/architecture/decisions/ADR-0001-nim-language.html">ADR-0001 Nim Language</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/architecture/decisions/ADR-0002-corun-framework.html">ADR-0002 Corun Framework</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/architecture/decisions/ADR-0003-observable-state.html">ADR-0003 Observable State</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">API Reference</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/api/README.html">Overview</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/api/websocket-api.html">WebSocket API</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/api/http-api.html">HTTP API</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/api/rtsp-streaming.html">RTSP Streaming</a>
+</li>
+<li class="nav-folder depth-1">
+<span class="folder-title">Examples</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-2">
+<a href="/api/examples/python-client.html">Python Client</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/api/examples/javascript-client.html">JavaScript Client</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/api/examples/csharp-client.html">C# Client</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Configuration</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/configuration/environments.html">Environments</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/factory-config.html">Factory Config</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/license-config.html">License Config</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/deployment-variants.html">Deployment Variants</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/camera-system.html">Camera System</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/network.html">Network</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/storage-backup.html">Storage & Backup</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/authentication.html">Authentication</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Camera System</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/camera/hardware-interface.html">Hardware Interface</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/camera/streaming.html">Streaming</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/camera/recording.html">Recording</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/camera/image-processing.html">Image Processing</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Operations</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/operations/build-and-deploy.html">Build and Deploy</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/build-deploy.html">Build & Deploy (Alt)</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/monitoring.html">Monitoring</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/performance.html">Performance</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/troubleshooting.html">Troubleshooting</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Security</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/security/authentication.html">Authentication</a>
+</li>
+<li class="nav-item depth-1 active">
+<a href="/security/permissions.html">Permissions</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/security/ssl-certificates.html">SSL Certificates</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Testing</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/testing/testing-strategy.html">Strategy</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/testing/strategies.html">Strategies</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/testing/test-cases.html">Test Cases</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/testing/validation.html">Validation</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Integration</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/integration/onvif-protocol.html">ONVIF Protocol</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/integration/third-party.html">Third Party</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Reference</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/reference/glossary.html">Glossary</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/reference/requirements.html">Requirements</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/reference/state-observables.html">State Observables</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Releases</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/releases/CHANGELOG.html">Changelog</a>
+</li>
+</ul>
+</li>
+<li class="nav-item depth-0">
+<a href="/glossary.html">Glossary</a>
+</li>
+                </ul>
+            </nav>
+        </aside>
+        
+        <main class="content">
+            <div class="content-wrapper">
+                <h1 id="permissions">Permissions</h1>
+<h2 id="overview">Overview</h2>
+<p>The RotoClear permission system implements fine-grained access control for all system observables and API endpoints. Permissions are assigned to users based on their roles and control read/write access to device functionality.</p>
+<h2 id="permission-model">Permission Model</h2>
+<h3 id="permission-enumeration">Permission Enumeration</h3>
+<div class="codehilite"><pre><span></span><code><span class="c"># src/state/permissions.nim</span>
+<span class="k">type</span>
+<span class="w">  </span><span class="n">StatePermission</span><span class="o">*</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">enum</span>
+<span class="w">    </span><span class="c"># Device Control</span>
+<span class="w">    </span><span class="n">Device_r</span><span class="w">         </span><span class="c"># Read device information (status, capabilities)</span>
+<span class="w">    </span><span class="n">Device_rw</span><span class="w">        </span><span class="c"># Control device (camera settings, motors, lights)</span>
+
+<span class="w">    </span><span class="c"># Media Management</span>
+<span class="w">    </span><span class="n">Media_r</span><span class="w">          </span><span class="c"># View recordings, tags, metadata</span>
+<span class="w">    </span><span class="n">Media_rw</span><span class="w">         </span><span class="c"># Create recordings, add tags, modify metadata</span>
+
+<span class="w">    </span><span class="c"># User Management</span>
+<span class="w">    </span><span class="n">User_r</span><span class="w">           </span><span class="c"># View user list and roles</span>
+<span class="w">    </span><span class="n">User_rw</span><span class="w">          </span><span class="c"># Create/modify/delete users</span>
+
+<span class="w">    </span><span class="c"># Network Configuration</span>
+<span class="w">    </span><span class="n">Network_r</span><span class="w">        </span><span class="c"># View network settings</span>
+<span class="w">    </span><span class="n">Network_rw</span><span class="w">       </span><span class="c"># Configure network (IP, hostname, etc.)</span>
+
+<span class="w">    </span><span class="c"># Storage Management</span>
+<span class="w">    </span><span class="n">Storage_r</span><span class="w">        </span><span class="c"># View storage status and recordings</span>
+<span class="w">    </span><span class="n">Storage_rw</span><span class="w">       </span><span class="c"># Configure storage, delete recordings</span>
+
+<span class="w">    </span><span class="c"># System Administration</span>
+<span class="w">    </span><span class="n">System_r</span><span class="w">         </span><span class="c"># View system information</span>
+<span class="w">    </span><span class="n">System_rw</span><span class="w">        </span><span class="c"># Configure system settings</span>
+
+<span class="w">    </span><span class="c"># Firmware Management</span>
+<span class="w">    </span><span class="n">FirmwareUpdate_r</span><span class="w">   </span><span class="c"># View firmware version</span>
+<span class="w">    </span><span class="n">FirmwareUpdate_rw</span><span class="w">  </span><span class="c"># Upload and install firmware updates</span>
+
+<span class="w">    </span><span class="c"># System Power</span>
+<span class="w">    </span><span class="n">Reboot_rw</span><span class="w">        </span><span class="c"># Reboot/restart system</span>
+
+<span class="w">  </span><span class="n">StatePermissions</span><span class="o">*</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">set</span><span class="o">[</span><span class="n">StatePermission</span><span class="o">]</span>
+</code></pre></div>
+
+<h2 id="role-based-access-control-rbac">Role-Based Access Control (RBAC)</h2>
+<h3 id="predefined-roles">Predefined Roles</h3>
+<div class="mermaid">
+graph TB
+    Admin[Administrator] -->|All Permissions| AllPerms[Full System Access]
+    Operator[Operator] -->|Most Permissions| OpPerms[Record, Stream, Device Control]
+    Viewer[Viewer] -->|Read-Only| ViewPerms[View Only, No Modifications]
+    Guest[Guest] -->|Minimal| GuestPerms[Public Endpoints Only]
+
+    style Admin fill:#f96,stroke:#333,stroke-width:2px
+    style Operator fill:#fc6,stroke:#333,stroke-width:2px
+    style Viewer fill:#9cf,stroke:#333,stroke-width:2px
+    style Guest fill:#ccc,stroke:#333,stroke-width:2px
+</div>
+
+<h3 id="administrator-role">Administrator Role</h3>
+<p><strong>Full system access</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">proc</span><span class="w"> </span><span class="nf">getAdministratorPermissions</span><span class="o">*</span><span class="p">():</span><span class="w"> </span><span class="n">StatePermissions</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">Device_r</span><span class="p">,</span><span class="w"> </span><span class="n">Device_rw</span><span class="p">,</span>
+<span class="w">    </span><span class="n">Media_r</span><span class="p">,</span><span class="w"> </span><span class="n">Media_rw</span><span class="p">,</span>
+<span class="w">    </span><span class="n">User_r</span><span class="p">,</span><span class="w"> </span><span class="n">User_rw</span><span class="p">,</span>
+<span class="w">    </span><span class="n">Network_r</span><span class="p">,</span><span class="w"> </span><span class="n">Network_rw</span><span class="p">,</span>
+<span class="w">    </span><span class="n">Storage_r</span><span class="p">,</span><span class="w"> </span><span class="n">Storage_rw</span><span class="p">,</span>
+<span class="w">    </span><span class="n">System_r</span><span class="p">,</span><span class="w"> </span><span class="n">System_rw</span><span class="p">,</span>
+<span class="w">    </span><span class="n">FirmwareUpdate_r</span><span class="p">,</span><span class="w"> </span><span class="n">FirmwareUpdate_rw</span><span class="p">,</span>
+<span class="w">    </span><span class="n">Reboot_rw</span>
+<span class="w">  </span><span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Capabilities</strong>:<br />
+- Full device control<br />
+- User management<br />
+- System configuration<br />
+- Firmware updates<br />
+- Network configuration<br />
+- Storage management<br />
+- All media operations</p>
+<h3 id="operator-role">Operator Role</h3>
+<p><strong>Operational access without system administration</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">proc</span><span class="w"> </span><span class="nf">getOperatorPermissions</span><span class="o">*</span><span class="p">():</span><span class="w"> </span><span class="n">StatePermissions</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">Device_r</span><span class="p">,</span><span class="w"> </span><span class="n">Device_rw</span><span class="p">,</span>
+<span class="w">    </span><span class="n">Media_r</span><span class="p">,</span><span class="w"> </span><span class="n">Media_rw</span><span class="p">,</span>
+<span class="w">    </span><span class="n">Storage_r</span><span class="p">,</span>
+<span class="w">    </span><span class="n">System_r</span><span class="p">,</span>
+<span class="w">    </span><span class="n">Reboot_rw</span>
+<span class="w">  </span><span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Capabilities</strong>:<br />
+- Start/stop recording<br />
+- Control camera settings<br />
+- Add tags and notes<br />
+- View storage status<br />
+- Reboot system<br />
+- No user management<br />
+- No network configuration</p>
+<h3 id="viewer-role">Viewer Role</h3>
+<p><strong>Read-only access</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">proc</span><span class="w"> </span><span class="nf">getViewerPermissions</span><span class="o">*</span><span class="p">():</span><span class="w"> </span><span class="n">StatePermissions</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">Device_r</span><span class="p">,</span>
+<span class="w">    </span><span class="n">Media_r</span><span class="p">,</span>
+<span class="w">    </span><span class="n">Storage_r</span><span class="p">,</span>
+<span class="w">    </span><span class="n">System_r</span>
+<span class="w">  </span><span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Capabilities</strong>:<br />
+- View live streams<br />
+- View recorded media<br />
+- View device status<br />
+- View system information<br />
+- No modifications allowed</p>
+<h3 id="guest-role">Guest Role</h3>
+<p><strong>Minimal access</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">proc</span><span class="w"> </span><span class="nf">getGuestPermissions</span><span class="o">*</span><span class="p">():</span><span class="w"> </span><span class="n">StatePermissions</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{}</span><span class="w">  </span><span class="c"># No permissions by default</span>
+</code></pre></div>
+
+<p><strong>Capabilities</strong>:<br />
+- Access public endpoints only<br />
+- No authenticated operations</p>
+<h2 id="observable-permission-assignment">Observable Permission Assignment</h2>
+<h3 id="defining-observable-permissions">Defining Observable Permissions</h3>
+<p>Each observable specifies required permissions:</p>
+<div class="codehilite"><pre><span></span><code><span class="c"># Example: Recording control</span>
+<span class="n">initObservable</span><span class="p">(</span><span class="s">&quot;recordingState&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="n">permissionRead</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Media_r</span><span class="p">,</span><span class="w"> </span><span class="n">Media_rw</span><span class="p">},</span><span class="w">      </span><span class="c"># Can read if has Media_r OR Media_rw</span>
+<span class="w">  </span><span class="n">permissionWrite</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Media_rw</span><span class="p">},</span><span class="w">              </span><span class="c"># Can write only if has Media_rw</span>
+<span class="w">  </span><span class="n">isOnlyAskState</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kp">false</span><span class="p">,</span>
+<span class="w">  </span><span class="n">save</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kp">false</span><span class="p">,</span>
+<span class="w">  </span><span class="n">default</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">%</span><span class="s">&quot;stopped&quot;</span>
+<span class="p">)</span>
+
+<span class="c"># Example: User management</span>
+<span class="n">initObservable</span><span class="p">(</span><span class="s">&quot;users&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="n">permissionRead</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">User_r</span><span class="p">,</span><span class="w"> </span><span class="n">User_rw</span><span class="p">},</span>
+<span class="w">  </span><span class="n">permissionWrite</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">User_rw</span><span class="p">},</span>
+<span class="w">  </span><span class="n">save</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kp">true</span><span class="p">,</span>
+<span class="w">  </span><span class="n">default</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">%</span><span class="p">{}</span>
+<span class="p">)</span>
+
+<span class="c"># Example: System reboot</span>
+<span class="n">initObservable</span><span class="p">(</span><span class="s">&quot;restart&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="n">permissionRead</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Reboot_rw</span><span class="p">},</span>
+<span class="w">  </span><span class="n">permissionWrite</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Reboot_rw</span><span class="p">},</span>
+<span class="w">  </span><span class="n">isOnlyAskState</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kp">true</span><span class="p">,</span>
+<span class="w">  </span><span class="n">default</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">%</span><span class="kp">false</span>
+<span class="p">)</span>
+</code></pre></div>
+
+<h3 id="permission-checking">Permission Checking</h3>
+<div class="codehilite"><pre><span></span><code><span class="c"># Check if user can read observable</span>
+<span class="k">template</span><span class="w"> </span><span class="nf">canRead</span><span class="o">*</span><span class="p">(</span><span class="n">permissions</span><span class="p">:</span><span class="w"> </span><span class="n">StatePermissions</span><span class="p">,</span><span class="w"> </span><span class="n">state</span><span class="p">:</span><span class="w"> </span><span class="n">Observable</span><span class="p">):</span><span class="w"> </span><span class="nb">bool</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="p">((</span><span class="n">state</span><span class="p">.</span><span class="n">permissionRead</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">permissions</span><span class="p">).</span><span class="n">len</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c"># Check if user can write observable</span>
+<span class="k">template</span><span class="w"> </span><span class="nf">canWrite</span><span class="o">*</span><span class="p">(</span><span class="n">permissions</span><span class="p">:</span><span class="w"> </span><span class="n">StatePermissions</span><span class="p">,</span><span class="w"> </span><span class="n">state</span><span class="p">:</span><span class="w"> </span><span class="n">Observable</span><span class="p">):</span><span class="w"> </span><span class="nb">bool</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="p">((</span><span class="n">state</span><span class="p">.</span><span class="n">permissionWrite</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">permissions</span><span class="p">).</span><span class="n">len</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c"># Usage</span>
+<span class="k">let</span><span class="w"> </span><span class="n">userPerms</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">getUserPermissions</span><span class="p">(</span><span class="s">&quot;operator&quot;</span><span class="p">)</span>
+<span class="k">let</span><span class="w"> </span><span class="n">recordingState</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">State</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;recordingState&quot;</span><span class="p">)</span>
+
+<span class="k">if</span><span class="w"> </span><span class="n">userPerms</span><span class="p">.</span><span class="n">canRead</span><span class="p">(</span><span class="n">recordingState</span><span class="p">):</span>
+<span class="w">  </span><span class="n">echo</span><span class="w"> </span><span class="s">&quot;Can read recording state&quot;</span>
+
+<span class="k">if</span><span class="w"> </span><span class="n">userPerms</span><span class="p">.</span><span class="n">canWrite</span><span class="p">(</span><span class="n">recordingState</span><span class="p">):</span>
+<span class="w">  </span><span class="n">echo</span><span class="w"> </span><span class="s">&quot;Can start/stop recording&quot;</span>
+</code></pre></div>
+
+<h2 id="api-endpoint-protection">API Endpoint Protection</h2>
+<h3 id="http-api-permissions">HTTP API Permissions</h3>
+<div class="codehilite"><pre><span></span><code><span class="c"># src/servers/httpapi.nim</span>
+<span class="k">proc</span><span class="w"> </span><span class="nf">requirePermission</span><span class="o">*</span><span class="p">(</span><span class="n">req</span><span class="p">:</span><span class="w"> </span><span class="n">Request</span><span class="p">,</span><span class="w"> </span><span class="n">permission</span><span class="p">:</span><span class="w"> </span><span class="n">StatePermission</span><span class="p">):</span><span class="w"> </span><span class="nb">bool</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="c"># Get authenticated user</span>
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">username</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">authenticateRequest</span><span class="p">(</span><span class="n">req</span><span class="p">)</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="n">username</span><span class="p">.</span><span class="n">isNone</span><span class="p">:</span>
+<span class="w">    </span><span class="n">req</span><span class="p">.</span><span class="n">respond</span><span class="p">(</span><span class="n">Http401</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Authentication required&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="kp">false</span>
+
+<span class="w">  </span><span class="c"># Check permission</span>
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">permissions</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">getUserPermissions</span><span class="p">(</span><span class="n">username</span><span class="p">.</span><span class="n">get</span><span class="p">)</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="n">permission</span><span class="w"> </span><span class="ow">notin</span><span class="w"> </span><span class="n">permissions</span><span class="p">:</span>
+<span class="w">    </span><span class="n">req</span><span class="p">.</span><span class="n">respond</span><span class="p">(</span><span class="n">Http403</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Permission denied&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="kp">false</span>
+
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="kp">true</span>
+
+<span class="c"># Example route protection</span>
+<span class="k">proc</span><span class="w"> </span><span class="nf">handleStartRecording</span><span class="o">*</span><span class="p">(</span><span class="n">req</span><span class="p">:</span><span class="w"> </span><span class="n">Request</span><span class="p">)</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="n">req</span><span class="p">.</span><span class="n">requirePermission</span><span class="p">(</span><span class="n">Media_rw</span><span class="p">):</span>
+<span class="w">    </span><span class="k">return</span>
+
+<span class="w">  </span><span class="c"># Process recording start</span>
+<span class="w">  </span><span class="n">startRecording</span><span class="p">()</span>
+<span class="w">  </span><span class="n">req</span><span class="p">.</span><span class="n">respond</span><span class="p">(</span><span class="n">Http200</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Recording started&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<h3 id="websocket-api-permissions">WebSocket API Permissions</h3>
+<div class="codehilite"><pre><span></span><code><span class="c"># src/servers/websocketApiV1Handler.nim</span>
+<span class="k">proc</span><span class="w"> </span><span class="nf">handleWebSocketMessage</span><span class="o">*</span><span class="p">(</span><span class="n">client</span><span class="p">:</span><span class="w"> </span><span class="n">Client</span><span class="p">,</span><span class="w"> </span><span class="n">msg</span><span class="p">:</span><span class="w"> </span><span class="n">JsonNode</span><span class="p">)</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">action</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">msg</span><span class="o">[</span><span class="s">&quot;action&quot;</span><span class="o">]</span><span class="p">.</span><span class="n">getStr</span>
+
+<span class="w">  </span><span class="k">case</span><span class="w"> </span><span class="n">action</span><span class="p">:</span>
+<span class="w">  </span><span class="k">of</span><span class="w"> </span><span class="nl">&quot;setState&quot;</span><span class="o">:</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">msg</span><span class="o">[</span><span class="s">&quot;key&quot;</span><span class="o">]</span><span class="p">.</span><span class="n">getStr</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">State</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+
+<span class="w">    </span><span class="c"># Check write permission</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="n">client</span><span class="p">.</span><span class="n">permissions</span><span class="p">.</span><span class="n">canWrite</span><span class="p">(</span><span class="n">state</span><span class="p">):</span>
+<span class="w">      </span><span class="n">client</span><span class="p">.</span><span class="n">send</span><span class="p">(</span><span class="o">%</span><span class="p">{</span><span class="s">&quot;error&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Permission denied&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;key&quot;</span><span class="p">:</span><span class="w"> </span><span class="n">key</span><span class="p">})</span>
+<span class="w">      </span><span class="k">return</span>
+
+<span class="w">    </span><span class="c"># Update state</span>
+<span class="w">    </span><span class="n">state</span><span class="p">.</span><span class="nb">set</span><span class="p">(</span><span class="n">msg</span><span class="o">[</span><span class="s">&quot;value&quot;</span><span class="o">]</span><span class="p">)</span>
+
+<span class="w">  </span><span class="k">of</span><span class="w"> </span><span class="nl">&quot;getState&quot;</span><span class="o">:</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">msg</span><span class="o">[</span><span class="s">&quot;key&quot;</span><span class="o">]</span><span class="p">.</span><span class="n">getStr</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">State</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+
+<span class="w">    </span><span class="c"># Check read permission</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="n">client</span><span class="p">.</span><span class="n">permissions</span><span class="p">.</span><span class="n">canRead</span><span class="p">(</span><span class="n">state</span><span class="p">):</span>
+<span class="w">      </span><span class="n">client</span><span class="p">.</span><span class="n">send</span><span class="p">(</span><span class="o">%</span><span class="p">{</span><span class="s">&quot;error&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Permission denied&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;key&quot;</span><span class="p">:</span><span class="w"> </span><span class="n">key</span><span class="p">})</span>
+<span class="w">      </span><span class="k">return</span>
+
+<span class="w">    </span><span class="c"># Send state value</span>
+<span class="w">    </span><span class="n">client</span><span class="p">.</span><span class="n">send</span><span class="p">(</span><span class="o">%</span><span class="p">{</span><span class="s">&quot;key&quot;</span><span class="p">:</span><span class="w"> </span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;value&quot;</span><span class="p">:</span><span class="w"> </span><span class="n">state</span><span class="p">.</span><span class="n">value</span><span class="p">})</span>
+</code></pre></div>
+
+<h3 id="onvif-permissions">ONVIF Permissions</h3>
+<div class="codehilite"><pre><span></span><code><span class="c"># src/servers/onvif.nim</span>
+<span class="k">proc</span><span class="w"> </span><span class="nf">checkOnvifPermission</span><span class="o">*</span><span class="p">(</span><span class="n">req</span><span class="p">:</span><span class="w"> </span><span class="n">OnvifRequest</span><span class="p">,</span><span class="w"> </span><span class="n">permission</span><span class="p">:</span><span class="w"> </span><span class="n">StatePermission</span><span class="p">):</span><span class="w"> </span><span class="nb">bool</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">username</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">req</span><span class="p">.</span><span class="n">getAuthenticatedUser</span><span class="p">()</span>
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">permissions</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">getUserPermissions</span><span class="p">(</span><span class="n">username</span><span class="p">)</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">permission</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">permissions</span>
+
+<span class="c"># Media profile operations require Media_r</span>
+<span class="k">proc</span><span class="w"> </span><span class="nf">getProfiles</span><span class="o">*</span><span class="p">(</span><span class="n">req</span><span class="p">:</span><span class="w"> </span><span class="n">OnvifRequest</span><span class="p">):</span><span class="w"> </span><span class="nb">string</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="n">checkOnvifPermission</span><span class="p">(</span><span class="n">req</span><span class="p">,</span><span class="w"> </span><span class="n">Media_r</span><span class="p">):</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">generateOnvifFault</span><span class="p">(</span><span class="s">&quot;NotAuthorized&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Insufficient permissions&quot;</span><span class="p">)</span>
+
+<span class="w">  </span><span class="c"># Return profiles</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">generateProfilesResponse</span><span class="p">()</span>
+
+<span class="c"># Configuration changes require Device_rw</span>
+<span class="k">proc</span><span class="w"> </span><span class="nf">setVideoEncoderConfiguration</span><span class="o">*</span><span class="p">(</span><span class="n">req</span><span class="p">:</span><span class="w"> </span><span class="n">OnvifRequest</span><span class="p">):</span><span class="w"> </span><span class="nb">string</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="n">checkOnvifPermission</span><span class="p">(</span><span class="n">req</span><span class="p">,</span><span class="w"> </span><span class="n">Device_rw</span><span class="p">):</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">generateOnvifFault</span><span class="p">(</span><span class="s">&quot;NotAuthorized&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Insufficient permissions&quot;</span><span class="p">)</span>
+
+<span class="w">  </span><span class="c"># Apply configuration</span>
+<span class="w">  </span><span class="n">applyEncoderConfig</span><span class="p">(</span><span class="n">req</span><span class="p">.</span><span class="n">config</span><span class="p">)</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">generateSuccessResponse</span><span class="p">()</span>
+</code></pre></div>
+
+<h2 id="custom-permission-sets">Custom Permission Sets</h2>
+<h3 id="creating-custom-roles">Creating Custom Roles</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">proc</span><span class="w"> </span><span class="nf">createCustomRole</span><span class="o">*</span><span class="p">(</span><span class="n">roleName</span><span class="p">:</span><span class="w"> </span><span class="nb">string</span><span class="p">,</span><span class="w"> </span><span class="n">permissions</span><span class="p">:</span><span class="w"> </span><span class="n">StatePermissions</span><span class="p">):</span><span class="w"> </span><span class="nb">bool</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">roles</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">State</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;customRoles&quot;</span><span class="p">).</span><span class="n">value</span>
+
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="n">roles</span><span class="p">.</span><span class="n">hasKey</span><span class="p">(</span><span class="n">roleName</span><span class="p">):</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="kp">false</span><span class="w">  </span><span class="c"># Role already exists</span>
+
+<span class="w">  </span><span class="n">roles</span><span class="o">[</span><span class="n">roleName</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">%</span><span class="p">{</span>
+<span class="w">    </span><span class="s">&quot;permissions&quot;</span><span class="p">:</span><span class="w"> </span><span class="o">%</span><span class="n">permissions</span><span class="p">.</span><span class="n">toSeq</span><span class="p">().</span><span class="n">mapIt</span><span class="p">(</span><span class="n">ord</span><span class="p">(</span><span class="n">it</span><span class="p">)),</span>
+<span class="w">    </span><span class="s">&quot;created&quot;</span><span class="p">:</span><span class="w"> </span><span class="o">%</span><span class="n">now</span><span class="p">().</span><span class="n">format</span><span class="p">(</span><span class="s">&quot;yyyy-MM-dd&#39;T&#39;HH:mm:ss&#39;Z&#39;&quot;</span><span class="p">)</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w">  </span><span class="n">State</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;customRoles&quot;</span><span class="p">).</span><span class="n">updateValue</span><span class="p">(</span><span class="n">roles</span><span class="p">)</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="kp">true</span>
+
+<span class="c"># Example: Create &quot;Technician&quot; role</span>
+<span class="n">createCustomRole</span><span class="p">(</span><span class="s">&quot;technician&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">Device_r</span><span class="p">,</span><span class="w"> </span><span class="n">Device_rw</span><span class="p">,</span>
+<span class="w">  </span><span class="n">System_r</span><span class="p">,</span>
+<span class="w">  </span><span class="n">Network_r</span><span class="p">,</span>
+<span class="w">  </span><span class="n">FirmwareUpdate_r</span><span class="p">,</span><span class="w"> </span><span class="n">FirmwareUpdate_rw</span>
+<span class="p">})</span>
+</code></pre></div>
+
+<h3 id="user-specific-permissions">User-Specific Permissions</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">proc</span><span class="w"> </span><span class="nf">grantUserPermission</span><span class="o">*</span><span class="p">(</span><span class="n">username</span><span class="p">:</span><span class="w"> </span><span class="nb">string</span><span class="p">,</span><span class="w"> </span><span class="n">permission</span><span class="p">:</span><span class="w"> </span><span class="n">StatePermission</span><span class="p">):</span><span class="w"> </span><span class="nb">bool</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">State</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;users&quot;</span><span class="p">).</span><span class="n">value</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="n">users</span><span class="p">.</span><span class="n">hasKey</span><span class="p">(</span><span class="n">username</span><span class="p">):</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="kp">false</span>
+
+<span class="w">  </span><span class="kd">var</span><span class="w"> </span><span class="n">user</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">users</span><span class="o">[</span><span class="n">username</span><span class="o">]</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="n">user</span><span class="p">.</span><span class="n">hasKey</span><span class="p">(</span><span class="s">&quot;additionalPermissions&quot;</span><span class="p">):</span>
+<span class="w">    </span><span class="n">user</span><span class="o">[</span><span class="s">&quot;additionalPermissions&quot;</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">%[]</span>
+
+<span class="w">  </span><span class="kd">var</span><span class="w"> </span><span class="n">perms</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">user</span><span class="o">[</span><span class="s">&quot;additionalPermissions&quot;</span><span class="o">]</span><span class="p">.</span><span class="n">to</span><span class="p">(</span><span class="nb">seq</span><span class="o">[</span><span class="nb">int</span><span class="o">]</span><span class="p">)</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="n">ord</span><span class="p">(</span><span class="n">permission</span><span class="p">)</span><span class="w"> </span><span class="ow">notin</span><span class="w"> </span><span class="n">perms</span><span class="p">:</span>
+<span class="w">    </span><span class="n">perms</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">ord</span><span class="p">(</span><span class="n">permission</span><span class="p">))</span>
+
+<span class="w">  </span><span class="n">user</span><span class="o">[</span><span class="s">&quot;additionalPermissions&quot;</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">%</span><span class="n">perms</span>
+<span class="w">  </span><span class="n">users</span><span class="o">[</span><span class="n">username</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">user</span>
+<span class="w">  </span><span class="n">State</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;users&quot;</span><span class="p">).</span><span class="n">updateValue</span><span class="p">(</span><span class="n">users</span><span class="p">)</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="kp">true</span>
+
+<span class="k">proc</span><span class="w"> </span><span class="nf">getUserPermissions</span><span class="o">*</span><span class="p">(</span><span class="n">username</span><span class="p">:</span><span class="w"> </span><span class="nb">string</span><span class="p">):</span><span class="w"> </span><span class="n">StatePermissions</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">State</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;users&quot;</span><span class="p">).</span><span class="n">value</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="n">users</span><span class="p">.</span><span class="n">hasKey</span><span class="p">(</span><span class="n">username</span><span class="p">):</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="p">{}</span>
+
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">user</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">users</span><span class="o">[</span><span class="n">username</span><span class="o">]</span>
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">role</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">user</span><span class="o">[</span><span class="s">&quot;role&quot;</span><span class="o">]</span><span class="p">.</span><span class="n">getStr</span>
+
+<span class="w">  </span><span class="c"># Start with role permissions</span>
+<span class="w">  </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">getRolePermissions</span><span class="p">(</span><span class="n">role</span><span class="p">)</span>
+
+<span class="w">  </span><span class="c"># Add user-specific permissions</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="n">user</span><span class="p">.</span><span class="n">hasKey</span><span class="p">(</span><span class="s">&quot;additionalPermissions&quot;</span><span class="p">):</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">perm</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">user</span><span class="o">[</span><span class="s">&quot;additionalPermissions&quot;</span><span class="o">]</span><span class="p">:</span>
+<span class="w">      </span><span class="n">result</span><span class="p">.</span><span class="n">incl</span><span class="p">(</span><span class="n">StatePermission</span><span class="p">(</span><span class="n">perm</span><span class="p">.</span><span class="n">getInt</span><span class="p">))</span>
+</code></pre></div>
+
+<h2 id="permission-matrix">Permission Matrix</h2>
+<h3 id="complete-permission-mapping">Complete Permission Mapping</h3>
+<table>
+<thead>
+<tr>
+<th>Observable</th>
+<th>Read Permissions</th>
+<th>Write Permissions</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>recordingState</code></td>
+<td>Media_r, Media_rw</td>
+<td>Media_rw</td>
+<td>Recording status</td>
+</tr>
+<tr>
+<td><code>streamEnabled</code></td>
+<td>Media_r, Media_rw</td>
+<td>Media_rw</td>
+<td>Streaming control</td>
+</tr>
+<tr>
+<td><code>cameraSettings</code></td>
+<td>Device_r, Device_rw</td>
+<td>Device_rw</td>
+<td>Camera configuration</td>
+</tr>
+<tr>
+<td><code>users</code></td>
+<td>User_r, User_rw</td>
+<td>User_rw</td>
+<td>User management</td>
+</tr>
+<tr>
+<td><code>networkSettings</code></td>
+<td>Network_r, Network_rw</td>
+<td>Network_rw</td>
+<td>Network config</td>
+</tr>
+<tr>
+<td><code>storageDevices</code></td>
+<td>Storage_r, Storage_rw</td>
+<td>-</td>
+<td>Storage info</td>
+</tr>
+<tr>
+<td><code>systemInfo</code></td>
+<td>System_r, System_rw</td>
+<td>-</td>
+<td>System information</td>
+</tr>
+<tr>
+<td><code>firmwareVersion</code></td>
+<td>FirmwareUpdate_r, FirmwareUpdate_rw</td>
+<td>-</td>
+<td>Firmware version</td>
+</tr>
+<tr>
+<td><code>restart</code></td>
+<td>Reboot_rw</td>
+<td>Reboot_rw</td>
+<td>System reboot</td>
+</tr>
+<tr>
+<td><code>reset</code></td>
+<td>FirmwareUpdate_rw</td>
+<td>FirmwareUpdate_rw</td>
+<td>Factory reset</td>
+</tr>
+</tbody>
+</table>
+<h3 id="role-permission-matrix">Role Permission Matrix</h3>
+<table>
+<thead>
+<tr>
+<th>Permission</th>
+<th>Admin</th>
+<th>Operator</th>
+<th>Viewer</th>
+<th>Guest</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Device_r</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>-</td>
+</tr>
+<tr>
+<td>Device_rw</td>
+<td>✓</td>
+<td>✓</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>Media_r</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>-</td>
+</tr>
+<tr>
+<td>Media_rw</td>
+<td>✓</td>
+<td>✓</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>User_r</td>
+<td>✓</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>User_rw</td>
+<td>✓</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>Network_r</td>
+<td>✓</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>Network_rw</td>
+<td>✓</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>Storage_r</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>-</td>
+</tr>
+<tr>
+<td>Storage_rw</td>
+<td>✓</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>System_r</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>-</td>
+</tr>
+<tr>
+<td>System_rw</td>
+<td>✓</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>FirmwareUpdate_r</td>
+<td>✓</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>FirmwareUpdate_rw</td>
+<td>✓</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>Reboot_rw</td>
+<td>✓</td>
+<td>✓</td>
+<td>-</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<h2 id="audit-and-compliance">Audit and Compliance</h2>
+<h3 id="permission-audit-logging">Permission Audit Logging</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">proc</span><span class="w"> </span><span class="nf">auditPermissionCheck</span><span class="o">*</span><span class="p">(</span>
+<span class="w">  </span><span class="n">username</span><span class="p">:</span><span class="w"> </span><span class="nb">string</span><span class="p">,</span>
+<span class="w">  </span><span class="n">observable</span><span class="p">:</span><span class="w"> </span><span class="nb">string</span><span class="p">,</span>
+<span class="w">  </span><span class="n">permission</span><span class="p">:</span><span class="w"> </span><span class="n">StatePermission</span><span class="p">,</span>
+<span class="w">  </span><span class="n">granted</span><span class="p">:</span><span class="w"> </span><span class="nb">bool</span>
+<span class="p">)</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="n">StateLogger</span><span class="p">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;PERMISSION_AUDIT&quot;</span><span class="p">,</span><span class="w"> </span><span class="o">%</span><span class="p">{</span>
+<span class="w">    </span><span class="s">&quot;timestamp&quot;</span><span class="p">:</span><span class="w"> </span><span class="o">%</span><span class="n">now</span><span class="p">().</span><span class="n">format</span><span class="p">(</span><span class="s">&quot;yyyy-MM-dd&#39;T&#39;HH:mm:ss&#39;Z&#39;&quot;</span><span class="p">),</span>
+<span class="w">    </span><span class="s">&quot;username&quot;</span><span class="p">:</span><span class="w"> </span><span class="o">%</span><span class="n">username</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;observable&quot;</span><span class="p">:</span><span class="w"> </span><span class="o">%</span><span class="n">observable</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;permission&quot;</span><span class="p">:</span><span class="w"> </span><span class="o">%</span><span class="p">(</span><span class="o">$</span><span class="n">permission</span><span class="p">),</span>
+<span class="w">    </span><span class="s">&quot;granted&quot;</span><span class="p">:</span><span class="w"> </span><span class="o">%</span><span class="n">granted</span>
+<span class="w">  </span><span class="p">})</span>
+
+<span class="c"># Automatic logging on permission checks</span>
+<span class="k">proc</span><span class="w"> </span><span class="nf">canWrite</span><span class="o">*</span><span class="p">(</span><span class="n">permissions</span><span class="p">:</span><span class="w"> </span><span class="n">StatePermissions</span><span class="p">,</span><span class="w"> </span><span class="n">state</span><span class="p">:</span><span class="w"> </span><span class="n">Observable</span><span class="p">):</span><span class="w"> </span><span class="nb">bool</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">((</span><span class="n">state</span><span class="p">.</span><span class="n">permissionWrite</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">permissions</span><span class="p">).</span><span class="n">len</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+
+<span class="w">  </span><span class="c"># Log permission check</span>
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">username</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">getCurrentUser</span><span class="p">()</span>
+<span class="w">  </span><span class="n">auditPermissionCheck</span><span class="p">(</span><span class="n">username</span><span class="p">,</span><span class="w"> </span><span class="n">state</span><span class="p">.</span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="n">Media_rw</span><span class="p">,</span><span class="w"> </span><span class="n">result</span><span class="p">)</span>
+</code></pre></div>
+
+<h3 id="permission-change-logging">Permission Change Logging</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">proc</span><span class="w"> </span><span class="nf">logPermissionChange</span><span class="o">*</span><span class="p">(</span>
+<span class="w">  </span><span class="n">admin</span><span class="p">:</span><span class="w"> </span><span class="nb">string</span><span class="p">,</span>
+<span class="w">  </span><span class="n">targetUser</span><span class="p">:</span><span class="w"> </span><span class="nb">string</span><span class="p">,</span>
+<span class="w">  </span><span class="n">permission</span><span class="p">:</span><span class="w"> </span><span class="n">StatePermission</span><span class="p">,</span>
+<span class="w">  </span><span class="n">action</span><span class="p">:</span><span class="w"> </span><span class="nb">string</span><span class="w">  </span><span class="c"># &quot;granted&quot; or &quot;revoked&quot;</span>
+<span class="p">)</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="n">StateLogger</span><span class="p">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;PERMISSION_CHANGE&quot;</span><span class="p">,</span><span class="w"> </span><span class="o">%</span><span class="p">{</span>
+<span class="w">    </span><span class="s">&quot;timestamp&quot;</span><span class="p">:</span><span class="w"> </span><span class="o">%</span><span class="n">now</span><span class="p">().</span><span class="n">format</span><span class="p">(</span><span class="s">&quot;yyyy-MM-dd&#39;T&#39;HH:mm:ss&#39;Z&#39;&quot;</span><span class="p">),</span>
+<span class="w">    </span><span class="s">&quot;admin&quot;</span><span class="p">:</span><span class="w"> </span><span class="o">%</span><span class="n">admin</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;targetUser&quot;</span><span class="p">:</span><span class="w"> </span><span class="o">%</span><span class="n">targetUser</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;permission&quot;</span><span class="p">:</span><span class="w"> </span><span class="o">%</span><span class="p">(</span><span class="o">$</span><span class="n">permission</span><span class="p">),</span>
+<span class="w">    </span><span class="s">&quot;action&quot;</span><span class="p">:</span><span class="w"> </span><span class="o">%</span><span class="n">action</span>
+<span class="w">  </span><span class="p">})</span>
+</code></pre></div>
+
+<h2 id="best-practices">Best Practices</h2>
+<h3 id="principle-of-least-privilege">Principle of Least Privilege</h3>
+<p>Always assign minimum necessary permissions:</p>
+<div class="codehilite"><pre><span></span><code><span class="c"># Bad: Giving operator admin permissions for convenience</span>
+<span class="n">createUser</span><span class="p">(</span><span class="s">&quot;operator1&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;password&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;administrator&quot;</span><span class="p">)</span>
+
+<span class="c"># Good: Use appropriate role</span>
+<span class="n">createUser</span><span class="p">(</span><span class="s">&quot;operator1&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;password&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;operator&quot;</span><span class="p">)</span>
+
+<span class="c"># Better: Custom role with exact permissions needed</span>
+<span class="n">createCustomRole</span><span class="p">(</span><span class="s">&quot;recording_operator&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">Device_r</span><span class="p">,</span><span class="w"> </span><span class="n">Device_rw</span><span class="p">,</span>
+<span class="w">  </span><span class="n">Media_rw</span>
+<span class="p">})</span>
+<span class="n">createUser</span><span class="p">(</span><span class="s">&quot;operator1&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;password&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;recording_operator&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<h3 id="regular-permission-audits">Regular Permission Audits</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">proc</span><span class="w"> </span><span class="nf">auditUserPermissions</span><span class="o">*</span><span class="p">():</span><span class="w"> </span><span class="n">JsonNode</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">newJObject</span><span class="p">()</span>
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">State</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;users&quot;</span><span class="p">).</span><span class="n">value</span>
+
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="n">username</span><span class="p">,</span><span class="w"> </span><span class="n">userData</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">users</span><span class="p">.</span><span class="n">pairs</span><span class="p">:</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">role</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">userData</span><span class="o">[</span><span class="s">&quot;role&quot;</span><span class="o">]</span><span class="p">.</span><span class="n">getStr</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">permissions</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">getUserPermissions</span><span class="p">(</span><span class="n">username</span><span class="p">)</span>
+
+<span class="w">    </span><span class="n">result</span><span class="o">[</span><span class="n">username</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">%</span><span class="p">{</span>
+<span class="w">      </span><span class="s">&quot;role&quot;</span><span class="p">:</span><span class="w"> </span><span class="o">%</span><span class="n">role</span><span class="p">,</span>
+<span class="w">      </span><span class="s">&quot;permissions&quot;</span><span class="p">:</span><span class="w"> </span><span class="o">%</span><span class="n">permissions</span><span class="p">.</span><span class="n">toSeq</span><span class="p">().</span><span class="n">mapIt</span><span class="p">(</span><span class="o">$</span><span class="n">it</span><span class="p">),</span>
+<span class="w">      </span><span class="s">&quot;lastLogin&quot;</span><span class="p">:</span><span class="w"> </span><span class="n">userData</span><span class="p">{</span><span class="s">&quot;lastLogin&quot;</span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+</code></pre></div>
+
+<h3 id="secure-defaults">Secure Defaults</h3>
+<div class="codehilite"><pre><span></span><code><span class="c"># New users default to viewer role</span>
+<span class="k">proc</span><span class="w"> </span><span class="nf">createUser</span><span class="o">*</span><span class="p">(</span><span class="n">username</span><span class="p">,</span><span class="w"> </span><span class="n">password</span><span class="p">:</span><span class="w"> </span><span class="nb">string</span><span class="p">,</span><span class="w"> </span><span class="n">role</span><span class="p">:</span><span class="w"> </span><span class="nb">string</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;viewer&quot;</span><span class="p">):</span><span class="w"> </span><span class="nb">bool</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="c"># ...implementation...</span>
+
+<span class="c"># Observables default to requiring permissions</span>
+<span class="k">proc</span><span class="w"> </span><span class="nf">initObservable</span><span class="o">*</span><span class="p">(</span>
+<span class="w">  </span><span class="n">key</span><span class="p">:</span><span class="w"> </span><span class="nb">string</span><span class="p">,</span>
+<span class="w">  </span><span class="n">permissionRead</span><span class="p">:</span><span class="w"> </span><span class="n">StatePermissions</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{},</span><span class="w">   </span><span class="c"># No access by default</span>
+<span class="w">  </span><span class="n">permissionWrite</span><span class="p">:</span><span class="w"> </span><span class="n">StatePermissions</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{},</span><span class="w">  </span><span class="c"># No access by default</span>
+<span class="w">  </span><span class="c"># ...other params...</span>
+<span class="p">):</span><span class="w"> </span><span class="n">Observable</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="c"># ...implementation...</span>
+</code></pre></div>
+
+<h2 id="troubleshooting">Troubleshooting</h2>
+<h3 id="permission-denied-errors">Permission Denied Errors</h3>
+<p><strong>Symptoms</strong>: 403 Forbidden or "Permission denied" messages.</p>
+<p><strong>Diagnosis</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c"># Check user permissions</span>
+<span class="k">let</span><span class="w"> </span><span class="n">perms</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">getUserPermissions</span><span class="p">(</span><span class="s">&quot;username&quot;</span><span class="p">)</span>
+<span class="n">echo</span><span class="w"> </span><span class="s">&quot;User permissions: &quot;</span><span class="p">,</span><span class="w"> </span><span class="n">perms</span>
+
+<span class="c"># Check observable requirements</span>
+<span class="k">let</span><span class="w"> </span><span class="n">obs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">State</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;recordingState&quot;</span><span class="p">)</span>
+<span class="n">echo</span><span class="w"> </span><span class="s">&quot;Read permissions required: &quot;</span><span class="p">,</span><span class="w"> </span><span class="n">obs</span><span class="p">.</span><span class="n">permissionRead</span>
+<span class="n">echo</span><span class="w"> </span><span class="s">&quot;Write permissions required: &quot;</span><span class="p">,</span><span class="w"> </span><span class="n">obs</span><span class="p">.</span><span class="n">permissionWrite</span>
+
+<span class="c"># Test permission</span>
+<span class="n">echo</span><span class="w"> </span><span class="s">&quot;Can read: &quot;</span><span class="p">,</span><span class="w"> </span><span class="n">perms</span><span class="p">.</span><span class="n">canRead</span><span class="p">(</span><span class="n">obs</span><span class="p">)</span>
+<span class="n">echo</span><span class="w"> </span><span class="s">&quot;Can write: &quot;</span><span class="p">,</span><span class="w"> </span><span class="n">perms</span><span class="p">.</span><span class="n">canWrite</span><span class="p">(</span><span class="n">obs</span><span class="p">)</span>
+</code></pre></div>
+
+<p><strong>Solutions</strong>:<br />
+- Verify user role is correct<br />
+- Grant additional permissions if needed<br />
+- Check observable permission requirements<br />
+- Review audit logs for permission checks</p>
+<h3 id="missing-permissions-after-role-change">Missing Permissions After Role Change</h3>
+<p><strong>Symptoms</strong>: User can't access features after role change.</p>
+<p><strong>Solutions</strong>:<br />
+- Invalidate and refresh user sessions<br />
+- Verify role permissions are correct<br />
+- Check for cached permission data<br />
+- Force re-authentication</p>
+<h2 id="related-documentation">Related Documentation</h2>
+<ul>
+<li><a href="authentication.md">Authentication</a></li>
+<li><a href="../operations/user-management.md">User Management</a></li>
+<li><a href="../architecture/state-management.md">State Management</a></li>
+<li><a href="security-best-practices.md">Security Best Practices</a></li>
+</ul>
+            </div>
+            <footer class="content-footer">
+                <p>Copyright © 2025 Rotoclear</p>
+            </footer>
+        </main>
+        
+        <button class="mobile-menu-toggle" id="menuToggle" aria-label="Toggle menu">☰</button>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>
+        // Initialize Mermaid
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            securityLevel: 'loose',
+            fontFamily: 'Inter, sans-serif'
+        });
+        
+        // Syntax highlighting
+        hljs.highlightAll();
+        
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.querySelector('.sidebar');
+        
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+        });
+        
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth <= 768 && 
+                !sidebar.contains(e.target) && 
+                !menuToggle.contains(e.target) &&
+                sidebar.classList.contains('active')) {
+                sidebar.classList.remove('active');
+            }
+        });
+        
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

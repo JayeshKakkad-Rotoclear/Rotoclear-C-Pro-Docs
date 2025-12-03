@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deployment Variants - RotoClear Camera Server Documentation</title>
+    <link rel="stylesheet" href="/assets/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1><a href="/index.html">RotoClear Docs</a></h1>
+                <p>Camera Server Documentation</p>
+            </div>
+            <nav class="sidebar-nav">
+                <ul class="nav-menu">
+                    <li class="nav-item depth-0">
+<a href="/index.html">Home</a>
+</li>
+<li class="nav-item depth-0">
+<a href="/getting-started.html">Getting Started</a>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Architecture</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/architecture/overview.html">Overview</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/architecture/state-management.html">State Management</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/architecture/camera-pipeline.html">Camera Pipeline</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/architecture/metadata-sqlite.html">Metadata & SQLite</a>
+</li>
+<li class="nav-folder depth-1">
+<span class="folder-title">Decisions</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-2">
+<a href="/architecture/decisions/ADR-0001-nim-language.html">ADR-0001 Nim Language</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/architecture/decisions/ADR-0002-corun-framework.html">ADR-0002 Corun Framework</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/architecture/decisions/ADR-0003-observable-state.html">ADR-0003 Observable State</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">API Reference</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/api/README.html">Overview</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/api/websocket-api.html">WebSocket API</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/api/http-api.html">HTTP API</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/api/rtsp-streaming.html">RTSP Streaming</a>
+</li>
+<li class="nav-folder depth-1">
+<span class="folder-title">Examples</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-2">
+<a href="/api/examples/python-client.html">Python Client</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/api/examples/javascript-client.html">JavaScript Client</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/api/examples/csharp-client.html">C# Client</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Configuration</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/configuration/environments.html">Environments</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/factory-config.html">Factory Config</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/license-config.html">License Config</a>
+</li>
+<li class="nav-item depth-1 active">
+<a href="/configuration/deployment-variants.html">Deployment Variants</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/camera-system.html">Camera System</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/network.html">Network</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/storage-backup.html">Storage & Backup</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/authentication.html">Authentication</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Camera System</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/camera/hardware-interface.html">Hardware Interface</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/camera/streaming.html">Streaming</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/camera/recording.html">Recording</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/camera/image-processing.html">Image Processing</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Operations</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/operations/build-and-deploy.html">Build and Deploy</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/build-deploy.html">Build & Deploy (Alt)</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/monitoring.html">Monitoring</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/performance.html">Performance</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/troubleshooting.html">Troubleshooting</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Security</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/security/authentication.html">Authentication</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/security/permissions.html">Permissions</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/security/ssl-certificates.html">SSL Certificates</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Testing</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/testing/testing-strategy.html">Strategy</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/testing/strategies.html">Strategies</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/testing/test-cases.html">Test Cases</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/testing/validation.html">Validation</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Integration</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/integration/onvif-protocol.html">ONVIF Protocol</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/integration/third-party.html">Third Party</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Reference</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/reference/glossary.html">Glossary</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/reference/requirements.html">Requirements</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/reference/state-observables.html">State Observables</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Releases</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/releases/CHANGELOG.html">Changelog</a>
+</li>
+</ul>
+</li>
+<li class="nav-item depth-0">
+<a href="/glossary.html">Glossary</a>
+</li>
+                </ul>
+            </nav>
+        </aside>
+        
+        <main class="content">
+            <div class="content-wrapper">
+                <h1 id="deployment-variants">Deployment Variants</h1>
+<h2 id="overview">Overview</h2>
+<p>RotoClear camera systems support multiple deployment variants to accommodate different use cases, environments, and customer requirements. Each variant is a distinct build configuration with specific features, branding, and operational parameters.</p>
+<h2 id="variant-architecture">Variant Architecture</h2>
+<h3 id="build-time-configuration">Build-Time Configuration</h3>
+<p>Variants are selected at compile time using the <code>CONFIG_VARIANT</code> environment variable:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Select variant during compilation</span>
+<span class="nv">CONFIG_VARIANT</span><span class="o">=</span>rc_DMG<span class="w"> </span>nim<span class="w"> </span>c<span class="w"> </span>-d:release<span class="w"> </span>rotordream.nim
+
+<span class="c1"># Variant-specific resources are embedded</span>
+<span class="c1"># - Configuration files</span>
+<span class="c1"># - UI assets</span>
+<span class="c1"># - Custom stylesheets</span>
+<span class="c1"># - Branding elements</span>
+</code></pre></div>
+
+<h3 id="variant-components">Variant Components</h3>
+<p>Each variant consists of:</p>
+<ol>
+<li><strong>Factory Configuration</strong> - System behavior and feature flags</li>
+<li><strong>License Template</strong> - Default licensing terms</li>
+<li><strong>UI Customization</strong> - Branding and appearance</li>
+<li><strong>Asset Bundle</strong> - Images, icons, stylesheets</li>
+<li><strong>Version Flavor</strong> - Variant identifier string</li>
+</ol>
+<h2 id="available-variants">Available Variants</h2>
+<h3 id="default">DEFAULT</h3>
+<p><strong>Purpose</strong>: Base configuration for standard deployments</p>
+<p><strong>Characteristics</strong>:<br />
+- Minimal feature set<br />
+- Generic branding<br />
+- No customer-specific customizations<br />
+- Used as template for new variants</p>
+<p><strong>Use Cases</strong>:<br />
+- Development baseline<br />
+- Generic OEM deployments<br />
+- Proof-of-concept systems</p>
+<p><strong>Configuration</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;systemName&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;RotoClear Camera&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;modelNumber&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;RC-STD&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;features&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;recording&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;streaming&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;onvif&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="demo">DEMO</h3>
+<p><strong>Purpose</strong>: Demonstration and evaluation systems</p>
+<p><strong>Characteristics</strong>:<br />
+- 30-day time limit<br />
+- Watermark on video output<br />
+- All features enabled<br />
+- Telemetry for evaluation tracking</p>
+<p><strong>Use Cases</strong>:<br />
+- Trade show demonstrations<br />
+- Customer evaluations<br />
+- Sales presentations<br />
+- Training systems</p>
+<p><strong>Restrictions</strong>:<br />
+- Time-bombed operation<br />
+- Limited recording storage<br />
+- Visible watermark<br />
+- Telemetry enabled</p>
+<p><strong>Configuration</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;systemName&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;RotoClear DEMO&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;licenseType&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;demo&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;validity&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;durationDays&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">30</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;watermark&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;telemetry&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;enabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;uploadUrl&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://telemetry.rotoclear.com/demo&quot;</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="dev">DEV</h3>
+<p><strong>Purpose</strong>: Development and testing environment</p>
+<p><strong>Characteristics</strong>:<br />
+- Extended logging enabled<br />
+- Debug endpoints exposed<br />
+- Simulator mode available<br />
+- Relaxed security constraints</p>
+<p><strong>Use Cases</strong>:<br />
+- Software development<br />
+- Feature testing<br />
+- Integration testing<br />
+- Debugging sessions</p>
+<p><strong>Special Features</strong>:<br />
+- Camera simulator (no hardware required)<br />
+- Mock data generators<br />
+- Detailed trace logging<br />
+- Performance profiling tools</p>
+<p><strong>Configuration</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;systemName&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;RotoClear DEV&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;debug&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;enableSimulator&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;verboseLogging&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;exposeDebugApi&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;disableSecurity&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;features&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;allEnabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="edu">EDU</h3>
+<p><strong>Purpose</strong>: Educational institution deployments</p>
+<p><strong>Characteristics</strong>:<br />
+- Educational branding<br />
+- Multi-user collaboration<br />
+- Extended retention policies<br />
+- Curriculum-focused features</p>
+<p><strong>Use Cases</strong>:<br />
+- Medical schools<br />
+- Surgical training centers<br />
+- Research institutions<br />
+- Teaching hospitals</p>
+<p><strong>Special Features</strong>:<br />
+- Session recording with annotations<br />
+- Student collaboration tools<br />
+- Case library management<br />
+- Educational content tagging</p>
+<p><strong>Configuration</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;systemName&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;RotoClear Educational&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;modelNumber&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;RC-EDU&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;licenseType&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;educational&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;features&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;annotations&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;multiUser&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;caseLibrary&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;extendedRetention&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;users&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;maxConcurrent&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;roles&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;instructor&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;student&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;admin&quot;</span><span class="p">]</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="rc_dmg">rc_DMG</h3>
+<p><strong>Purpose</strong>: RotoClear DMG product line</p>
+<p><strong>Characteristics</strong>:<br />
+- Dual camera head support<br />
+- Integrated rotation motor control<br />
+- FPGA-based image processing<br />
+- Medical-grade recording</p>
+<p><strong>Use Cases</strong>:<br />
+- Surgical microscopy<br />
+- Medical documentation<br />
+- Research applications<br />
+- Clinical procedures</p>
+<p><strong>Hardware Requirements</strong>:<br />
+- Dual camera inputs (V4L2)<br />
+- Rotation motor controller<br />
+- FPGA co-processor<br />
+- High-performance storage</p>
+<p><strong>Special Features</strong>:<br />
+- Automatic rotation detection<br />
+- Picture-in-picture mode<br />
+- Advanced image enhancement<br />
+- DICOM integration ready</p>
+<p><strong>Configuration</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;systemName&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;RotoClear DMG&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;modelNumber&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;RC-DMG-4K&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;hardware&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;cameraHeads&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;maxResolution&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;3840x2160&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;hasRotationMotor&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;hasFpgaTemp&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;hasLightControl&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;features&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;pip&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;autoRotate&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;imageEnhancement&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="vb">VB</h3>
+<p><strong>Purpose</strong>: VB customer-specific variant</p>
+<p><strong>Characteristics</strong>:<br />
+- Custom branding<br />
+- Specialized workflow<br />
+- Integration requirements<br />
+- Unique feature set</p>
+<p><strong>Use Cases</strong>:<br />
+- Customer-specific deployments<br />
+- Custom OEM integration<br />
+- Specialized applications</p>
+<p><strong>Customizations</strong>:<br />
+- Custom UI theme and colors<br />
+- Specialized recording modes<br />
+- External system integration<br />
+- Custom data formats</p>
+<h2 id="creating-new-variants">Creating New Variants</h2>
+<h3 id="step-1-directory-setup">Step 1: Directory Setup</h3>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Create new variant directory</span>
+mkdir<span class="w"> </span>-p<span class="w"> </span>rsc_config/config_NEWVARIANT
+
+<span class="c1"># Copy base configuration</span>
+cp<span class="w"> </span>rsc_config/config_DEFAULT/*<span class="w"> </span>rsc_config/config_NEWVARIANT/
+</code></pre></div>
+
+<h3 id="step-2-configuration-files">Step 2: Configuration Files</h3>
+<p>Create/modify key configuration files:</p>
+<p><strong>factory_config.json</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;systemName&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;RotoClear New Variant&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;modelNumber&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;RC-NV-001&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;features&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;recording&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;streaming&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>version_flavor</strong>:</p>
+<div class="codehilite"><pre><span></span><code>NewVariant-v1.0
+</code></pre></div>
+
+<p><strong>license_config.json</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;licenseType&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;commercial&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;customer&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;New Customer&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;NC-001&quot;</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="step-3-custom-assets">Step 3: Custom Assets</h3>
+<p>Add custom branding assets:</p>
+<div class="codehilite"><pre><span></span><code>config_NEWVARIANT/
+├── imgs/
+│   ├── logo.svg
+│   ├── favicon.ico
+│   └── splash.png
+├── hdmi_imgs/
+│   └── hdmi_logo.png
+└── stylesheets/
+    └── custom.css
+</code></pre></div>
+
+<h3 id="step-4-build-and-test">Step 4: Build and Test</h3>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Build with new variant</span>
+<span class="nv">CONFIG_VARIANT</span><span class="o">=</span>NEWVARIANT<span class="w"> </span>nim<span class="w"> </span>c<span class="w"> </span>rotordream.nim
+
+<span class="c1"># Test deployment</span>
+./rotordream
+
+<span class="c1"># Verify configuration loaded</span>
+curl<span class="w"> </span>http://localhost:8080/api/system/info
+</code></pre></div>
+
+<h3 id="step-5-cicd-integration">Step 5: CI/CD Integration</h3>
+<p>Add to build pipeline:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># .github/workflows/build.yml</span>
+<span class="nt">jobs</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">build-variants</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">strategy</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">matrix</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">variant</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">DEFAULT</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">DEMO</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">DEV</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">EDU</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">rc_DMG</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">VB</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">NEWVARIANT</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="nt">steps</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Build variant</span>
+<span class="w">        </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">          </span><span class="no">export CONFIG_VARIANT=${{ matrix.variant }}</span>
+<span class="w">          </span><span class="no">nim c -d:release rotordream.nim</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Package</span>
+<span class="w">        </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">          </span><span class="no">tar czf rotordream-${{ matrix.variant }}.tar.gz rotordream</span>
+</code></pre></div>
+
+<h2 id="variant-selection-at-runtime">Variant Selection at Runtime</h2>
+<h3 id="auto-detection">Auto-Detection</h3>
+<p>System can detect appropriate variant based on:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">proc</span><span class="w"> </span><span class="nf">detectVariant</span><span class="o">*</span><span class="p">():</span><span class="w"> </span><span class="nb">string</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="c"># Check hardware identifiers</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="n">hasDualCameraHeads</span><span class="p">()</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="n">hasRotationMotor</span><span class="p">():</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="s">&quot;rc_DMG&quot;</span>
+
+<span class="w">  </span><span class="c"># Check license file</span>
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">license</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tryLoadLicense</span><span class="p">()</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="n">license</span><span class="p">.</span><span class="n">licenseType</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;educational&quot;</span><span class="p">:</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="s">&quot;EDU&quot;</span>
+
+<span class="w">  </span><span class="c"># Default variant</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="s">&quot;DEFAULT&quot;</span>
+</code></pre></div>
+
+<h3 id="manual-override">Manual Override</h3>
+<p>Override variant selection via environment variable:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Force specific variant at runtime</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">ROTOCLEAR_VARIANT</span><span class="o">=</span>DEV
+./rotordream
+</code></pre></div>
+
+<h2 id="variant-comparison-matrix">Variant Comparison Matrix</h2>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>DEFAULT</th>
+<th>DEMO</th>
+<th>DEV</th>
+<th>EDU</th>
+<th>rc_DMG</th>
+<th>VB</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Recording</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+</tr>
+<tr>
+<td>Streaming</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+</tr>
+<tr>
+<td>ONVIF</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>Custom</td>
+</tr>
+<tr>
+<td>WebRTC</td>
+<td>✗</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>✗</td>
+<td>✗</td>
+</tr>
+<tr>
+<td>Dual Cameras</td>
+<td>✗</td>
+<td>✗</td>
+<td>✗</td>
+<td>✗</td>
+<td>✓</td>
+<td>✗</td>
+</tr>
+<tr>
+<td>Rotation Motor</td>
+<td>✗</td>
+<td>✗</td>
+<td>✗</td>
+<td>✗</td>
+<td>✓</td>
+<td>✗</td>
+</tr>
+<tr>
+<td>Annotations</td>
+<td>✗</td>
+<td>✗</td>
+<td>✗</td>
+<td>✓</td>
+<td>✗</td>
+<td>✗</td>
+</tr>
+<tr>
+<td>Simulator</td>
+<td>✗</td>
+<td>✗</td>
+<td>✓</td>
+<td>✗</td>
+<td>✗</td>
+<td>✗</td>
+</tr>
+<tr>
+<td>Watermark</td>
+<td>✗</td>
+<td>✓</td>
+<td>✗</td>
+<td>✗</td>
+<td>✗</td>
+<td>✗</td>
+</tr>
+<tr>
+<td>Max Users</td>
+<td>5</td>
+<td>3</td>
+<td>∞</td>
+<td>50</td>
+<td>10</td>
+<td>Custom</td>
+</tr>
+<tr>
+<td>Support Level</td>
+<td>Community</td>
+<td>Trial</td>
+<td>Developer</td>
+<td>Educational</td>
+<td>Premium</td>
+<td>Custom</td>
+</tr>
+</tbody>
+</table>
+<h2 id="variant-migration">Variant Migration</h2>
+<h3 id="upgrading-variants">Upgrading Variants</h3>
+<p>To migrate from one variant to another:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Backup current configuration</span>
+cp<span class="w"> </span>/config/*.json<span class="w"> </span>/backup/
+
+<span class="c1"># Deploy new variant binary</span>
+scp<span class="w"> </span>rotordream-NEWVARIANT<span class="w"> </span>root@device:/usr/local/bin/rotordream
+
+<span class="c1"># Update license (if required)</span>
+scp<span class="w"> </span>license-NEWVARIANT.json<span class="w"> </span>root@device:/config/decrypted_rsc/license_config.json
+
+<span class="c1"># Restart system</span>
+ssh<span class="w"> </span>root@device<span class="w"> </span>systemctl<span class="w"> </span>restart<span class="w"> </span>rotordream
+</code></pre></div>
+
+<h3 id="preserving-settings">Preserving Settings</h3>
+<p>User settings are preserved across variant changes:</p>
+<ul>
+<li>Network configuration</li>
+<li>User accounts</li>
+<li>Recording library</li>
+<li>Tag categories (as of issue #150 fix)</li>
+<li>Custom settings</li>
+</ul>
+<p>Factory-specific settings are reset to new variant defaults.</p>
+<h2 id="testing-variants">Testing Variants</h2>
+<h3 id="variant-specific-tests">Variant-Specific Tests</h3>
+<div class="codehilite"><pre><span></span><code><span class="c"># tests/test_variant.nim</span>
+<span class="kn">import</span><span class="w"> </span><span class="n">unittest</span>
+<span class="kn">import</span><span class="w"> </span><span class="p">..</span><span class="o">/</span><span class="n">src</span><span class="o">/</span><span class="n">state</span><span class="o">/</span><span class="n">factory_config</span>
+
+<span class="n">suite</span><span class="w"> </span><span class="s">&quot;Variant Configuration&quot;</span><span class="p">:</span>
+<span class="w">  </span><span class="n">test</span><span class="w"> </span><span class="s">&quot;DEFAULT variant loads&quot;</span><span class="p">:</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">config</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">loadFactoryConfig</span><span class="p">(</span><span class="s">&quot;DEFAULT&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="n">check</span><span class="w"> </span><span class="n">config</span><span class="p">.</span><span class="n">systemName</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;RotoClear Camera&quot;</span>
+
+<span class="w">  </span><span class="n">test</span><span class="w"> </span><span class="s">&quot;DEMO variant has watermark&quot;</span><span class="p">:</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">config</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">loadFactoryConfig</span><span class="p">(</span><span class="s">&quot;DEMO&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="n">check</span><span class="w"> </span><span class="n">config</span><span class="p">.</span><span class="n">restrictions</span><span class="p">.</span><span class="n">watermark</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kp">true</span>
+
+<span class="w">  </span><span class="n">test</span><span class="w"> </span><span class="s">&quot;rc_DMG variant has dual cameras&quot;</span><span class="p">:</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">config</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">loadFactoryConfig</span><span class="p">(</span><span class="s">&quot;rc_DMG&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="n">check</span><span class="w"> </span><span class="n">config</span><span class="p">.</span><span class="n">hardware</span><span class="p">.</span><span class="n">cameraHeads</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">2</span>
+</code></pre></div>
+
+<h3 id="integration-testing">Integration Testing</h3>
+<p>Test variant-specific workflows:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Test recording with variant</span>
+pytest<span class="w"> </span>tests/test_recording.py<span class="w"> </span>--variant<span class="o">=</span>rc_DMG
+
+<span class="c1"># Test API endpoints</span>
+pytest<span class="w"> </span>tests/test_api.py<span class="w"> </span>--variant<span class="o">=</span>EDU
+
+<span class="c1"># Test hardware integration</span>
+pytest<span class="w"> </span>tests/test_hardware.py<span class="w"> </span>--variant<span class="o">=</span>rc_DMG
+</code></pre></div>
+
+<h2 id="troubleshooting">Troubleshooting</h2>
+<h3 id="wrong-variant-loaded">Wrong Variant Loaded</h3>
+<p><strong>Symptom</strong>: System shows incorrect variant name or features.</p>
+<p><strong>Solution</strong>:<br />
+- Check <code>CONFIG_VARIANT</code> environment variable during build<br />
+- Verify correct binary is deployed<br />
+- Check <code>/api/system/info</code> endpoint for loaded variant<br />
+- Review build logs for variant selection</p>
+<h3 id="missing-features">Missing Features</h3>
+<p><strong>Symptom</strong>: Expected features not available in variant.</p>
+<p><strong>Solution</strong>:<br />
+- Review variant feature matrix<br />
+- Check factory configuration file<br />
+- Verify license permits feature<br />
+- Consult variant documentation</p>
+<h3 id="custom-assets-not-applied">Custom Assets Not Applied</h3>
+<p><strong>Symptom</strong>: Custom logos or styles not displayed.</p>
+<p><strong>Solution</strong>:<br />
+- Verify assets exist in variant directory<br />
+- Check file paths in configuration<br />
+- Ensure assets embedded during build<br />
+- Review browser console for load errors</p>
+<h2 id="related-documentation">Related Documentation</h2>
+<ul>
+<li><a href="factory-config.md">Factory Configuration</a></li>
+<li><a href="license-config.md">License Configuration</a></li>
+<li><a href="../operations/build-and-deploy.md">Build and Deploy</a></li>
+<li><a href="environments.md">Environments</a></li>
+</ul>
+            </div>
+            <footer class="content-footer">
+                <p>Copyright © 2025 Rotoclear</p>
+            </footer>
+        </main>
+        
+        <button class="mobile-menu-toggle" id="menuToggle" aria-label="Toggle menu">☰</button>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>
+        // Initialize Mermaid
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            securityLevel: 'loose',
+            fontFamily: 'Inter, sans-serif'
+        });
+        
+        // Syntax highlighting
+        hljs.highlightAll();
+        
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.querySelector('.sidebar');
+        
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+        });
+        
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth <= 768 && 
+                !sidebar.contains(e.target) && 
+                !menuToggle.contains(e.target) &&
+                sidebar.classList.contains('active')) {
+                sidebar.classList.remove('active');
+            }
+        });
+        
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authentication - RotoClear Camera Server Documentation</title>
+    <link rel="stylesheet" href="/assets/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1><a href="/index.html">RotoClear Docs</a></h1>
+                <p>Camera Server Documentation</p>
+            </div>
+            <nav class="sidebar-nav">
+                <ul class="nav-menu">
+                    <li class="nav-item depth-0">
+<a href="/index.html">Home</a>
+</li>
+<li class="nav-item depth-0">
+<a href="/getting-started.html">Getting Started</a>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Architecture</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/architecture/overview.html">Overview</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/architecture/state-management.html">State Management</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/architecture/camera-pipeline.html">Camera Pipeline</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/architecture/metadata-sqlite.html">Metadata & SQLite</a>
+</li>
+<li class="nav-folder depth-1">
+<span class="folder-title">Decisions</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-2">
+<a href="/architecture/decisions/ADR-0001-nim-language.html">ADR-0001 Nim Language</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/architecture/decisions/ADR-0002-corun-framework.html">ADR-0002 Corun Framework</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/architecture/decisions/ADR-0003-observable-state.html">ADR-0003 Observable State</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">API Reference</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/api/README.html">Overview</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/api/websocket-api.html">WebSocket API</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/api/http-api.html">HTTP API</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/api/rtsp-streaming.html">RTSP Streaming</a>
+</li>
+<li class="nav-folder depth-1">
+<span class="folder-title">Examples</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-2">
+<a href="/api/examples/python-client.html">Python Client</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/api/examples/javascript-client.html">JavaScript Client</a>
+</li>
+<li class="nav-item depth-2">
+<a href="/api/examples/csharp-client.html">C# Client</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Configuration</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/configuration/environments.html">Environments</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/factory-config.html">Factory Config</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/license-config.html">License Config</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/deployment-variants.html">Deployment Variants</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/camera-system.html">Camera System</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/network.html">Network</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/configuration/storage-backup.html">Storage & Backup</a>
+</li>
+<li class="nav-item depth-1 active">
+<a href="/configuration/authentication.html">Authentication</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Camera System</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/camera/hardware-interface.html">Hardware Interface</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/camera/streaming.html">Streaming</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/camera/recording.html">Recording</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/camera/image-processing.html">Image Processing</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Operations</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/operations/build-and-deploy.html">Build and Deploy</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/build-deploy.html">Build & Deploy (Alt)</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/monitoring.html">Monitoring</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/performance.html">Performance</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/operations/troubleshooting.html">Troubleshooting</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Security</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/security/authentication.html">Authentication</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/security/permissions.html">Permissions</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/security/ssl-certificates.html">SSL Certificates</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Testing</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/testing/testing-strategy.html">Strategy</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/testing/strategies.html">Strategies</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/testing/test-cases.html">Test Cases</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/testing/validation.html">Validation</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Integration</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/integration/onvif-protocol.html">ONVIF Protocol</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/integration/third-party.html">Third Party</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Reference</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/reference/glossary.html">Glossary</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/reference/requirements.html">Requirements</a>
+</li>
+<li class="nav-item depth-1">
+<a href="/reference/state-observables.html">State Observables</a>
+</li>
+</ul>
+</li>
+<li class="nav-folder depth-0">
+<span class="folder-title">Releases</span>
+<ul class="nav-submenu">
+<li class="nav-item depth-1">
+<a href="/releases/CHANGELOG.html">Changelog</a>
+</li>
+</ul>
+</li>
+<li class="nav-item depth-0">
+<a href="/glossary.html">Glossary</a>
+</li>
+                </ul>
+            </nav>
+        </aside>
+        
+        <main class="content">
+            <div class="content-wrapper">
+                <h1 id="authentication-and-security-configuration">Authentication and Security Configuration</h1>
+<p><strong>Comprehensive security configuration including authentication, authorization, encryption, and network security.</strong></p>
+<h2 id="overview">Overview</h2>
+<p>C Pro implements multi-layered security with role-based access control, secure communication protocols, and comprehensive audit logging.</p>
+<div class="mermaid">
+graph TB
+    A[Client Request] --> B{Authentication Layer}
+
+    B -->|API Key| C[API Key Validation]
+    B -->|JWT Token| D[JWT Validation]
+    B -->|Certificate| E[Client Certificate]
+
+    C --> F{Authorization Layer}
+    D --> F
+    E --> F
+
+    F -->|Role Check| G[Role-Based Access Control]
+    F -->|Permission Check| H[Resource Permissions]
+
+    G --> I{Access Decision}
+    H --> I
+
+    I -->|Allow| J[Request Processing]
+    I -->|Deny| K[Access Denied]
+
+    J --> L[Audit Logging]
+    K --> L
+
+    L --> M[Security Events]
+    M --> N[SIEM Integration]
+
+    style B fill:#ff9999
+    style F fill:#99ff99
+    style L fill:#9999ff
+</div>
+
+<h2 id="authentication-methods">Authentication Methods</h2>
+<h3 id="api-key-authentication">API Key Authentication</h3>
+<p><strong>API Key Management</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Generate new API key</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/auth/apikey&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer admin_token&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;name&quot;: &quot;monitoring_client&quot;,</span>
+<span class="s1">       &quot;description&quot;: &quot;External monitoring system&quot;,</span>
+<span class="s1">       &quot;expires_in_days&quot;: 365,</span>
+<span class="s1">       &quot;permissions&quot;: [&quot;camera:read&quot;, &quot;system:read&quot;],</span>
+<span class="s1">       &quot;ip_restrictions&quot;: [&quot;192.168.1.0/24&quot;]</span>
+<span class="s1">     }&#39;</span>
+
+<span class="c1"># Response</span>
+<span class="o">{</span>
+<span class="w">  </span><span class="s2">&quot;api_key&quot;</span>:<span class="w"> </span><span class="s2">&quot;1a2B3c4D5e6f7G8h9I0j1K2l3M4n5O6p&quot;</span>,
+<span class="w">  </span><span class="s2">&quot;key_id&quot;</span>:<span class="w"> </span><span class="s2">&quot;key_001&quot;</span>,
+<span class="w">  </span><span class="s2">&quot;created&quot;</span>:<span class="w"> </span><span class="s2">&quot;2025-01-15T10:30:00Z&quot;</span>,
+<span class="w">  </span><span class="s2">&quot;expires&quot;</span>:<span class="w"> </span><span class="s2">&quot;2026-01-15T10:30:00Z&quot;</span>,
+<span class="w">  </span><span class="s2">&quot;permissions&quot;</span>:<span class="w"> </span><span class="o">[</span><span class="s2">&quot;camera:read&quot;</span>,<span class="w"> </span><span class="s2">&quot;system:read&quot;</span><span class="o">]</span>
+<span class="o">}</span>
+
+<span class="c1"># List API keys</span>
+curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer admin_token&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>http://192.168.1.100:8080/api/auth/apikeys
+
+<span class="c1"># Revoke API key</span>
+curl<span class="w"> </span>-X<span class="w"> </span>DELETE<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/auth/apikey/key_001&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer admin_token&quot;</span>
+</code></pre></div>
+
+<p><strong>API Key Configuration</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># /etc/rotordream/auth.conf</span>
+<span class="k">[api_keys]</span>
+<span class="na">enabled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">true</span>
+<span class="na">default_expiry_days</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">90</span>
+<span class="na">max_keys_per_client</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">10</span>
+<span class="na">require_ip_restrictions</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">false</span>
+<span class="na">audit_key_usage</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">true</span>
+
+<span class="c1"># Key validation</span>
+<span class="na">validate_on_request</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">true</span>
+<span class="na">cache_validation</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">true</span>
+<span class="na">cache_timeout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">300</span>
+
+<span class="c1"># Rate limiting per API key</span>
+<span class="na">rate_limit_enabled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">true</span>
+<span class="na">requests_per_minute</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">60</span>
+<span class="na">burst_allowance</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">10</span>
+</code></pre></div>
+
+<h3 id="jwt-token-authentication">JWT Token Authentication</h3>
+<p><strong>JWT Configuration</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;jwt&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;enabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;secret_key_file&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/etc/rotordream/jwt_secret&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;algorithm&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;HS256&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;token_expiry&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">3600</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;refresh_expiry&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">86400</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;issuer&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rotordream-cam&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;audience&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rotordream-api&quot;</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;token_validation&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;validate_issuer&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;validate_audience&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;validate_expiry&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;clock_skew_seconds&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">30</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>JWT Token Operations</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Login to get JWT token</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/auth/login&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;username&quot;: &quot;admin&quot;,</span>
+<span class="s1">       &quot;password&quot;: &quot;secure_password&quot;,</span>
+<span class="s1">       &quot;remember_me&quot;: false</span>
+<span class="s1">     }&#39;</span>
+
+<span class="c1"># Response</span>
+<span class="o">{</span>
+<span class="w">  </span><span class="s2">&quot;access_token&quot;</span>:<span class="w"> </span><span class="s2">&quot;eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...&quot;</span>,
+<span class="w">  </span><span class="s2">&quot;refresh_token&quot;</span>:<span class="w"> </span><span class="s2">&quot;dGhpcyBpcyBhIHJlZnJlc2ggdG9rZW4...&quot;</span>,
+<span class="w">  </span><span class="s2">&quot;token_type&quot;</span>:<span class="w"> </span><span class="s2">&quot;Bearer&quot;</span>,
+<span class="w">  </span><span class="s2">&quot;expires_in&quot;</span>:<span class="w"> </span><span class="m">3600</span>,
+<span class="w">  </span><span class="s2">&quot;user&quot;</span>:<span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="s2">&quot;username&quot;</span>:<span class="w"> </span><span class="s2">&quot;admin&quot;</span>,
+<span class="w">    </span><span class="s2">&quot;role&quot;</span>:<span class="w"> </span><span class="s2">&quot;administrator&quot;</span>,
+<span class="w">    </span><span class="s2">&quot;permissions&quot;</span>:<span class="w"> </span><span class="o">[</span><span class="s2">&quot;*&quot;</span><span class="o">]</span>
+<span class="w">  </span><span class="o">}</span>
+<span class="o">}</span>
+
+<span class="c1"># Refresh token</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/auth/refresh&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;refresh_token&quot;: &quot;dGhpcyBpcyBhIHJlZnJlc2ggdG9rZW4...&quot;</span>
+<span class="s1">     }&#39;</span>
+
+<span class="c1"># Logout</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/auth/logout&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...&quot;</span>
+</code></pre></div>
+
+<h3 id="certificate-based-authentication">Certificate-Based Authentication</h3>
+<p><strong>Client Certificate Setup</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Generate CA certificate</span>
+openssl<span class="w"> </span>genrsa<span class="w"> </span>-out<span class="w"> </span>ca-key.pem<span class="w"> </span><span class="m">4096</span>
+openssl<span class="w"> </span>req<span class="w"> </span>-new<span class="w"> </span>-x509<span class="w"> </span>-days<span class="w"> </span><span class="m">365</span><span class="w"> </span>-key<span class="w"> </span>ca-key.pem<span class="w"> </span>-sha256<span class="w"> </span>-out<span class="w"> </span>ca.pem<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-subj<span class="w"> </span><span class="s2">&quot;/C=US/ST=CA/L=SF/O=RotorDream/OU=Security/CN=RotorDream-CA&quot;</span>
+
+<span class="c1"># Generate client certificate</span>
+openssl<span class="w"> </span>genrsa<span class="w"> </span>-out<span class="w"> </span>client-key.pem<span class="w"> </span><span class="m">4096</span>
+openssl<span class="w"> </span>req<span class="w"> </span>-subj<span class="w"> </span><span class="s1">&#39;/CN=client&#39;</span><span class="w"> </span>-new<span class="w"> </span>-key<span class="w"> </span>client-key.pem<span class="w"> </span>-out<span class="w"> </span>client.csr
+openssl<span class="w"> </span>x509<span class="w"> </span>-req<span class="w"> </span>-days<span class="w"> </span><span class="m">365</span><span class="w"> </span>-in<span class="w"> </span>client.csr<span class="w"> </span>-CA<span class="w"> </span>ca.pem<span class="w"> </span>-CAkey<span class="w"> </span>ca-key.pem<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-out<span class="w"> </span>client-cert.pem<span class="w"> </span>-sha256<span class="w"> </span>-CAcreateserial
+
+<span class="c1"># Configure server for client certificates</span>
+</code></pre></div>
+
+<p><strong>Certificate Configuration</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># /etc/rotordream/tls.conf</span>
+<span class="k">[client_certificates]</span>
+<span class="na">enabled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">true</span>
+<span class="na">ca_cert_file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">/etc/rotordream/ssl/ca.pem</span>
+<span class="na">verify_client</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">require</span>
+<span class="na">verify_depth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">2</span>
+
+<span class="c1"># Certificate validation</span>
+<span class="na">check_revocation</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">true</span>
+<span class="na">crl_file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">/etc/rotordream/ssl/crl.pem</span>
+<span class="na">ocsp_enable</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">false</span>
+
+<span class="c1"># Certificate mapping</span>
+<span class="k">[cert_mapping]</span>
+<span class="c1"># Map certificate CN to username/role</span>
+<span class="na">admin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">role:administrator</span>
+<span class="na">monitoring</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">role:operator,permissions:camera:read,system:read</span>
+<span class="na">readonly</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">role:viewer,permissions:camera:read</span>
+</code></pre></div>
+
+<h2 id="authorization-and-access-control">Authorization and Access Control</h2>
+<h3 id="role-based-access-control-rbac">Role-Based Access Control (RBAC)</h3>
+<p><strong>Role Definitions</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;roles&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;administrator&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Full system access&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;permissions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;*&quot;</span><span class="p">],</span>
+<span class="w">      </span><span class="nt">&quot;inherits&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;operator&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Camera operation and monitoring&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;permissions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="s2">&quot;camera:read&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;camera:write&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;camera:control&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="s2">&quot;recordings:read&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;recordings:write&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="s2">&quot;system:read&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;logs:read&quot;</span>
+<span class="w">      </span><span class="p">],</span>
+<span class="w">      </span><span class="nt">&quot;inherits&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;viewer&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Read-only access to camera feeds&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;permissions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="s2">&quot;camera:read&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;recordings:read&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;system:read&quot;</span>
+<span class="w">      </span><span class="p">],</span>
+<span class="w">      </span><span class="nt">&quot;inherits&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;maintenance&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;System maintenance access&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;permissions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="s2">&quot;system:read&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;system:write&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;logs:read&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;logs:write&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="s2">&quot;storage:read&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;backup:read&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;backup:write&quot;</span>
+<span class="w">      </span><span class="p">],</span>
+<span class="w">      </span><span class="nt">&quot;inherits&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;viewer&quot;</span><span class="p">]</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>User Management</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Create user with role</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/auth/users&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer admin_token&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;username&quot;: &quot;operator1&quot;,</span>
+<span class="s1">       &quot;password&quot;: &quot;secure_password&quot;,</span>
+<span class="s1">       &quot;email&quot;: &quot;operator1@company.com&quot;,</span>
+<span class="s1">       &quot;role&quot;: &quot;operator&quot;,</span>
+<span class="s1">       &quot;enabled&quot;: true,</span>
+<span class="s1">       &quot;password_expires&quot;: true,</span>
+<span class="s1">       &quot;must_change_password&quot;: true</span>
+<span class="s1">     }&#39;</span>
+
+<span class="c1"># Update user permissions</span>
+curl<span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/auth/users/operator1&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer admin_token&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;role&quot;: &quot;operator&quot;,</span>
+<span class="s1">       &quot;additional_permissions&quot;: [&quot;backup:read&quot;],</span>
+<span class="s1">       &quot;ip_restrictions&quot;: [&quot;192.168.1.0/24&quot;],</span>
+<span class="s1">       &quot;time_restrictions&quot;: {</span>
+<span class="s1">         &quot;allowed_hours&quot;: &quot;08:00-18:00&quot;,</span>
+<span class="s1">         &quot;allowed_days&quot;: [&quot;monday&quot;, &quot;tuesday&quot;, &quot;wednesday&quot;, &quot;thursday&quot;, &quot;friday&quot;]</span>
+<span class="s1">       }</span>
+<span class="s1">     }&#39;</span>
+
+<span class="c1"># List users</span>
+curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer admin_token&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>http://192.168.1.100:8080/api/auth/users
+</code></pre></div>
+
+<h3 id="permission-system">Permission System</h3>
+<p><strong>Permission Categories</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;permission_categories&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;camera&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;read&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;View camera feeds and status&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;write&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Modify camera settings&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;control&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Control camera movements and actions&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;recordings&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;read&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;View and download recordings&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;write&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Create and manage recordings&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;delete&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Delete recordings&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;system&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;read&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;View system status and information&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;write&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Modify system configuration&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;admin&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;System administration functions&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;users&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;read&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;View user information&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;write&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Create and modify users&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;admin&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Full user management&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;logs&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;read&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;View system logs&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;write&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Modify log settings&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;admin&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Log administration&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;storage&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;read&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;View storage information&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;write&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Modify storage settings&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;admin&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Storage administration&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;backup&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;read&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;View backup status&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;write&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Create and manage backups&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;admin&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Backup administration&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Resource-Level Permissions</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Set camera-specific permissions</span>
+curl<span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/auth/permissions&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer admin_token&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;user&quot;: &quot;operator1&quot;,</span>
+<span class="s1">       &quot;resource_type&quot;: &quot;camera&quot;,</span>
+<span class="s1">       &quot;resource_id&quot;: &quot;camera_001&quot;,</span>
+<span class="s1">       &quot;permissions&quot;: [&quot;read&quot;, &quot;control&quot;]</span>
+<span class="s1">     }&#39;</span>
+
+<span class="c1"># Check user permissions</span>
+curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer admin_token&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span><span class="s2">&quot;http://192.168.1.100:8080/api/auth/permissions/operator1&quot;</span>
+</code></pre></div>
+
+<h2 id="network-security">Network Security</h2>
+<h3 id="httpstls-configuration">HTTPS/TLS Configuration</h3>
+<p><strong>TLS Server Configuration</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># /etc/rotordream/tls.conf</span>
+<span class="k">[tls]</span>
+<span class="na">enabled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">true</span>
+<span class="na">cert_file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">/etc/rotordream/ssl/server.crt</span>
+<span class="na">key_file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">/etc/rotordream/ssl/server.key</span>
+<span class="na">ca_file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">/etc/rotordream/ssl/ca.crt</span>
+
+<span class="c1"># TLS settings</span>
+<span class="na">min_tls_version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">1.2</span>
+<span class="na">max_tls_version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">1.3</span>
+<span class="na">cipher_suites</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">ECDHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES128-GCM-SHA256</span>
+<span class="na">prefer_server_ciphers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">true</span>
+
+<span class="c1"># HSTS (HTTP Strict Transport Security)</span>
+<span class="na">hsts_enabled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">true</span>
+<span class="na">hsts_max_age</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">31536000</span>
+<span class="na">hsts_include_subdomains</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">true</span>
+<span class="na">hsts_preload</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">true</span>
+</code></pre></div>
+
+<p><strong>Certificate Management</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Generate self-signed certificate</span>
+openssl<span class="w"> </span>req<span class="w"> </span>-x509<span class="w"> </span>-nodes<span class="w"> </span>-days<span class="w"> </span><span class="m">365</span><span class="w"> </span>-newkey<span class="w"> </span>rsa:2048<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-keyout<span class="w"> </span>/etc/rotordream/ssl/server.key<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-out<span class="w"> </span>/etc/rotordream/ssl/server.crt<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-subj<span class="w"> </span><span class="s2">&quot;/C=US/ST=CA/L=SF/O=RotorDream/CN=192.168.1.100&quot;</span>
+
+<span class="c1"># Generate CSR for CA-signed certificate</span>
+openssl<span class="w"> </span>req<span class="w"> </span>-new<span class="w"> </span>-newkey<span class="w"> </span>rsa:2048<span class="w"> </span>-nodes<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-keyout<span class="w"> </span>/etc/rotordream/ssl/server.key<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-out<span class="w"> </span>/etc/rotordream/ssl/server.csr<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-subj<span class="w"> </span><span class="s2">&quot;/C=US/ST=CA/L=SF/O=RotorDream/CN=camera.example.com&quot;</span>
+
+<span class="c1"># Check certificate expiration</span>
+openssl<span class="w"> </span>x509<span class="w"> </span>-in<span class="w"> </span>/etc/rotordream/ssl/server.crt<span class="w"> </span>-noout<span class="w"> </span>-dates
+
+<span class="c1"># Verify certificate</span>
+openssl<span class="w"> </span>verify<span class="w"> </span>-CAfile<span class="w"> </span>/etc/rotordream/ssl/ca.crt<span class="w"> </span>/etc/rotordream/ssl/server.crt
+</code></pre></div>
+
+<h3 id="firewall-configuration">Firewall Configuration</h3>
+<p><strong>IPTables Rules</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="ch">#!/bin/bash</span>
+<span class="c1"># /etc/rotordream/firewall.sh</span>
+
+<span class="c1"># Clear existing rules</span>
+iptables<span class="w"> </span>-F
+iptables<span class="w"> </span>-X
+iptables<span class="w"> </span>-t<span class="w"> </span>nat<span class="w"> </span>-F
+iptables<span class="w"> </span>-t<span class="w"> </span>nat<span class="w"> </span>-X
+
+<span class="c1"># Default policies</span>
+iptables<span class="w"> </span>-P<span class="w"> </span>INPUT<span class="w"> </span>DROP
+iptables<span class="w"> </span>-P<span class="w"> </span>FORWARD<span class="w"> </span>DROP
+iptables<span class="w"> </span>-P<span class="w"> </span>OUTPUT<span class="w"> </span>ACCEPT
+
+<span class="c1"># Allow loopback</span>
+iptables<span class="w"> </span>-A<span class="w"> </span>INPUT<span class="w"> </span>-i<span class="w"> </span>lo<span class="w"> </span>-j<span class="w"> </span>ACCEPT
+
+<span class="c1"># Allow established connections</span>
+iptables<span class="w"> </span>-A<span class="w"> </span>INPUT<span class="w"> </span>-m<span class="w"> </span>state<span class="w"> </span>--state<span class="w"> </span>ESTABLISHED,RELATED<span class="w"> </span>-j<span class="w"> </span>ACCEPT
+
+<span class="c1"># Allow SSH (admin access)</span>
+iptables<span class="w"> </span>-A<span class="w"> </span>INPUT<span class="w"> </span>-p<span class="w"> </span>tcp<span class="w"> </span>--dport<span class="w"> </span><span class="m">22</span><span class="w"> </span>-s<span class="w"> </span><span class="m">192</span>.168.1.0/24<span class="w"> </span>-j<span class="w"> </span>ACCEPT
+
+<span class="c1"># Allow HTTPS API</span>
+iptables<span class="w"> </span>-A<span class="w"> </span>INPUT<span class="w"> </span>-p<span class="w"> </span>tcp<span class="w"> </span>--dport<span class="w"> </span><span class="m">443</span><span class="w"> </span>-s<span class="w"> </span><span class="m">192</span>.168.1.0/24<span class="w"> </span>-j<span class="w"> </span>ACCEPT
+
+<span class="c1"># Allow HTTP API (if enabled)</span>
+iptables<span class="w"> </span>-A<span class="w"> </span>INPUT<span class="w"> </span>-p<span class="w"> </span>tcp<span class="w"> </span>--dport<span class="w"> </span><span class="m">8080</span><span class="w"> </span>-s<span class="w"> </span><span class="m">192</span>.168.1.0/24<span class="w"> </span>-j<span class="w"> </span>ACCEPT
+
+<span class="c1"># Allow RTSP streaming</span>
+iptables<span class="w"> </span>-A<span class="w"> </span>INPUT<span class="w"> </span>-p<span class="w"> </span>tcp<span class="w"> </span>--dport<span class="w"> </span><span class="m">554</span><span class="w"> </span>-s<span class="w"> </span><span class="m">192</span>.168.1.0/24<span class="w"> </span>-j<span class="w"> </span>ACCEPT
+iptables<span class="w"> </span>-A<span class="w"> </span>INPUT<span class="w"> </span>-p<span class="w"> </span>udp<span class="w"> </span>--dport<span class="w"> </span><span class="m">5004</span>:5100<span class="w"> </span>-s<span class="w"> </span><span class="m">192</span>.168.1.0/24<span class="w"> </span>-j<span class="w"> </span>ACCEPT
+
+<span class="c1"># Allow WebSocket connections</span>
+iptables<span class="w"> </span>-A<span class="w"> </span>INPUT<span class="w"> </span>-p<span class="w"> </span>tcp<span class="w"> </span>--dport<span class="w"> </span><span class="m">8081</span><span class="w"> </span>-s<span class="w"> </span><span class="m">192</span>.168.1.0/24<span class="w"> </span>-j<span class="w"> </span>ACCEPT
+
+<span class="c1"># Allow ONVIF discovery</span>
+iptables<span class="w"> </span>-A<span class="w"> </span>INPUT<span class="w"> </span>-p<span class="w"> </span>udp<span class="w"> </span>--dport<span class="w"> </span><span class="m">3702</span><span class="w"> </span>-j<span class="w"> </span>ACCEPT
+
+<span class="c1"># Log dropped packets</span>
+iptables<span class="w"> </span>-A<span class="w"> </span>INPUT<span class="w"> </span>-j<span class="w"> </span>LOG<span class="w"> </span>--log-prefix<span class="w"> </span><span class="s2">&quot;iptables-dropped: &quot;</span>
+
+<span class="c1"># Save rules</span>
+iptables-save<span class="w"> </span>&gt;<span class="w"> </span>/etc/iptables/rules.v4
+</code></pre></div>
+
+<p><strong>Network Access Control</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;network_access&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;allow_networks&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">      </span><span class="s2">&quot;192.168.1.0/24&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="s2">&quot;10.0.0.0/8&quot;</span>
+<span class="w">    </span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;deny_networks&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">      </span><span class="s2">&quot;0.0.0.0/0&quot;</span>
+<span class="w">    </span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;rate_limiting&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;enabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;requests_per_minute&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;burst_size&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;ban_duration&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">300</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;geo_blocking&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;enabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;allowed_countries&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;US&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;CA&quot;</span><span class="p">],</span>
+<span class="w">      </span><span class="nt">&quot;blocked_countries&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="data-encryption">Data Encryption</h2>
+<h3 id="encryption-configuration">Encryption Configuration</h3>
+<p><strong>Storage Encryption</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Setup LUKS encryption for storage</span>
+cryptsetup<span class="w"> </span>luksFormat<span class="w"> </span>/dev/sdb
+cryptsetup<span class="w"> </span>luksOpen<span class="w"> </span>/dev/sdb<span class="w"> </span>encrypted_storage
+
+<span class="c1"># Create filesystem on encrypted device</span>
+mkfs.ext4<span class="w"> </span>/dev/mapper/encrypted_storage
+
+<span class="c1"># Mount encrypted storage</span>
+mount<span class="w"> </span>/dev/mapper/encrypted_storage<span class="w"> </span>/media/encrypted_data
+
+<span class="c1"># Auto-mount configuration in /etc/crypttab</span>
+encrypted_storage<span class="w"> </span>/dev/sdb<span class="w"> </span>/etc/rotordream/luks_keyfile<span class="w"> </span>luks
+
+<span class="c1"># Auto-mount in /etc/fstab</span>
+/dev/mapper/encrypted_storage<span class="w"> </span>/media/encrypted_data<span class="w"> </span>ext4<span class="w"> </span>defaults<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">0</span>
+</code></pre></div>
+
+<p><strong>Backup Encryption</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Configure encrypted backups</span>
+curl<span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/backup/encryption&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer admin_token&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;enabled&quot;: true,</span>
+<span class="s1">       &quot;method&quot;: &quot;AES256&quot;,</span>
+<span class="s1">       &quot;key_derivation&quot;: &quot;PBKDF2&quot;,</span>
+<span class="s1">       &quot;iterations&quot;: 100000,</span>
+<span class="s1">       &quot;password_file&quot;: &quot;/etc/rotordream/backup_password&quot;</span>
+<span class="s1">     }&#39;</span>
+
+<span class="c1"># GPG encryption for backups</span>
+gpg<span class="w"> </span>--gen-key
+gpg<span class="w"> </span>--armor<span class="w"> </span>--export<span class="w"> </span>backup@rotordream.com<span class="w"> </span>&gt;<span class="w"> </span>backup_public.key
+gpg<span class="w"> </span>--armor<span class="w"> </span>--export-secret-keys<span class="w"> </span>backup@rotordream.com<span class="w"> </span>&gt;<span class="w"> </span>backup_private.key
+</code></pre></div>
+
+<h3 id="stream-encryption">Stream Encryption</h3>
+<p><strong>RTSP over TLS (RTSPS)</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># /etc/rotordream/streaming.conf</span>
+<span class="k">[rtsp_security]</span>
+<span class="na">tls_enabled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">true</span>
+<span class="na">tls_port</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">322</span>
+<span class="na">require_authentication</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">true</span>
+<span class="na">encryption_method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">AES128</span>
+
+<span class="c1"># Stream encryption</span>
+<span class="k">[stream_encryption]</span>
+<span class="na">enabled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">true</span>
+<span class="na">key_rotation_interval</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">3600</span>
+<span class="na">encryption_algorithm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">AES-256-CTR</span>
+</code></pre></div>
+
+<p><strong>Encrypted Video Streams</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Configure encrypted streaming</span>
+curl<span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/streaming/encryption&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer admin_token&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;enabled&quot;: true,</span>
+<span class="s1">       &quot;algorithm&quot;: &quot;AES-256-GCM&quot;,</span>
+<span class="s1">       &quot;key_exchange&quot;: &quot;ECDHE&quot;,</span>
+<span class="s1">       &quot;key_rotation_seconds&quot;: 3600</span>
+<span class="s1">     }&#39;</span>
+</code></pre></div>
+
+<h2 id="audit-and-logging">Audit and Logging</h2>
+<h3 id="security-event-logging">Security Event Logging</h3>
+<p><strong>Audit Configuration</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;audit&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;enabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;log_file&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/var/log/rotordream/audit.log&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;log_level&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;info&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;max_file_size&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;100MB&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;max_files&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;events&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;authentication&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;authorization&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;api_access&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;configuration_changes&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;user_management&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;system_access&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;camera_access&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;file_access&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Security Events</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># View security events</span>
+curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer admin_token&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span><span class="s2">&quot;http://192.168.1.100:8080/api/audit/events?type=security&amp;limit=100&quot;</span>
+
+<span class="c1"># Response format</span>
+<span class="o">{</span>
+<span class="w">  </span><span class="s2">&quot;events&quot;</span>:<span class="w"> </span><span class="o">[</span>
+<span class="w">    </span><span class="o">{</span>
+<span class="w">      </span><span class="s2">&quot;timestamp&quot;</span>:<span class="w"> </span><span class="s2">&quot;2025-01-15T10:30:00Z&quot;</span>,
+<span class="w">      </span><span class="s2">&quot;event_type&quot;</span>:<span class="w"> </span><span class="s2">&quot;authentication_failure&quot;</span>,
+<span class="w">      </span><span class="s2">&quot;source_ip&quot;</span>:<span class="w"> </span><span class="s2">&quot;192.168.1.50&quot;</span>,
+<span class="w">      </span><span class="s2">&quot;username&quot;</span>:<span class="w"> </span><span class="s2">&quot;admin&quot;</span>,
+<span class="w">      </span><span class="s2">&quot;user_agent&quot;</span>:<span class="w"> </span><span class="s2">&quot;curl/7.68.0&quot;</span>,
+<span class="w">      </span><span class="s2">&quot;details&quot;</span>:<span class="w"> </span><span class="o">{</span>
+<span class="w">        </span><span class="s2">&quot;reason&quot;</span>:<span class="w"> </span><span class="s2">&quot;invalid_password&quot;</span>,
+<span class="w">        </span><span class="s2">&quot;attempts&quot;</span>:<span class="w"> </span><span class="m">3</span>
+<span class="w">      </span><span class="o">}</span>
+<span class="w">    </span><span class="o">}</span>,
+<span class="w">    </span><span class="o">{</span>
+<span class="w">      </span><span class="s2">&quot;timestamp&quot;</span>:<span class="w"> </span><span class="s2">&quot;2025-01-15T10:25:00Z&quot;</span>,
+<span class="w">      </span><span class="s2">&quot;event_type&quot;</span>:<span class="w"> </span><span class="s2">&quot;api_access&quot;</span>,
+<span class="w">      </span><span class="s2">&quot;source_ip&quot;</span>:<span class="w"> </span><span class="s2">&quot;192.168.1.25&quot;</span>,
+<span class="w">      </span><span class="s2">&quot;username&quot;</span>:<span class="w"> </span><span class="s2">&quot;operator1&quot;</span>,
+<span class="w">      </span><span class="s2">&quot;endpoint&quot;</span>:<span class="w"> </span><span class="s2">&quot;/api/camera/status&quot;</span>,
+<span class="w">      </span><span class="s2">&quot;method&quot;</span>:<span class="w"> </span><span class="s2">&quot;GET&quot;</span>,
+<span class="w">      </span><span class="s2">&quot;status_code&quot;</span>:<span class="w"> </span><span class="m">200</span>
+<span class="w">    </span><span class="o">}</span>
+<span class="w">  </span><span class="o">]</span>
+<span class="o">}</span>
+</code></pre></div>
+
+<h3 id="siem-integration">SIEM Integration</h3>
+<p><strong>Syslog Configuration</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># /etc/rotordream/syslog.conf</span>
+<span class="k">[syslog]</span>
+<span class="na">enabled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">true</span>
+<span class="na">server</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">192.168.1.100</span>
+<span class="na">port</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">514</span>
+<span class="na">protocol</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">udp</span>
+<span class="na">facility</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">local0</span>
+<span class="na">format</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">rfc3164</span>
+
+<span class="c1"># Security events</span>
+<span class="na">send_security_events</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">true</span>
+<span class="na">send_audit_logs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">true</span>
+<span class="na">send_system_events</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">true</span>
+</code></pre></div>
+
+<p><strong>Log Forwarding</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Configure rsyslog for security events</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;local0.* @@192.168.1.100:514&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>/etc/rsyslog.conf
+systemctl<span class="w"> </span>restart<span class="w"> </span>rsyslog
+
+<span class="c1"># Test log forwarding</span>
+logger<span class="w"> </span>-p<span class="w"> </span>local0.info<span class="w"> </span><span class="s2">&quot;Test security event from RotorDream&quot;</span>
+</code></pre></div>
+
+<h2 id="security-hardening">Security Hardening</h2>
+<h3 id="system-hardening">System Hardening</h3>
+<p><strong>Service Configuration</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Disable unnecessary services</span>
+systemctl<span class="w"> </span>disable<span class="w"> </span>bluetooth
+systemctl<span class="w"> </span>disable<span class="w"> </span>cups
+systemctl<span class="w"> </span>disable<span class="w"> </span>avahi-daemon
+
+<span class="c1"># SSH hardening</span>
+sed<span class="w"> </span>-i<span class="w"> </span><span class="s1">&#39;s/#PermitRootLogin yes/PermitRootLogin no/&#39;</span><span class="w"> </span>/etc/ssh/sshd_config
+sed<span class="w"> </span>-i<span class="w"> </span><span class="s1">&#39;s/#PasswordAuthentication yes/PasswordAuthentication no/&#39;</span><span class="w"> </span>/etc/ssh/sshd_config
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;AllowUsers admin operator&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>/etc/ssh/sshd_config
+
+<span class="c1"># Kernel hardening</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;kernel.dmesg_restrict = 1&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>/etc/sysctl.conf
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;net.ipv4.conf.all.send_redirects = 0&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>/etc/sysctl.conf
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;net.ipv4.conf.all.accept_redirects = 0&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>/etc/sysctl.conf
+sysctl<span class="w"> </span>-p
+</code></pre></div>
+
+<p><strong>File System Security</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Set secure permissions</span>
+chmod<span class="w"> </span><span class="m">700</span><span class="w"> </span>/etc/rotordream/
+chmod<span class="w"> </span><span class="m">600</span><span class="w"> </span>/etc/rotordream/*.conf
+chmod<span class="w"> </span><span class="m">600</span><span class="w"> </span>/etc/rotordream/ssl/*
+
+<span class="c1"># Remove SUID bits from unnecessary files</span>
+find<span class="w"> </span>/usr/bin<span class="w"> </span>-perm<span class="w"> </span>-4000<span class="w"> </span>-exec<span class="w"> </span>ls<span class="w"> </span>-la<span class="w"> </span><span class="o">{}</span><span class="w"> </span><span class="se">\;</span>
+</code></pre></div>
+
+<h3 id="application-security">Application Security</h3>
+<p><strong>Security Headers</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;security_headers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;X-Content-Type-Options&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;nosniff&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;X-Frame-Options&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;DENY&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;X-XSS-Protection&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1; mode=block&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;Strict-Transport-Security&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;max-age=31536000; includeSubDomains&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;Content-Security-Policy&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;default-src &#39;self&#39;; script-src &#39;self&#39;; style-src &#39;self&#39; &#39;unsafe-inline&#39;&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;Referrer-Policy&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;strict-origin-when-cross-origin&quot;</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Input Validation</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># API input validation rules</span>
+curl<span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span><span class="s2">&quot;http://192.168.1.100:8080/api/security/validation&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer admin_token&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;input_validation&quot;: {</span>
+<span class="s1">         &quot;max_request_size&quot;: 10485760,</span>
+<span class="s1">         &quot;max_url_length&quot;: 2048,</span>
+<span class="s1">         &quot;max_header_count&quot;: 50,</span>
+<span class="s1">         &quot;sanitize_inputs&quot;: true,</span>
+<span class="s1">         &quot;block_sql_injection&quot;: true,</span>
+<span class="s1">         &quot;block_xss&quot;: true</span>
+<span class="s1">       }</span>
+<span class="s1">     }&#39;</span>
+</code></pre></div>
+
+<h2 id="security-monitoring">Security Monitoring</h2>
+<h3 id="intrusion-detection">Intrusion Detection</h3>
+<p><strong>Fail2Ban Configuration</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># /etc/fail2ban/jail.local</span>
+<span class="k">[rotordream-auth]</span>
+<span class="na">enabled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">true</span>
+<span class="na">port</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">8080,443</span>
+<span class="na">filter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">rotordream-auth</span>
+<span class="na">logpath</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">/var/log/rotordream/audit.log</span>
+<span class="na">maxretry</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">5</span>
+<span class="na">bantime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">3600</span>
+
+<span class="k">[rotordream-api]</span>
+<span class="na">enabled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">true</span>
+<span class="na">port</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">8080,443</span>
+<span class="na">filter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">rotordream-api</span>
+<span class="na">logpath</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">/var/log/rotordream/access.log</span>
+<span class="na">maxretry</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">10</span>
+<span class="na">bantime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">1800</span>
+</code></pre></div>
+
+<p><strong>Security Monitoring API</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Get security status</span>
+curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer admin_token&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>http://192.168.1.100:8080/api/security/status
+
+<span class="c1"># Response includes</span>
+<span class="o">{</span>
+<span class="w">  </span><span class="s2">&quot;security_status&quot;</span>:<span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="s2">&quot;last_scan&quot;</span>:<span class="w"> </span><span class="s2">&quot;2025-01-15T10:30:00Z&quot;</span>,
+<span class="w">    </span><span class="s2">&quot;vulnerabilities&quot;</span>:<span class="w"> </span><span class="m">0</span>,
+<span class="w">    </span><span class="s2">&quot;failed_logins&quot;</span>:<span class="w"> </span><span class="m">3</span>,
+<span class="w">    </span><span class="s2">&quot;blocked_ips&quot;</span>:<span class="w"> </span><span class="o">[</span><span class="s2">&quot;192.168.1.75&quot;</span><span class="o">]</span>,
+<span class="w">    </span><span class="s2">&quot;certificate_expiry&quot;</span>:<span class="w"> </span><span class="s2">&quot;2026-01-15T10:30:00Z&quot;</span>,
+<span class="w">    </span><span class="s2">&quot;security_score&quot;</span>:<span class="w"> </span><span class="m">95</span>
+<span class="w">  </span><span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div>
+
+<h2 id="troubleshooting-security-issues">Troubleshooting Security Issues</h2>
+<h3 id="common-problems">Common Problems</h3>
+<p><strong>Certificate Issues</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Check certificate validity</span>
+openssl<span class="w"> </span>x509<span class="w"> </span>-in<span class="w"> </span>/etc/rotordream/ssl/server.crt<span class="w"> </span>-text<span class="w"> </span>-noout
+
+<span class="c1"># Test TLS connection</span>
+openssl<span class="w"> </span>s_client<span class="w"> </span>-connect<span class="w"> </span><span class="m">192</span>.168.1.100:443<span class="w"> </span>-verify_hostname<span class="w"> </span>camera.example.com
+
+<span class="c1"># Debug TLS handshake</span>
+curl<span class="w"> </span>-vvv<span class="w"> </span>https://192.168.1.100:443/api/status
+</code></pre></div>
+
+<p><strong>Authentication Problems</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Test API key</span>
+curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;X-API-Key: 1a2B3c4D5e6f7G8h&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>http://192.168.1.100:8080/api/status
+
+<span class="c1"># Validate JWT token</span>
+curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>http://192.168.1.100:8080/api/user/profile
+
+<span class="c1"># Check user permissions</span>
+curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer admin_token&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>http://192.168.1.100:8080/api/auth/debug/user/operator1
+</code></pre></div>
+
+<h2 id="related-documentation">Related Documentation</h2>
+<ul>
+<li><a href="./network.md">Network Configuration</a> - Network setup and security</li>
+<li><a href="../operations/monitoring.md">Monitoring</a> - Security monitoring and alerting</li>
+<li><a href="../api/http-api.md">API Reference</a> - Authentication API endpoints</li>
+<li><a href="../operations/troubleshooting.md">Troubleshooting</a> - Security troubleshooting</li>
+</ul>
+<hr />
+<p><em>Security configuration documentation following industry best practices and OWASP guidelines</em></p>
+            </div>
+            <footer class="content-footer">
+                <p>Copyright © 2025 Rotoclear</p>
+            </footer>
+        </main>
+        
+        <button class="mobile-menu-toggle" id="menuToggle" aria-label="Toggle menu">☰</button>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>
+        // Initialize Mermaid
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            securityLevel: 'loose',
+            fontFamily: 'Inter, sans-serif'
+        });
+        
+        // Syntax highlighting
+        hljs.highlightAll();
+        
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.querySelector('.sidebar');
+        
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+        });
+        
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth <= 768 && 
+                !sidebar.contains(e.target) && 
+                !menuToggle.contains(e.target) &&
+                sidebar.classList.contains('active')) {
+                sidebar.classList.remove('active');
+            }
+        });
+        
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
