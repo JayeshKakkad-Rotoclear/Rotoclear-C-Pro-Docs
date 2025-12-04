@@ -8,32 +8,32 @@ C Pro monitoring provides real-time system metrics, performance analytics, and p
 
 ```mermaid
 graph TB
-    A[Monitoring] --> B{Sources}
+    A[Monitoring System] --> B{Data Sources}
     
-    B -->|HW| C[CPU Memory]
-    B -->|Net| D[Network]
-    B -->|Cam| E[Video]
-    B -->|App| F[Services]
+    B -->|Hardware| C[CPU Memory Storage]
+    B -->|Network| D[Network Interfaces]
+    B -->|Camera| E[Video Pipeline]
+    B -->|App| F[Service Health]
     
-    C --> G[Collector]
+    C --> G[Metrics Collector]
     D --> G
     E --> G
     F --> G
     
-    G --> H[Time Series]
-    H --> I[Analytics]
+    G --> H[Time Series DB]
+    H --> I[Analytics Engine]
     
-    I --> J{Rules}
-    J -->|Threshold| K[Threshold]
-    J -->|Anomaly| L[Anomaly]
-    J -->|Predict| M[Predictive]
+    I --> J{Alerting Rules}
+    J -->|Threshold| K[Threshold Alerts]
+    J -->|Anomaly| L[Anomaly Detection]
+    J -->|Predict| M[Predictive Alerts]
     
-    K --> N[Alerts]
+    K --> N[Alert Manager]
     L --> N
     M --> N
     
-    N --> O[Notify]
-    O --> P[Email SMS]
+    N --> O[Notification Channels]
+    O --> P[Email SMS Webhook]
     
     H --> Q[Dashboard]
     I --> Q

@@ -10,7 +10,7 @@ The RTSP streaming implementation provides H.264 video streams for real-time mon
 graph LR
     A[Camera Device] --> B[V4L2 Driver]
     B --> C[GStreamer Pipeline]
-    C --> D[H.264 Encoder]
+    C --> D[H264 Encoder]
     D --> E[RTP Packetizer]
     E --> F[RTSP Server]
     F --> G[RTSP Client]

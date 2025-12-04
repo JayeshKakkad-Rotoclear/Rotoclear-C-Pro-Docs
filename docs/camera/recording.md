@@ -8,17 +8,17 @@ The C Pro recording system captures video from camera sources and stores it to l
 
 ```mermaid
 graph TB
-    Camera[Camera] --> Pipeline[Pipeline]
-    Pipeline --> Encoder[Encoder]
+    Camera[Camera Source] --> Pipeline[Recording Pipeline]
+    Pipeline --> Encoder[Video Encoder]
     Encoder --> Muxer[Muxer]
-    Muxer --> Storage[Storage]
+    Muxer --> Storage[Storage Manager]
     
-    Tags[Tags] --> Metadata[Metadata]
+    Tags[Tag System] --> Metadata[Metadata Store]
     Timeline[Timeline] --> Metadata
     Storage --> Metadata
     
-    Metadata --> SQLite[(SQLite)]
-    Storage --> Files[(Files)]
+    Metadata --> SQLite[(SQLite Database)]
+    Storage --> Files[(Media Files)]
     
     style Pipeline fill:#e1f5ff,stroke:#333,stroke-width:2px
     style Metadata fill:#99ccff,stroke:#333,stroke-width:3px

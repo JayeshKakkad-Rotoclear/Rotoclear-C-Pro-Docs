@@ -54,11 +54,11 @@ type
 graph TB
     Admin[Administrator] -->|All Permissions| AllPerms[Full System Access]
     
-    Operator[Operator] -->|Most Permissions| OpPerms[Device Media Storage]
+    Operator[Operator] -->|Most Permissions| OpPerms[Device Media Storage Access]
     
     Viewer[Viewer] -->|Read Only| ViewPerms[View Only Access]
     
-    Guest[Guest] -->|Minimal| GuestPerms[Public Endpoints]
+    Guest[Guest] -->|Minimal| GuestPerms[Public Endpoints Only]
     
     style Admin fill:#ff9999,stroke:#333,stroke-width:3px
     style Operator fill:#ffcc99,stroke:#333,stroke-width:2px

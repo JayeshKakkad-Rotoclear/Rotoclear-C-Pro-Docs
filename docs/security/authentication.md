@@ -8,7 +8,7 @@ The C Pro camera system implements a multi-layered authentication system to secu
 
 ```mermaid
 graph TB
-    Client[Client Request] --> Auth{Authentication\nRequired?}
+    Client[Client Request] --> Auth{Authentication Required?}
     Auth -->|No| Public[Public Endpoint]
     Auth -->|Yes| Method{Auth Method}
     
@@ -17,7 +17,7 @@ graph TB
     Method -->|Token| TokenAuth[Bearer Token]
     Method -->|Session| SessionAuth[Session Cookie]
     
-    BasicAuth --> Validate[Validate]
+    BasicAuth --> Validate[Validate Credentials]
     DigestAuth --> Validate
     TokenAuth --> Validate
     SessionAuth --> Validate

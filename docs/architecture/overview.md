@@ -16,11 +16,11 @@ graph TB
     end
     
     subgraph APILayer["API Layer"]
-        B1[WebSocket]
-        B2[HTTP REST]
-        B3[RTSP]
-        B4[WebRTC]
-        B5[ONVIF]
+        B1[WebSocket Server]
+        B2[HTTP REST API]
+        B3[RTSP Server]
+        B4[WebRTC Server]
+        B5[ONVIF Server]
     end
     
     subgraph StateManagement["State Management"]
@@ -32,26 +32,26 @@ graph TB
     
     subgraph CoreServices["Core Services"]
         D1[Camera Control]
-        D2[Recording]
-        D3[Streaming]
-        D4[Hardware]
-        D5[User Mgmt]
-        D6[Network]
+        D2[Recording Manager]
+        D3[Stream Manager]
+        D4[Hardware Control]
+        D5[User Manager]
+        D6[Network Manager]
     end
     
     subgraph HardwareLayer["Hardware Layer"]
         E1[V4L2 Devices]
-        E2[GPIO PWM]
-        E3[FPGA]
-        E4[Storage]
-        E5[Sensors]
+        E2[GPIO and PWM]
+        E3[FPGA Processor]
+        E4[Storage Devices]
+        E5[Temperature Sensors]
     end
     
     subgraph StorageLayer["Storage Layer"]
         F1[LevelDB]
         F2[SQLite]
         F3[Filesystem]
-        F4[Network]
+        F4[Network Storage]
     end
     
     A1 --> B1
@@ -88,6 +88,10 @@ graph TB
     D1 --> E5
     
     C4 --> F1
+    D2 --> F2
+    D2 --> F3
+    D2 --> F4
+```
     D2 --> F2
     D2 --> F3
     D2 --> F4
@@ -202,14 +206,14 @@ High-performance video capture and processing pipeline. See [Camera Pipeline](ca
 
 ```mermaid
 graph LR
-    A[V4L2] --> B[GStreamer]
-    B --> C[Enhance]
-    C --> D[FPGA]
+    A[V4L2 Camera] --> B[GStreamer]
+    B --> C[Enhancement]
+    C --> D[FPGA Processing]
     D --> E[Transform]
     E --> F[Overlay]
     F --> G[Encoder]
     
-    G --> H[Streaming]
+    G --> H[RTSP WebRTC]
     G --> I[Recording]
     
     style G fill:#f9f,stroke:#333,stroke-width:2px
@@ -506,24 +510,24 @@ proc resetSystem*() =
 
 ```mermaid
 graph TB
-    A[Request] --> B{Auth}
-    B -->|Denied| Z[401]
-    B -->|Success| C{Permission}
-    C -->|Denied| Y[403]
-    C -->|Allowed| D[Validate]
-    D -->|Invalid| X[400]
-    D -->|Valid| E[Update]
+    A[Client Request] --> B{Authentication}
+    B -->|Denied| Z[401 Error]
+    B -->|Success| C{Permission Check}
+    C -->|Denied| Y[403 Error]
+    C -->|Allowed| D[Validation]
+    D -->|Invalid| X[400 Error]
+    D -->|Valid| E[Update State]
     
-    E --> F[Notify]
+    E --> F[Notify Observers]
     
-    F --> G[Hardware]
-    F --> H[Storage]
-    F --> I[Broadcast]
+    F --> G[Apply Hardware]
+    F --> H[Persist Storage]
+    F --> I[Broadcast Clients]
     
-    G --> L[GPIO V4L2]
-    H --> M[LevelDB]
-    I --> J[WebSocket]
-    I --> K[ONVIF]
+    G --> L[GPIO PWM V4L2]
+    H --> M[LevelDB Write]
+    I --> J[WebSocket Event]
+    I --> K[ONVIF Event]
     
     style B fill:#ffe6e6,stroke:#333,stroke-width:2px
     style C fill:#ffe6e6,stroke:#333,stroke-width:2px
@@ -535,19 +539,19 @@ graph TB
 
 ```mermaid
 graph LR
-    A[Camera] --> B[GStreamer]
-    B --> C[H.264]
+    A[Camera Capture] --> B[GStreamer]
+    B --> C[H264 Encoder]
     C --> D[Muxer]
-    D --> E[Writer]
+    D --> E[File Writer]
     E --> F[Storage]
     
-    D --> G[Metadata]
-    G --> H[SQLite]
+    D --> G[Metadata Extract]
+    G --> H[SQLite Insert]
     H --> I[Database]
     
-    I --> J[Tags]
-    I --> K[Thumbnails]
-    I --> L[Index]
+    I --> J[Tag Association]
+    I --> K[Thumbnail Gen]
+    I --> L[Search Index]
     
     style C fill:#ffcccc,stroke:#333,stroke-width:2px
     style I fill:#ccffcc,stroke:#333,stroke-width:2px

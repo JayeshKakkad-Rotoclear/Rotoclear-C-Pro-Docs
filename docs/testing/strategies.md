@@ -8,32 +8,32 @@ The C Pro testing strategy ensures system reliability, performance, and quality 
 
 ```mermaid
 graph TB
-    A[Testing] --> B{Levels}
+    A[Testing Strategy] --> B{Testing Levels}
     
-    B -->|Code| C[Unit]
-    B -->|Component| D[Integration]
-    B -->|System| E[System]
-    B -->|User| F[Acceptance]
+    B -->|Code| C[Unit Testing]
+    B -->|Component| D[Integration Testing]
+    B -->|System| E[System Testing]
+    B -->|User| F[Acceptance Testing]
     
-    C --> C1[Functions]
-    C --> C2[Modules]
-    C --> C3[Classes]
-    C --> C4[APIs]
+    C --> C1[Function Tests]
+    C --> C2[Module Tests]
+    C --> C3[Class Tests]
+    C --> C4[API Tests]
     
-    D --> D1[Components]
-    D --> D2[Services]
-    D --> D3[Database]
-    D --> D4[External]
+    D --> D1[Component Integration]
+    D --> D2[Service Integration]
+    D --> D3[Database Integration]
+    D --> D4[External Integration]
     
-    E --> E1[Performance]
-    E --> E2[Security]
-    E --> E3[Compatibility]
-    E --> E4[Reliability]
+    E --> E1[Performance Tests]
+    E --> E2[Security Tests]
+    E --> E3[Compatibility Tests]
+    E --> E4[Reliability Tests]
     
-    F --> F1[User]
-    F --> F2[Business]
-    F --> F3[Operations]
-    F --> F4[Contract]
+    F --> F1[User Acceptance]
+    F --> F2[Business Acceptance]
+    F --> F3[Operational Acceptance]
+    F --> F4[Contract Acceptance]
     
     style A fill:#e1f5ff,stroke:#333,stroke-width:3px
     style B fill:#ffe6e6,stroke:#333,stroke-width:2px

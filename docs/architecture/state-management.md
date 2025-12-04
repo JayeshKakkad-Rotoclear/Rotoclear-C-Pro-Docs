@@ -57,10 +57,10 @@ sequenceDiagram
     
     Client->>WebSocket: Send state change
     WebSocket->>StateModule: SetUnsafeObservable
-    StateModule->>Hardware: Apply change
+    StateModule->>Hardware: Apply hardware change
     Hardware-->>StateModule: Confirm
     StateModule->>StateModule: Notify observers
-    StateModule->>WebSocket: Broadcast
+    StateModule->>WebSocket: Broadcast state
     WebSocket->>Client: Confirmation
 ```
 

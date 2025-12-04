@@ -9,11 +9,11 @@ The C Pro camera system provides real-time video streaming through multiple prot
 ```mermaid
 graph TB
     Cam[Camera Source] --> Pipeline[GStreamer Pipeline]
-    Pipeline --> Encoder[H.264 Encoder]
+    Pipeline --> Encoder[H264 Encoder]
     
     Encoder --> RTSP[RTSP Server]
     Encoder --> WebRTC[WebRTC Server]
-    Encoder --> ONVIF[ONVIF Streaming]
+    Encoder --> ONVIF[ONVIF Stream]
     
     RTSP --> Client1[RTSP Clients]
     WebRTC --> Client2[Web Browsers]

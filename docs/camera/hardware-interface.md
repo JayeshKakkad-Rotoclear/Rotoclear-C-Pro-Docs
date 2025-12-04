@@ -8,20 +8,20 @@ The C Pro camera system interfaces with various hardware components including ca
 
 ```mermaid
 graph TB
-    App[Application] --> CamClient[Camera]
-    App --> Motor[Motor]
-    App --> Light[Light]
+    App[Application Layer] --> CamClient[Camera Client]
+    App --> Motor[Motor Control]
+    App --> Light[Light Control]
     
-    CamClient --> V4L2[V4L2]
-    CamClient --> UVC[UVC]
+    CamClient --> V4L2[V4L2 Interface]
+    CamClient --> UVC[UVC Interface]
     
-    V4L2 --> Driver[Drivers]
+    V4L2 --> Driver[Kernel Drivers]
     UVC --> Driver
     
-    Motor --> GPIO[GPIO]
+    Motor --> GPIO[GPIO Control]
     Light --> GPIO
     
-    GPIO --> Hardware[Hardware]
+    GPIO --> Hardware[Physical Hardware]
     Driver --> Hardware
     
     style App fill:#e1f5ff,stroke:#333,stroke-width:2px
