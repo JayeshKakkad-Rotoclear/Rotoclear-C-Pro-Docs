@@ -10,12 +10,19 @@ The C Pro camera pipeline provides real-time video capture, processing, and stre
 graph LR
     A[Camera Hardware] --> B[V4L2 Driver]
     B --> C[GStreamer Pipeline]
+    
     C --> D[JPEG Encoder]
     C --> E[H.264 Encoder]
     C --> F[AVI Muxer]
+    
     D --> G[WebSocket Stream]
     E --> H[RTSP Stream]
     F --> I[File Storage]
+    
+    style C fill:#e1f5ff,stroke:#333,stroke-width:2px
+    style D fill:#ffe1e1,stroke:#333,stroke-width:2px
+    style E fill:#ffe1e1,stroke:#333,stroke-width:2px
+    style F fill:#ffe1e1,stroke:#333,stroke-width:2px
 ```
 
 ## Hardware Interface

@@ -16,6 +16,10 @@ graph TB
     F[HTTP API] --> A
     G[Camera Events] --> A
     H[System Events] --> A
+    
+    style A fill:#e1f5ff,stroke:#333,stroke-width:2px
+    style B fill:#ffe1e1,stroke:#333,stroke-width:2px
+    style D fill:#e1ffe1,stroke:#333,stroke-width:2px
 ```
 
 ## Core Components
@@ -51,12 +55,13 @@ sequenceDiagram
     participant StateModule
     participant Hardware
     
-    Client->>WebSocket: {"light0": true}
+    Client->>WebSocket: Send state change request<br/>{"light0": true}
     WebSocket->>StateModule: SetUnsafeObservable("light0", true)
     StateModule->>Hardware: Apply hardware change
+    Hardware-->>StateModule: Confirm
     StateModule->>StateModule: Notify observers
     StateModule->>WebSocket: Broadcast state change
-    WebSocket->>Client: {"light0": true, "info": ["light0"]}
+    WebSocket->>Client: State confirmation<br/>{"light0": true, "info": ["light0"]}
 ```
 
 ## API Integration

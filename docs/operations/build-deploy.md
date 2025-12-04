@@ -39,6 +39,13 @@ graph TB
     
     R --> S[Previous Version]
     Q --> T[Monitoring]
+    
+    style B fill:#e1f5ff,stroke:#333,stroke-width:2px
+    style G fill:#ffe6e6,stroke:#333,stroke-width:2px
+    style K fill:#ffe6e6,stroke:#333,stroke-width:2px
+    style P fill:#ffe6e6,stroke:#333,stroke-width:2px
+    style Q fill:#e6ffe6,stroke:#333,stroke-width:2px
+    style I fill:#ffcccc,stroke:#333,stroke-width:2px
 ```
 
 ## Development Environment Setup

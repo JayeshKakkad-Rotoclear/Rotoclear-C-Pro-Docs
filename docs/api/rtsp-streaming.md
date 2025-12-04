@@ -15,6 +15,10 @@ graph LR
     E --> F[RTSP Server]
     F --> G[RTSP Client]
     G --> H[Media Player]
+    
+    style C fill:#e1f5ff,stroke:#333,stroke-width:2px
+    style D fill:#ffcccc,stroke:#333,stroke-width:2px
+    style F fill:#ccffcc,stroke:#333,stroke-width:3px
 ```
 
 ## RTSP URLs and Authentication

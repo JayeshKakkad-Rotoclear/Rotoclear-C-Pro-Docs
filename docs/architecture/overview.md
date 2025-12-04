@@ -8,14 +8,14 @@ The C Pro camera server is a high-performance, embedded-first camera management 
 
 ```mermaid
 graph TB
-    subgraph "Client Layer"
+    subgraph ClientLayer["Client Layer"]
         A1[Web Clients]
         A2[Mobile Apps]
         A3[ONVIF Clients]
         A4[Custom Integrations]
     end
     
-    subgraph "API Layer"
+    subgraph APILayer["API Layer"]
         B1[WebSocket Server]
         B2[HTTP REST API]
         B3[RTSP Server]
@@ -23,14 +23,14 @@ graph TB
         B5[ONVIF Server]
     end
     
-    subgraph "State Management"
+    subgraph StateManagement["State Management"]
         C1[Observable State System]
         C2[Permission System]
         C3[Change Notification]
         C4[Persistence Layer]
     end
     
-    subgraph "Core Services"
+    subgraph CoreServices["Core Services"]
         D1[Camera Control]
         D2[Recording Manager]
         D3[Stream Manager]
@@ -39,7 +39,7 @@ graph TB
         D6[Network Manager]
     end
     
-    subgraph "Hardware Layer"
+    subgraph HardwareLayer["Hardware Layer"]
         E1[V4L2 Camera Devices]
         E2[GPIO/PWM Controls]
         E3[FPGA Processor]
@@ -47,25 +47,50 @@ graph TB
         E5[Temperature Sensors]
     end
     
-    subgraph "Storage Layer"
-        F1[LevelDB - State]
-        F2[SQLite - Metadata]
-        F3[Filesystem - Videos]
+    subgraph StorageLayer["Storage Layer"]
+        F1[LevelDB State]
+        F2[SQLite Metadata]
+        F3[Filesystem Videos]
         F4[Network Storage]
     end
     
-    A1 & A2 & A3 & A4 --> B1 & B2 & B3 & B4 & B5
-    B1 & B2 --> C1
-    B3 & B4 --> D3
+    A1 --> B1
+    A1 --> B2
+    A2 --> B1
+    A2 --> B2
+    A3 --> B5
+    A4 --> B2
+    A4 --> B3
+    
+    B1 --> C1
+    B2 --> C1
+    B3 --> D3
+    B4 --> D3
     B5 --> D1
-    C1 --> C2 & C3 & C4
-    C1 --> D1 & D2 & D3 & D4 & D5 & D6
-    D1 & D2 & D3 --> E1
-    D4 --> E2 & E3
-    D2 --> F2 & F3
+    
+    C1 --> C2
+    C1 --> C3
+    C1 --> C4
+    
+    C1 --> D1
+    C1 --> D2
+    C1 --> D3
+    C1 --> D4
+    C1 --> D5
+    C1 --> D6
+    
+    D1 --> E1
+    D2 --> E1
+    D3 --> E1
+    D4 --> E2
+    D4 --> E3
+    D4 --> E5
+    D1 --> E5
+    
     C4 --> F1
+    D2 --> F2
+    D2 --> F3
     D2 --> F4
-    D1 & D4 --> E5
 ```
 
 ## System Architecture Principles
@@ -169,8 +194,11 @@ graph LR
     D --> E[Transformation]
     E --> F[Overlay]
     F --> G[Encoder]
+    
     G --> H[RTSP/WebRTC]
     G --> I[Recording]
+    
+    style G fill:#f9f,stroke:#333,stroke-width:2px
 ```
 
 **Components**:
@@ -211,7 +239,9 @@ Multi-tiered storage architecture:
 
 ```mermaid
 graph TB
-    A[Storage System] --> B[LevelDB]
+    A[Storage System]
+    
+    A --> B[LevelDB]
     A --> C[SQLite]
     A --> D[Filesystem]
     A --> E[Network Storage]
@@ -230,6 +260,12 @@ graph TB
     
     E --> E1[SMB Share]
     E --> E2[NFS Mount]
+    
+    style A fill:#e1f5ff,stroke:#333,stroke-width:3px
+    style B fill:#ffe1e1,stroke:#333,stroke-width:2px
+    style C fill:#e1ffe1,stroke:#333,stroke-width:2px
+    style D fill:#fff5e1,stroke:#333,stroke-width:2px
+    style E fill:#f5e1ff,stroke:#333,stroke-width:2px
 ```
 
 **Storage Layers**:
@@ -463,14 +499,22 @@ graph TB
     C -->|Allowed| D[State Validation]
     D -->|Invalid| X[400 Bad Request]
     D -->|Valid| E[Update Observable]
+    
     E --> F[Notify Observers]
+    
     F --> G[Apply Hardware Change]
     F --> H[Persist to Storage]
     F --> I[Broadcast to Clients]
-    I --> J[WebSocket Notification]
-    I --> K[ONVIF Event]
+    
     G --> L[GPIO/PWM/V4L2]
     H --> M[LevelDB Write]
+    I --> J[WebSocket Notification]
+    I --> K[ONVIF Event]
+    
+    style B fill:#ffe6e6,stroke:#333,stroke-width:2px
+    style C fill:#ffe6e6,stroke:#333,stroke-width:2px
+    style D fill:#ffe6e6,stroke:#333,stroke-width:2px
+    style E fill:#e6ffe6,stroke:#333,stroke-width:2px
 ```
 
 ### Recording Data Flow
@@ -490,6 +534,9 @@ graph LR
     I --> J[Tag Association]
     I --> K[Thumbnail Generation]
     I --> L[Search Index]
+    
+    style C fill:#ffcccc,stroke:#333,stroke-width:2px
+    style I fill:#ccffcc,stroke:#333,stroke-width:2px
 ```
 
 ### API Request Flow

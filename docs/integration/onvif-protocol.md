@@ -34,9 +34,9 @@ graph TB
     O --> P[HTTP/HTTPS Transport]
     P --> Q[XML Message Format]
     
-    style B fill:#ff9999
-    style O fill:#99ff99
-    style P fill:#9999ff
+    style B fill:#ff9999,stroke:#333,stroke-width:2px
+    style O fill:#99ff99,stroke:#333,stroke-width:3px
+    style P fill:#9999ff,stroke:#333,stroke-width:2px
 ```
 
 ## ONVIF Services Implementation

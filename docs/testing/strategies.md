@@ -34,6 +34,13 @@ graph TB
     F --> F2[Business Acceptance]
     F --> F3[Operational Acceptance]
     F --> F4[Contract Acceptance]
+    
+    style A fill:#e1f5ff,stroke:#333,stroke-width:3px
+    style B fill:#ffe6e6,stroke:#333,stroke-width:2px
+    style C fill:#ccffcc,stroke:#333,stroke-width:2px
+    style D fill:#ffffcc,stroke:#333,stroke-width:2px
+    style E fill:#ffccff,stroke:#333,stroke-width:2px
+    style F fill:#ccffff,stroke:#333,stroke-width:2px
 ```
 
 ## Testing Framework Architecture

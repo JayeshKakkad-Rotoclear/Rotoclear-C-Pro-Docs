@@ -7,18 +7,20 @@ The C Pro camera system provides real-time video streaming through multiple prot
 ## Streaming Architecture
 
 ```mermaid
-graph LR
+graph TB
     Cam[Camera Source] --> Pipeline[GStreamer Pipeline]
     Pipeline --> Encoder[H.264 Encoder]
+    
     Encoder --> RTSP[RTSP Server]
     Encoder --> WebRTC[WebRTC Server]
     Encoder --> ONVIF[ONVIF Streaming]
     
-    RTSP --> Client1[RTSP Clients]
-    WebRTC --> Client2[Web Browsers]
-    ONVIF --> Client3[ONVIF Clients]
+    RTSP --> Client1[RTSP Clients<br/>VLC, FFmpeg]
+    WebRTC --> Client2[Web Browsers<br/>Chrome, Firefox]
+    ONVIF --> Client3[ONVIF Clients<br/>NVR, VMS]
     
-    style Encoder fill:#f96,stroke:#333,stroke-width:2px
+    style Pipeline fill:#e1f5ff,stroke:#333,stroke-width:2px
+    style Encoder fill:#ffcccc,stroke:#333,stroke-width:3px
 ```
 
 ## RTSP Streaming

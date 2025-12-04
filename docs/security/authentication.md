@@ -9,8 +9,8 @@ The C Pro camera system implements a multi-layered authentication system to secu
 ```mermaid
 graph TB
     Client[Client Request] --> Auth{Authentication<br/>Required?}
-    Auth -->|Yes| Method{Auth Method}
     Auth -->|No| Public[Public Endpoint]
+    Auth -->|Yes| Method{Auth Method}
     
     Method -->|Basic| BasicAuth[HTTP Basic Auth]
     Method -->|Digest| DigestAuth[HTTP Digest Auth]
@@ -28,7 +28,11 @@ graph TB
     CheckPerm -->|Authorized| Allow[Process Request]
     CheckPerm -->|Unauthorized| Deny
     
-    style Validate fill:#9cf,stroke:#333,stroke-width:2px
+    style Auth fill:#ffe6e6,stroke:#333,stroke-width:2px
+    style Method fill:#ffe6e6,stroke:#333,stroke-width:2px
+    style Validate fill:#e1f5ff,stroke:#333,stroke-width:3px
+    style Allow fill:#e6ffe6,stroke:#333,stroke-width:2px
+    style Deny fill:#ffcccc,stroke:#333,stroke-width:2px
 ```
 
 ## User Management

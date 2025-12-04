@@ -20,7 +20,10 @@ graph TB
     Metadata --> SQLite[(SQLite DB)]
     Storage --> Files[(Media Files)]
     
-    style Metadata fill:#9cf,stroke:#333,stroke-width:2px
+    style Pipeline fill:#e1f5ff,stroke:#333,stroke-width:2px
+    style Metadata fill:#99ccff,stroke:#333,stroke-width:3px
+    style SQLite fill:#ffe6e6,stroke:#333,stroke-width:2px
+    style Files fill:#e6ffe6,stroke:#333,stroke-width:2px
 ```
 
 ## Recording Modes

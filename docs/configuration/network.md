@@ -10,6 +10,7 @@ The C Pro camera system provides flexible networking capabilities supporting wir
 graph TB
     A[Camera Device] --> B[Network Interface]
     B --> C{Connection Type}
+    
     C -->|Ethernet| D[Wired Network]
     C -->|WiFi| E[Wireless Network]
     C -->|USB Tethering| F[Mobile Network]
@@ -27,6 +28,9 @@ graph TB
     J --> M[WebSocket API]
     J --> N[ONVIF Service]
     J --> O[mDNS/Bonjour]
+    
+    style C fill:#ffe6e6,stroke:#333,stroke-width:2px
+    style J fill:#e1f5ff,stroke:#333,stroke-width:3px
 ```
 
 ## Network Interfaces

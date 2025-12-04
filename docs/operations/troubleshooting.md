@@ -38,6 +38,13 @@ graph TB
     
     Q --> R[Documentation]
     R --> S[Prevention Measures]
+    
+    style A fill:#ffcccc,stroke:#333,stroke-width:2px
+    style B fill:#ffe6e6,stroke:#333,stroke-width:2px
+    style K fill:#e1f5ff,stroke:#333,stroke-width:2px
+    style L fill:#ffe6e6,stroke:#333,stroke-width:2px
+    style Q fill:#ccffcc,stroke:#333,stroke-width:2px
+    style S fill:#ccffcc,stroke:#333,stroke-width:3px
 ```
 
 ## Common Issues and Solutions

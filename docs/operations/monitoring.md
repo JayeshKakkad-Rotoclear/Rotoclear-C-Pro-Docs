@@ -38,6 +38,11 @@ graph TB
     H --> Q[Dashboard]
     I --> Q
     Q --> R[Grafana/Web UI]
+    
+    style A fill:#e1f5ff,stroke:#333,stroke-width:2px
+    style G fill:#ffe6e6,stroke:#333,stroke-width:2px
+    style I fill:#ffffe6,stroke:#333,stroke-width:2px
+    style N fill:#ffe6ff,stroke:#333,stroke-width:2px
 ```
 
 ## System Metrics Collection

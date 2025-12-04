@@ -52,15 +52,18 @@ type
 
 ```mermaid
 graph TB
-    Admin[Administrator] -->|All Permissions| AllPerms[Full System Access]
-    Operator[Operator] -->|Most Permissions| OpPerms[Record, Stream, Device Control]
-    Viewer[Viewer] -->|Read-Only| ViewPerms[View Only, No Modifications]
-    Guest[Guest] -->|Minimal| GuestPerms[Public Endpoints Only]
+    Admin[Administrator<br/>Full System Access] -->|All Permissions| AllPerms[Device, Media, User, Network<br/>Storage, System, Firmware, Reboot]
     
-    style Admin fill:#f96,stroke:#333,stroke-width:2px
-    style Operator fill:#fc6,stroke:#333,stroke-width:2px
-    style Viewer fill:#9cf,stroke:#333,stroke-width:2px
-    style Guest fill:#ccc,stroke:#333,stroke-width:2px
+    Operator[Operator<br/>Operational Control] -->|Most Permissions| OpPerms[Device, Media, Storage<br/>Read Network & System]
+    
+    Viewer[Viewer<br/>Read-Only Access] -->|Read Permissions| ViewPerms[View Device, Media<br/>No Modifications]
+    
+    Guest[Guest<br/>Minimal Access] -->|Public Only| GuestPerms[Public Endpoints<br/>No Authentication]
+    
+    style Admin fill:#ff9999,stroke:#333,stroke-width:3px
+    style Operator fill:#ffcc99,stroke:#333,stroke-width:2px
+    style Viewer fill:#99ccff,stroke:#333,stroke-width:2px
+    style Guest fill:#cccccc,stroke:#333,stroke-width:2px
 ```
 
 ### Administrator Role

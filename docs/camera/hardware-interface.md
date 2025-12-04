@@ -24,7 +24,9 @@ graph TB
     GPIO --> Hardware[Physical Hardware]
     Driver --> Hardware
     
-    style Hardware fill:#f9f,stroke:#333,stroke-width:4px
+    style App fill:#e1f5ff,stroke:#333,stroke-width:2px
+    style Driver fill:#ffe6e6,stroke:#333,stroke-width:2px
+    style Hardware fill:#ff99ff,stroke:#333,stroke-width:4px
 ```
 
 ## Camera Interfaces
