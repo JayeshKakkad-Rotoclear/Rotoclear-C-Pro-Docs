@@ -15,9 +15,9 @@ graph TB
     Encoder --> WebRTC[WebRTC Server]
     Encoder --> ONVIF[ONVIF Streaming]
     
-    RTSP --> Client1[RTSP Clients<br/>VLC, FFmpeg]
-    WebRTC --> Client2[Web Browsers<br/>Chrome, Firefox]
-    ONVIF --> Client3[ONVIF Clients<br/>NVR, VMS]
+    RTSP --> Client1[RTSP Clients]
+    WebRTC --> Client2[Web Browsers]
+    ONVIF --> Client3[ONVIF Clients]
     
     style Pipeline fill:#e1f5ff,stroke:#333,stroke-width:2px
     style Encoder fill:#ffcccc,stroke:#333,stroke-width:3px

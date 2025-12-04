@@ -52,13 +52,13 @@ type
 
 ```mermaid
 graph TB
-    Admin[Administrator<br/>Full System Access] -->|All Permissions| AllPerms[Device, Media, User, Network<br/>Storage, System, Firmware, Reboot]
+    Admin[Administrator] -->|All Permissions| AllPerms[Full System Access]
     
-    Operator[Operator<br/>Operational Control] -->|Most Permissions| OpPerms[Device, Media, Storage<br/>Read Network & System]
+    Operator[Operator] -->|Most Permissions| OpPerms[Device Media Storage]
     
-    Viewer[Viewer<br/>Read-Only Access] -->|Read Permissions| ViewPerms[View Device, Media<br/>No Modifications]
+    Viewer[Viewer] -->|Read Only| ViewPerms[View Only Access]
     
-    Guest[Guest<br/>Minimal Access] -->|Public Only| GuestPerms[Public Endpoints<br/>No Authentication]
+    Guest[Guest] -->|Minimal| GuestPerms[Public Endpoints]
     
     style Admin fill:#ff9999,stroke:#333,stroke-width:3px
     style Operator fill:#ffcc99,stroke:#333,stroke-width:2px

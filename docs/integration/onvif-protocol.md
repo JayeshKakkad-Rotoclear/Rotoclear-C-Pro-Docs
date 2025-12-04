@@ -8,31 +8,31 @@ C Pro implements ONVIF standards for seamless integration with third-party camer
 
 ```mermaid
 graph TB
-    A[ONVIF Client] --> B{ONVIF Services}
+    A[ONVIF Client] --> B{Services}
     
-    B -->|Discovery| C[WS-Discovery]
-    B -->|Device| D[Device Management]
-    B -->|Media| E[Media Service]
-    B -->|PTZ| F[PTZ Control]
-    B -->|Events| G[Event Service]
-    B -->|Analytics| H[Analytics Service]
+    B -->|Disc| C[Discovery]
+    B -->|Dev| D[Device]
+    B -->|Media| E[Media]
+    B -->|PTZ| F[PTZ]
+    B -->|Event| G[Events]
+    B -->|Analy| H[Analytics]
     
-    C --> I[Device Detection]
-    D --> J[Configuration]
-    E --> K[Stream Management]
-    F --> L[Camera Control]
-    G --> M[Event Handling]
-    H --> N[Video Analytics]
+    C --> I[Detection]
+    D --> J[Config]
+    E --> K[Streaming]
+    F --> L[Control]
+    G --> M[Handling]
+    H --> N[Analytics]
     
-    I --> O[SOAP Web Services]
+    I --> O[SOAP]
     J --> O
     K --> O
     L --> O
     M --> O
     N --> O
     
-    O --> P[HTTP/HTTPS Transport]
-    P --> Q[XML Message Format]
+    O --> P[Transport]
+    P --> Q[XML]
     
     style B fill:#ff9999,stroke:#333,stroke-width:2px
     style O fill:#99ff99,stroke:#333,stroke-width:3px

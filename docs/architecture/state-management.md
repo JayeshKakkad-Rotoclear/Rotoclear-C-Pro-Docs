@@ -55,13 +55,13 @@ sequenceDiagram
     participant StateModule
     participant Hardware
     
-    Client->>WebSocket: Send state change request<br/>{"light0": true}
-    WebSocket->>StateModule: SetUnsafeObservable("light0", true)
-    StateModule->>Hardware: Apply hardware change
+    Client->>WebSocket: Send state change
+    WebSocket->>StateModule: SetUnsafeObservable
+    StateModule->>Hardware: Apply change
     Hardware-->>StateModule: Confirm
     StateModule->>StateModule: Notify observers
-    StateModule->>WebSocket: Broadcast state change
-    WebSocket->>Client: State confirmation<br/>{"light0": true, "info": ["light0"]}
+    StateModule->>WebSocket: Broadcast
+    WebSocket->>Client: Confirmation
 ```
 
 ## API Integration

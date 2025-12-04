@@ -11,23 +11,23 @@ graph TB
     A[Camera Device] --> B[Network Interface]
     B --> C{Connection Type}
     
-    C -->|Ethernet| D[Wired Network]
-    C -->|WiFi| E[Wireless Network]
-    C -->|USB Tethering| F[Mobile Network]
+    C -->|Ethernet| D[Wired]
+    C -->|WiFi| E[Wireless]
+    C -->|USB| F[Mobile]
     
-    D --> G[DHCP/Static IP]
-    E --> H[WiFi Access Point]
-    F --> I[USB Host Device]
+    D --> G[DHCP or Static]
+    E --> H[Access Point]
+    F --> I[USB Host]
     
-    G --> J[Network Services]
+    G --> J[Services]
     H --> J
     I --> J
     
-    J --> K[HTTP/HTTPS Server]
-    J --> L[RTSP Streaming]
-    J --> M[WebSocket API]
-    J --> N[ONVIF Service]
-    J --> O[mDNS/Bonjour]
+    J --> K[HTTP HTTPS]
+    J --> L[RTSP]
+    J --> M[WebSocket]
+    J --> N[ONVIF]
+    J --> O[mDNS]
     
     style C fill:#ffe6e6,stroke:#333,stroke-width:2px
     style J fill:#e1f5ff,stroke:#333,stroke-width:3px

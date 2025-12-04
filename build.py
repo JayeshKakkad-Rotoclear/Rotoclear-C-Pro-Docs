@@ -114,18 +114,18 @@ NAV_STRUCTURE = [
     {
         "title": "Reference",
         "children": [
-            {"title": "Glossary", "path": "reference/glossary.md"},
+            # {"title": "Glossary", "path": "reference/glossary.md"},
             {"title": "Requirements", "path": "reference/requirements.md"},
             {"title": "State Observables", "path": "reference/state-observables.md"},
         ]
     },
-    {
-        "title": "Releases",
-        "children": [
-            {"title": "Changelog", "path": "releases/CHANGELOG.md"},
-        ]
-    },
-    {"title": "Glossary", "path": "glossary.md"},
+    # {
+    #     "title": "Releases",
+    #     "children": [
+    #         {"title": "Changelog", "path": "releases/CHANGELOG.md"},
+    #     ]
+    # },
+    # {"title": "Glossary", "path": "glossary.md"},
 ]
 
 

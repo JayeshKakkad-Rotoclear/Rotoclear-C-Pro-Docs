@@ -17,7 +17,7 @@ C Pro is a high-performance camera server built with the Nim programming languag
 
 ### Getting Started
 - [Getting Started Guide](getting-started.html) - Installation and first steps
-- [Development Setup](operations/development-setup.html) - Set up development environment
+<!-- - [Development Setup](operations/development-setup.html) - Set up development environment -->
 - [Build and Deploy](operations/build-and-deploy.html) - Build from source
 
 ### Architecture
@@ -138,17 +138,12 @@ Component-based architecture:
 ### Documentation
 - [API Examples](api/examples/) - Multi-language client examples
 - [Integration Guide](integration/onvif-protocol.html) - ONVIF integration
-- [Glossary](glossary.html) - Technical terminology
+<!-- - [Glossary](glossary.html) - Technical terminology -->
 
 ### Development
 - [GitHub Repository](https://github.com/cortona-rotoclear/rotordream)
-- [Issue Tracker](https://github.com/cortona-rotoclear/rotordream/issues)
-- [Changelog](releases/CHANGELOG.html)
-
-### Contact
-- **Technical Support**: support@rotoclear.com
-- **Sales Inquiries**: sales@rotoclear.com
-- **Website**: https://rotoclear.com
+- [Issue Tracker](https://github.com/cortona-rotoclear/Issues-C-Pro/issues)
+<!-- - [Changelog](releases/CHANGELOG.html) -->
 
 ## Recent Updates
 

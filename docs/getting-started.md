@@ -610,10 +610,3 @@ A: Limited only by available storage. System automatically manages storage when 
 **Q: How do I update the software?**  
 A: Via web interface (System → Update) or manually. See [Build and Deploy](operations/build-and-deploy.md).
 
----
-
-**Congratulations!** You're now ready to start using the C Pro camera system. Explore the documentation for advanced features and configuration options.
-
----
-
-*For additional support, refer to the comprehensive documentation or contact technical support.*

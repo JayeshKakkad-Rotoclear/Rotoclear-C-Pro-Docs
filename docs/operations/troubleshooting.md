@@ -8,36 +8,36 @@ This guide provides systematic approaches to diagnose and resolve common problem
 
 ```mermaid
 graph TB
-    A[Issue Reported] --> B{Initial Assessment}
+    A[Issue] --> B{Assessment}
     
-    B -->|Hardware| C[Hardware Diagnostics]
-    B -->|Software| D[Software Diagnostics]
-    B -->|Network| E[Network Diagnostics]
-    B -->|Performance| F[Performance Analysis]
+    B -->|HW| C[Hardware]
+    B -->|SW| D[Software]
+    B -->|Net| E[Network]
+    B -->|Perf| F[Performance]
     
-    C --> G[Component Testing]
-    D --> H[Log Analysis]
-    E --> I[Connectivity Testing]
-    F --> J[Resource Monitoring]
+    C --> G[Testing]
+    D --> H[Logs]
+    E --> I[Connectivity]
+    F --> J[Resources]
     
-    G --> K[Issue Classification]
+    G --> K[Classify]
     H --> K
     I --> K
     J --> K
     
-    K --> L{Resolution Strategy}
-    L -->|Configuration| M[Config Changes]
-    L -->|Hardware| N[Hardware Replacement]
-    L -->|Software| O[Software Updates]
-    L -->|Reset| P[System Reset]
+    K --> L{Resolution}
+    L -->|Config| M[Config]
+    L -->|HW| N[Replace]
+    L -->|SW| O[Update]
+    L -->|Reset| P[Reset]
     
-    M --> Q[Validation]
+    M --> Q[Validate]
     N --> Q
     O --> Q
     P --> Q
     
-    Q --> R[Documentation]
-    R --> S[Prevention Measures]
+    Q --> R[Document]
+    R --> S[Prevention]
     
     style A fill:#ffcccc,stroke:#333,stroke-width:2px
     style B fill:#ffe6e6,stroke:#333,stroke-width:2px

@@ -16,42 +16,42 @@ graph TB
     end
     
     subgraph APILayer["API Layer"]
-        B1[WebSocket Server]
-        B2[HTTP REST API]
-        B3[RTSP Server]
-        B4[WebRTC Server]
-        B5[ONVIF Server]
+        B1[WebSocket]
+        B2[HTTP REST]
+        B3[RTSP]
+        B4[WebRTC]
+        B5[ONVIF]
     end
     
     subgraph StateManagement["State Management"]
-        C1[Observable State System]
-        C2[Permission System]
-        C3[Change Notification]
-        C4[Persistence Layer]
+        C1[Observable State]
+        C2[Permissions]
+        C3[Notifications]
+        C4[Persistence]
     end
     
     subgraph CoreServices["Core Services"]
         D1[Camera Control]
-        D2[Recording Manager]
-        D3[Stream Manager]
-        D4[Hardware Controller]
-        D5[User Manager]
-        D6[Network Manager]
+        D2[Recording]
+        D3[Streaming]
+        D4[Hardware]
+        D5[User Mgmt]
+        D6[Network]
     end
     
     subgraph HardwareLayer["Hardware Layer"]
-        E1[V4L2 Camera Devices]
-        E2[GPIO/PWM Controls]
-        E3[FPGA Processor]
-        E4[Storage Devices]
-        E5[Temperature Sensors]
+        E1[V4L2 Devices]
+        E2[GPIO PWM]
+        E3[FPGA]
+        E4[Storage]
+        E5[Sensors]
     end
     
     subgraph StorageLayer["Storage Layer"]
-        F1[LevelDB State]
-        F2[SQLite Metadata]
-        F3[Filesystem Videos]
-        F4[Network Storage]
+        F1[LevelDB]
+        F2[SQLite]
+        F3[Filesystem]
+        F4[Network]
     end
     
     A1 --> B1
@@ -78,6 +78,20 @@ graph TB
     C1 --> D4
     C1 --> D5
     C1 --> D6
+    
+    D1 --> E1
+    D2 --> E1
+    D3 --> E1
+    D4 --> E2
+    D4 --> E3
+    D4 --> E5
+    D1 --> E5
+    
+    C4 --> F1
+    D2 --> F2
+    D2 --> F3
+    D2 --> F4
+```
     
     D1 --> E1
     D2 --> E1
@@ -188,14 +202,14 @@ High-performance video capture and processing pipeline. See [Camera Pipeline](ca
 
 ```mermaid
 graph LR
-    A[V4L2 Camera] --> B[GStreamer Pipeline]
-    B --> C[Image Enhancement]
-    C --> D[FPGA Processing]
-    D --> E[Transformation]
+    A[V4L2] --> B[GStreamer]
+    B --> C[Enhance]
+    C --> D[FPGA]
+    D --> E[Transform]
     E --> F[Overlay]
     F --> G[Encoder]
     
-    G --> H[RTSP/WebRTC]
+    G --> H[Streaming]
     G --> I[Recording]
     
     style G fill:#f9f,stroke:#333,stroke-width:2px
@@ -492,24 +506,24 @@ proc resetSystem*() =
 
 ```mermaid
 graph TB
-    A[Client Request] --> B{Authentication}
-    B -->|Denied| Z[401 Unauthorized]
-    B -->|Success| C{Permission Check}
-    C -->|Denied| Y[403 Forbidden]
-    C -->|Allowed| D[State Validation]
-    D -->|Invalid| X[400 Bad Request]
-    D -->|Valid| E[Update Observable]
+    A[Request] --> B{Auth}
+    B -->|Denied| Z[401]
+    B -->|Success| C{Permission}
+    C -->|Denied| Y[403]
+    C -->|Allowed| D[Validate]
+    D -->|Invalid| X[400]
+    D -->|Valid| E[Update]
     
-    E --> F[Notify Observers]
+    E --> F[Notify]
     
-    F --> G[Apply Hardware Change]
-    F --> H[Persist to Storage]
-    F --> I[Broadcast to Clients]
+    F --> G[Hardware]
+    F --> H[Storage]
+    F --> I[Broadcast]
     
-    G --> L[GPIO/PWM/V4L2]
-    H --> M[LevelDB Write]
-    I --> J[WebSocket Notification]
-    I --> K[ONVIF Event]
+    G --> L[GPIO V4L2]
+    H --> M[LevelDB]
+    I --> J[WebSocket]
+    I --> K[ONVIF]
     
     style B fill:#ffe6e6,stroke:#333,stroke-width:2px
     style C fill:#ffe6e6,stroke:#333,stroke-width:2px
@@ -521,19 +535,19 @@ graph TB
 
 ```mermaid
 graph LR
-    A[Camera Capture] --> B[GStreamer Pipeline]
-    B --> C[H.264 Encoder]
-    C --> D[Muxer AVI/MP4]
-    D --> E[File Writer]
-    E --> F[Storage Device]
+    A[Camera] --> B[GStreamer]
+    B --> C[H.264]
+    C --> D[Muxer]
+    D --> E[Writer]
+    E --> F[Storage]
     
-    D --> G[Metadata Extractor]
-    G --> H[SQLite Insert]
-    H --> I[Recording Database]
+    D --> G[Metadata]
+    G --> H[SQLite]
+    H --> I[Database]
     
-    I --> J[Tag Association]
-    I --> K[Thumbnail Generation]
-    I --> L[Search Index]
+    I --> J[Tags]
+    I --> K[Thumbnails]
+    I --> L[Index]
     
     style C fill:#ffcccc,stroke:#333,stroke-width:2px
     style I fill:#ccffcc,stroke:#333,stroke-width:2px
