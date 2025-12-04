@@ -16,43 +16,43 @@ C Pro is a high-performance camera server built with the Nim programming languag
 ## Quick Links
 
 ### Getting Started
-- [Getting Started Guide](getting-started.md) - Installation and first steps
-- [Development Setup](operations/development-setup.md) - Set up development environment
-- [Build and Deploy](operations/build-and-deploy.md) - Build from source
+- [Getting Started Guide](getting-started.html) - Installation and first steps
+- [Development Setup](operations/development-setup.html) - Set up development environment
+- [Build and Deploy](operations/build-and-deploy.html) - Build from source
 
 ### Architecture
-- [System Overview](architecture/overview.md) - High-level architecture
-- [State Management](architecture/state-management.md) - Observable state system
-- [Camera Pipeline](architecture/camera-pipeline.md) - Video capture and processing
-- [Metadata Storage](architecture/metadata-sqlite.md) - SQLite-based metadata system
+- [System Overview](architecture/overview.html) - High-level architecture
+- [State Management](architecture/state-management.html) - Observable state system
+- [Camera Pipeline](architecture/camera-pipeline.html) - Video capture and processing
+- [Metadata Storage](architecture/metadata-sqlite.html) - SQLite-based metadata system
 
 ### Configuration
-- [Factory Configuration](configuration/factory-config.md) - Build-time configuration
-- [Deployment Variants](configuration/deployment-variants.md) - Product variants (DEFAULT, DEMO, DEV, EDU, rc_DMG, VB)
-- [License Configuration](configuration/license-config.md) - License management
-- [Network Setup](configuration/network.md) - Network configuration
+- [Factory Configuration](configuration/factory-config.html) - Build-time configuration
+- [Deployment Variants](configuration/deployment-variants.html) - Product variants (DEFAULT, DEMO, DEV, EDU, rc_DMG, VB)
+- [License Configuration](configuration/license-config.html) - License management
+- [Network Setup](configuration/network.html) - Network configuration
 
 ### Camera System
-- [Hardware Interface](camera/hardware-interface.md) - V4L2, UVC, GPIO, motors, lighting
-- [Streaming](camera/streaming.md) - RTSP, WebRTC, multi-stream
-- [Recording](camera/recording.md) - Recording modes, metadata, tags
-- [Image Processing](camera/image-processing.md) - Enhancement, overlays, FPGA acceleration
+- [Hardware Interface](camera/hardware-interface.html) - V4L2, UVC, GPIO, motors, lighting
+- [Streaming](camera/streaming.html) - RTSP, WebRTC, multi-stream
+- [Recording](camera/recording.html) - Recording modes, metadata, tags
+- [Image Processing](camera/image-processing.html) - Enhancement, overlays, FPGA acceleration
 
 ### API Reference
-- [HTTP API](api/http-api.md) - REST endpoints
-- [WebSocket API](api/websocket-api.md) - Real-time state updates
-- [RTSP Streaming](api/rtsp-streaming.md) - RTSP protocol details
-- [State Observables](reference/state-observables.md) - Complete observable reference
+- [HTTP API](api/http-api.html) - REST endpoints
+- [WebSocket API](api/websocket-api.html) - Real-time state updates
+- [RTSP Streaming](api/rtsp-streaming.html) - RTSP protocol details
+- [State Observables](reference/state-observables.html) - Complete observable reference
 
 ### Security
-- [Authentication](security/authentication.md) - User authentication methods
-- [Permissions](security/permissions.md) - Role-based access control
-- [SSL Certificates](security/ssl-certificates.md) - TLS/SSL configuration
+- [Authentication](security/authentication.html) - User authentication methods
+- [Permissions](security/permissions.html) - Role-based access control
+- [SSL Certificates](security/ssl-certificates.html) - TLS/SSL configuration
 
 ### Operations
-- [Monitoring](operations/monitoring.md) - System monitoring
-- [Troubleshooting](operations/troubleshooting.md) - Common issues and solutions
-- [Performance](operations/performance.md) - Performance tuning
+- [Monitoring](operations/monitoring.html) - System monitoring
+- [Troubleshooting](operations/troubleshooting.html) - Common issues and solutions
+- [Performance](operations/performance.html) - Performance tuning
 
 ## System Features
 
@@ -137,13 +137,13 @@ Component-based architecture:
 
 ### Documentation
 - [API Examples](api/examples/) - Multi-language client examples
-- [Integration Guide](integration/onvif-protocol.md) - ONVIF integration
-- [Glossary](glossary.md) - Technical terminology
+- [Integration Guide](integration/onvif-protocol.html) - ONVIF integration
+- [Glossary](glossary.html) - Technical terminology
 
 ### Development
 - [GitHub Repository](https://github.com/cortona-rotoclear/rotordream)
 - [Issue Tracker](https://github.com/cortona-rotoclear/rotordream/issues)
-- [Changelog](releases/CHANGELOG.md)
+- [Changelog](releases/CHANGELOG.html)
 
 ### Contact
 - **Technical Support**: support@rotoclear.com
@@ -157,7 +157,7 @@ Complete architectural documentation covering all system components, configurati
 
 ## License
 
-See [License Configuration](configuration/license-config.md) for licensing information and terms.
+See [License Configuration](configuration/license-config.html) for licensing information and terms.
 
 ---
 
